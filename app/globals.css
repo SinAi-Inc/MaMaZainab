@@ -73,11 +73,11 @@ body {
   font-feature-settings: "liga", "kern";
 }
 
-/* Plaid pattern - seamless tile from brand system v2 */
+/* Plaid pattern - diamond checkerboard from brand system v2 */
 .plaid {
   background-image: url('/brand/plaid.png');
   background-repeat: repeat;
-  background-size: 384px 384px; /* tile_packaging is 768px; scale 50% for web density */
+  background-size: 384px 384px; /* tile_diamond_web is 768px; scale 50% for web density */
 }
 
 /* Focus ring - accessible & on-brand */
