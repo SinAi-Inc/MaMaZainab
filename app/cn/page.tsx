@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "盛恒餐饮投资集团有限公司 | MaMa Zainab 品牌所有者",
+  title: "王盛恒餐饮投资集团有限公司 | MaMa Zainab 品牌所有者",
   description:
-    "盛恒餐饮投资集团有限公司是 MaMa Zainab 品牌的合法所有人，由王盛恒先生创立并运营。技术支持：SinAI Inc.",
+    "王盛恒餐饮投资集团有限公司是 MaMa Zainab 品牌的合法所有人，由王盛恒先生创立并运营。技术支持：SinAI Inc.",
 };
 
 // Chinese system font stack — renders correctly on Windows, macOS, and Linux
@@ -78,7 +78,7 @@ export default function ChineseOwnerPage() {
             color: "#FFD700",
           }}
         >
-          盛恒餐饮投资集团有限公司
+          王盛恒餐饮投资集团有限公司
         </h1>
         <p
           className="relative mt-2"
@@ -88,7 +88,7 @@ export default function ChineseOwnerPage() {
             color: "rgba(255,220,100,0.8)",
           }}
         >
-          SHENG HENG CATERING INVESTMENT GROUP CO., LTD.
+          SHENG HENG WANG CATERING INVESTMENT GROUP CO., LTD.
         </p>
 
         {/* Divider */}
@@ -348,7 +348,7 @@ export default function ChineseOwnerPage() {
         }}
       >
         <p style={{ color: "#FFD700", fontWeight: 700, fontSize: 15, marginBottom: 4 }}>
-          盛恒餐饮投资集团有限公司
+          王盛恒餐饮投资集团有限公司
         </p>
         <p>版权所有 © 2026 · 王盛恒 所有及运营 · 保留所有权利</p>
         <p>
@@ -374,3 +374,4 @@ export default function ChineseOwnerPage() {
     </div>
   );
 }
+
