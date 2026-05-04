@@ -26,6 +26,19 @@ export function Topbar() {
     "Admin";
 
   const onMenu = pathname === "/menu" || pathname.startsWith("/menu/");
+  const onWebsite = pathname === "/website" || pathname.startsWith("/website/");
+  const onVideos = pathname === "/videos" || pathname.startsWith("/videos/");
+
+  // Context-aware preview URL based on current section
+  let previewHref: string | null = null;
+  if (onMenu) {
+    previewHref = "/menu/preview";
+  } else if (onWebsite) {
+    previewHref = "/coming-soon";
+  } else if (onVideos) {
+    // No dedicated preview for videos yet - could be storyboard viewer in future
+    previewHref = null;
+  }
 
   return (
     <header className="h-16 px-8 bg-surface-2 border-b border-border flex items-center justify-between">
@@ -43,13 +56,15 @@ export function Topbar() {
             <Printer className="size-4" /> Print / PDF
           </Link>
         )}
-        <Link
-          href="/menu/preview"
-          target="_blank"
-          className="inline-flex items-center gap-2 px-3 py-1.5 text-sm rounded-md border border-border-strong hover:bg-surface transition-colors"
-        >
-          <Eye className="size-4" /> Preview
-        </Link>
+        {previewHref && (
+          <Link
+            href={previewHref}
+            target="_blank"
+            className="inline-flex items-center gap-2 px-3 py-1.5 text-sm rounded-md border border-border-strong hover:bg-surface transition-colors"
+          >
+            <Eye className="size-4" /> Preview
+          </Link>
+        )}
         <div className="size-9 rounded-full bg-brand-green text-white flex items-center justify-center font-semibold text-sm overflow-hidden">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src="/brand/mark.png" alt="MZ" className="size-full object-cover" />
