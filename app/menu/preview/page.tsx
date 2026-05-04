@@ -19,9 +19,17 @@ export default async function MenuPreviewPage() {
   return (
     <div className="min-h-screen bg-brand-cream">
       {/* Hero */}
-      <header className="plaid">
-        <div className="max-w-5xl mx-auto px-6 py-12 text-center text-white">
-          <div className="inline-block bg-brand-cream/95 rounded-2xl px-8 py-5 shadow-lg">
+      <header className="relative plaid overflow-hidden">
+        {/* Dark vignette overlay — fades the plaid so text is readable */}
+        <div
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            background:
+              "linear-gradient(to bottom, rgba(30,26,20,0.55) 0%, rgba(30,26,20,0.70) 100%)",
+          }}
+        />
+        <div className="relative z-10 max-w-5xl mx-auto px-6 py-14 text-center text-white">
+          <div className="inline-block bg-brand-cream/95 rounded-2xl px-8 py-5 shadow-2xl ring-1 ring-white/10">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src="/brand/logo-primary.png"
@@ -29,18 +37,21 @@ export default async function MenuPreviewPage() {
               className="h-28 w-auto object-contain"
             />
           </div>
-          <p className="mt-5 text-xs uppercase tracking-[0.3em] text-brand-yellow">
+          <p className="mt-6 text-xs uppercase tracking-[0.35em] text-brand-yellow drop-shadow-sm">
             Menu
           </p>
-          <p className="mt-3 text-sm opacity-90">
-            Homemade taste. Fast-food style - for the first time.
+          <p className="mt-3 text-sm text-white/85 drop-shadow-sm">
+            Homemade taste. Fast-food style — for the first time.
           </p>
           <div className="mt-4 inline-block h-1 w-16 bg-brand-yellow rounded" />
         </div>
       </header>
 
       {/* Menu */}
-      <div className="max-w-5xl mx-auto px-6 py-12 space-y-12">
+      <div className="relative">
+        {/* Very faint plaid wash behind menu content */}
+        <div className="absolute inset-0 plaid opacity-[0.07] pointer-events-none" />
+        <div className="relative z-10 max-w-5xl mx-auto px-6 py-12 space-y-12">
         {cats.map((cat) => {
           const items = state.items
             .filter((i) => i.categoryId === cat.id && i.available)
@@ -105,6 +116,7 @@ export default async function MenuPreviewPage() {
         {cats.length === 0 && (
           <p className="text-center text-muted py-20">No menu items yet.</p>
         )}
+      </div>
       </div>
 
       <footer className="bg-brand-ink text-white text-center py-6 text-xs">
