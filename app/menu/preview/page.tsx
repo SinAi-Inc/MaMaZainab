@@ -59,7 +59,7 @@ export default async function MenuPreviewPage() {
           if (items.length === 0) return null;
           return (
             <section key={cat.id}>
-              <div className="border-b-2 border-brand-green pb-3 mb-6 text-center">
+              <div className={`border-b-2 border-brand-green pb-3 mb-6 ${cat.id === "cat_stuffy" ? "text-center" : ""}`}>
                 <h2 className="font-display text-4xl text-brand-ink leading-none">
                   {cat.nameEn}
                 </h2>
