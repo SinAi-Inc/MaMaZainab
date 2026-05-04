@@ -1,36 +1,90 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# MaMa Zainab — Admin UI (`11_AdminUI`)
 
-## Getting Started
+Brand management dashboard and public-facing pages for the **MaMa Zainab** oriental fast-food chain. Built with Next.js 15 App Router.
 
-First, run the development server:
+> **Owned & Operated by Sheng Heng Wang · Technology by [SinAI Inc.](https://sinai-inc.com)**
+
+---
+
+## Stack
+
+| Layer | Technology |
+|-------|-----------|
+| Framework | Next.js 15 (App Router, Turbopack) |
+| UI | React 19 + TypeScript (strict) |
+| Styling | Tailwind CSS v4 — brand tokens via CSS vars |
+| Validation | Zod |
+| Fonts | Chinese Monoline (brand) via `next/font/local` |
+| Persistence | JSON files in `data/` (reads work on Vercel; writes need a DB for persistence) |
+| Icons | Lucide React |
+
+---
+
+## Local development
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+cd 11_AdminUI
+npm install
+npm run dev        # http://localhost:3333
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Route map
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### Public routes
 
-## Learn More
+| Route | Description |
+|-------|-------------|
+| `/coming-soon` | Launch page — countdown, notify form, social links |
+| `/menu/preview` | Brand-accurate menu preview |
+| `/menu/print` | Print-optimised menu layout |
+| `/cn` | Chinese corporate ownership page (王盛恒餐饮投资集团有限公司) |
 
-To learn more about Next.js, take a look at the following resources:
+### Admin routes (route group `(admin)` — no URL prefix)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+| Route | Description |
+|-------|-------------|
+| `/menu` | Menu management — categories + items CRUD |
+| `/website` | Website preview |
+| `/videos` | Video campaign studio |
+| `/contacts` | Contact list — subscribers from notify form |
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### API
 
-## Deploy on Vercel
+| Route | Description |
+|-------|-------------|
+| `POST /api/notify` | Coming-soon email subscription → writes to `data/contacts.json` |
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+---
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Data directory
+
+```
+data/
+  menu.json        ← menu categories & items  (tracked — publicly visible on /menu/preview)
+  contacts.json    ← subscriber emails         (gitignored — never committed)
+  videos.json      ← video project state       (gitignored — business IP)
+```
+
+---
+
+## Security
+
+- `data/contacts.json` and `data/videos.json` are **gitignored** — never committed.
+- No hardcoded secrets, API keys, or credentials in source.
+- No `.env` files required to run.
+- PostCSS XSS (GHSA-qx2v-qp2m-jg93) fixed via `overrides: { postcss: ">=8.5.10" }`.
+- `npm audit` → **0 vulnerabilities**.
+
+---
+
+## Deployment (Vercel)
+
+1. Import repo at [vercel.com/new](https://vercel.com/new)
+2. Set **Root Directory** → `11_AdminUI`
+3. Framework auto-detected as Next.js — no env vars required
+4. Deploy
+
+> Public pages (`/coming-soon`, `/menu/preview`, `/cn`) work fully on serverless.  
+> Admin writes (menu CRUD, contact delete) need Vercel Postgres or Turso for persistence across deployments.
