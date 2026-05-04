@@ -56,7 +56,8 @@
 
   --font-sans: var(--font-poppins);
   --font-arabic: var(--font-cairo);
-  --font-display: var(--font-bebas);
+  --font-display: var(--font-brand);    /* brand font replaces Bebas for display */
+  --font-brand: var(--font-brand);      /* Chinese Monoline – explicit alias */
 }
 
 body {

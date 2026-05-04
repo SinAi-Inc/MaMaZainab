@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import { Poppins, Cairo, Bebas_Neue } from "next/font/google";
+import { Poppins, Cairo } from "next/font/google";
+import localFont from "next/font/local";
 import { Toaster } from "sonner";
 import "./globals.css";
 
@@ -15,11 +16,13 @@ const cairo = Cairo({
   variable: "--font-cairo",
   display: "swap",
 });
-const bebas = Bebas_Neue({
-  subsets: ["latin"],
-  weight: ["400"],
-  variable: "--font-bebas",
+
+/** Chinese Monoline — the MaMa Zainab brand display typeface */
+const brandFont = localFont({
+  src: "./fonts/ChineseMonoline.ttf",
+  variable: "--font-brand",
   display: "swap",
+  weight: "400",
 });
 
 export const metadata: Metadata = {
@@ -29,7 +32,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${poppins.variable} ${cairo.variable} ${bebas.variable}`}>
+    <html lang="en" className={`${poppins.variable} ${cairo.variable} ${brandFont.variable}`}>
       <body>
         {children}
         <Toaster position="top-right" richColors closeButton />

@@ -1,6 +1,5 @@
 "use client";
 
-import React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
@@ -55,26 +54,15 @@ export function Sidebar() {
       {/* Logo / brand */}
       <div className="px-6 pt-7 pb-5 border-b border-white/5">
         <div className="flex items-center justify-center">
-          <div
-            aria-label="MaMa Zainab"
-            role="img"
-            className="h-16 w-full bg-white"
-            style={{
-              WebkitMaskImage: "url(/brand/logo-on-dark.png)",
-              maskImage: "url(/brand/logo-on-dark.png)",
-              // eslint-disable-next-line @typescript-eslint/no-explicit-any
-              WebkitMaskMode: "luminance" as any,
-              maskMode: "luminance",
-              WebkitMaskRepeat: "no-repeat",
-              maskRepeat: "no-repeat",
-              WebkitMaskSize: "contain",
-              maskSize: "contain",
-              WebkitMaskPosition: "center",
-              maskPosition: "center",
-            } as React.CSSProperties}
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/brand/logo-wordmark-transparent.png"
+            alt="MaMa Zainab"
+            className="h-12 w-auto object-contain"
+            draggable={false}
           />
         </div>
-        <div className="mt-3 text-[10px] uppercase tracking-[0.32em] text-sidebar-muted text-center">
+        <div className="mt-3 font-[family-name:var(--font-brand)] text-[11px] tracking-[0.28em] text-sidebar-muted text-center">
           Brand Admin
         </div>
       </div>

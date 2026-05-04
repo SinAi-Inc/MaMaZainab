@@ -67,7 +67,7 @@ export function Topbar() {
         )}
         <div className="size-9 rounded-full bg-brand-green text-white flex items-center justify-center font-semibold text-sm overflow-hidden">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/brand/mark.png" alt="MZ" className="size-full object-cover" />
+          <img src="/brand/mark-avatar.png" alt="MZ" className="size-full object-cover" />
         </div>
       </div>
     </header>

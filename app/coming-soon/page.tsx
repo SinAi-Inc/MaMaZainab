@@ -1,6 +1,5 @@
 import Link from "next/link";
 import type { Metadata } from "next";
-import type React from "react";
 import { CountdownClient } from "../_countdown";
 
 export const metadata: Metadata = {
@@ -29,12 +28,12 @@ export default function ComingSoonPage() {
         <div className="flex items-center gap-3">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
-            src="/brand/mark.png"
+            src="/brand/mark-transparent.png"
             alt=""
-            className="size-9 rounded"
+            className="size-9 rounded-full"
             draggable={false}
           />
-          <span className="text-[11px] uppercase tracking-[0.32em] text-white/60">
+          <span className="font-[family-name:var(--font-brand)] text-sm tracking-[0.18em] text-white/80">
             MaMa Zainab
           </span>
         </div>
@@ -52,30 +51,20 @@ export default function ComingSoonPage() {
           Coming Soon · Alexandria, EGYPT
         </p>
 
-        {/* Logo masked from PNG so only the wordmark + accent show - perfectly transparent over the plaid */}
-        <div
-          aria-label="MaMa Zainab"
-          role="img"
-          className="w-full max-w-xl aspect-[1600/900] bg-white"
-          style={{
-            WebkitMaskImage: "url(/brand/logo-on-dark.png)",
-            maskImage: "url(/brand/logo-on-dark.png)",
-            WebkitMaskMode: "luminance" as React.CSSProperties["maskMode"],
-            maskMode: "luminance",
-            WebkitMaskRepeat: "no-repeat",
-            maskRepeat: "no-repeat",
-            WebkitMaskSize: "contain",
-            maskSize: "contain",
-            WebkitMaskPosition: "center",
-            maskPosition: "center",
-            filter: "drop-shadow(0 0 30px rgba(239,210,0,0.25))",
-          } as React.CSSProperties}
+        {/* Wordmark — transparent PNG, isolated over any background */}
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src="/brand/logo-wordmark-transparent.png"
+          alt="MaMa Zainab"
+          className="w-full max-w-xl"
+          style={{ filter: "drop-shadow(0 0 30px rgba(239,210,0,0.25))" }}
+          draggable={false}
         />
 
         <h1 className="sr-only">MaMa Zainab - Coming Soon</h1>
 
         <p className="mt-8 text-lg sm:text-xl text-white/85 max-w-xl font-light leading-relaxed">
-          <span className="font-display tracking-wider text-brand-yellow text-2xl block">
+          <span className="font-[family-name:var(--font-brand)] tracking-wider text-brand-yellow text-2xl block">
             Homemade taste. Fast-food style.
           </span>
           <span className="text-sm text-white/60 italic">- for the first time.</span>
