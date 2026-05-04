@@ -29,14 +29,12 @@ export default async function MenuPreviewPage() {
           }}
         />
         <div className="relative z-10 max-w-5xl mx-auto px-6 py-14 text-center text-white">
-          <div className="inline-block bg-brand-cream/95 rounded-2xl px-8 py-5 shadow-2xl ring-1 ring-white/10">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src="/brand/logo-primary.png"
-              alt="MaMa Zainab"
-              className="h-28 w-auto object-contain"
-            />
-          </div>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/brand/logo-wordmark-transparent.png"
+            alt="MaMa Zainab"
+            className="h-28 w-auto object-contain mx-auto drop-shadow-xl"
+          />
           <p className="mt-6 text-xs uppercase tracking-[0.35em] text-brand-yellow drop-shadow-sm">
             Menu
           </p>
@@ -51,7 +49,9 @@ export default async function MenuPreviewPage() {
       <div className="relative">
         {/* Very faint plaid wash behind menu content */}
         <div className="absolute inset-0 plaid opacity-[0.07] pointer-events-none" />
-        <div className="relative z-10 max-w-5xl mx-auto px-6 py-12 space-y-12">
+        {/* Right decorative plaid strip */}
+        <div className="absolute right-0 inset-y-0 w-14 plaid opacity-40 pointer-events-none" />
+        <div className="relative z-10 max-w-5xl mx-auto px-6 py-12 space-y-12 pr-20">
         {cats.map((cat) => {
           const items = state.items
             .filter((i) => i.categoryId === cat.id && i.available)
