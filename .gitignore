@@ -29,8 +29,9 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-# private data — never commit real subscriber emails
-data/contacts.json
+# private data — never commit to public repo
+data/contacts.json        # real subscriber emails
+data/videos.json          # brand script, Falaha strategy, cinematic screenplay (business IP)
 .pnpm-debug.log*
 
 # env files (can opt-in for committing if needed)
