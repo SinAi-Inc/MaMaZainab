@@ -12,6 +12,7 @@ const TITLES: Record<string, string> = {
   "/videos": "Videos",
   "/videos/new": "New video",
   "/characters": "Characters",
+  "/contacts": "Contact List",
   "/brand": "Brand Tokens",
   "/ai": "AI Generators",
   "/settings": "Settings",
