@@ -35,15 +35,15 @@ const NAV: { section: string; items: NavItem[] }[] = [
       { href: "/menu", label: "Menu", icon: UtensilsCrossed, status: "active" },
       { href: "/website", label: "Website", icon: Globe, status: "active" },
       { href: "/videos", label: "Videos", icon: Video, status: "active" },
-      { href: "/characters", label: "Characters", icon: Users, status: "soon" },
+      { href: "/characters", label: "Characters", icon: Users, status: "active" },
     ],
   },
   {
     section: "System",
     items: [
-      { href: "/brand", label: "Brand Tokens", icon: Palette, status: "soon" },
-      { href: "/ai", label: "AI Generators", icon: Sparkles, status: "soon" },
-      { href: "/settings", label: "Settings", icon: Settings, status: "soon" },
+      { href: "/brand", label: "Brand Tokens", icon: Palette, status: "active" },
+      { href: "/ai", label: "AI Generators", icon: Sparkles, status: "active" },
+      { href: "/settings", label: "Settings", icon: Settings, status: "active" },
     ],
   },
 ];

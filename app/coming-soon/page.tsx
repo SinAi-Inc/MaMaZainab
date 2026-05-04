@@ -49,7 +49,7 @@ export default function ComingSoonPage() {
       {/* Hero */}
       <section className="relative z-10 flex-1 flex flex-col items-center justify-center text-center px-6 py-12">
         <p className="text-[11px] uppercase tracking-[0.4em] text-brand-yellow mb-6">
-          Coming Soon · Alexandria, EG
+          Coming Soon · Alexandria, EGYPT
         </p>
 
         {/* Logo masked from PNG so only the wordmark + accent show - perfectly transparent over the plaid */}
