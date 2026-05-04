@@ -24,7 +24,7 @@ export default function ComingSoonPage() {
       />
 
       {/* Top bar */}
-      <header className="relative z-10 px-8 py-6 flex items-center justify-between">
+      <header className="relative z-10 px-8 py-6 flex items-center justify-center">
         <div className="flex items-center gap-3">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
@@ -37,12 +37,6 @@ export default function ComingSoonPage() {
             MaMa Zainab
           </span>
         </div>
-        <Link
-          href="/menu/preview"
-          className="text-[11px] uppercase tracking-[0.28em] text-white/50 hover:text-brand-yellow transition-colors"
-        >
-          Sneak peek →
-        </Link>
       </header>
 
       {/* Hero */}
@@ -99,52 +93,60 @@ export default function ComingSoonPage() {
         <p className="mt-3 text-[11px] text-white/40">
           We&apos;ll only email you on opening day. No spam.
         </p>
-      </section>
 
-      {/* Footer */}
-      <footer className="relative z-10 px-8 py-6 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-3 text-[11px] text-white/45">
-        <div className="flex flex-col gap-1">
-          <div className="uppercase tracking-[0.24em]">
-            © 2026 MaMa Zainab · Alexandria
-          </div>
-          <div className="tracking-[0.1em] text-white/30">
-            Owned &amp; Operated by{" "}
-            <Link
-              href="/cn"
-              className="hover:text-brand-yellow transition underline underline-offset-2"
-            >
-              Sheng Heng Wang
-            </Link>{" "}
-            · Technology by{" "}
-            <a
-              href="https://sinai-inc.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hover:text-brand-yellow transition underline underline-offset-2"
-            >
-              SinAI Inc.
-            </a>
-          </div>
-        </div>
-        <div className="flex items-center gap-5">
+        {/* Social links — directly under notify section */}
+        <div className="mt-8 flex items-center gap-6 text-[12px] text-white/50">
           <a
             href="https://instagram.com/"
-            className="hover:text-brand-yellow transition"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hover:text-brand-yellow transition uppercase tracking-[0.2em]"
           >
             Instagram
           </a>
+          <span className="text-white/20">·</span>
           <a
             href="https://tiktok.com/"
-            className="hover:text-brand-yellow transition"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hover:text-brand-yellow transition uppercase tracking-[0.2em]"
           >
             TikTok
           </a>
-          <Link
-            href="/menu"
-            className="hover:text-brand-yellow transition opacity-60"
+          <span className="text-white/20">·</span>
+          <a
+            href="https://facebook.com/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hover:text-brand-yellow transition uppercase tracking-[0.2em]"
           >
-            Admin
-          </Link>
+            Facebook
+          </a>
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="relative z-10 px-8 py-6 border-t border-white/10 flex flex-col items-center gap-2 text-[11px] text-white/45 text-center">
+        <div className="uppercase tracking-[0.24em]">
+          © 2026 MaMa Zainab · Alexandria
+        </div>
+        <div className="tracking-[0.1em] text-white/30">
+          Owned &amp; Operated by{" "}
+          <Link
+            href="/cn"
+            className="hover:text-brand-yellow transition underline underline-offset-2"
+          >
+            Sheng Heng Wang
+          </Link>{" "}
+          · Technology by{" "}
+          <a
+            href="https://sinai-inc.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hover:text-brand-yellow transition underline underline-offset-2"
+          >
+            SinAI Inc.
+          </a>
         </div>
       </footer>
     </main>
