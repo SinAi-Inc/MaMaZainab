@@ -17,7 +17,6 @@ const CERT_ROWS: [string, string][] = [
   ["所有人国籍", "中华人民共和国"],
   ["法人注册地", "中国"],
   ["授权运营地区", "埃及 · 亚历山大  Alexandria, Egypt"],
-  ["数字技术服务商", "SinAI Inc. — sinai-inc.com"],
   ["授权年份", "2026 年至今"],
 ];
 
