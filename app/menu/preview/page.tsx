@@ -49,9 +49,9 @@ export default async function MenuPreviewPage() {
       <div className="relative">
         {/* Very faint plaid wash behind menu content */}
         <div className="absolute inset-0 plaid opacity-[0.07] pointer-events-none" />
-        {/* Right decorative green strip — matches the solid-green vertical band in the plaid */}
-        <div className="absolute right-0 inset-y-0 w-14 bg-brand-green opacity-40 pointer-events-none" />
-        <div className="relative z-10 max-w-5xl mx-auto px-6 py-12 space-y-12 pr-20">
+        {/* Left decorative green strip — matches the solid-green vertical band in the plaid */}
+        <div className="absolute left-0 inset-y-0 w-14 bg-brand-green opacity-40 pointer-events-none" />
+        <div className="relative z-10 max-w-5xl mx-auto px-6 py-12 space-y-12 pl-20">
         {cats.map((cat) => {
           const items = state.items
             .filter((i) => i.categoryId === cat.id && i.available)
