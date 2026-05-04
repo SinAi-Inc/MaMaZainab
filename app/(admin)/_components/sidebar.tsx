@@ -11,6 +11,7 @@ import {
   Palette,
   Settings,
   Sparkles,
+  Mail,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -35,6 +36,7 @@ const NAV: { section: string; items: NavItem[] }[] = [
       { href: "/website", label: "Website", icon: Globe, status: "active" },
       { href: "/videos", label: "Videos", icon: Video, status: "active" },
       { href: "/characters", label: "Characters", icon: Users, status: "active" },
+      { href: "/contacts", label: "Contact List", icon: Mail, status: "active" },
     ],
   },
   {
