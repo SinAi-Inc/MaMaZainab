@@ -1,0 +1,131 @@
+{
+  "version": 1,
+  "categories": [
+    {
+      "id": "cat_stuffy",
+      "nameEn": "Stuffy Fingers",
+      "descriptionEn": "Hand-rolled, slow-cooked. Mama's signature.",
+      "sort": 1,
+      "visible": true,
+      "createdAt": "2026-05-03T20:23:46.882Z",
+      "updatedAt": "2026-05-03T20:23:46.882Z"
+    },
+    {
+      "id": "cat_sides",
+      "nameEn": "Add-on Sauce",
+      "descriptionEn": "Elevate meals instantly with versatile add-on sauces like chili crisp, pesto, or homemade mayo-based sauces (ranch, tartar, or garlic yogurt)",
+      "sort": 2,
+      "visible": true,
+      "createdAt": "2026-05-03T20:23:46.882Z",
+      "updatedAt": "2026-05-03T22:53:54.117Z"
+    },
+    {
+      "id": "cat_drinks",
+      "nameEn": "Drinks",
+      "descriptionEn": "",
+      "sort": 3,
+      "visible": true,
+      "createdAt": "2026-05-03T20:23:46.882Z",
+      "updatedAt": "2026-05-03T20:23:46.882Z"
+    },
+    {
+      "id": "cat_1lrM_pmb",
+      "nameEn": "Dessert",
+      "descriptionEn": "",
+      "sort": 4,
+      "visible": true,
+      "createdAt": "2026-05-03T22:40:25.474Z",
+      "updatedAt": "2026-05-03T22:40:25.474Z"
+    }
+  ],
+  "items": [
+    {
+      "id": "itm_stuffy_grape",
+      "categoryId": "cat_stuffy",
+      "nameEn": "Grape Leaf Rolls",
+      "descriptionEn": "Vine leaves rolled with rice, herbs, and a hint of lemon.",
+      "priceEgp": 95,
+      "imageUrl": "",
+      "badges": [
+        "bestseller"
+      ],
+      "available": true,
+      "sort": 1,
+      "createdAt": "2026-05-03T20:23:46.882Z",
+      "updatedAt": "2026-05-03T20:30:16.880Z"
+    },
+    {
+      "id": "itm_stuffy_cabbage",
+      "categoryId": "cat_stuffy",
+      "nameEn": "Cabbage Rolls",
+      "descriptionEn": "Cabbage rolls, slow-cooked in tomato broth.",
+      "priceEgp": 90,
+      "imageUrl": "",
+      "badges": [
+        "chefs_pick"
+      ],
+      "available": true,
+      "sort": 2,
+      "createdAt": "2026-05-03T20:23:46.882Z",
+      "updatedAt": "2026-05-03T20:23:46.882Z"
+    },
+    {
+      "id": "itm_side_salad",
+      "categoryId": "cat_sides",
+      "nameEn": "Country Salad",
+      "descriptionEn": "Fresh tomato, cucumber, onion, parsley.",
+      "priceEgp": 30,
+      "imageUrl": "",
+      "badges": [
+        "vegan"
+      ],
+      "available": true,
+      "sort": 1,
+      "createdAt": "2026-05-03T20:23:46.882Z",
+      "updatedAt": "2026-05-03T20:23:46.882Z"
+    },
+    {
+      "id": "itm_drink_hibiscus",
+      "categoryId": "cat_drinks",
+      "nameEn": "Chilled KarKadeh",
+      "descriptionEn": "Chilled hibiscus, lightly sweet.",
+      "priceEgp": 45,
+      "imageUrl": "",
+      "badges": [],
+      "available": true,
+      "sort": 1,
+      "createdAt": "2026-05-03T20:23:46.882Z",
+      "updatedAt": "2026-05-03T22:50:27.132Z"
+    },
+    {
+      "id": "itm_9Ybo7jaK",
+      "categoryId": "cat_1lrM_pmb",
+      "nameEn": "Zaktata",
+      "descriptionEn": "a blend of ground barley, fresh milk, and pure honey",
+      "priceEgp": 65,
+      "imageUrl": "",
+      "badges": [
+        "bestseller"
+      ],
+      "available": true,
+      "sort": 1,
+      "createdAt": "2026-05-03T22:44:32.262Z",
+      "updatedAt": "2026-05-03T22:44:32.262Z"
+    },
+    {
+      "id": "itm_3mNDEwd2",
+      "categoryId": "cat_drinks",
+      "nameEn": "Breeze",
+      "descriptionEn": "a refreshing drink made from fresh mint, lemon juice, and a sweetener, often prepared as a simple syrup or blended directly for a slushy consistency.",
+      "priceEgp": 65,
+      "imageUrl": "",
+      "badges": [
+        "bestseller"
+      ],
+      "available": true,
+      "sort": 2,
+      "createdAt": "2026-05-03T22:53:24.330Z",
+      "updatedAt": "2026-05-03T22:53:24.330Z"
+    }
+  ]
+}

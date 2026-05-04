@@ -1,0 +1,138 @@
+import { readMenu } from "@/lib/menu/store";
+import { formatEGP } from "@/lib/utils";
+import { PrintTrigger } from "./_print-trigger";
+
+export const dynamic = "force-dynamic";
+
+/**
+ * Print-ready menu (A4 portrait).
+ *
+ * Use the browser's print dialog to "Save as PDF" or send to a real printer.
+ * The Print/PDF button auto-opens the print dialog when this page loads.
+ */
+export default async function MenuPrintPage() {
+  const state = await readMenu();
+  const cats = [...state.categories]
+    .filter((c) => c.visible)
+    .sort((a, b) => a.sort - b.sort)
+    .map((cat) => ({
+      cat,
+      items: state.items
+        .filter((i) => i.categoryId === cat.id && i.available)
+        .sort((a, b) => a.sort - b.sort),
+    }))
+    .filter((g) => g.items.length > 0);
+
+  return (
+    <div className="print-root bg-brand-cream min-h-screen">
+      <PrintTrigger />
+
+      {/* On-screen toolbar (hidden when printing) */}
+      <div className="no-print sticky top-0 z-50 bg-brand-ink text-white px-6 py-3 flex items-center justify-between shadow">
+        <div className="flex items-center gap-3">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/brand/mark.png" alt="" className="size-8 rounded" />
+          <div>
+            <div className="text-sm font-semibold">MaMa Zainab - Print Menu</div>
+            <div className="text-[11px] opacity-70">
+              A4 portrait · Use browser&apos;s print dialog → Save as PDF
+            </div>
+          </div>
+        </div>
+        <div className="flex gap-2">
+          <PrintButton />
+          <a
+            href="/menu"
+            className="px-3 py-1.5 text-sm rounded border border-white/20 hover:bg-white/10"
+          >
+            Back to admin
+          </a>
+        </div>
+      </div>
+
+      {/* Printable sheet */}
+      <article className="print-sheet mx-auto bg-white shadow-lg my-6">
+        {/* Header */}
+        <header className="text-center pt-12 pb-6 px-12 border-b-4 border-brand-green relative">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/brand/logo-primary.png"
+            alt="MaMa Zainab"
+            className="mx-auto h-32 w-auto object-contain"
+          />
+          <p className="mt-3 text-sm tracking-[0.4em] uppercase text-brand-green-deep font-semibold">
+            Menu
+          </p>
+          <p className="mt-1 text-xs text-brand-ink/60 italic">
+            Homemade taste. Fast-food style - for the first time.
+          </p>
+          <div className="absolute left-0 right-0 -bottom-1 mx-auto w-24 h-1.5 bg-brand-yellow" />
+        </header>
+
+        {/* Body - two columns */}
+        <div className="px-12 py-10 columns-2 gap-10 [column-rule:1px_dashed_var(--color-border-default)]">
+          {cats.map(({ cat, items }) => (
+            <section key={cat.id} className="break-inside-avoid mb-8">
+              <h2 className="font-display text-2xl text-brand-ink leading-none mb-1">
+                {cat.nameEn}
+              </h2>
+              {cat.id === "cat_stuffy" && (
+                <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-brand-red mb-1">
+                  No fingers licking - we eat it ALL!
+                </p>
+              )}
+              {cat.descriptionEn && (
+                <p className="text-[10px] italic text-brand-ink/55 mb-3">
+                  {cat.descriptionEn}
+                </p>
+              )}
+              <div className="h-px bg-brand-green/40 mb-3" />
+              <ul className="space-y-2.5">
+                {items.map((item) => (
+                  <li key={item.id} className="text-sm break-inside-avoid">
+                    <div className="flex items-baseline gap-2">
+                      <span className="font-semibold text-brand-ink">
+                        {item.nameEn}
+                      </span>
+                      <span className="flex-1 border-b border-dotted border-brand-ink/25 translate-y-[-3px]" />
+                      <span className="font-bold text-brand-green-deep tabular-nums">
+                        {formatEGP(item.priceEgp)}
+                      </span>
+                    </div>
+                    {item.descriptionEn && (
+                      <p className="text-[11px] text-brand-ink/60 mt-0.5 leading-snug">
+                        {item.descriptionEn}
+                      </p>
+                    )}
+                  </li>
+                ))}
+              </ul>
+            </section>
+          ))}
+        </div>
+
+        {/* Footer */}
+        <footer className="px-12 py-6 bg-brand-ink text-white text-center">
+          <div className="font-display text-xl tracking-wide">MaMa Zainab</div>
+          <div className="text-[10px] opacity-70 mt-1 tracking-[0.2em] uppercase">
+            Alexandria · Est. 2026
+          </div>
+          <div className="mt-3 inline-block h-1 w-12 bg-brand-yellow rounded" />
+        </footer>
+      </article>
+    </div>
+  );
+}
+
+function PrintButton() {
+  return (
+    <form action="javascript:window.print()">
+      <button
+        type="submit"
+        className="px-3 py-1.5 text-sm rounded bg-brand-yellow text-brand-ink font-semibold hover:bg-yellow-300"
+      >
+        Print / Save as PDF
+      </button>
+    </form>
+  );
+}

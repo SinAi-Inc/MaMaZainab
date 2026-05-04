@@ -1,26 +1,149 @@
 @import "tailwindcss";
 
+/* ---------- Brand tokens (locked from 01_Brand/tokens.json) ---------- */
 :root {
+  /* Brand palette */
+  --brand-green: #1B9B00;
+  --brand-green-deep: #169216;
+  --brand-yellow: #EFD200;
+  --brand-cream: #F0F4EB;
+  --brand-ink: #2C292A;
+  --brand-red: #E60000;
+  --brand-grey: #B7B7B7;
+
+  /* Semantic surfaces */
   --background: #ffffff;
-  --foreground: #171717;
+  --foreground: var(--brand-ink);
+  --surface: #ffffff;
+  --surface-muted: #FAFAF7;
+  --border: #E7E7E2;
+  --muted-fg: #6B6669;
+
+  /* Sidebar */
+  --sidebar-bg: #1A1718;
+  --sidebar-fg: #E8E5E0;
+  --sidebar-muted: #8A8385;
+  --sidebar-active-bg: #262122;
+  --sidebar-active-fg: #ffffff;
+  --sidebar-accent: var(--brand-yellow);
 }
 
+/* Map our tokens into Tailwind v4 utility space.
+   `@theme inline` keeps var() references intact so utilities resolve at runtime. */
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --color-brand-green: var(--brand-green);
+  --color-brand-green-deep: var(--brand-green-deep);
+  --color-brand-yellow: var(--brand-yellow);
+  --color-brand-cream: var(--brand-cream);
+  --color-brand-ink: var(--brand-ink);
+  --color-brand-red: var(--brand-red);
+  --color-brand-grey: var(--brand-grey);
+
+  --color-surface: var(--surface);
+  --color-surface-muted: var(--surface-muted);
+  --color-border-default: var(--border);
+  --color-muted-fg: var(--muted-fg);
+
+  --color-sidebar-bg: var(--sidebar-bg);
+  --color-sidebar-fg: var(--sidebar-fg);
+  --color-sidebar-muted: var(--sidebar-muted);
+  --color-sidebar-active-bg: var(--sidebar-active-bg);
+  --color-sidebar-active-fg: var(--sidebar-active-fg);
+  --color-sidebar-accent: var(--sidebar-accent);
+
+  --font-sans: var(--font-poppins);
+  --font-arabic: var(--font-cairo);
+  --font-display: var(--font-bebas);
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-poppins), system-ui, -apple-system, "Segoe UI", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
 }
+
+/* Arabic helper - switch font + tighten line-height */
+.ar {
+  font-family: var(--font-cairo), "Segoe UI", Tahoma, sans-serif;
+  font-feature-settings: "liga", "kern";
+}
+
+/* Plaid pattern - brand green base + diagonal yellow stripes */
+.plaid {
+  background-color: var(--brand-green);
+  background-image:
+    repeating-linear-gradient(
+      45deg,
+      transparent 0 22px,
+      rgba(239, 210, 0, 0.18) 22px 26px
+    ),
+    repeating-linear-gradient(
+      -45deg,
+      transparent 0 22px,
+      rgba(239, 210, 0, 0.12) 22px 26px
+    );
+}
+
+/* Focus ring - accessible & on-brand */
+*:focus-visible {
+  outline: 2px solid var(--brand-green);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Subtle scrollbar */
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-thumb {
+  background: #d4d4d0;
+  border-radius: 8px;
+}
+::-webkit-scrollbar-thumb:hover { background: #b7b7b0; }
+::-webkit-scrollbar-track { background: transparent; }
+
+/* ---------- Print layout (A4 portrait) ---------- */
+.print-sheet {
+  width: 210mm;
+  min-height: 297mm;
+  padding: 0;
+  overflow: hidden;
+}
+
+@page {
+  size: A4 portrait;
+  margin: 0;
+}
+
+@media print {
+  html, body {
+    background: #ffffff !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+  .no-print {
+    display: none !important;
+  }
+  .print-root {
+    background: #ffffff !important;
+  }
+  .print-sheet {
+    margin: 0 !important;
+    box-shadow: none !important;
+    width: 100% !important;
+    min-height: 100vh !important;
+  }
+  /* Avoid content cuts mid-row */
+  section, li, article, header, footer {
+    break-inside: avoid;
+  }
+  /* Ensure colors print */
+  * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+}
+
