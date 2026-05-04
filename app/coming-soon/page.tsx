@@ -103,8 +103,28 @@ export default function ComingSoonPage() {
 
       {/* Footer */}
       <footer className="relative z-10 px-8 py-6 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-3 text-[11px] text-white/45">
-        <div className="uppercase tracking-[0.24em]">
-          © 2026 MaMa Zainab · Alexandria
+        <div className="flex flex-col gap-1">
+          <div className="uppercase tracking-[0.24em]">
+            © 2026 MaMa Zainab · Alexandria
+          </div>
+          <div className="tracking-[0.1em] text-white/30">
+            Owned &amp; Operated by{" "}
+            <Link
+              href="/cn"
+              className="hover:text-brand-yellow transition underline underline-offset-2"
+            >
+              Sheng Heng Wang
+            </Link>{" "}
+            · Technology by{" "}
+            <a
+              href="https://sinai-inc.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-brand-yellow transition underline underline-offset-2"
+            >
+              SinAI Inc.
+            </a>
+          </div>
         </div>
         <div className="flex items-center gap-5">
           <a

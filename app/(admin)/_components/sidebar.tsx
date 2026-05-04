@@ -112,8 +112,22 @@ export function Sidebar() {
       {/* Footer brand bar */}
       <div className="px-6 py-4 border-t border-white/5">
         <div className="h-1.5 w-12 rounded bg-brand-yellow mb-2" />
-        <div className="text-[10px] text-sidebar-muted leading-tight">
-          Stuffy Fingers · Alexandria
+        <div className="text-[10px] text-sidebar-muted leading-tight space-y-0.5">
+          <div>MaMa Zainab · Alexandria</div>
+          <div className="opacity-60">
+            <Link href="/cn" className="hover:text-brand-yellow transition">
+              Sheng Heng Wang
+            </Link>
+            {" · "}
+            <a
+              href="https://sinai-inc.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-brand-yellow transition"
+            >
+              SinAI Inc.
+            </a>
+          </div>
         </div>
       </div>
     </aside>
