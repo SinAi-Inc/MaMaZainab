@@ -21,7 +21,7 @@ const VIEWPORTS: Viewport[] = [
 ];
 
 const PAGES = [
-  { href: "/", label: "Coming Soon" },
+  { href: "/coming-soon", label: "Coming Soon" },
   { href: "/menu/preview", label: "Menu" },
 ];
 
