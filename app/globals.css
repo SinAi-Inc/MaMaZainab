@@ -73,11 +73,13 @@ body {
   font-feature-settings: "liga", "kern";
 }
 
-/* Plaid pattern - diamond checkerboard from brand system v2 */
+/* Plaid pattern - gingham check matching brand reference (Mama Zainab apron)
+   tile_gingham_packaging.png: 768px tile, 48px cell, 8 repeats
+   CSS at 384px → 24px visual cells on screen */
 .plaid {
   background-image: url('/brand/plaid.png');
   background-repeat: repeat;
-  background-size: 384px 384px; /* tile_diamond_web is 768px; scale 50% for web density */
+  background-size: 384px 384px;
 }
 
 /* Focus ring - accessible & on-brand */
