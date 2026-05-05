@@ -42,6 +42,7 @@
     {
       "id": "itm_stuffy_grape",
       "categoryId": "cat_stuffy",
+      "sku": "MZ-STU-0001",
       "nameEn": "Classic Grapes",
       "descriptionEn": "Vine leaves rolled with rice, herbs, and a hint of lemon.",
       "priceEgp": 20,
@@ -53,12 +54,12 @@
       "available": true,
       "sort": 1,
       "createdAt": "2026-05-03T20:23:46.882Z",
-      "updatedAt": "2026-05-05T03:46:00.992Z",
-      "sku": "MZ-STU-0001"
+      "updatedAt": "2026-05-05T03:46:00.992Z"
     },
     {
       "id": "itm_stuffy_cabbage",
       "categoryId": "cat_stuffy",
+      "sku": "MZ-STU-0002",
       "nameEn": "Emperor’s Cabbage",
       "descriptionEn": "Cabbage rolls, slow-cooked in tomato broth.",
       "priceEgp": 20,
@@ -71,12 +72,12 @@
       "available": true,
       "sort": 2,
       "createdAt": "2026-05-03T20:23:46.882Z",
-      "updatedAt": "2026-05-05T03:46:00.992Z",
-      "sku": "MZ-STU-0002"
+      "updatedAt": "2026-05-05T03:46:00.992Z"
     },
     {
       "id": "itm_side_salad",
       "categoryId": "cat_sides",
+      "sku": "MZ-ADD-0001",
       "nameEn": "Mama Zainab's Special Sauce",
       "descriptionEn": "Fresh tomato, cucumber, onion, parsley.",
       "priceEgp": 10,
@@ -88,12 +89,12 @@
       "available": true,
       "sort": 1,
       "createdAt": "2026-05-03T20:23:46.882Z",
-      "updatedAt": "2026-05-05T03:46:00.993Z",
-      "sku": "MZ-ADD-0001"
+      "updatedAt": "2026-05-05T03:46:00.993Z"
     },
     {
       "id": "itm_drink_hibiscus",
       "categoryId": "cat_drinks",
+      "sku": "MZ-DRI-0001",
       "nameEn": "Chilled KarKadeh",
       "descriptionEn": "Chilled hibiscus, lightly sweet.",
       "priceEgp": 45,
@@ -102,12 +103,12 @@
       "available": true,
       "sort": 1,
       "createdAt": "2026-05-03T20:23:46.882Z",
-      "updatedAt": "2026-05-05T03:46:00.993Z",
-      "sku": "MZ-DRI-0001"
+      "updatedAt": "2026-05-05T03:46:00.993Z"
     },
     {
       "id": "itm_9Ybo7jaK",
       "categoryId": "cat_1lrM_pmb",
+      "sku": "MZ-DES-0001",
       "nameEn": "Zaktata",
       "descriptionEn": "a blend of ground barley, fresh milk, and pure honey",
       "priceEgp": 65,
@@ -119,12 +120,12 @@
       "available": true,
       "sort": 1,
       "createdAt": "2026-05-03T22:44:32.262Z",
-      "updatedAt": "2026-05-05T03:46:00.993Z",
-      "sku": "MZ-DES-0001"
+      "updatedAt": "2026-05-05T03:48:18.615Z"
     },
     {
       "id": "itm_3mNDEwd2",
       "categoryId": "cat_drinks",
+      "sku": "MZ-DRI-0002",
       "nameEn": "Breeze",
       "descriptionEn": "a refreshing drink made from fresh mint, lemon juice, and a sweetener, often prepared as a simple syrup or blended directly for a slushy consistency.",
       "priceEgp": 45,
@@ -135,12 +136,12 @@
       "available": true,
       "sort": 2,
       "createdAt": "2026-05-03T22:53:24.330Z",
-      "updatedAt": "2026-05-05T03:46:00.993Z",
-      "sku": "MZ-DRI-0002"
+      "updatedAt": "2026-05-05T03:46:00.993Z"
     },
     {
       "id": "itm_ZF2PCQv5",
       "categoryId": "cat_sides",
+      "sku": "MZ-ADD-0002",
       "nameEn": "Garlic Yogurt",
       "descriptionEn": "",
       "priceEgp": 8,
@@ -151,12 +152,12 @@
       "available": true,
       "sort": 2,
       "createdAt": "2026-05-05T01:33:41.344Z",
-      "updatedAt": "2026-05-05T03:46:00.993Z",
-      "sku": "MZ-ADD-0002"
+      "updatedAt": "2026-05-05T03:46:00.993Z"
     },
     {
       "id": "itm_zmv8hJ3O",
       "categoryId": "cat_sides",
+      "sku": "MZ-ADD-0003",
       "nameEn": "Smoked Paprika",
       "descriptionEn": "",
       "priceEgp": 10,
@@ -167,12 +168,12 @@
       "available": true,
       "sort": 5,
       "createdAt": "2026-05-05T01:34:21.329Z",
-      "updatedAt": "2026-05-05T03:46:00.993Z",
-      "sku": "MZ-ADD-0003"
+      "updatedAt": "2026-05-05T03:46:00.993Z"
     },
     {
       "id": "itm_WT8fHuUS",
       "categoryId": "cat_sides",
+      "sku": "MZ-ADD-0004",
       "nameEn": "Ranch",
       "descriptionEn": "",
       "priceEgp": 8,
@@ -181,12 +182,12 @@
       "available": true,
       "sort": 9,
       "createdAt": "2026-05-05T01:34:54.243Z",
-      "updatedAt": "2026-05-05T03:46:00.993Z",
-      "sku": "MZ-ADD-0004"
+      "updatedAt": "2026-05-05T03:46:00.993Z"
     },
     {
       "id": "itm_7b3gSQrq",
       "categoryId": "cat_sides",
+      "sku": "MZ-ADD-0005",
       "nameEn": "Honey Mustard",
       "descriptionEn": "",
       "priceEgp": 8,
@@ -197,12 +198,12 @@
       "available": true,
       "sort": 4,
       "createdAt": "2026-05-05T01:35:19.453Z",
-      "updatedAt": "2026-05-05T03:46:00.993Z",
-      "sku": "MZ-ADD-0005"
+      "updatedAt": "2026-05-05T03:46:00.993Z"
     },
     {
       "id": "itm_w8zVv8Vt",
       "categoryId": "cat_sides",
+      "sku": "MZ-ADD-0006",
       "nameEn": "Lemon Pepper",
       "descriptionEn": "",
       "priceEgp": 8,
@@ -214,12 +215,12 @@
       "available": true,
       "sort": 2,
       "createdAt": "2026-05-05T01:36:00.865Z",
-      "updatedAt": "2026-05-05T03:46:00.993Z",
-      "sku": "MZ-ADD-0006"
+      "updatedAt": "2026-05-05T03:46:00.993Z"
     },
     {
       "id": "itm_BxSaRyI7",
       "categoryId": "cat_sides",
+      "sku": "MZ-ADD-0007",
       "nameEn": "Creamy Garlic",
       "descriptionEn": "",
       "priceEgp": 8,
@@ -230,12 +231,12 @@
       "available": true,
       "sort": 8,
       "createdAt": "2026-05-05T01:36:30.478Z",
-      "updatedAt": "2026-05-05T03:46:00.993Z",
-      "sku": "MZ-ADD-0007"
+      "updatedAt": "2026-05-05T03:46:00.993Z"
     },
     {
       "id": "itm_bF8L5LsH",
       "categoryId": "cat_sides",
+      "sku": "MZ-ADD-0008",
       "nameEn": "Pomegranate Molasses",
       "descriptionEn": "",
       "priceEgp": 10,
@@ -246,12 +247,12 @@
       "available": true,
       "sort": 7,
       "createdAt": "2026-05-05T01:41:11.646Z",
-      "updatedAt": "2026-05-05T03:46:00.993Z",
-      "sku": "MZ-ADD-0008"
+      "updatedAt": "2026-05-05T03:46:00.993Z"
     },
     {
       "id": "itm_bKVqhips",
       "categoryId": "cat_sides",
+      "sku": "MZ-ADD-0009",
       "nameEn": "Tahini Lemon",
       "descriptionEn": "",
       "priceEgp": 8,
@@ -260,12 +261,12 @@
       "available": true,
       "sort": 6,
       "createdAt": "2026-05-05T01:42:12.436Z",
-      "updatedAt": "2026-05-05T03:46:00.993Z",
-      "sku": "MZ-ADD-0009"
+      "updatedAt": "2026-05-05T03:46:00.993Z"
     },
     {
       "id": "itm_8UoJckPW",
       "categoryId": "cat_sides",
+      "sku": "MZ-ADD-0010",
       "nameEn": "Lemon Mint",
       "descriptionEn": "",
       "priceEgp": 8,
@@ -277,12 +278,12 @@
       "available": true,
       "sort": 10,
       "createdAt": "2026-05-05T01:45:11.401Z",
-      "updatedAt": "2026-05-05T03:46:00.993Z",
-      "sku": "MZ-ADD-0010"
+      "updatedAt": "2026-05-05T03:46:00.993Z"
     },
     {
       "id": "itm_1XDtkoPk",
       "categoryId": "cat_stuffy",
+      "sku": "MZ-STU-0003",
       "nameEn": "Eggplant Dance",
       "descriptionEn": "",
       "priceEgp": 17,
@@ -293,12 +294,12 @@
       "available": true,
       "sort": 4,
       "createdAt": "2026-05-05T03:05:33.495Z",
-      "updatedAt": "2026-05-05T03:46:00.993Z",
-      "sku": "MZ-STU-0003"
+      "updatedAt": "2026-05-05T03:46:00.993Z"
     },
     {
       "id": "itm_58d_MhQ9",
       "categoryId": "cat_stuffy",
+      "sku": "MZ-STU-0004",
       "nameEn": "Zucchini on The Road",
       "descriptionEn": "",
       "priceEgp": 17,
@@ -310,12 +311,12 @@
       "available": true,
       "sort": 4,
       "createdAt": "2026-05-05T03:06:08.818Z",
-      "updatedAt": "2026-05-05T03:46:00.993Z",
-      "sku": "MZ-STU-0004"
+      "updatedAt": "2026-05-05T03:46:00.993Z"
     },
     {
       "id": "itm_K6MVkHOd",
       "categoryId": "cat_stuffy",
+      "sku": "MZ-STU-0005",
       "nameEn": "Onions Bomb",
       "descriptionEn": "",
       "priceEgp": 15,
@@ -327,12 +328,12 @@
       "available": true,
       "sort": 9,
       "createdAt": "2026-05-05T03:07:46.209Z",
-      "updatedAt": "2026-05-05T03:46:00.993Z",
-      "sku": "MZ-STU-0005"
+      "updatedAt": "2026-05-05T03:46:00.993Z"
     },
     {
       "id": "itm_-qsNBHbf",
       "categoryId": "cat_stuffy",
+      "sku": "MZ-STU-0006",
       "nameEn": "Crazy Tomato",
       "descriptionEn": "",
       "priceEgp": 20,
@@ -344,12 +345,12 @@
       "available": true,
       "sort": 5,
       "createdAt": "2026-05-05T03:08:12.194Z",
-      "updatedAt": "2026-05-05T03:46:00.993Z",
-      "sku": "MZ-STU-0006"
+      "updatedAt": "2026-05-05T03:46:00.993Z"
     },
     {
       "id": "itm_POMJQL3z",
       "categoryId": "cat_stuffy",
+      "sku": "MZ-STU-0007",
       "nameEn": "Potato Scope",
       "descriptionEn": "",
       "priceEgp": 17,
@@ -361,12 +362,12 @@
       "available": true,
       "sort": 6,
       "createdAt": "2026-05-05T03:08:53.116Z",
-      "updatedAt": "2026-05-05T03:46:00.993Z",
-      "sku": "MZ-STU-0007"
+      "updatedAt": "2026-05-05T03:46:00.993Z"
     },
     {
       "id": "itm_xjcnfl6j",
       "categoryId": "cat_stuffy",
+      "sku": "MZ-STU-0008",
       "nameEn": "Noway Peppers",
       "descriptionEn": "",
       "priceEgp": 17,
@@ -379,12 +380,12 @@
       "available": true,
       "sort": 8,
       "createdAt": "2026-05-05T03:09:40.186Z",
-      "updatedAt": "2026-05-05T03:46:00.993Z",
-      "sku": "MZ-STU-0008"
+      "updatedAt": "2026-05-05T03:46:00.993Z"
     },
     {
       "id": "itm_S_vXN0Y-",
       "categoryId": "cat_stuffy",
+      "sku": "MZ-STU-0009",
       "nameEn": "Mama’s Mumbar",
       "descriptionEn": "",
       "priceEgp": 25,
@@ -396,8 +397,7 @@
       "available": true,
       "sort": 3,
       "createdAt": "2026-05-05T03:10:20.827Z",
-      "updatedAt": "2026-05-05T03:46:00.993Z",
-      "sku": "MZ-STU-0009"
+      "updatedAt": "2026-05-05T03:46:00.993Z"
     }
   ]
 }

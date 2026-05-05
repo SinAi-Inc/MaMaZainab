@@ -99,7 +99,7 @@ body {
 ::-webkit-scrollbar-thumb:hover { background: #b7b7b0; }
 ::-webkit-scrollbar-track { background: transparent; }
 
-/* ---------- Print layout (A4 portrait) ---------- */
+/* ---------- Print layout (A4 portrait — dedicated /menu/print page) ---------- */
 .print-sheet {
   width: 210mm;
   min-height: 297mm;
@@ -107,9 +107,15 @@ body {
   overflow: hidden;
 }
 
+/* Hidden on screen, visible only when printing */
+.print-only { display: none; }
+
 @page {
   size: A4 portrait;
-  margin: 0;
+  /* 10mm keeps content away from the physical printer clip zone.
+     Zero margin caused logos and footers to be clipped on real printers
+     and in browser print-to-PDF. */
+  margin: 10mm 12mm;
 }
 
 @media print {
@@ -128,16 +134,111 @@ body {
     margin: 0 !important;
     box-shadow: none !important;
     width: 100% !important;
-    min-height: 100vh !important;
+    /* Let content grow across pages — don't lock to one viewport height */
+    min-height: unset !important;
   }
-  /* Avoid content cuts mid-row */
-  section, li, article, header, footer {
+
+  /* ---- /menu/print dedicated print page ---- */
+
+  /* Header: shrink logo + tighten padding so it doesn't eat half of page 1.
+     break-after: avoid keeps at least the first category on the same page. */
+  .print-page-header {
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+    break-after: avoid !important;
+    page-break-after: avoid !important;
+    padding-top: 0 !important;
+    padding-bottom: 4mm !important;
+  }
+  /* Reduce logo from h-32 (128px ≈ 34mm) to ~60px (≈16mm) — saves ~18mm */
+  .print-logo {
+    height: 60px !important;
+  }
+
+  /* Body columns: fill top→bottom, don't balance; protect orphans/widows */
+  .print-page-body {
+    padding-top: 5mm !important;
+    padding-bottom: 5mm !important;
+    column-fill: auto;
+    orphans: 3;
+    widows: 3;
+  }
+
+  /* Footer: never break internally; avoid being stranded alone at top of page */
+  .print-page-footer {
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+    break-before: avoid !important;
+    page-break-before: avoid !important;
+  }
+
+  /* Avoid content cuts mid-section/item */
+  section, li, article {
     break-inside: avoid;
+    page-break-inside: avoid;
   }
-  /* Ensure colors print */
+  /* Ensure colors and backgrounds print faithfully */
   * {
     -webkit-print-color-adjust: exact !important;
     print-color-adjust: exact !important;
   }
+
+  /* ---- Menu preview page (/menu/preview) — clean print output ---- */
+
+  /* Show the print-only compact header */
+  .print-only { display: block !important; }
+
+  /* Hide the plaid hero, dark footer, and decorative absolute layers */
+  .menu-preview-hero,
+  .menu-preview-footer { display: none !important; }
+  .menu-deco { display: none !important; }
+
+  /* Strip all backgrounds from the body section */
+  .menu-preview-body {
+    background: white !important;
+    background-image: none !important;
+    position: static !important;
+    overflow: visible !important;
+  }
+
+  /* Inner content container:
+     - remove the pl-20 (80px) left padding that exists only for the green strip
+     - remove large vertical padding  */
+  .menu-preview-content {
+    max-width: 100% !important;
+    padding: 0 0 8mm !important;
+    margin: 0 !important;
+  }
+
+  /* Category sections: don't split across pages */
+  .menu-preview-body section {
+    break-inside: avoid;
+    page-break-inside: avoid;
+    margin-bottom: 5mm;
+  }
+
+  /* Items grid: always 2 columns, tighter gaps */
+  .menu-preview-items {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    gap: 2mm 8mm !important;
+  }
+
+  /* Item images: shrink to small thumbnail */
+  .menu-preview-body article img {
+    width: 11mm !important;
+    height: 11mm !important;
+    border-radius: 1.5mm !important;
+    flex-shrink: 0;
+  }
+
+  /* Hide badges — they add height and colour noise on paper */
+  .menu-preview-badges { display: none !important; }
+
+  /* Section headings / item text: scale down for A4 */
+  .menu-preview-body h2  { font-size: 14pt !important; margin-bottom: 1.5mm !important; }
+  .menu-preview-body h3  { font-size: 10pt !important; }
+  .menu-preview-body p   { font-size: 8.5pt !important; margin-top: 0.5mm !important; }
+  .menu-preview-body .space-y-12 > * + * { margin-top: 6mm !important; }
 }
 

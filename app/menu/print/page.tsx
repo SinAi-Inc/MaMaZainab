@@ -53,12 +53,12 @@ export default async function MenuPrintPage() {
       {/* Printable sheet */}
       <article className="print-sheet mx-auto bg-white shadow-lg my-6">
         {/* Header */}
-        <header className="text-center pt-12 pb-6 px-12 border-b-4 border-brand-green relative">
+        <header className="print-page-header text-center pt-8 pb-5 px-12 border-b-4 border-brand-green relative">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src="/brand/logo-primary.png"
             alt="MaMa Zainab"
-            className="mx-auto h-32 w-auto object-contain"
+            className="mx-auto h-32 print-logo w-auto object-contain"
           />
           <p className="mt-3 text-sm tracking-[0.4em] uppercase text-brand-green-deep font-semibold">
             Menu
@@ -70,7 +70,7 @@ export default async function MenuPrintPage() {
         </header>
 
         {/* Body - two columns */}
-        <div className="px-12 py-10 columns-2 gap-10 [column-rule:1px_dashed_var(--color-border-default)]">
+        <div className="print-page-body px-12 py-8 columns-2 gap-10 [column-rule:1px_dashed_var(--color-border-default)]">
           {cats.map(({ cat, items }) => (
             <section key={cat.id} className="break-inside-avoid mb-8">
               <h2 className="font-display text-2xl text-brand-ink leading-none mb-1">
@@ -112,7 +112,7 @@ export default async function MenuPrintPage() {
         </div>
 
         {/* Footer */}
-        <footer className="px-12 py-6 bg-brand-ink text-white text-center">
+        <footer className="print-page-footer px-12 py-6 bg-brand-ink text-white text-center">
           <div className="font-display text-xl tracking-wide">MaMa Zainab</div>
           <div className="text-[10px] opacity-70 mt-1 tracking-[0.2em] uppercase">
             Alexandria · Est. 2026

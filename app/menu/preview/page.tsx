@@ -18,8 +18,15 @@ export default async function MenuPreviewPage() {
 
   return (
     <div className="min-h-screen bg-brand-cream">
+
+      {/* Print-only compact title — replaces the hero when printing */}
+      <div className="print-only" style={{ padding: "10mm 12mm 5mm", borderBottom: "3px solid #1B9B00" }}>
+        <div style={{ fontFamily: "var(--font-brand, serif)", fontSize: "26pt", color: "#2C292A", lineHeight: 1 }}>MaMa Zainab</div>
+        <div style={{ fontSize: "8pt", letterSpacing: "0.3em", textTransform: "uppercase", color: "#169216", marginTop: "3mm" }}>Menu · Alexandria · Est. 2026</div>
+      </div>
+
       {/* Hero */}
-      <header className="relative plaid overflow-hidden">
+      <header className="menu-preview-hero relative plaid overflow-hidden">
         {/* Dark vignette overlay — fades the plaid so text is readable */}
         <div
           className="absolute inset-0 pointer-events-none"
@@ -46,12 +53,12 @@ export default async function MenuPreviewPage() {
       </header>
 
       {/* Menu */}
-      <div className="relative">
+      <div className="menu-preview-body relative">
         {/* Very faint plaid wash behind menu content */}
-        <div className="absolute inset-0 plaid opacity-[0.07] pointer-events-none" />
+        <div className="menu-deco absolute inset-0 plaid opacity-[0.07] pointer-events-none" />
         {/* Left decorative green strip — matches the solid-green vertical band in the plaid */}
-        <div className="absolute left-0 inset-y-0 w-14 bg-brand-green opacity-40 pointer-events-none" />
-        <div className="relative z-10 max-w-5xl mx-auto px-6 py-12 space-y-12 pl-20">
+        <div className="menu-deco absolute left-0 inset-y-0 w-14 bg-brand-green opacity-40 pointer-events-none" />
+        <div className="menu-preview-content relative z-10 max-w-5xl mx-auto px-6 py-12 space-y-12 pl-20">
         {cats.map((cat) => {
           const items = state.items
             .filter((i) => i.categoryId === cat.id && i.available)
@@ -73,7 +80,7 @@ export default async function MenuPreviewPage() {
                 )}
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-6">
+              <div className="menu-preview-items grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-6">
                 {items.map((item) => (
                   <article key={item.id} className="flex gap-4">
                     {item.imageUrl && (
@@ -99,7 +106,7 @@ export default async function MenuPreviewPage() {
                         </p>
                       )}
                       {item.badges.length > 0 && (
-                        <div className="flex flex-wrap gap-1.5 mt-2">
+                        <div className="menu-preview-badges flex flex-wrap gap-1.5 mt-2">
                           {item.badges.map((b) => (
                             <Badge key={b} kind={b} />
                           ))}
@@ -119,7 +126,7 @@ export default async function MenuPreviewPage() {
       </div>
       </div>
 
-      <footer className="bg-brand-ink text-white text-center py-6 text-xs">
+      <footer className="menu-preview-footer bg-brand-ink text-white text-center py-6 text-xs">
         <div className="font-display text-xl tracking-wide">MaMa Zainab</div>
         <div className="opacity-70 mt-1">Alexandria · EST. 2026</div>
         <div className="mt-3">
