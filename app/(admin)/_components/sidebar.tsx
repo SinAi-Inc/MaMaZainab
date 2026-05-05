@@ -26,7 +26,7 @@ const NAV: { section: string; items: NavItem[] }[] = [
   {
     section: "Overview",
     items: [
-      { href: "/dashboard", label: "Dashboard", icon: LayoutDashboard, status: "soon" },
+      { href: "/dashboard", label: "Dashboard", icon: LayoutDashboard, status: "active" },
     ],
   },
   {

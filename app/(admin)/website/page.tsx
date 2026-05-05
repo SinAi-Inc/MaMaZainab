@@ -22,7 +22,8 @@ const VIEWPORTS: Viewport[] = [
 
 const PAGES = [
   { href: "/coming-soon", label: "Coming Soon" },
-  { href: "/menu/preview", label: "Menu" },
+  { href: "/menu/preview", label: "Menu (Preview)" },
+  { href: "/menu/print", label: "Menu (Print / PDF)" },
 ];
 
 export default function WebsitePreviewPage() {

@@ -1,5 +1,7 @@
 import { Sparkles, Wand2, Image, Type, Palette } from "lucide-react";
 import { Card, CardBody } from "@/components/ui/card";
+import { readCharacters } from "@/lib/characters/store";
+import { CharacterPromptTool } from "./_components/character-prompt-tool";
 
 type AITool = {
   name: string;
@@ -15,7 +17,7 @@ const TOOLS: AITool[] = [
     description:
       "Generate AI prompts with locked anchor blocks for Mama Zainab, ZuZu, Wong, and Ghost characters",
     icon: Type,
-    status: "planned",
+    status: "ready",
     category: "content",
   },
   {
@@ -93,7 +95,8 @@ function ToolCard({ tool }: { tool: AITool }) {
   );
 }
 
-export default function AIGeneratorsPage() {
+export default async function AIGeneratorsPage() {
+  const { characters } = await readCharacters();
   const contentTools = TOOLS.filter((t) => t.category === "content");
   const designTools = TOOLS.filter((t) => t.category === "design");
   const mediaTools = TOOLS.filter((t) => t.category === "media");
@@ -121,9 +124,13 @@ export default function AIGeneratorsPage() {
             Content
           </h3>
           <div className="space-y-3">
-            {contentTools.map((tool) => (
-              <ToolCard key={tool.name} tool={tool} />
-            ))}
+            {contentTools.map((tool) =>
+              tool.name === "Character Prompt Generator" ? (
+                <CharacterPromptTool key={tool.name} characters={characters} />
+              ) : (
+                <ToolCard key={tool.name} tool={tool} />
+              )
+            )}
           </div>
         </div>
       )}
