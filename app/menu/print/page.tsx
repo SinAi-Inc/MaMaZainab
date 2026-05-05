@@ -24,7 +24,7 @@ export default async function MenuPrintPage() {
     .filter((g) => g.items.length > 0);
 
   return (
-    <div className="print-root bg-brand-cream min-h-screen">
+    <div className="print-root bg-brand-cream min-h-screen" id="print-root">
       <PrintTrigger />
 
       {/* On-screen toolbar (hidden when printing) */}
@@ -69,7 +69,7 @@ export default async function MenuPrintPage() {
           <div className="absolute left-0 right-0 -bottom-1 mx-auto w-24 h-1.5 bg-brand-yellow" />
         </header>
 
-        {/* Body - two columns */}
+        {/* Body - two columns on screen, CSS Grid in print */}
         <div className="print-page-body px-12 py-8 columns-2 gap-10 [column-rule:1px_dashed_var(--color-border-default)]">
           {cats.map(({ cat, items }) => (
             <section key={cat.id} className="break-inside-avoid mb-8">
@@ -109,16 +109,17 @@ export default async function MenuPrintPage() {
               </ul>
             </section>
           ))}
-        </div>
 
-        {/* Footer */}
-        <footer className="print-page-footer px-12 py-6 bg-brand-ink text-white text-center">
-          <div className="font-display text-xl tracking-wide">MaMa Zainab</div>
-          <div className="text-[10px] opacity-70 mt-1 tracking-[0.2em] uppercase">
-            Alexandria · Est. 2026
-          </div>
-          <div className="mt-3 inline-block h-1 w-12 bg-brand-yellow rounded" />
-        </footer>
+          {/* Footer INSIDE the grid so it stays with content as a full-width last row.
+              Outside the grid, break-before:avoid is unreliable in Chrome. */}
+          <footer className="print-page-footer px-0 py-6 bg-brand-ink text-white text-center">
+            <div className="font-display text-xl tracking-wide">MaMa Zainab</div>
+            <div className="text-[10px] opacity-70 mt-1 tracking-[0.2em] uppercase">
+              Alexandria · Est. 2026
+            </div>
+            <div className="mt-3 inline-block h-1 w-12 bg-brand-yellow rounded" />
+          </footer>
+        </div>
       </article>
     </div>
   );

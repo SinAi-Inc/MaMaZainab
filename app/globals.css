@@ -127,8 +127,11 @@ body {
   .no-print {
     display: none !important;
   }
+  /* Kill min-h-screen on the outer wrapper — in print 100vh = one page height,
+     so min-h-screen reserves an entire blank page before content starts */
   .print-root {
     background: #ffffff !important;
+    min-height: 0 !important;
   }
   .print-sheet {
     margin: 0 !important;
@@ -176,14 +179,16 @@ body {
     widows: 3;
   }
 
-  /* Footer: never break internally; avoid being stranded alone at top of page */
+  /* Footer: inside the grid as last child, spans both columns.
+     Being in the same grid formatting context makes break-before:avoid
+     reliable (unlike when it was a sibling block after the grid). */
   .print-page-footer {
-    /* Span both grid columns so it sits full-width below the menu grid */
     grid-column: 1 / -1 !important;
     break-inside: avoid !important;
     page-break-inside: avoid !important;
     break-before: avoid !important;
     page-break-before: avoid !important;
+    padding: 5mm 8mm !important;
   }
 
   /* Avoid content cuts mid-section/item */
