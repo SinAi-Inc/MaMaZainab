@@ -112,11 +112,11 @@ body {
   a true 45° diagonal path that mirrors the tilt perfectly (symmetric).
 */
 @keyframes zuzu-pop {
-  0%         { transform: translate(115%, 115%) rotate(45deg); }
-  4.5%       { transform: translate(0%,   0%)   rotate(45deg); }
-  21%        { transform: translate(0%,   0%)   rotate(45deg); }
-  26%        { transform: translate(115%, 115%) rotate(45deg); }
-  100%       { transform: translate(115%, 115%) rotate(45deg); }
+  0%         { transform: translateY(115%); }
+  4.5%       { transform: translateY(0);    }
+  21%        { transform: translateY(0);    }
+  26%        { transform: translateY(115%); }
+  100%       { transform: translateY(115%); }
 }
 
 /* Scattered food items bob gently (rotation lives on the parent wrapper) */
