@@ -137,6 +137,8 @@ export type Shot = z.infer<typeof ShotSchema>;
 /* ---- Take ---------------------------------------------------- */
 
 export const VideoModelSchema = z.enum([
+  "nvidia-cosmos",
+  "nvidia-wan",
   "veo-3.1",
   "veo-3",
   "runway-gen4",
@@ -153,6 +155,8 @@ export const MODEL_META: Record<
   VideoModel,
   { label: string; vendor: string; color: string }
 > = {
+  "nvidia-cosmos": { label: "Cosmos 2.0", vendor: "NVIDIA", color: "#76B900" },
+  "nvidia-wan": { label: "Wan 2.1", vendor: "NVIDIA NIM", color: "#76B900" },
   "veo-3.1": { label: "Veo 3.1", vendor: "Google", color: "#4285F4" },
   "veo-3": { label: "Veo 3", vendor: "Google", color: "#4285F4" },
   "runway-gen4": { label: "Runway Gen-4", vendor: "Runway", color: "#000000" },

@@ -1,6 +1,6 @@
 import { readMenu } from "@/lib/menu/store";
 import { formatEGP } from "@/lib/utils";
-import { PrintTrigger } from "./_print-trigger";
+import { PrintTrigger, PrintButton } from "./_print-trigger";
 
 export const dynamic = "force-dynamic";
 
@@ -124,15 +124,4 @@ export default async function MenuPrintPage() {
   );
 }
 
-function PrintButton() {
-  return (
-    <form action="javascript:window.print()">
-      <button
-        type="submit"
-        className="px-3 py-1.5 text-sm rounded bg-brand-yellow text-brand-ink font-semibold hover:bg-yellow-300"
-      >
-        Print / Save as PDF
-      </button>
-    </form>
-  );
-}
+

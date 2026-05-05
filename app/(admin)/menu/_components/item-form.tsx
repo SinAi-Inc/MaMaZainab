@@ -6,6 +6,7 @@ import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
 import { Upload, X } from "lucide-react";
+import { SkuBarcode } from "@/components/ui/sku-barcode";
 import {
   ItemInputSchema,
   type ItemInput,
@@ -251,6 +252,21 @@ export function ItemForm({
           </div>
         </CardBody>
       </Card>
+
+      {/* SKU + Barcode (read-only) — shown for existing items */}
+      {existing?.sku && (
+        <Card>
+          <CardBody className="space-y-3">
+            <div>
+              <Label>SKU / Barcode</Label>
+              <p className="text-xs text-muted mb-3">
+                Auto-generated tracking code. Use this to track the item in the kiosk, POS, or ordering app.
+              </p>
+              <SkuBarcode sku={existing.sku} itemName={existing.nameEn} variant="full" />
+            </div>
+          </CardBody>
+        </Card>
+      )}
 
       <div className="flex items-center justify-end gap-2">
         <Button type="button" variant="ghost" onClick={() => router.push("/menu")}>

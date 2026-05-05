@@ -42,47 +42,54 @@
     {
       "id": "itm_stuffy_grape",
       "categoryId": "cat_stuffy",
-      "nameEn": "Grape Leaf Rolls",
+      "nameEn": "Classic Grapes",
       "descriptionEn": "Vine leaves rolled with rice, herbs, and a hint of lemon.",
-      "priceEgp": 95,
-      "imageUrl": "",
+      "priceEgp": 20,
+      "imageUrl": "/uploads/menu/kn1BmhVqPV.jpg",
       "badges": [
-        "bestseller"
-      ],
-      "available": true,
-      "sort": 1,
-      "createdAt": "2026-05-03T20:23:46.882Z",
-      "updatedAt": "2026-05-03T20:30:16.880Z"
-    },
-    {
-      "id": "itm_stuffy_cabbage",
-      "categoryId": "cat_stuffy",
-      "nameEn": "Cabbage Rolls",
-      "descriptionEn": "Cabbage rolls, slow-cooked in tomato broth.",
-      "priceEgp": 90,
-      "imageUrl": "",
-      "badges": [
-        "chefs_pick"
-      ],
-      "available": true,
-      "sort": 2,
-      "createdAt": "2026-05-03T20:23:46.882Z",
-      "updatedAt": "2026-05-03T20:23:46.882Z"
-    },
-    {
-      "id": "itm_side_salad",
-      "categoryId": "cat_sides",
-      "nameEn": "Country Salad",
-      "descriptionEn": "Fresh tomato, cucumber, onion, parsley.",
-      "priceEgp": 30,
-      "imageUrl": "",
-      "badges": [
+        "bestseller",
         "vegan"
       ],
       "available": true,
       "sort": 1,
       "createdAt": "2026-05-03T20:23:46.882Z",
-      "updatedAt": "2026-05-03T20:23:46.882Z"
+      "updatedAt": "2026-05-05T03:46:00.992Z",
+      "sku": "MZ-STU-0001"
+    },
+    {
+      "id": "itm_stuffy_cabbage",
+      "categoryId": "cat_stuffy",
+      "nameEn": "Emperor’s Cabbage",
+      "descriptionEn": "Cabbage rolls, slow-cooked in tomato broth.",
+      "priceEgp": 20,
+      "imageUrl": "/uploads/menu/2Nt2oiWzAK.jpg",
+      "badges": [
+        "chefs_pick",
+        "vegan",
+        "bestseller"
+      ],
+      "available": true,
+      "sort": 2,
+      "createdAt": "2026-05-03T20:23:46.882Z",
+      "updatedAt": "2026-05-05T03:46:00.992Z",
+      "sku": "MZ-STU-0002"
+    },
+    {
+      "id": "itm_side_salad",
+      "categoryId": "cat_sides",
+      "nameEn": "Mama Zainab's Special Sauce",
+      "descriptionEn": "Fresh tomato, cucumber, onion, parsley.",
+      "priceEgp": 10,
+      "imageUrl": "",
+      "badges": [
+        "chefs_pick",
+        "limited"
+      ],
+      "available": true,
+      "sort": 1,
+      "createdAt": "2026-05-03T20:23:46.882Z",
+      "updatedAt": "2026-05-05T03:46:00.993Z",
+      "sku": "MZ-ADD-0001"
     },
     {
       "id": "itm_drink_hibiscus",
@@ -90,12 +97,13 @@
       "nameEn": "Chilled KarKadeh",
       "descriptionEn": "Chilled hibiscus, lightly sweet.",
       "priceEgp": 45,
-      "imageUrl": "",
+      "imageUrl": "/uploads/menu/rql1ELnbW5.jpg",
       "badges": [],
       "available": true,
       "sort": 1,
       "createdAt": "2026-05-03T20:23:46.882Z",
-      "updatedAt": "2026-05-03T22:50:27.132Z"
+      "updatedAt": "2026-05-05T03:46:00.993Z",
+      "sku": "MZ-DRI-0001"
     },
     {
       "id": "itm_9Ybo7jaK",
@@ -103,29 +111,293 @@
       "nameEn": "Zaktata",
       "descriptionEn": "a blend of ground barley, fresh milk, and pure honey",
       "priceEgp": 65,
-      "imageUrl": "",
+      "imageUrl": "/uploads/menu/5eQ2r3zLV4.jpg",
       "badges": [
-        "bestseller"
+        "bestseller",
+        "chefs_pick"
       ],
       "available": true,
       "sort": 1,
       "createdAt": "2026-05-03T22:44:32.262Z",
-      "updatedAt": "2026-05-03T22:44:32.262Z"
+      "updatedAt": "2026-05-05T03:46:00.993Z",
+      "sku": "MZ-DES-0001"
     },
     {
       "id": "itm_3mNDEwd2",
       "categoryId": "cat_drinks",
       "nameEn": "Breeze",
       "descriptionEn": "a refreshing drink made from fresh mint, lemon juice, and a sweetener, often prepared as a simple syrup or blended directly for a slushy consistency.",
-      "priceEgp": 65,
-      "imageUrl": "",
+      "priceEgp": 45,
+      "imageUrl": "/uploads/menu/YhzNThyRgl.jpg",
       "badges": [
         "bestseller"
       ],
       "available": true,
       "sort": 2,
       "createdAt": "2026-05-03T22:53:24.330Z",
-      "updatedAt": "2026-05-03T22:53:24.330Z"
+      "updatedAt": "2026-05-05T03:46:00.993Z",
+      "sku": "MZ-DRI-0002"
+    },
+    {
+      "id": "itm_ZF2PCQv5",
+      "categoryId": "cat_sides",
+      "nameEn": "Garlic Yogurt",
+      "descriptionEn": "",
+      "priceEgp": 8,
+      "imageUrl": "",
+      "badges": [
+        "new"
+      ],
+      "available": true,
+      "sort": 2,
+      "createdAt": "2026-05-05T01:33:41.344Z",
+      "updatedAt": "2026-05-05T03:46:00.993Z",
+      "sku": "MZ-ADD-0002"
+    },
+    {
+      "id": "itm_zmv8hJ3O",
+      "categoryId": "cat_sides",
+      "nameEn": "Smoked Paprika",
+      "descriptionEn": "",
+      "priceEgp": 10,
+      "imageUrl": "",
+      "badges": [
+        "spicy"
+      ],
+      "available": true,
+      "sort": 5,
+      "createdAt": "2026-05-05T01:34:21.329Z",
+      "updatedAt": "2026-05-05T03:46:00.993Z",
+      "sku": "MZ-ADD-0003"
+    },
+    {
+      "id": "itm_WT8fHuUS",
+      "categoryId": "cat_sides",
+      "nameEn": "Ranch",
+      "descriptionEn": "",
+      "priceEgp": 8,
+      "imageUrl": "",
+      "badges": [],
+      "available": true,
+      "sort": 9,
+      "createdAt": "2026-05-05T01:34:54.243Z",
+      "updatedAt": "2026-05-05T03:46:00.993Z",
+      "sku": "MZ-ADD-0004"
+    },
+    {
+      "id": "itm_7b3gSQrq",
+      "categoryId": "cat_sides",
+      "nameEn": "Honey Mustard",
+      "descriptionEn": "",
+      "priceEgp": 8,
+      "imageUrl": "",
+      "badges": [
+        "limited"
+      ],
+      "available": true,
+      "sort": 4,
+      "createdAt": "2026-05-05T01:35:19.453Z",
+      "updatedAt": "2026-05-05T03:46:00.993Z",
+      "sku": "MZ-ADD-0005"
+    },
+    {
+      "id": "itm_w8zVv8Vt",
+      "categoryId": "cat_sides",
+      "nameEn": "Lemon Pepper",
+      "descriptionEn": "",
+      "priceEgp": 8,
+      "imageUrl": "",
+      "badges": [
+        "spicy",
+        "vegan"
+      ],
+      "available": true,
+      "sort": 2,
+      "createdAt": "2026-05-05T01:36:00.865Z",
+      "updatedAt": "2026-05-05T03:46:00.993Z",
+      "sku": "MZ-ADD-0006"
+    },
+    {
+      "id": "itm_BxSaRyI7",
+      "categoryId": "cat_sides",
+      "nameEn": "Creamy Garlic",
+      "descriptionEn": "",
+      "priceEgp": 8,
+      "imageUrl": "",
+      "badges": [
+        "new"
+      ],
+      "available": true,
+      "sort": 8,
+      "createdAt": "2026-05-05T01:36:30.478Z",
+      "updatedAt": "2026-05-05T03:46:00.993Z",
+      "sku": "MZ-ADD-0007"
+    },
+    {
+      "id": "itm_bF8L5LsH",
+      "categoryId": "cat_sides",
+      "nameEn": "Pomegranate Molasses",
+      "descriptionEn": "",
+      "priceEgp": 10,
+      "imageUrl": "",
+      "badges": [
+        "vegan"
+      ],
+      "available": true,
+      "sort": 7,
+      "createdAt": "2026-05-05T01:41:11.646Z",
+      "updatedAt": "2026-05-05T03:46:00.993Z",
+      "sku": "MZ-ADD-0008"
+    },
+    {
+      "id": "itm_bKVqhips",
+      "categoryId": "cat_sides",
+      "nameEn": "Tahini Lemon",
+      "descriptionEn": "",
+      "priceEgp": 8,
+      "imageUrl": "",
+      "badges": [],
+      "available": true,
+      "sort": 6,
+      "createdAt": "2026-05-05T01:42:12.436Z",
+      "updatedAt": "2026-05-05T03:46:00.993Z",
+      "sku": "MZ-ADD-0009"
+    },
+    {
+      "id": "itm_8UoJckPW",
+      "categoryId": "cat_sides",
+      "nameEn": "Lemon Mint",
+      "descriptionEn": "",
+      "priceEgp": 8,
+      "imageUrl": "",
+      "badges": [
+        "vegan",
+        "bestseller"
+      ],
+      "available": true,
+      "sort": 10,
+      "createdAt": "2026-05-05T01:45:11.401Z",
+      "updatedAt": "2026-05-05T03:46:00.993Z",
+      "sku": "MZ-ADD-0010"
+    },
+    {
+      "id": "itm_1XDtkoPk",
+      "categoryId": "cat_stuffy",
+      "nameEn": "Eggplant Dance",
+      "descriptionEn": "",
+      "priceEgp": 17,
+      "imageUrl": "/uploads/menu/6RftNOulyf.jpg",
+      "badges": [
+        "vegan"
+      ],
+      "available": true,
+      "sort": 4,
+      "createdAt": "2026-05-05T03:05:33.495Z",
+      "updatedAt": "2026-05-05T03:46:00.993Z",
+      "sku": "MZ-STU-0003"
+    },
+    {
+      "id": "itm_58d_MhQ9",
+      "categoryId": "cat_stuffy",
+      "nameEn": "Zucchini on The Road",
+      "descriptionEn": "",
+      "priceEgp": 17,
+      "imageUrl": "/uploads/menu/Gzoj4h3ROk.jpg",
+      "badges": [
+        "vegan",
+        "limited"
+      ],
+      "available": true,
+      "sort": 4,
+      "createdAt": "2026-05-05T03:06:08.818Z",
+      "updatedAt": "2026-05-05T03:46:00.993Z",
+      "sku": "MZ-STU-0004"
+    },
+    {
+      "id": "itm_K6MVkHOd",
+      "categoryId": "cat_stuffy",
+      "nameEn": "Onions Bomb",
+      "descriptionEn": "",
+      "priceEgp": 15,
+      "imageUrl": "/uploads/menu/uhQMV4_R8I.jpg",
+      "badges": [
+        "vegan",
+        "new"
+      ],
+      "available": true,
+      "sort": 9,
+      "createdAt": "2026-05-05T03:07:46.209Z",
+      "updatedAt": "2026-05-05T03:46:00.993Z",
+      "sku": "MZ-STU-0005"
+    },
+    {
+      "id": "itm_-qsNBHbf",
+      "categoryId": "cat_stuffy",
+      "nameEn": "Crazy Tomato",
+      "descriptionEn": "",
+      "priceEgp": 20,
+      "imageUrl": "/uploads/menu/9d5bhg3w0u.jpg",
+      "badges": [
+        "vegan",
+        "chefs_pick"
+      ],
+      "available": true,
+      "sort": 5,
+      "createdAt": "2026-05-05T03:08:12.194Z",
+      "updatedAt": "2026-05-05T03:46:00.993Z",
+      "sku": "MZ-STU-0006"
+    },
+    {
+      "id": "itm_POMJQL3z",
+      "categoryId": "cat_stuffy",
+      "nameEn": "Potato Scope",
+      "descriptionEn": "",
+      "priceEgp": 17,
+      "imageUrl": "/uploads/menu/JsMhJzBLwC.jpg",
+      "badges": [
+        "vegan",
+        "new"
+      ],
+      "available": true,
+      "sort": 6,
+      "createdAt": "2026-05-05T03:08:53.116Z",
+      "updatedAt": "2026-05-05T03:46:00.993Z",
+      "sku": "MZ-STU-0007"
+    },
+    {
+      "id": "itm_xjcnfl6j",
+      "categoryId": "cat_stuffy",
+      "nameEn": "Noway Peppers",
+      "descriptionEn": "",
+      "priceEgp": 17,
+      "imageUrl": "/uploads/menu/jfPjQtYb6A.jpg",
+      "badges": [
+        "spicy",
+        "vegan",
+        "bestseller"
+      ],
+      "available": true,
+      "sort": 8,
+      "createdAt": "2026-05-05T03:09:40.186Z",
+      "updatedAt": "2026-05-05T03:46:00.993Z",
+      "sku": "MZ-STU-0008"
+    },
+    {
+      "id": "itm_S_vXN0Y-",
+      "categoryId": "cat_stuffy",
+      "nameEn": "Mama’s Mumbar",
+      "descriptionEn": "",
+      "priceEgp": 25,
+      "imageUrl": "/uploads/menu/aGmh7eivS_.jpg",
+      "badges": [
+        "limited",
+        "chefs_pick"
+      ],
+      "available": true,
+      "sort": 3,
+      "createdAt": "2026-05-05T03:10:20.827Z",
+      "updatedAt": "2026-05-05T03:46:00.993Z",
+      "sku": "MZ-STU-0009"
     }
   ]
 }

@@ -1,0 +1,232 @@
+import { promises as fs } from "node:fs";
+import path from "node:path";
+import { CharacterStateSchema, type CharacterState } from "./schema";
+
+const DATA_DIR = path.join(process.cwd(), "data");
+const FILE = path.join(DATA_DIR, "characters.json");
+
+async function ensureDir() {
+  await fs.mkdir(DATA_DIR, { recursive: true });
+}
+
+async function fileExists() {
+  try { await fs.access(FILE); return true; }
+  catch { return false; }
+}
+
+const now = () => new Date().toISOString();
+
+/* ---- Seed --------------------------------------------------- */
+/* Canonical data from 02_Characters/CHARACTERS.md              */
+
+const SEED: CharacterState = {
+  version: 1,
+  characters: [
+    {
+      id: "chr_mama_zainab",
+      name: "MaMa Zainab",
+      subtitle: "the heart",
+      role: "Brand face — village matriarch & master cook",
+      visibility: "always-on",
+      anchorBlock: `Egyptian woman in her late 50s, warm kind face, soft dark eyes, gentle smile lines,
+olive skin, headscarf in soft cream tone, wearing a GREEN-base plaid apron with
+yellow stripes and white weft (PLAID v2), simple gold hoop earrings, silver wedding
+band, flour-dusted hands, dignified posture, calm matriarchal energy.
+[REF: /brand/chars/mama-zainab.jpeg]`,
+      referenceImages: [
+        { url: "/brand/chars/mama-zainab.jpeg", label: "Mama Zainab — Final", isPrimary: true },
+      ],
+      identityFields: [
+        { field: "Age",       value: "55–60" },
+        { field: "Build",     value: "Slightly stout, grandmotherly, strong forearms" },
+        { field: "Skin",      value: "Warm olive" },
+        { field: "Hair",      value: "Dark with grey streaks (always covered)" },
+        { field: "Headscarf", value: "Cream / soft yellow / olive — matte cotton, never silk, never patterned" },
+        { field: "Apron",     value: "GREEN-base plaid v2 — never the legacy yellow-base plaid" },
+        { field: "Jewelry",   value: "Single pair of small gold hoops, plain wedding band — nothing else" },
+        { field: "Hands",     value: "Flour or herb dust acceptable; never manicured nails" },
+        { field: "Posture",   value: "Upright, calm, hands often folded or rolling" },
+        { field: "Expression","value": "Warm half-smile, eyes crinkled" },
+      ],
+      modes: [],
+      voiceProvider: "elevenlabs",
+      voiceId: "",
+      voiceNotes: "ElevenLabs v3 — warm 50s Egyptian woman, low chest voice, slight rasp. Egyptian colloquial Arabic first; English with mild Egyptian accent for international cuts.",
+      dos: [
+        "Show her cooking, plating, teaching, laughing",
+        "Use natural sunlight or warm kitchen tungsten",
+        "Hands always doing something purposeful",
+        "Plaid apron on green base, exactly",
+        "Headscarf always present",
+        "Center frame, eye contact, golden hour",
+      ],
+      donts: [
+        "Show her in modern fashion, makeup, or jewelry beyond the rules",
+        "Use neon, club lighting, or hard fluorescents",
+        "Make her stiff, stoic, or aggressive",
+        "Use the legacy yellow-base apron",
+        "Remove headscarf in any branded surface",
+        "Distort, glamorize, or sexualize",
+      ],
+      surfaceUsage: "Logo lockups · packaging hero panel · kiosk poster · website hero · app onboarding · in-store standee · social hero portraits · cinematic film.",
+      active: true,
+      sort: 1,
+      createdAt: now(),
+      updatedAt: now(),
+    },
+    {
+      id: "chr_zuzu",
+      name: "ZuZu",
+      subtitle: "the goose, the mascot",
+      role: "Mascot — the white goose sidekick",
+      visibility: "high",
+      anchorBlock: `Plump healthy white domestic goose, fluffy clean feathers, alert curious posture,
+expressive amber eyes, vivid orange beak and feet, wearing a tiny ribbon around
+the neck made of GREEN-base plaid v2 fabric (matching Mama Zainab's apron),
+slight comedic personality, photoreal feather detail, never anthropomorphic
+clothing beyond the ribbon.
+[REF: /brand/chars/zuzu.jpeg]`,
+      referenceImages: [
+        { url: "/brand/chars/zuzu.jpeg", label: "ZuZu — Reference", isPrimary: true },
+      ],
+      identityFields: [
+        { field: "Species",     value: "Domestic white goose (Anser anser domesticus)" },
+        { field: "Personality", value: "Mischievous protector — Mama's sidekick & enforcer" },
+        { field: "Costume",     value: "Plaid ribbon only — no hats, no glasses, no human clothes" },
+        { field: "Eye color",   value: "Amber / honey" },
+        { field: "Beak & feet", value: "Vivid orange" },
+        { field: "Sound",       value: "Honk used as comic punctuation, never aggressive" },
+        { field: "Power level", value: "Sees the Ghost of Zainab; trips rivals; flaps flour clouds" },
+      ],
+      modes: [],
+      voiceProvider: "none",
+      voiceId: "",
+      voiceNotes: "Honk SFX only — no voice actor. Comedic timing via honk length and pitch.",
+      dos: [
+        "Tiny plaid ribbon around the neck",
+        "Walk-on cameo in every scene she's in",
+        "Comedic timing, 'judging' looks",
+        "Use as silhouette in ZuZu icon set",
+      ],
+      donts: [
+        "Aprons, hats, sunglasses, T-shirts",
+        "Make ZuZu the focus of food shots (food first, ZuZu garnish)",
+        "Cute baby-style anthropomorphic eyes",
+        "Photoshop a human face onto her",
+      ],
+      surfaceUsage: "App loading splash · kids menu · loyalty program ('ZuZu Points') · sticker pack · social shorts · cinematic comic relief · ribbon-icon dingbat in print.",
+      active: true,
+      sort: 2,
+      createdAt: now(),
+      updatedAt: now(),
+    },
+    {
+      id: "chr_wong",
+      name: "Shang Hong Wong",
+      subtitle: "the founder, the legend",
+      role: "Founder lore — silent investor / 'the Banker'",
+      visibility: "low",
+      anchorBlock: `East-Asian man in his 60s, salt-and-pepper hair tied back loosely, weathered face
+with old fight scars (subtle), calm dangerous eyes, wearing dark silken warrior
+robes in cinematic scenes OR a premium minimalist cream-linen suit in business
+scenes, dignified silent presence, slow deliberate movement.
+[REF: /brand/chars/wong-hong.png]`,
+      referenceImages: [
+        { url: "/brand/chars/wong-hong.png", label: "Wong Hong — Reference", isPrimary: true },
+      ],
+      identityFields: [
+        { field: "Age",        value: "60s" },
+        { field: "Hair",       value: "Salt-and-pepper, tied back loosely" },
+        { field: "Face",       value: "Weathered, old fight scars (subtle), calm dangerous eyes" },
+        { field: "Movement",   value: "Slow, deliberate, never hurried" },
+        { field: "Presence",   value: "Dignified, silent — commands without speaking" },
+      ],
+      modes: [
+        { label: "Warrior", when: "Scenes 1, 2 (origin / strategy)", costume: "Dark silken warrior robes, no logos", posture: "Coiled stillness" },
+        { label: "Banker",  when: "Scenes 3, 6 (plaza, command center)", costume: "Cream linen suit, no tie, polished shoes", posture: "Calm executive" },
+      ],
+      voiceProvider: "elevenlabs",
+      voiceId: "",
+      voiceNotes: "ElevenLabs v3 — Wise Asian Elder, lower pitch 5%, gravel +20%. Mandarin (zh-CN) in cinematic scenes; broken English with thick Mandarin accent in business scenes.",
+      dos: [
+        "Cinematic, dim lighting, smoke / wind / rain",
+        "Always in shadow or backlit when possible",
+        "Reference 盛恒王 only in lore / credits",
+        "Use as 'executive producer' mythos",
+      ],
+      donts: [
+        "Show him cooking, plating, or eating",
+        "Put him on packaging or menus",
+        "Brand him as a co-spokesperson with Zainab",
+        "Show him touching Mama Zainab — strict respect distance",
+        "Raise his voice, smile widely, use slang",
+      ],
+      surfaceUsage: "Cinematic film only · founder page on website (silhouette + lore) · brand-story PDF for partners · never on packaging · never on menu · never on social food posts.",
+      active: true,
+      sort: 3,
+      createdAt: now(),
+      updatedAt: now(),
+    },
+    {
+      id: "chr_ghost_zainab",
+      name: "Ghost of Zainab",
+      subtitle: "mystical comic element",
+      role: "Mystical phantom — video only (Scene 4 sabotage, Scene 6 epilogue)",
+      visibility: "video-only",
+      anchorBlock: `Ethereal translucent apparition of MaMa Zainab, glowing soft warm light,
+semi-transparent robes in cream and green hues, gentle floating movement,
+wise amused expression, aged village woman energy with divine calm.
+Derived from MaMa Zainab — same face, same headscarf, luminous ghost form.
+[REF: /brand/chars/mama-zainab.jpeg — ghost/ethereal version]`,
+      referenceImages: [
+        { url: "/brand/chars/mama-zainab.jpeg", label: "Base — Mama Zainab (apply ghost treatment)", isPrimary: true },
+      ],
+      identityFields: [
+        { field: "Form",      value: "Semi-transparent, glowing warm light, floating" },
+        { field: "Derived from", value: "MaMa Zainab — same face, headscarf, build" },
+        { field: "Robes",     value: "Cream and green, luminous, flowing" },
+        { field: "Expression","value": "Wise, amused, knowing" },
+      ],
+      modes: [],
+      voiceProvider: "elevenlabs",
+      voiceId: "",
+      voiceNotes: "Same voice as MaMa Zainab but processed: gentle reverb, slight ethereal delay. Egyptian Arabic only.",
+      dos: [
+        "Always appear in a haze or soft glow",
+        "Move with floating slow grace",
+        "Scene 4: sabotage moment — mischievous interference",
+        "Scene 6: epilogue blessing — warm benediction",
+      ],
+      donts: [
+        "Use in any non-video surface (no packaging, no menus)",
+        "Make her scary or ominous",
+        "Show her without the ghost glow treatment",
+        "Separate from MaMa Zainab's visual identity",
+      ],
+      surfaceUsage: "Video only — Scene 4 sabotage sequence, Scene 6 epilogue. Never on packaging, menus, or social food posts.",
+      active: true,
+      sort: 4,
+      createdAt: now(),
+      updatedAt: now(),
+    },
+  ],
+};
+
+/* ---- CRUD --------------------------------------------------- */
+
+export async function readCharacters(): Promise<CharacterState> {
+  await ensureDir();
+  if (!(await fileExists())) {
+    await writeCharacters(SEED);
+    return SEED;
+  }
+  const raw = await fs.readFile(FILE, "utf8");
+  const json = JSON.parse(raw);
+  return CharacterStateSchema.parse(json);
+}
+
+export async function writeCharacters(state: CharacterState): Promise<void> {
+  await ensureDir();
+  const validated = CharacterStateSchema.parse(state);
+  await fs.writeFile(FILE, JSON.stringify(validated, null, 2), "utf8");
+}

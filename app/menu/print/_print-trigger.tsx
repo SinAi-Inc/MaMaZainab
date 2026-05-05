@@ -18,3 +18,15 @@ export function PrintTrigger() {
   }, []);
   return null;
 }
+
+export function PrintButton() {
+  return (
+    <button
+      type="button"
+      onClick={() => window.print()}
+      className="px-3 py-1.5 text-sm rounded bg-brand-yellow text-brand-ink font-semibold hover:bg-yellow-300"
+    >
+      Print / Save as PDF
+    </button>
+  );
+}

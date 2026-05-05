@@ -6,6 +6,7 @@ import { Card, CardBody, CardHeader } from "@/components/ui/card";
 import { Badge, StatusPill } from "@/components/ui/badge";
 import { formatEGP } from "@/lib/utils";
 import { ItemActions } from "./_components/item-actions";
+import { GenerateSkuButton } from "./_components/generate-sku-button";
 
 export const dynamic = "force-dynamic";
 
@@ -150,6 +151,11 @@ export default async function MenuPage() {
                             <span className="font-medium group-hover:text-brand-green-deep transition-colors">
                               {item.nameEn}
                             </span>
+                            {item.sku && (
+                              <span className="font-mono text-[10px] bg-zinc-100 text-zinc-500 px-1.5 py-0.5 rounded border border-zinc-200">
+                                {item.sku}
+                              </span>
+                            )}
                             {item.badges.map((b) => (
                               <Badge key={b} kind={b} />
                             ))}
@@ -169,7 +175,10 @@ export default async function MenuPage() {
                           </div>
                         </div>
                       </Link>
-                      <ItemActions id={item.id} available={item.available} />
+                      <div className="flex items-center gap-1 shrink-0">
+                        {!item.sku && <GenerateSkuButton id={item.id} />}
+                        <ItemActions id={item.id} available={item.available} />
+                      </div>
                     </li>
                   ))}
                 </ul>

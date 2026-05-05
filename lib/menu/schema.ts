@@ -26,6 +26,7 @@ export const BADGE_META: Record<Badge, { label: string; emoji: string }> = {
 export const MenuItemSchema = z.object({
   id: z.string(),
   categoryId: z.string(),
+  sku: z.string().default(""),
   nameEn: z.string().min(1, "Required"),
   descriptionEn: z.string().default(""),
   priceEgp: z.coerce.number().min(0, "Must be ≥ 0"),

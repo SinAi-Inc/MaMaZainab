@@ -55,6 +55,7 @@ const SEED: MenuState = {
     {
       id: "itm_stuffy_grape",
       categoryId: "cat_stuffy",
+      sku: "MZ-STF-0001",
       nameEn: "Grape Leaf Rolls",
       descriptionEn: "Vine leaves rolled with rice, herbs, and a hint of lemon.",
       priceEgp: 95,
@@ -68,6 +69,7 @@ const SEED: MenuState = {
     {
       id: "itm_stuffy_cabbage",
       categoryId: "cat_stuffy",
+      sku: "MZ-STF-0002",
       nameEn: "Cabbage Rolls",
       descriptionEn: "Cabbage rolls, slow-cooked in tomato broth.",
       priceEgp: 90,
@@ -81,6 +83,7 @@ const SEED: MenuState = {
     {
       id: "itm_side_salad",
       categoryId: "cat_sides",
+      sku: "MZ-SID-0001",
       nameEn: "Country Salad",
       descriptionEn: "Fresh tomato, cucumber, onion, parsley.",
       priceEgp: 30,
@@ -94,6 +97,7 @@ const SEED: MenuState = {
     {
       id: "itm_drink_hibiscus",
       categoryId: "cat_drinks",
+      sku: "MZ-DRK-0001",
       nameEn: "Hibiscus Cooler",
       descriptionEn: "Chilled hibiscus, lightly sweet.",
       priceEgp: 25,

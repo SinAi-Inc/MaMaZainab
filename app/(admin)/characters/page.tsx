@@ -1,121 +1,140 @@
-import { Users, Image, FileText } from "lucide-react";
+import Link from "next/link";
+import { Plus, Users, Pencil, Eye } from "lucide-react";
+import { readCharacters } from "@/lib/characters/store";
+import {
+  VISIBILITY_META,
+  type CharacterVisibility,
+} from "@/lib/characters/schema";
+import { Button } from "@/components/ui/button";
 import { Card, CardBody } from "@/components/ui/card";
+import { cn } from "@/lib/utils";
 
-type Character = {
-  name: string;
-  nameAr: string;
-  role: string;
-  visibility: string;
-  status: "final" | "wip" | "concept";
-};
+function VisibilityBadge({ v }: { v: CharacterVisibility }) {
+  const meta = VISIBILITY_META[v];
+  const tones = {
+    success: "bg-brand-green/15 text-brand-green-deep",
+    info:    "bg-blue-100 text-blue-700",
+    warning: "bg-brand-yellow/30 text-brand-ink",
+    neutral: "bg-zinc-200 text-zinc-700",
+  };
+  return (
+    <span className={cn("px-2 py-0.5 text-[11px] font-medium rounded-full", tones[meta.tone])}>
+      {meta.label}
+    </span>
+  );
+}
 
-const CAST: Character[] = [
-  {
-    name: "Mama Zainab",
-    nameAr: "ماما زينب",
-    role: "Brand face - village matriarch & master cook",
-    visibility: "Always-on (logo, packaging, kiosks, ads, app)",
-    status: "final",
-  },
-  {
-    name: "ZuZu",
-    nameAr: "زوزو",
-    role: "Mascot - the white goose sidekick",
-    visibility: "High (mascot, kids menu, social, ribbon icon)",
-    status: "final",
-  },
-  {
-    name: "Shang Hong Wong",
-    nameAr: "盛恒王",
-    role: "Founder lore - silent investor / \"the Banker\"",
-    visibility: "Low - campaign/legend only, never on packaging",
-    status: "concept",
-  },
-  {
-    name: "Ghost of Zainab",
-    nameAr: "شبح زينب",
-    role: "Mystical comic element",
-    visibility: "Video only (Scene 4 sabotage, Scene 6 epilogue)",
-    status: "wip",
-  },
-];
+export default async function CharactersPage() {
+  const state = await readCharacters();
+  const characters = [...state.characters].sort((a, b) => a.sort - b.sort);
 
-export default function CharactersPage() {
   return (
     <div className="space-y-6">
-      <div>
-        <p className="text-xs uppercase tracking-[0.2em] text-muted">
-          Character Bible
-        </p>
-        <h2 className="text-2xl font-semibold mt-1 flex items-center gap-2">
-          <Users className="size-5 text-brand-green-deep" />
-          Characters
-        </h2>
-        <p className="text-sm text-muted mt-1">
-          Canonical reference for every render, illustration, animation,
-          lip-sync, voice, costume, and merch decision involving the cast.
-        </p>
+      {/* Header */}
+      <div className="flex items-center justify-between">
+        <div>
+          <h1 className="text-2xl font-bold tracking-tight flex items-center gap-2">
+            <Users className="size-6 text-brand-green" />
+            Character Bible
+          </h1>
+          <p className="mt-1 text-sm text-muted">
+            {characters.length} cast members · anchor blocks, references, voice &amp; rules
+          </p>
+        </div>
+        <Button asChild>
+          <Link href="/characters/new">
+            <Plus className="size-4 mr-1.5" />
+            New Character
+          </Link>
+        </Button>
       </div>
 
-      <div className="grid gap-4 md:grid-cols-2">
-        {CAST.map((char) => (
-          <Card key={char.name}>
-            <CardBody>
-              <div className="flex items-start gap-4">
-                <div className="size-20 rounded-lg bg-brand-green/10 flex items-center justify-center flex-shrink-0">
-                  <Image className="size-10 text-brand-green opacity-40" />
+      {/* Grid */}
+      {characters.length === 0 ? (
+        <Card>
+          <CardBody className="py-16 text-center text-muted">
+            <Users className="size-10 mx-auto mb-3 opacity-30" />
+            <p>No characters yet. Add the first cast member.</p>
+          </CardBody>
+        </Card>
+      ) : (
+        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-5">
+          {characters.map((char) => {
+            const primary = char.referenceImages.find((r) => r.isPrimary) ?? char.referenceImages[0];
+            return (
+              <Card
+                key={char.id}
+                className={cn(
+                  "flex flex-col overflow-hidden transition-shadow hover:shadow-md",
+                  !char.active && "opacity-60",
+                )}
+              >
+                {/* Reference image */}
+                <div className="relative h-52 bg-zinc-100 overflow-hidden">
+                  {primary ? (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img
+                      src={primary.url}
+                      alt={char.name}
+                      className="w-full h-full object-cover object-top"
+                    />
+                  ) : (
+                    <div className="flex items-center justify-center h-full">
+                      <Users className="size-12 text-zinc-300" />
+                    </div>
+                  )}
+                  {!char.active && (
+                    <div className="absolute inset-0 bg-zinc-900/40 flex items-center justify-center">
+                      <span className="bg-zinc-800 text-white text-xs px-2 py-0.5 rounded-full">Inactive</span>
+                    </div>
+                  )}
                 </div>
-                <div className="flex-1 min-w-0">
-                  <div className="flex items-center gap-2">
-                    <h3 className="font-semibold text-lg">{char.name}</h3>
-                    <span
-                      className={`text-[10px] uppercase tracking-wider px-2 py-0.5 rounded-full ${
-                        char.status === "final"
-                          ? "bg-brand-green/15 text-brand-green-deep"
-                          : char.status === "wip"
-                            ? "bg-brand-yellow/20 text-brand-ink"
-                            : "bg-zinc-200 text-zinc-600"
-                      }`}
-                    >
-                      {char.status}
-                    </span>
+
+                <CardBody className="flex flex-col flex-1 gap-3">
+                  <div>
+                    <div className="flex items-start justify-between gap-2">
+                      <h2 className="font-semibold text-base leading-snug">{char.name}</h2>
+                      <VisibilityBadge v={char.visibility} />
+                    </div>
+                    {char.subtitle && (
+                      <p className="text-xs text-muted italic mt-0.5">{char.subtitle}</p>
+                    )}
                   </div>
-                  <p className="text-xs text-muted mt-0.5 font-arabic">
-                    {char.nameAr}
-                  </p>
-                  <p className="text-sm mt-2 text-zinc-700">{char.role}</p>
-                  <p className="text-xs text-muted mt-2">
-                    <span className="font-medium">Visibility:</span>{" "}
-                    {char.visibility}
-                  </p>
-                </div>
-              </div>
-            </CardBody>
-          </Card>
-        ))}
-      </div>
 
-      <Card>
-        <CardBody>
-          <div className="flex items-start gap-3">
-            <FileText className="size-5 text-brand-green-deep flex-shrink-0 mt-0.5" />
-            <div>
-              <h3 className="font-semibold">Full Character Bible</h3>
-              <p className="text-sm text-muted mt-1">
-                Detailed anchor blocks, identity cards, voice rules, and do/don't
-                guidelines are available in{" "}
-                <code className="text-xs bg-zinc-100 px-1.5 py-0.5 rounded">
-                  02_Characters/CHARACTERS.md
-                </code>
-              </p>
-              <p className="text-xs text-muted mt-2">
-                <strong>Coming soon:</strong> Character asset library, AI prompt
-                generator, voice samples, costume references
-              </p>
-            </div>
-          </div>
-        </CardBody>
-      </Card>
+                  {char.role && (
+                    <p className="text-xs text-foreground/80 line-clamp-2">{char.role}</p>
+                  )}
+
+                  <div className="flex gap-3 text-[11px] text-muted">
+                    <span>{char.referenceImages.length} ref{char.referenceImages.length !== 1 ? "s" : ""}</span>
+                    <span>{char.identityFields.length} ID fields</span>
+                    {char.modes.length > 0 && <span>{char.modes.length} modes</span>}
+                  </div>
+
+                  {char.anchorBlock && (
+                    <pre className="text-[10px] leading-relaxed bg-zinc-50 border border-border rounded p-2 line-clamp-3 whitespace-pre-wrap font-mono text-zinc-600 overflow-hidden">
+                      {char.anchorBlock}
+                    </pre>
+                  )}
+
+                  <div className="flex gap-2 mt-auto pt-1">
+                    <Button asChild variant="outline" size="sm" className="flex-1">
+                      <Link href={`/characters/${char.id}`}>
+                        <Eye className="size-3.5 mr-1" /> View
+                      </Link>
+                    </Button>
+                    <Button asChild size="sm" className="flex-1">
+                      <Link href={`/characters/${char.id}/edit`}>
+                        <Pencil className="size-3.5 mr-1" /> Edit
+                      </Link>
+                    </Button>
+                  </div>
+                </CardBody>
+              </Card>
+            );
+          })}
+        </div>
+      )}
     </div>
   );
 }

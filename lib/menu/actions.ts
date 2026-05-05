@@ -16,6 +16,27 @@ function now() {
   return new Date().toISOString();
 }
 
+/**
+ * Generates a unique SKU for a menu item.
+ * Format: MZ-{3-CHAR-CAT}-{4-DIGIT-SEQ}
+ * Example: MZ-STF-0003 (Stuffy Fingers, 3rd item)
+ */
+function buildSku(categoryId: string, catName: string, existingSkus: string[]): string {
+  const catCode = catName
+    .replace(/[^a-zA-Z]/g, "")
+    .toUpperCase()
+    .slice(0, 3)
+    .padEnd(3, "X");
+  const prefix = `MZ-${catCode}-`;
+  // Find the highest sequential number already used for this prefix
+  const nums = existingSkus
+    .filter((s) => s.startsWith(prefix))
+    .map((s) => parseInt(s.slice(prefix.length), 10))
+    .filter((n) => !isNaN(n));
+  const next = nums.length > 0 ? Math.max(...nums) + 1 : 1;
+  return `${prefix}${String(next).padStart(4, "0")}`;
+}
+
 function revalidateMenu() {
   revalidatePath("/menu");
   revalidatePath("/menu/preview");
@@ -76,9 +97,13 @@ export async function reorderCategories(orderedIds: string[]) {
 export async function createItem(input: unknown) {
   const data = ItemInputSchema.parse(input);
   const state = await readMenu();
+  const cat = state.categories.find((c) => c.id === data.categoryId);
+  const allSkus = state.items.map((i) => i.sku).filter(Boolean);
+  const sku = buildSku(data.categoryId, cat?.nameEn ?? "GEN", allSkus);
   const item: MenuItem = {
     id: `itm_${nanoid(8)}`,
     ...data,
+    sku,
     sort:
       data.sort ??
       state.items.filter((i) => i.categoryId === data.categoryId).length + 1,
@@ -114,6 +139,21 @@ export async function toggleItemAvailable(id: string) {
   const idx = state.items.findIndex((i) => i.id === id);
   if (idx < 0) throw new Error("Item not found");
   state.items[idx].available = !state.items[idx].available;
+  state.items[idx].updatedAt = now();
+  await writeMenu(state);
+  revalidateMenu();
+  return state.items[idx];
+}
+
+/** Assign a new auto-generated SKU to an existing item that has none. */
+export async function assignItemSku(id: string) {
+  const state = await readMenu();
+  const idx = state.items.findIndex((i) => i.id === id);
+  if (idx < 0) throw new Error("Item not found");
+  const item = state.items[idx];
+  const cat = state.categories.find((c) => c.id === item.categoryId);
+  const allSkus = state.items.map((i) => i.sku).filter(Boolean);
+  state.items[idx].sku = buildSku(item.categoryId, cat?.nameEn ?? "GEN", allSkus);
   state.items[idx].updatedAt = now();
   await writeMenu(state);
   revalidateMenu();
