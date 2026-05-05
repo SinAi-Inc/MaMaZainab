@@ -155,17 +155,31 @@ body {
     height: 60px !important;
   }
 
-  /* Body columns: fill top→bottom, don't balance; protect orphans/widows */
+  /* Body: Chrome's print engine mis-paginates CSS `columns-N`, producing a
+     blank first page then content on page 2. Replace with CSS Grid which
+     paginates correctly — each section is a grid cell that flows across pages
+     without creating phantom column regions. */
   .print-page-body {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    /* Cancel out the Tailwind columns-2 class entirely */
+    columns: unset !important;
+    column-count: unset !important;
+    column-gap: unset !important;
+    /* Tight but readable gutter */
+    gap: 4mm 10mm !important;
+    /* Each section starts at its natural height — no stretching */
+    align-items: start !important;
     padding-top: 5mm !important;
     padding-bottom: 5mm !important;
-    column-fill: auto;
     orphans: 3;
     widows: 3;
   }
 
   /* Footer: never break internally; avoid being stranded alone at top of page */
   .print-page-footer {
+    /* Span both grid columns so it sits full-width below the menu grid */
+    grid-column: 1 / -1 !important;
     break-inside: avoid !important;
     page-break-inside: avoid !important;
     break-before: avoid !important;
