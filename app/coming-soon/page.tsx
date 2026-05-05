@@ -10,6 +10,16 @@ export const metadata: Metadata = {
 
 const LAUNCH_ISO = "2026-09-01T12:00:00+02:00";
 
+/** Food items scattered decoratively around the edges (md+ screens only) */
+const FOOD_ITEMS = [
+  { src: "/uploads/menu/rql1ELnbW5.jpg",  top: "7%",  left: "-3%",  rotate: "-15deg", delay: "0s",    size: 130 },
+  { src: "/uploads/menu/kn1BmhVqPV.jpg",  top: "13%", right: "-2%", rotate: "20deg",  delay: "0.7s",  size: 118 },
+  { src: "/uploads/menu/aGmh7eivS_.jpg",  top: "41%", left: "-3%",  rotate: "-22deg", delay: "1.3s",  size: 124 },
+  { src: "/uploads/menu/jfPjQtYb6A.jpg",  top: "50%", right: "-2%", rotate: "25deg",  delay: "0.4s",  size: 120 },
+  { src: "/uploads/menu/YhzNThyRgl.jpg",  bottom: "16%", left: "2%", rotate: "18deg", delay: "1.8s", size: 114 },
+  { src: "/uploads/menu/Gzoj4h3ROk.jpg",  bottom: "30%", right: "1%", rotate: "-18deg", delay: "1.1s", size: 108 },
+] as const;
+
 export default function ComingSoonPage() {
   return (
     <main className="min-h-screen bg-brand-ink text-white relative overflow-hidden flex flex-col">
@@ -22,6 +32,79 @@ export default function ComingSoonPage() {
             "radial-gradient(ellipse at 50% 35%, rgba(44,41,42,0) 0%, rgba(44,41,42,0.55) 55%, rgba(44,41,42,0.95) 100%)",
         }}
       />
+
+      {/* ── Scattered food photos (decorative, md+ only) ───────────────────── */}
+      {FOOD_ITEMS.map((item) => (
+        <div
+          key={item.src}
+          className="absolute hidden md:block pointer-events-none select-none z-[5]"
+          style={{
+            top:    "top"    in item ? item.top    : undefined,
+            bottom: "bottom" in item ? item.bottom : undefined,
+            left:   "left"   in item ? item.left   : undefined,
+            right:  "right"  in item ? item.right  : undefined,
+            width:  `${item.size}px`,
+            transform: `rotate(${item.rotate})`,
+          }}
+        >
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={item.src}
+            alt=""
+            className="w-full rounded-2xl shadow-[0_8px_40px_rgba(0,0,0,0.5)] opacity-80"
+            style={{ animation: `food-drift 3.4s ease-in-out ${item.delay} infinite` }}
+            draggable={false}
+          />
+        </div>
+      ))}
+
+      {/* ── ZuZu speech bubble ─────────────────────────────────────────────── */}
+      <div
+        className="absolute hidden md:block pointer-events-none select-none z-[25]"
+        style={{ bottom: "218px", right: "185px" }}
+      >
+        <div
+          className="bg-brand-yellow text-brand-ink rounded-2xl rounded-br-none px-4 py-3 shadow-2xl max-w-[190px]"
+          style={{ animation: "bubble-pop 2.8s ease-in-out infinite" }}
+        >
+          <p className="font-bold text-[13px] leading-snug">
+            HONK! 🪿<br />
+            I already taste-tested<br />
+            everything&hellip; it&apos;s{" "}
+            <span className="italic">insane.</span>
+          </p>
+        </div>
+        {/* Tail pointing toward ZuZu (bottom-right) */}
+        <div
+          className="ml-auto mr-4"
+          style={{
+            width: 0,
+            height: 0,
+            borderLeft: "10px solid #EFD200",
+            borderRight: "10px solid transparent",
+            borderTop: "12px solid #EFD200",
+            borderBottom: "12px solid transparent",
+          }}
+        />
+      </div>
+
+      {/* ── ZuZu — lower-right corner, 45° tilt, peeking ──────────────────── */}
+      <div
+        className="absolute pointer-events-none select-none z-[20]"
+        style={{ bottom: "-80px", right: "-55px", width: "310px" }}
+      >
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src="/brand/chars/zuzu.jpeg"
+          alt="ZuZu — MaMa Zainab&apos;s head chef goose"
+          className="w-full"
+          style={{
+            animation: "zuzu-float 3.6s ease-in-out infinite",
+            filter: "drop-shadow(0 0 24px rgba(239,210,0,0.35)) drop-shadow(0 8px 24px rgba(0,0,0,0.5))",
+          }}
+          draggable={false}
+        />
+      </div>
 
       {/* Top bar */}
       <header className="relative z-10 px-8 py-6 flex items-center justify-center">

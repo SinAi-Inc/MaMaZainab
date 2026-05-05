@@ -92,8 +92,8 @@
       "anchorBlock": "Plump healthy white domestic goose, fluffy clean feathers, alert curious posture,\nexpressive amber eyes, vivid orange beak and feet, wearing a tiny ribbon around\nthe neck made of GREEN-base plaid v2 fabric (matching Mama Zainab's apron),\nslight comedic personality, photoreal feather detail, never anthropomorphic\nclothing beyond the ribbon.\n[REF: /brand/chars/zuzu.jpeg]",
       "referenceImages": [
         {
-          "url": "/brand/chars/zuzu.jpeg",
-          "label": "ZuZu — Reference",
+          "url": "/brand/chars/zudXHgBfRi.jpg",
+          "label": "ZuZu",
           "isPrimary": true
         }
       ],
@@ -147,7 +147,7 @@
       "active": true,
       "sort": 2,
       "createdAt": "2026-05-05T03:39:10.925Z",
-      "updatedAt": "2026-05-05T03:39:10.925Z"
+      "updatedAt": "2026-05-05T04:29:30.295Z"
     },
     {
       "id": "chr_wong",
