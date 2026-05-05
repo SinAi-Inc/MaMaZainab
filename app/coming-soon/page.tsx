@@ -58,49 +58,19 @@ export default function ComingSoonPage() {
         </div>
       ))}
 
-      {/* ── ZuZu speech bubble ─────────────────────────────────────────────── */}
+      {/* ── ZuZu — pops from lower-right every ~30 s ──────────────────────── */}
       <div
-        className="absolute hidden md:block pointer-events-none select-none z-[25]"
-        style={{ bottom: "218px", right: "185px" }}
-      >
-        <div
-          className="bg-brand-yellow text-brand-ink rounded-2xl rounded-br-none px-4 py-3 shadow-2xl max-w-[190px]"
-          style={{ animation: "bubble-pop 2.8s ease-in-out infinite" }}
-        >
-          <p className="font-bold text-[13px] leading-snug">
-            HONK! 🪿<br />
-            I already taste-tested<br />
-            everything&hellip; it&apos;s{" "}
-            <span className="italic">insane.</span>
-          </p>
-        </div>
-        {/* Tail pointing toward ZuZu (bottom-right) */}
-        <div
-          className="ml-auto mr-4"
-          style={{
-            width: 0,
-            height: 0,
-            borderLeft: "10px solid #EFD200",
-            borderRight: "10px solid transparent",
-            borderTop: "12px solid #EFD200",
-            borderBottom: "12px solid transparent",
-          }}
-        />
-      </div>
-
-      {/* ── ZuZu — lower-right corner, 45° tilt, peeking ──────────────────── */}
-      <div
-        className="absolute pointer-events-none select-none z-[20]"
-        style={{ bottom: "-80px", right: "-55px", width: "310px" }}
+        className="absolute bottom-0 right-0 pointer-events-none select-none z-[20]"
+        style={{ width: "300px", animation: "zuzu-pop 33s ease-in-out infinite" }}
       >
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
-          src="/brand/chars/zuzu.jpeg"
-          alt="ZuZu — MaMa Zainab&apos;s head chef goose"
+          src="/brand/chars/zudXHgBfRi.jpg"
+          alt="ZuZu — MaMa Zainab's head chef"
           className="w-full"
           style={{
-            animation: "zuzu-float 3.6s ease-in-out infinite",
-            filter: "drop-shadow(0 0 24px rgba(239,210,0,0.35)) drop-shadow(0 8px 24px rgba(0,0,0,0.5))",
+            transform: "scaleX(-1)",
+            filter: "drop-shadow(0 0 28px rgba(239,210,0,0.4)) drop-shadow(0 8px 28px rgba(0,0,0,0.55))",
           }}
           draggable={false}
         />

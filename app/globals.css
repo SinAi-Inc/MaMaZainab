@@ -101,22 +101,25 @@ body {
 
 /* ---------- Coming Soon decorative animations ────────────────────────────── */
 
-/* ZuZu floats up/down while holding his 45° tilt */
-@keyframes zuzu-float {
-  0%,  100% { transform: rotate(45deg) translateY(0px);    }
-  50%        { transform: rotate(45deg) translateY(-18px);  }
+/*
+  ZuZu pop cycle — 33 s total:
+    0 s  –  1.5 s  : slide up from below (4.5%)
+    1.5 s –  7 s   : visible / hold (21%)
+    7 s  –  8.5 s  : slide back down (26%)
+    8.5 s – 33 s   : hidden, waiting for next cycle
+*/
+@keyframes zuzu-pop {
+  0%         { transform: translateY(calc(100% + 120px)); }
+  4.5%       { transform: translateY(0px);                }
+  21%        { transform: translateY(0px);                }
+  26%        { transform: translateY(calc(100% + 120px)); }
+  100%       { transform: translateY(calc(100% + 120px)); }
 }
 
 /* Scattered food items bob gently (rotation lives on the parent wrapper) */
 @keyframes food-drift {
   0%,  100% { transform: translateY(0px)  scale(1);    }
   50%        { transform: translateY(-10px) scale(1.03); }
-}
-
-/* Speech bubble tiny heartbeat */
-@keyframes bubble-pop {
-  0%,  100% { transform: scale(1)    rotate(-3deg); }
-  50%        { transform: scale(1.04) rotate(-3deg); }
 }
 
 /* ---------- Print layout (A4 portrait — dedicated /menu/print page) ---------- */
