@@ -75,7 +75,6 @@ export default function ComingSoonPage() {
           alt="ZuZu — MaMa Zainab's head chef"
           className="w-full"
           style={{
-            transform: "scaleX(-1)",
             filter: "drop-shadow(0 0 32px rgba(239,210,0,0.5)) drop-shadow(0 10px 30px rgba(0,0,0,0.6))",
           }}
           draggable={false}
