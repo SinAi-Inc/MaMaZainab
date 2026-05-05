@@ -58,19 +58,24 @@ export default function ComingSoonPage() {
         </div>
       ))}
 
-      {/* ── ZuZu — pops from lower-right every ~30 s ──────────────────────── */}
+      {/* ── ZuZu — 45° corner pop every ~30 s ─────────────────────────────── */}
+      {/*   Positioned so ~65% of his body shows above the corner when visible  */}
       <div
-        className="absolute bottom-0 right-0 pointer-events-none select-none z-[20]"
-        style={{ width: "300px", animation: "zuzu-pop 33s ease-in-out infinite" }}
+        className="absolute pointer-events-none select-none z-[20]"
+        style={{
+          bottom: "-70px",
+          right:  "-70px",
+          width:  "320px",
+          animation: "zuzu-pop 33s ease-in-out infinite",
+        }}
       >
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
-          src="/brand/chars/zudXHgBfRi.jpg"
+          src="/brand/chars/zuzu-thumb.png"
           alt="ZuZu — MaMa Zainab's head chef"
           className="w-full"
           style={{
-            transform: "scaleX(-1)",
-            filter: "drop-shadow(0 0 28px rgba(239,210,0,0.4)) drop-shadow(0 8px 28px rgba(0,0,0,0.55))",
+            filter: "drop-shadow(0 0 32px rgba(239,210,0,0.5)) drop-shadow(0 10px 30px rgba(0,0,0,0.6))",
           }}
           draggable={false}
         />

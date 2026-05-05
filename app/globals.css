@@ -102,18 +102,21 @@ body {
 /* ---------- Coming Soon decorative animations ────────────────────────────── */
 
 /*
-  ZuZu pop cycle — 33 s total:
-    0 s  –  1.5 s  : slide up from below (4.5%)
-    1.5 s –  7 s   : visible / hold (21%)
-    7 s  –  8.5 s  : slide back down (26%)
-    8.5 s – 33 s   : hidden, waiting for next cycle
+  ZuZu pop cycle — 33 s total, 45° diagonal entry from bottom-right corner:
+    0 s   –  1.5 s  : slides in along 45° diagonal           (0% → 4.5%)
+    1.5 s –  7 s    : holds visible                           (4.5% → 21%)
+    7 s   –  8.5 s  : slides back out along 45° diagonal     (21% → 26%)
+    8.5 s – 33 s    : hidden off-screen, waiting              (26% → 100%)
+
+  translate(X,Y) is in the un-rotated coordinate space so X=Y gives
+  a true 45° diagonal path that mirrors the tilt perfectly (symmetric).
 */
 @keyframes zuzu-pop {
-  0%         { transform: translateY(calc(100% + 120px)); }
-  4.5%       { transform: translateY(0px);                }
-  21%        { transform: translateY(0px);                }
-  26%        { transform: translateY(calc(100% + 120px)); }
-  100%       { transform: translateY(calc(100% + 120px)); }
+  0%         { transform: translate(115%, 115%) rotate(45deg); }
+  4.5%       { transform: translate(0%,   0%)   rotate(45deg); }
+  21%        { transform: translate(0%,   0%)   rotate(45deg); }
+  26%        { transform: translate(115%, 115%) rotate(45deg); }
+  100%       { transform: translate(115%, 115%) rotate(45deg); }
 }
 
 /* Scattered food items bob gently (rotation lives on the parent wrapper) */
