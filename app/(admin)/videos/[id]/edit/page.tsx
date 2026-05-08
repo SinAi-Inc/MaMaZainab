@@ -2,6 +2,8 @@ import { notFound } from "next/navigation";
 import { readStudio } from "@/lib/videos/store";
 import { EditProjectForm } from "./_components/edit-form";
 
+export const dynamic = "force-dynamic";
+
 export default async function EditProjectPage({
   params,
 }: {

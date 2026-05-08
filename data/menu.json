@@ -399,11 +399,14 @@
       "descriptionEn": "",
       "priceEgp": 0,
       "imageUrl": "",
-      "badges": [],
+      "badges": [
+        "vegan",
+        "chefs_pick"
+      ],
       "available": true,
       "sort": 1,
       "createdAt": "2026-05-08T17:23:49.107Z",
-      "updatedAt": "2026-05-08T17:23:49.107Z"
+      "updatedAt": "2026-05-08T17:51:16.785Z"
     },
     {
       "id": "itm_37mNuSRf",
@@ -413,11 +416,14 @@
       "descriptionEn": "",
       "priceEgp": 0,
       "imageUrl": "",
-      "badges": [],
+      "badges": [
+        "vegan",
+        "bestseller"
+      ],
       "available": true,
       "sort": 2,
       "createdAt": "2026-05-08T17:28:13.167Z",
-      "updatedAt": "2026-05-08T17:28:13.167Z"
+      "updatedAt": "2026-05-08T17:51:00.554Z"
     },
     {
       "id": "itm_2qpqUe9b",

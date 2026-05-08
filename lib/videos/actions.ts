@@ -5,6 +5,8 @@ import { nanoid } from "nanoid";
 import { promises as fs } from "node:fs";
 import path from "node:path";
 import { readStudio, writeStudio } from "./store";
+import { uploadFile } from "@/lib/upload";
+import { isSupabaseConfigured, getSupabase } from "@/lib/supabase";
 import { parseScript } from "./parse-script";
 import { submitVideoJob, aspectToSize } from "@/lib/nvidia/client";
 import { buildReferenceContext } from "@/lib/ai/brand-reference";
@@ -315,13 +317,22 @@ export async function pollTake(takeId: string) {
   const result = await pollVideoJob(take.externalId);
 
   if (result.status === "completed" && result.video) {
-    // Save video to disk
     const filename = `${nanoid(10)}.mp4`;
-    const dir = path.join(process.cwd(), "public", "uploads", "takes");
-    await fs.mkdir(dir, { recursive: true });
     const buf = Buffer.from(result.video, "base64");
-    await fs.writeFile(path.join(dir, filename), buf);
-    take.videoUrl = `/uploads/takes/${filename}`;
+
+    if (!isSupabaseConfigured()) {
+      const dir = path.join(process.cwd(), "public", "uploads", "takes");
+      await fs.mkdir(dir, { recursive: true });
+      await fs.writeFile(path.join(dir, filename), buf);
+      take.videoUrl = `/uploads/takes/${filename}`;
+    } else {
+      const { error: upErr } = await getSupabase().storage
+        .from("uploads")
+        .upload(`takes/${filename}`, buf, { contentType: "video/mp4" });
+      if (upErr) throw upErr;
+      const { data: urlData } = getSupabase().storage.from("uploads").getPublicUrl(`takes/${filename}`);
+      take.videoUrl = urlData.publicUrl;
+    }
     take.status = "ready";
   } else if (result.status === "failed") {
     take.status = "failed";
@@ -398,55 +409,22 @@ export async function setTakeStatus(id: string, status: Take["status"]) {
 
 /* ---- Uploads ------------------------------------------------ */
 
-async function saveUpload(
-  formData: FormData,
-  subdir: string,
-  allowed: string[],
-  maxBytes: number,
-): Promise<string> {
+export async function uploadTakeVideo(formData: FormData) {
   const file = formData.get("file");
   if (!(file instanceof File)) throw new Error("No file provided");
-  if (file.size > maxBytes)
-    throw new Error(`Max ${Math.round(maxBytes / 1024 / 1024)}MB`);
-
-  const ext = (file.name.split(".").pop() || "").toLowerCase();
-  if (!allowed.includes(ext)) {
-    throw new Error(`Allowed: ${allowed.join(", ")}`);
-  }
-
-  const filename = `${nanoid(10)}.${ext}`;
-  const dir = path.join(process.cwd(), "public", "uploads", subdir);
-  await fs.mkdir(dir, { recursive: true });
-  const buf = Buffer.from(await file.arrayBuffer());
-  await fs.writeFile(path.join(dir, filename), buf);
-  return `/uploads/${subdir}/${filename}`;
-}
-
-export async function uploadTakeVideo(formData: FormData) {
-  return saveUpload(
-    formData,
-    "takes",
-    ["mp4", "webm", "mov", "m4v"],
-    300 * 1024 * 1024,
-  );
+  return uploadFile(file, "takes", ["mp4", "webm", "mov", "m4v"], 300 * 1024 * 1024);
 }
 
 export async function uploadShotReference(formData: FormData) {
-  return saveUpload(
-    formData,
-    "shot-refs",
-    ["png", "jpg", "jpeg", "webp"],
-    10 * 1024 * 1024,
-  );
+  const file = formData.get("file");
+  if (!(file instanceof File)) throw new Error("No file provided");
+  return uploadFile(file, "shot-refs", ["png", "jpg", "jpeg", "webp"], 10 * 1024 * 1024);
 }
 
 export async function uploadProjectPoster(formData: FormData) {
-  return saveUpload(
-    formData,
-    "posters",
-    ["png", "jpg", "jpeg", "webp"],
-    10 * 1024 * 1024,
-  );
+  const file = formData.get("file");
+  if (!(file instanceof File)) throw new Error("No file provided");
+  return uploadFile(file, "posters", ["png", "jpg", "jpeg", "webp"], 10 * 1024 * 1024);
 }
 
 export async function uploadScriptFile(formData: FormData): Promise<string> {

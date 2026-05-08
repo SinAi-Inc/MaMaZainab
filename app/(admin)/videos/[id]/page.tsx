@@ -18,6 +18,8 @@ import {
 import { Button } from "@/components/ui/button";
 import { Card, CardBody } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
+
+export const dynamic = "force-dynamic";
 import { ScriptPanel } from "./_components/script-panel";
 import { ShotCard } from "./_components/shot-card";
 

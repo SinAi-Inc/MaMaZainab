@@ -2,6 +2,8 @@ import { notFound } from "next/navigation";
 import { readCharacters } from "@/lib/characters/store";
 import { CharacterForm } from "../../_components/character-form";
 
+export const dynamic = "force-dynamic";
+
 export default async function EditCharacterPage({
   params,
 }: {

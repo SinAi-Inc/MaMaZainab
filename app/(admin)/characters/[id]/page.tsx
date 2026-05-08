@@ -16,6 +16,8 @@ import { cn } from "@/lib/utils";
 import { CopyAnchorButton } from "./_components/copy-anchor-button";
 import { DeleteCharacterButton } from "./_components/delete-character-button";
 
+export const dynamic = "force-dynamic";
+
 function VisibilityBadge({ v }: { v: CharacterVisibility }) {
   const meta = VISIBILITY_META[v];
   const tones = {
