@@ -19,7 +19,7 @@ export default function ComingSoonPage() {
       {/* ── ZuZu — 45° corner pop every ~30 s ─────────────────────────────── */}
       {/*   Wrapper slides up; img holds the static left lean — independent transforms */}
       <div
-        className="absolute bottom-0 right-4 pointer-events-none select-none z-[20]"
+        className="absolute bottom-0 right-4 pointer-events-none select-none z-[20] hidden md:block"
         style={{ width: "240px", animation: "zuzu-pop 33s ease-in-out infinite" }}
       >
         {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -115,7 +115,7 @@ export default function ComingSoonPage() {
         </p>
 
         {/* Social links */}
-        <div className="mt-6 flex items-center justify-center gap-5 text-[10px] text-white/60">
+        <div className="mt-6 flex items-center justify-center gap-3 sm:gap-5 flex-wrap text-[10px] text-white/60">
           <a
             href="https://instagram.com/"
             target="_blank"
