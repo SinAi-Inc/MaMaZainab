@@ -3,12 +3,12 @@
   "categories": [
     {
       "id": "cat_stuffy",
-      "nameEn": "Stuffy Fingers",
+      "nameEn": "Stuffy Fingers Family",
       "descriptionEn": "Hand-rolled, slow-cooked. Mama's signature.",
       "sort": 1,
       "visible": true,
       "createdAt": "2026-05-03T20:23:46.882Z",
-      "updatedAt": "2026-05-03T20:23:46.882Z"
+      "updatedAt": "2026-05-08T05:01:47.084Z"
     },
     {
       "id": "cat_sides",
@@ -52,10 +52,10 @@
       "id": "itm_stuffy_grape",
       "categoryId": "cat_stuffy",
       "sku": "MZ-STU-0001",
-      "nameEn": "Classic Grapes",
+      "nameEn": "Green Fingers",
       "descriptionEn": "Vine leaves rolled with rice, herbs, and a hint of lemon.",
-      "priceEgp": 45,
-      "imageUrl": "",
+      "priceEgp": 44.99,
+      "imageUrl": "/uploads/menu/px9dQ4694H.webp",
       "badges": [
         "bestseller",
         "vegan"
@@ -63,16 +63,16 @@
       "available": true,
       "sort": 1,
       "createdAt": "2026-05-03T20:23:46.882Z",
-      "updatedAt": "2026-05-07T04:33:16.043Z"
+      "updatedAt": "2026-05-08T05:35:02.885Z"
     },
     {
       "id": "itm_stuffy_cabbage",
       "categoryId": "cat_stuffy",
       "sku": "MZ-STU-0002",
-      "nameEn": "Emperor’s Cabbage",
+      "nameEn": "Velvet Flowers",
       "descriptionEn": "Cabbage rolls, slow-cooked in tomato broth.",
-      "priceEgp": 45,
-      "imageUrl": "",
+      "priceEgp": 44.99,
+      "imageUrl": "/uploads/menu/JrICg7foUI.png",
       "badges": [
         "chefs_pick",
         "vegan",
@@ -81,7 +81,7 @@
       "available": true,
       "sort": 2,
       "createdAt": "2026-05-03T20:23:46.882Z",
-      "updatedAt": "2026-05-07T04:33:29.356Z"
+      "updatedAt": "2026-05-08T05:57:50.254Z"
     },
     {
       "id": "itm_side_salad",
@@ -89,8 +89,8 @@
       "sku": "MZ-ADD-0001",
       "nameEn": "Mama Zainab's Special Sauce",
       "descriptionEn": "Fresh tomato, cucumber, onion, parsley.",
-      "priceEgp": 10,
-      "imageUrl": "",
+      "priceEgp": 9.99,
+      "imageUrl": "/uploads/menu/hdEKQCNkVG.jpg",
       "badges": [
         "chefs_pick",
         "limited"
@@ -98,7 +98,7 @@
       "available": true,
       "sort": 1,
       "createdAt": "2026-05-03T20:23:46.882Z",
-      "updatedAt": "2026-05-05T03:46:00.993Z"
+      "updatedAt": "2026-05-08T05:21:17.339Z"
     },
     {
       "id": "itm_drink_hibiscus",
@@ -106,7 +106,7 @@
       "sku": "MZ-DRI-0001",
       "nameEn": "Chilled Hibi",
       "descriptionEn": "Chilled hibiscus, lightly sweet.",
-      "priceEgp": 65,
+      "priceEgp": 64.99,
       "imageUrl": "/uploads/menu/rql1ELnbW5.jpg",
       "badges": [
         "vegan",
@@ -115,7 +115,7 @@
       "available": true,
       "sort": 1,
       "createdAt": "2026-05-03T20:23:46.882Z",
-      "updatedAt": "2026-05-07T04:39:23.195Z"
+      "updatedAt": "2026-05-08T05:05:46.125Z"
     },
     {
       "id": "itm_9Ybo7jaK",
@@ -123,7 +123,7 @@
       "sku": "MZ-DES-0001",
       "nameEn": "Zaktata",
       "descriptionEn": "a blend of ground barley, fresh milk, and pure honey",
-      "priceEgp": 65,
+      "priceEgp": 68.99,
       "imageUrl": "/uploads/menu/5eQ2r3zLV4.jpg",
       "badges": [
         "bestseller",
@@ -132,7 +132,7 @@
       "available": true,
       "sort": 1,
       "createdAt": "2026-05-03T22:44:32.262Z",
-      "updatedAt": "2026-05-05T03:48:18.615Z"
+      "updatedAt": "2026-05-08T05:08:01.492Z"
     },
     {
       "id": "itm_3mNDEwd2",
@@ -140,7 +140,7 @@
       "sku": "MZ-DRI-0002",
       "nameEn": "Minty Breeze",
       "descriptionEn": "a refreshing drink made from fresh mint, lemon juice, and a sweetener, often prepared as a simple syrup or blended directly for a slushy consistency.",
-      "priceEgp": 45,
+      "priceEgp": 54.99,
       "imageUrl": "/uploads/menu/YhzNThyRgl.jpg",
       "badges": [
         "bestseller"
@@ -148,7 +148,7 @@
       "available": true,
       "sort": 2,
       "createdAt": "2026-05-03T22:53:24.330Z",
-      "updatedAt": "2026-05-07T04:39:58.287Z"
+      "updatedAt": "2026-05-08T05:04:57.556Z"
     },
     {
       "id": "itm_ZF2PCQv5",
@@ -156,15 +156,15 @@
       "sku": "MZ-ADD-0002",
       "nameEn": "Garlic Yogurt",
       "descriptionEn": "",
-      "priceEgp": 8,
-      "imageUrl": "",
+      "priceEgp": 8.99,
+      "imageUrl": "/uploads/menu/hqOWIsMRYy.jpg",
       "badges": [
         "new"
       ],
       "available": true,
       "sort": 2,
       "createdAt": "2026-05-05T01:33:41.344Z",
-      "updatedAt": "2026-05-05T03:46:00.993Z"
+      "updatedAt": "2026-05-08T05:21:39.345Z"
     },
     {
       "id": "itm_zmv8hJ3O",
@@ -172,7 +172,7 @@
       "sku": "MZ-ADD-0003",
       "nameEn": "Smoked Paprika",
       "descriptionEn": "",
-      "priceEgp": 10,
+      "priceEgp": 9.99,
       "imageUrl": "",
       "badges": [
         "spicy"
@@ -180,7 +180,7 @@
       "available": true,
       "sort": 5,
       "createdAt": "2026-05-05T01:34:21.329Z",
-      "updatedAt": "2026-05-05T03:46:00.993Z"
+      "updatedAt": "2026-05-08T05:21:50.056Z"
     },
     {
       "id": "itm_WT8fHuUS",
@@ -188,13 +188,13 @@
       "sku": "MZ-ADD-0004",
       "nameEn": "Ranch",
       "descriptionEn": "",
-      "priceEgp": 8,
+      "priceEgp": 8.98,
       "imageUrl": "",
       "badges": [],
       "available": true,
       "sort": 9,
       "createdAt": "2026-05-05T01:34:54.243Z",
-      "updatedAt": "2026-05-05T03:46:00.993Z"
+      "updatedAt": "2026-05-08T05:22:42.084Z"
     },
     {
       "id": "itm_7b3gSQrq",
@@ -202,7 +202,7 @@
       "sku": "MZ-ADD-0005",
       "nameEn": "Honey Mustard",
       "descriptionEn": "",
-      "priceEgp": 8,
+      "priceEgp": 8.99,
       "imageUrl": "",
       "badges": [
         "limited"
@@ -210,7 +210,7 @@
       "available": true,
       "sort": 4,
       "createdAt": "2026-05-05T01:35:19.453Z",
-      "updatedAt": "2026-05-05T03:46:00.993Z"
+      "updatedAt": "2026-05-08T05:22:19.442Z"
     },
     {
       "id": "itm_w8zVv8Vt",
@@ -218,8 +218,8 @@
       "sku": "MZ-ADD-0006",
       "nameEn": "Lemon Pepper",
       "descriptionEn": "",
-      "priceEgp": 8,
-      "imageUrl": "",
+      "priceEgp": 8.99,
+      "imageUrl": "/uploads/menu/sz4tLhVQqp.webp",
       "badges": [
         "spicy",
         "vegan"
@@ -227,7 +227,7 @@
       "available": true,
       "sort": 2,
       "createdAt": "2026-05-05T01:36:00.865Z",
-      "updatedAt": "2026-05-05T03:46:00.993Z"
+      "updatedAt": "2026-05-08T05:21:29.221Z"
     },
     {
       "id": "itm_BxSaRyI7",
@@ -235,7 +235,7 @@
       "sku": "MZ-ADD-0007",
       "nameEn": "Creamy Garlic",
       "descriptionEn": "",
-      "priceEgp": 8,
+      "priceEgp": 8.99,
       "imageUrl": "",
       "badges": [
         "new"
@@ -243,7 +243,7 @@
       "available": true,
       "sort": 8,
       "createdAt": "2026-05-05T01:36:30.478Z",
-      "updatedAt": "2026-05-05T03:46:00.993Z"
+      "updatedAt": "2026-05-08T05:21:59.052Z"
     },
     {
       "id": "itm_bF8L5LsH",
@@ -251,7 +251,7 @@
       "sku": "MZ-ADD-0008",
       "nameEn": "Pomegranate Molasses",
       "descriptionEn": "",
-      "priceEgp": 10,
+      "priceEgp": 9.99,
       "imageUrl": "",
       "badges": [
         "vegan"
@@ -259,7 +259,7 @@
       "available": true,
       "sort": 7,
       "createdAt": "2026-05-05T01:41:11.646Z",
-      "updatedAt": "2026-05-05T03:46:00.993Z"
+      "updatedAt": "2026-05-08T05:22:30.951Z"
     },
     {
       "id": "itm_bKVqhips",
@@ -267,55 +267,38 @@
       "sku": "MZ-ADD-0009",
       "nameEn": "Tahini Lemon",
       "descriptionEn": "",
-      "priceEgp": 8,
+      "priceEgp": 8.99,
       "imageUrl": "",
       "badges": [],
       "available": true,
       "sort": 6,
       "createdAt": "2026-05-05T01:42:12.436Z",
-      "updatedAt": "2026-05-05T03:46:00.993Z"
-    },
-    {
-      "id": "itm_8UoJckPW",
-      "categoryId": "cat_sides",
-      "sku": "MZ-ADD-0010",
-      "nameEn": "Lemon Mint",
-      "descriptionEn": "",
-      "priceEgp": 8,
-      "imageUrl": "",
-      "badges": [
-        "vegan",
-        "bestseller"
-      ],
-      "available": true,
-      "sort": 10,
-      "createdAt": "2026-05-05T01:45:11.401Z",
-      "updatedAt": "2026-05-05T03:46:00.993Z"
+      "updatedAt": "2026-05-08T05:22:11.117Z"
     },
     {
       "id": "itm_1XDtkoPk",
       "categoryId": "cat_stuffy",
       "sku": "MZ-STU-0003",
-      "nameEn": "Eggplant Dance",
+      "nameEn": "Purple Hose!..",
       "descriptionEn": "",
-      "priceEgp": 45,
-      "imageUrl": "",
+      "priceEgp": 44.99,
+      "imageUrl": "/uploads/menu/ZUQLPPI_PN.jpg",
       "badges": [
         "vegan"
       ],
       "available": true,
       "sort": 4,
       "createdAt": "2026-05-05T03:05:33.495Z",
-      "updatedAt": "2026-05-07T04:36:13.452Z"
+      "updatedAt": "2026-05-08T05:33:00.786Z"
     },
     {
       "id": "itm_58d_MhQ9",
       "categoryId": "cat_stuffy",
       "sku": "MZ-STU-0004",
-      "nameEn": "Zucchini on The Road",
+      "nameEn": "Boring Zucchini",
       "descriptionEn": "",
-      "priceEgp": 40,
-      "imageUrl": "",
+      "priceEgp": 39.99,
+      "imageUrl": "/uploads/menu/1C_EG6CC8K.jpg",
       "badges": [
         "vegan",
         "limited"
@@ -323,7 +306,7 @@
       "available": true,
       "sort": 4,
       "createdAt": "2026-05-05T03:06:08.818Z",
-      "updatedAt": "2026-05-07T04:35:18.209Z"
+      "updatedAt": "2026-05-08T05:57:07.408Z"
     },
     {
       "id": "itm_K6MVkHOd",
@@ -331,8 +314,8 @@
       "sku": "MZ-STU-0005",
       "nameEn": "Onions Bomb",
       "descriptionEn": "",
-      "priceEgp": 35,
-      "imageUrl": "",
+      "priceEgp": 34.99,
+      "imageUrl": "/uploads/menu/TxLxP2Ptqm.webp",
       "badges": [
         "vegan",
         "new"
@@ -340,68 +323,16 @@
       "available": true,
       "sort": 9,
       "createdAt": "2026-05-05T03:07:46.209Z",
-      "updatedAt": "2026-05-07T04:36:24.031Z"
-    },
-    {
-      "id": "itm_-qsNBHbf",
-      "categoryId": "cat_stuffy",
-      "sku": "MZ-STU-0006",
-      "nameEn": "Crazy Tomato",
-      "descriptionEn": "",
-      "priceEgp": 45,
-      "imageUrl": "",
-      "badges": [
-        "vegan",
-        "chefs_pick"
-      ],
-      "available": true,
-      "sort": 5,
-      "createdAt": "2026-05-05T03:08:12.194Z",
-      "updatedAt": "2026-05-07T04:35:29.372Z"
-    },
-    {
-      "id": "itm_POMJQL3z",
-      "categoryId": "cat_stuffy",
-      "sku": "MZ-STU-0007",
-      "nameEn": "Potato Scope",
-      "descriptionEn": "",
-      "priceEgp": 40,
-      "imageUrl": "",
-      "badges": [
-        "vegan",
-        "new"
-      ],
-      "available": true,
-      "sort": 6,
-      "createdAt": "2026-05-05T03:08:53.116Z",
-      "updatedAt": "2026-05-07T04:34:35.120Z"
-    },
-    {
-      "id": "itm_xjcnfl6j",
-      "categoryId": "cat_stuffy",
-      "sku": "MZ-STU-0008",
-      "nameEn": "Noway Peppers",
-      "descriptionEn": "",
-      "priceEgp": 40,
-      "imageUrl": "",
-      "badges": [
-        "spicy",
-        "vegan",
-        "bestseller"
-      ],
-      "available": true,
-      "sort": 8,
-      "createdAt": "2026-05-05T03:09:40.186Z",
-      "updatedAt": "2026-05-07T04:35:00.143Z"
+      "updatedAt": "2026-05-08T05:57:22.274Z"
     },
     {
       "id": "itm_S_vXN0Y-",
       "categoryId": "cat_stuffy",
       "sku": "MZ-STU-0009",
-      "nameEn": "Mama’s Mumbar",
+      "nameEn": "Mumba Bites",
       "descriptionEn": "",
-      "priceEgp": 60,
-      "imageUrl": "",
+      "priceEgp": 59.99,
+      "imageUrl": "/uploads/menu/iZlwrgEWlc.jpg",
       "badges": [
         "limited",
         "chefs_pick",
@@ -410,30 +341,30 @@
       "available": true,
       "sort": 3,
       "createdAt": "2026-05-05T03:10:20.827Z",
-      "updatedAt": "2026-05-07T04:33:51.326Z"
+      "updatedAt": "2026-05-08T05:58:04.513Z"
     },
     {
       "id": "itm_bKy6kP9n",
       "categoryId": "cat_TZRflJUU",
       "sku": "MZ-ESS-0001",
-      "nameEn": "Meatballs",
+      "nameEn": "Protein Balls",
       "descriptionEn": "",
-      "priceEgp": 0,
-      "imageUrl": "",
+      "priceEgp": 49.99,
+      "imageUrl": "/uploads/menu/PTSTtKVrK5.jpg",
       "badges": [],
       "available": true,
       "sort": 1,
       "createdAt": "2026-05-07T05:04:34.288Z",
-      "updatedAt": "2026-05-07T05:04:34.288Z"
+      "updatedAt": "2026-05-08T06:00:24.722Z"
     },
     {
       "id": "itm_ztKN5cP7",
       "categoryId": "cat_TZRflJUU",
       "sku": "MZ-ESS-0002",
-      "nameEn": "Chicken Balls",
+      "nameEn": "Chick Balls",
       "descriptionEn": "",
-      "priceEgp": 45,
-      "imageUrl": "",
+      "priceEgp": 44.99,
+      "imageUrl": "/uploads/menu/fPFWZYt4cY.jpg",
       "badges": [
         "chefs_pick",
         "spicy",
@@ -442,7 +373,7 @@
       "available": true,
       "sort": 2,
       "createdAt": "2026-05-07T21:22:34.933Z",
-      "updatedAt": "2026-05-07T21:22:34.933Z"
+      "updatedAt": "2026-05-08T05:58:31.102Z"
     }
   ]
 }

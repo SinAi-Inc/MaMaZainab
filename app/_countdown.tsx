@@ -46,7 +46,7 @@ export function CountdownClient({ target }: { target: string }) {
           key={label}
           className="min-w-[68px] sm:min-w-[88px] rounded-lg bg-white/5 border border-white/10 px-3 py-3 backdrop-blur"
         >
-          <div className="font-display text-3xl sm:text-4xl text-brand-yellow leading-none tabular-nums">
+          <div className="font-display text-3xl sm:text-4xl text-white leading-none tabular-nums">
             {typeof val === "number" ? String(val).padStart(2, "0") : val}
           </div>
           <div className="mt-1 text-[10px] uppercase tracking-[0.24em] text-white/55">

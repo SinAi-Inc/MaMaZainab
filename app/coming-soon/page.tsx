@@ -12,16 +12,9 @@ const LAUNCH_ISO = "2026-09-01T12:00:00+02:00";
 
 export default function ComingSoonPage() {
   return (
-    <main className="min-h-screen bg-brand-ink text-white relative overflow-hidden flex flex-col">
-      {/* Background plaid wash */}
-      <div className="absolute inset-0 plaid opacity-40 pointer-events-none" />
-      <div
-        className="absolute inset-0 pointer-events-none"
-        style={{
-          background:
-            "radial-gradient(ellipse at 50% 35%, rgba(44,41,42,0) 0%, rgba(44,41,42,0.55) 55%, rgba(44,41,42,0.95) 100%)",
-        }}
-      />
+    <main className="min-h-screen bg-brand-green text-white relative overflow-hidden flex flex-col">
+      {/* Background plaid — full brightness, matching brand apron */}
+      <div className="absolute inset-0 plaid pointer-events-none" />
 
       {/* ── ZuZu — 45° corner pop every ~30 s ─────────────────────────────── */}
       {/*   Wrapper slides up; img holds the static left lean — independent transforms */}
@@ -44,7 +37,7 @@ export default function ComingSoonPage() {
       </div>
 
       {/* Top bar */}
-      <header className="relative z-10 px-8 py-6 flex items-center justify-between">
+      <header className="relative z-10 px-8 py-4 flex items-center justify-between bg-brand-ink/80 backdrop-blur-sm">
         <div className="flex items-center gap-3">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
@@ -53,13 +46,13 @@ export default function ComingSoonPage() {
             className="size-9"
             draggable={false}
           />
-          <span className="font-[family-name:var(--font-brand)] text-sm tracking-[0.18em] text-white/80">
+          <span className="font-[family-name:var(--font-brand)] text-sm tracking-[0.18em] text-white">
             MaMa Zainab
           </span>
         </div>
         <Link
           href="/menu/preview?peek=1"
-          className="px-4 py-2 rounded-md border border-brand-yellow/40 text-brand-yellow text-[11px] uppercase tracking-[0.2em] font-medium hover:bg-brand-yellow/10 transition"
+          className="px-4 py-2 rounded-md bg-white text-brand-ink text-[11px] uppercase tracking-[0.2em] font-semibold hover:bg-white/85 transition"
         >
           Sneak Peek 👀
         </Link>
@@ -67,6 +60,7 @@ export default function ComingSoonPage() {
 
       {/* Hero */}
       <section className="relative z-10 flex-1 flex flex-col items-center justify-center text-center px-6 py-12">
+        <div className="bg-brand-ink/75 backdrop-blur-sm rounded-2xl px-8 py-10 max-w-xl w-full shadow-2xl">
         <p className="text-[11px] uppercase tracking-[0.4em] text-brand-yellow mb-6">
           Coming Soon · Alexandria, EGYPT
         </p>
@@ -76,21 +70,21 @@ export default function ComingSoonPage() {
         <img
           src="/brand/logo-wordmark-transparent.png"
           alt="MaMa Zainab"
-          className="w-full max-w-xl"
+          className="w-full max-w-xl mx-auto"
           style={{ filter: "drop-shadow(0 0 30px rgba(239,210,0,0.25))" }}
           draggable={false}
         />
 
         <h1 className="sr-only">MaMa Zainab - Coming Soon</h1>
 
-        <p className="mt-8 text-lg sm:text-xl text-white/85 max-w-xl font-light leading-relaxed">
+        <p className="mt-8 text-lg sm:text-xl text-white max-w-xl font-light leading-relaxed">
           <span className="font-[family-name:var(--font-brand)] tracking-wider text-brand-yellow text-2xl block">
             Homemade taste. Fast-food style.
           </span>
-          <span className="text-sm text-white/60 italic">- for the first time.</span>
+          <span className="text-sm text-white/70 italic">- for the first time.</span>
         </p>
 
-        <p className="mt-4 text-sm text-white/55 max-w-md">
+        <p className="mt-4 text-sm text-white/70 max-w-md mx-auto">
           Hand-rolled, slow-cooked Egyptian comfort food - served the way Mama
           would. Opening late 2026.
         </p>
@@ -100,14 +94,14 @@ export default function ComingSoonPage() {
         <form
           action="/api/notify"
           method="POST"
-          className="mt-10 w-full max-w-md flex flex-col sm:flex-row gap-2"
+          className="mt-10 w-full max-w-md mx-auto flex flex-col sm:flex-row gap-2"
         >
           <input
             type="email"
             name="email"
             required
             placeholder="your@email.com"
-            className="flex-1 px-4 py-3 rounded-md bg-white/10 border border-white/15 placeholder-white/40 text-white outline-none focus:border-brand-yellow focus:bg-white/15 transition"
+            className="flex-1 px-4 py-3 rounded-md bg-white/15 border border-white/20 placeholder-white/50 text-white outline-none focus:border-brand-yellow focus:bg-white/20 transition"
           />
           <button
             type="submit"
@@ -116,12 +110,12 @@ export default function ComingSoonPage() {
             Notify me
           </button>
         </form>
-        <p className="mt-3 text-[11px] text-white/40">
+        <p className="mt-3 text-[11px] text-white/50">
           We&apos;ll only email you on opening day. No spam.
         </p>
 
-        {/* Social links — directly under notify section */}
-        <div className="mt-8 flex items-center gap-6 text-[12px] text-white/50">
+        {/* Social links */}
+        <div className="mt-8 flex items-center justify-center gap-6 text-[12px] text-white/60">
           <a
             href="https://instagram.com/"
             target="_blank"
@@ -130,7 +124,7 @@ export default function ComingSoonPage() {
           >
             Instagram
           </a>
-          <span className="text-white/20">·</span>
+          <span className="text-white/30">·</span>
           <a
             href="https://tiktok.com/"
             target="_blank"
@@ -139,7 +133,7 @@ export default function ComingSoonPage() {
           >
             TikTok
           </a>
-          <span className="text-white/20">·</span>
+          <span className="text-white/30">·</span>
           <a
             href="https://facebook.com/"
             target="_blank"
@@ -149,14 +143,15 @@ export default function ComingSoonPage() {
             Facebook
           </a>
         </div>
+        </div>
       </section>
 
       {/* Footer */}
-      <footer className="relative z-10 px-8 py-6 border-t border-white/10 flex flex-col items-center gap-2 text-[11px] text-white/45 text-center">
+      <footer className="relative z-10 px-8 py-5 bg-brand-ink/80 backdrop-blur-sm flex flex-col items-center gap-2 text-[11px] text-white/70 text-center">
         <div className="uppercase tracking-[0.24em]">
           © 2026 MaMa Zainab · Alexandria
         </div>
-        <div className="tracking-[0.1em] text-white/30">
+        <div className="tracking-[0.1em] text-white/50">
           Owned &amp; Operated by{" "}
           <Link
             href="/cn"
