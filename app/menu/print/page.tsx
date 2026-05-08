@@ -54,6 +54,8 @@ export default async function MenuPrintPage() {
       <article className="print-sheet mx-auto bg-white shadow-lg my-6">
         {/* Header */}
         <header className="print-page-header text-center pt-8 pb-5 px-12 border-b-4 border-brand-green relative">
+          {/* Thin plaid accent at top of header */}
+          <div className="plaid h-3 -mx-12 -mt-8 mb-4" />
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src="/brand/logo-primary.png"
@@ -112,12 +114,15 @@ export default async function MenuPrintPage() {
 
           {/* Footer INSIDE the grid so it stays with content as a full-width last row.
               Outside the grid, break-before:avoid is unreliable in Chrome. */}
-          <footer className="print-page-footer px-0 py-6 bg-brand-ink text-white text-center">
-            <div className="font-display text-xl tracking-wide">MaMa Zainab</div>
-            <div className="text-[10px] opacity-70 mt-1 tracking-[0.2em] uppercase">
-              Alexandria · Est. 2026
+          <footer className="print-page-footer px-0 py-6 bg-brand-ink text-white text-center relative overflow-hidden">
+            <div className="absolute top-0 left-0 right-0 plaid h-2 opacity-40" />
+            <div className="relative z-10">
+              <div className="font-display text-xl tracking-wide">MaMa Zainab</div>
+              <div className="text-[10px] opacity-70 mt-1 tracking-[0.2em] uppercase">
+                Alexandria · Est. 2026
+              </div>
+              <div className="mt-3 inline-block h-1 w-12 bg-brand-yellow rounded" />
             </div>
-            <div className="mt-3 inline-block h-1 w-12 bg-brand-yellow rounded" />
           </footer>
         </div>
       </article>

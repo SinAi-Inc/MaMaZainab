@@ -13,8 +13,27 @@ export const SettingsSchema = z.object({
   notifyMenuChanges: z.boolean().default(true),
   notifyVideoUpdates: z.boolean().default(true),
   notifyMaintenance: z.boolean().default(true),
+  // API Management
+  orderingApiUrl: z.string().default(""),
+  orderingApiEnabled: z.boolean().default(false),
+  posApiUrl: z.string().default(""),
+  posApiEnabled: z.boolean().default(false),
+  deliveryApiUrl: z.string().default(""),
+  deliveryApiEnabled: z.boolean().default(false),
+  // Social Media
+  socialFacebook: z.string().default(""),
+  socialInstagram: z.string().default(""),
+  socialTiktok: z.string().default(""),
+  socialTwitter: z.string().default(""),
+  socialYoutube: z.string().default(""),
+  socialWhatsapp: z.string().default(""),
+  // AI Model API Keys
+  nvidiaApiKey: z.string().default(""),
   // Security
   sessionTimeout: z.string().default("30"),
+  requirePassword: z.boolean().default(false),
+  adminPassword: z.string().default(""),
+  allowPublicMenu: z.boolean().default(true),
 });
 
 export type Settings = z.infer<typeof SettingsSchema>;

@@ -10,16 +10,6 @@ export const metadata: Metadata = {
 
 const LAUNCH_ISO = "2026-09-01T12:00:00+02:00";
 
-/** Food items scattered decoratively around the edges (md+ screens only) */
-const FOOD_ITEMS = [
-  { src: "/uploads/menu/rql1ELnbW5.jpg",  top: "7%",  left: "-3%",  rotate: "-15deg", delay: "0s",    size: 130 },
-  { src: "/uploads/menu/kn1BmhVqPV.jpg",  top: "13%", right: "-2%", rotate: "20deg",  delay: "0.7s",  size: 118 },
-  { src: "/uploads/menu/aGmh7eivS_.jpg",  top: "41%", left: "-3%",  rotate: "-22deg", delay: "1.3s",  size: 124 },
-  { src: "/uploads/menu/jfPjQtYb6A.jpg",  top: "50%", right: "-2%", rotate: "25deg",  delay: "0.4s",  size: 120 },
-  { src: "/uploads/menu/YhzNThyRgl.jpg",  bottom: "16%", left: "2%", rotate: "18deg", delay: "1.8s", size: 114 },
-  { src: "/uploads/menu/Gzoj4h3ROk.jpg",  bottom: "30%", right: "1%", rotate: "-18deg", delay: "1.1s", size: 108 },
-] as const;
-
 export default function ComingSoonPage() {
   return (
     <main className="min-h-screen bg-brand-ink text-white relative overflow-hidden flex flex-col">
@@ -32,31 +22,6 @@ export default function ComingSoonPage() {
             "radial-gradient(ellipse at 50% 35%, rgba(44,41,42,0) 0%, rgba(44,41,42,0.55) 55%, rgba(44,41,42,0.95) 100%)",
         }}
       />
-
-      {/* ── Scattered food photos (decorative, md+ only) ───────────────────── */}
-      {FOOD_ITEMS.map((item) => (
-        <div
-          key={item.src}
-          className="absolute hidden md:block pointer-events-none select-none z-[5]"
-          style={{
-            top:    "top"    in item ? item.top    : undefined,
-            bottom: "bottom" in item ? item.bottom : undefined,
-            left:   "left"   in item ? item.left   : undefined,
-            right:  "right"  in item ? item.right  : undefined,
-            width:  `${item.size}px`,
-            transform: `rotate(${item.rotate})`,
-          }}
-        >
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src={item.src}
-            alt=""
-            className="w-full rounded-2xl shadow-[0_8px_40px_rgba(0,0,0,0.5)] opacity-80"
-            style={{ animation: `food-drift 3.4s ease-in-out ${item.delay} infinite` }}
-            draggable={false}
-          />
-        </div>
-      ))}
 
       {/* ── ZuZu — 45° corner pop every ~30 s ─────────────────────────────── */}
       {/*   Wrapper slides up; img holds the static left lean — independent transforms */}
@@ -79,19 +44,25 @@ export default function ComingSoonPage() {
       </div>
 
       {/* Top bar */}
-      <header className="relative z-10 px-8 py-6 flex items-center justify-center">
+      <header className="relative z-10 px-8 py-6 flex items-center justify-between">
         <div className="flex items-center gap-3">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
-            src="/brand/mark-transparent.png"
+            src="/brand/mark.png"
             alt=""
-            className="size-9 rounded-full"
+            className="size-9"
             draggable={false}
           />
           <span className="font-[family-name:var(--font-brand)] text-sm tracking-[0.18em] text-white/80">
             MaMa Zainab
           </span>
         </div>
+        <Link
+          href="/menu/preview?peek=1"
+          className="px-4 py-2 rounded-md border border-brand-yellow/40 text-brand-yellow text-[11px] uppercase tracking-[0.2em] font-medium hover:bg-brand-yellow/10 transition"
+        >
+          Sneak Peek 👀
+        </Link>
       </header>
 
       {/* Hero */}
@@ -189,7 +160,7 @@ export default function ComingSoonPage() {
           Owned &amp; Operated by{" "}
           <Link
             href="/cn"
-            className="hover:text-brand-yellow transition underline underline-offset-2"
+            className="font-[family-name:var(--font-brand)] text-brand-red hover:text-red-400 transition underline underline-offset-2 tracking-[0.12em]"
           >
             Sheng Heng Wang
           </Link>{" "}

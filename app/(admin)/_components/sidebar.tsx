@@ -12,6 +12,7 @@ import {
   Settings,
   Sparkles,
   Mail,
+  Store,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -30,20 +31,31 @@ const NAV: { section: string; items: NavItem[] }[] = [
     ],
   },
   {
-    section: "Content",
+    section: "Operations",
     items: [
+      { href: "/branches", label: "Owner's Eye", icon: Store, status: "active" },
       { href: "/menu", label: "Menu", icon: UtensilsCrossed, status: "active" },
-      { href: "/website", label: "Website", icon: Globe, status: "active" },
-      { href: "/videos", label: "Videos", icon: Video, status: "active" },
+    ],
+  },
+  {
+    section: "Creative",
+    items: [
+      { href: "/ai", label: "Studio", icon: Sparkles, status: "active" },
+      { href: "/videos", label: "Video Projects", icon: Video, status: "active" },
+    ],
+  },
+  {
+    section: "Brand",
+    items: [
       { href: "/characters", label: "Characters", icon: Users, status: "active" },
-      { href: "/contacts", label: "Contact List", icon: Mail, status: "active" },
+      { href: "/brand", label: "Brand Tokens", icon: Palette, status: "active" },
     ],
   },
   {
     section: "System",
     items: [
-      { href: "/brand", label: "Brand Tokens", icon: Palette, status: "active" },
-      { href: "/ai", label: "AI Generators", icon: Sparkles, status: "active" },
+      { href: "/website", label: "Website", icon: Globe, status: "active" },
+      { href: "/contacts", label: "Contacts", icon: Mail, status: "active" },
       { href: "/settings", label: "Settings", icon: Settings, status: "active" },
     ],
   },

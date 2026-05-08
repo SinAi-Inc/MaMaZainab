@@ -15,6 +15,7 @@ export async function saveSettings(formData: FormData) {
     notifyMenuChanges: formData.get("notifyMenuChanges") === "on",
     notifyVideoUpdates: formData.get("notifyVideoUpdates") === "on",
     notifyMaintenance: formData.get("notifyMaintenance") === "on",
+    nvidiaApiKey: formData.get("nvidiaApiKey") ?? "",
     sessionTimeout: formData.get("sessionTimeout"),
   };
 

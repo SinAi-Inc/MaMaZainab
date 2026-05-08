@@ -23,6 +23,7 @@ import {
   deleteTake,
   uploadTakeVideo,
   setTakeStatus,
+  pollTake,
 } from "@/lib/videos/actions";
 import {
   SHOT_TYPE_META,
@@ -360,7 +361,7 @@ function GenerateTakeForm({
   const [model, setModel] = useState<VideoModel>(
     (MODELS as string[]).includes(defaultModel)
       ? (defaultModel as VideoModel)
-      : "veo-3.1",
+      : "stabilityai/stable-video-diffusion",
   );
   const [prompt, setPrompt] = useState(
     defaultPrompt
@@ -391,7 +392,7 @@ function GenerateTakeForm({
           notes: "",
         });
         toast.success(
-          videoUrl ? "Take registered" : "Take queued — render in your model UI then paste the URL",
+          videoUrl ? "Take registered" : "Take dispatched to NVIDIA — check status to poll for result",
         );
         onCreated();
       } catch (e: unknown) {
@@ -577,7 +578,13 @@ function TakeTile({ take }: { take: Take }) {
         />
       ) : (
         <div className="absolute inset-0 flex items-center justify-center text-zinc-600 text-[10px]">
-          {take.status === "queued" ? "queued — paste URL" : "no preview"}
+          {take.status === "generating" ? (
+            <span className="animate-pulse">generating…</span>
+          ) : take.status === "queued" ? (
+            "queued — paste URL"
+          ) : (
+            "no preview"
+          )}
         </div>
       )}
 
@@ -608,6 +615,29 @@ function TakeTile({ take }: { take: Take }) {
           </a>
         )}
         <div className="ml-auto flex items-center gap-1">
+          {take.status === "generating" && (
+            <button
+              type="button"
+              onClick={() =>
+                start(async () => {
+                  try {
+                    const updated = await pollTake(take.id);
+                    if (updated.status === "ready") toast.success("Video ready!");
+                    else if (updated.status === "failed") toast.error(updated.notes || "Generation failed");
+                    else toast("Still generating…");
+                    router.refresh();
+                  } catch (e: unknown) {
+                    toast.error(e instanceof Error ? e.message : "Poll failed");
+                  }
+                })
+              }
+              disabled={pending}
+              className="p-1 rounded bg-brand-yellow/90 text-brand-ink hover:bg-brand-yellow"
+              title="Check status"
+            >
+              <Play className="size-3" />
+            </button>
+          )}
           {take.status === "queued" && (
             <button
               type="button"

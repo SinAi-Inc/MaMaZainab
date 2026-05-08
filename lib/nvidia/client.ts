@@ -1,0 +1,287 @@
+/**
+ * NVIDIA API Catalog client for image and video generation.
+ * Endpoint: ai.api.nvidia.com — hosts models from Stability AI,
+ * Black Forest Labs, and other partners under one API key.
+ *
+ * Reads NVIDIA key from: settings store first, then NVIDIA_API_KEY env var.
+ *
+ * Video generation is a two-step pipeline:
+ *   1. Generate a still frame from a text prompt (Flux / SD)
+ *   2. Animate the frame via Stable Video Diffusion (image-to-video)
+ */
+
+import { readSettings } from "@/lib/settings/store";
+
+const BASE_URL = "https://ai.api.nvidia.com/v1/genai";
+
+async function getApiKey(): Promise<string> {
+  // 1. Check settings store (user-entered key via UI)
+  try {
+    const settings = await readSettings();
+    if (settings.nvidiaApiKey) return settings.nvidiaApiKey;
+  } catch {
+    // settings file may not exist yet
+  }
+  // 2. Fall back to environment variable
+  const key = process.env.NVIDIA_API_KEY;
+  if (!key) throw new Error("NVIDIA_API_KEY is not set — add it in Settings → AI Model Keys");
+  return key;
+}
+
+/* ---- Image Models (NVIDIA API Catalog) ---- */
+
+export const NVIDIA_IMAGE_MODELS = [
+  {
+    id: "black-forest-labs/flux.1-dev",
+    label: "Flux.1 Dev",
+    vendor: "Black Forest Labs",
+  },
+  {
+    id: "black-forest-labs/flux_1-schnell",
+    label: "Flux.1 Schnell",
+    vendor: "Black Forest Labs",
+  },
+  {
+    id: "stabilityai/stable-diffusion-3-medium",
+    label: "SD 3 Medium",
+    vendor: "Stability AI",
+  },
+  {
+    id: "stabilityai/stable-diffusion-xl",
+    label: "SDXL",
+    vendor: "Stability AI",
+  },
+] as const;
+
+export type NvidiaImageModelId = (typeof NVIDIA_IMAGE_MODELS)[number]["id"];
+
+/* ---- Video Models (NVIDIA API Catalog) ---- */
+
+export const NVIDIA_VIDEO_MODELS = [
+  {
+    id: "stabilityai/stable-video-diffusion",
+    label: "Stable Video Diffusion",
+    vendor: "Stability AI",
+  },
+] as const;
+
+export type NvidiaVideoModelId = (typeof NVIDIA_VIDEO_MODELS)[number]["id"];
+
+/* ---- Image Generation ---- */
+
+export type ImageGenParams = {
+  model: NvidiaImageModelId;
+  prompt: string;
+  width?: number;
+  height?: number;
+  seed?: number;
+  steps?: number;
+  cfgScale?: number;
+};
+
+export type ImageGenResult = {
+  /** Base64-encoded image data */
+  image: string;
+  /** MIME type (image/jpeg or image/png) */
+  contentType: string;
+  seed: number;
+};
+
+export async function generateImage(params: ImageGenParams): Promise<ImageGenResult> {
+  const { model, prompt, width = 1024, height = 1024, seed = 0, steps, cfgScale } = params;
+
+  const body: Record<string, unknown> = {
+    prompt,
+    width,
+    height,
+    seed,
+  };
+
+  // Model-specific payload tuning
+  if (model === "black-forest-labs/flux.1-dev") {
+    body.cfg_scale = cfgScale ?? 5;
+    body.steps = steps ?? 50;
+  } else if (model === "black-forest-labs/flux_1-schnell") {
+    body.cfg_scale = cfgScale ?? 5;
+    body.steps = steps ?? 4;
+  } else if (model === "stabilityai/stable-diffusion-3-medium") {
+    body.cfg_scale = cfgScale ?? 5;
+    body.steps = steps ?? 40;
+  } else if (model === "stabilityai/stable-diffusion-xl") {
+    body.cfg_scale = cfgScale ?? 5;
+    body.steps = steps ?? 30;
+  }
+
+  const res = await fetch(`${BASE_URL}/${model}`, {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${await getApiKey()}`,
+      "Content-Type": "application/json",
+      Accept: "application/json",
+    },
+    body: JSON.stringify(body),
+  });
+
+  if (!res.ok) {
+    const text = await res.text();
+    throw new Error(`NVIDIA API error (${res.status}): ${text}`);
+  }
+
+  const json = await res.json();
+
+  // NVIDIA returns { artifacts: [{ base64, seed, ... }] } or { image: "base64..." }
+  let imageData: string;
+  let resultSeed = seed;
+
+  if (json.artifacts?.[0]) {
+    imageData = json.artifacts[0].base64;
+    resultSeed = json.artifacts[0].seed ?? seed;
+  } else if (json.image) {
+    imageData = json.image;
+  } else if (json.b64_json) {
+    imageData = json.b64_json;
+  } else {
+    throw new Error("Unexpected NVIDIA API response shape");
+  }
+
+  return {
+    image: imageData,
+    contentType: "image/jpeg",
+    seed: resultSeed,
+  };
+}
+
+/* ---- Video Generation ---- */
+
+export type VideoGenParams = {
+  model: NvidiaVideoModelId;
+  /** Text prompt — will be used to generate an initial frame first */
+  prompt: string;
+  /** Pre-existing base64 image to animate (skips frame generation) */
+  image?: string;
+  seed?: number;
+  cfgScale?: number;
+};
+
+export type VideoGenResult = {
+  /** Base64-encoded video data (mp4) */
+  video: string;
+  contentType: string;
+  seed: number;
+};
+
+/**
+ * Submit a video generation job via Stable Video Diffusion.
+ * SVD is image-to-video only, so we implement a two-step pipeline:
+ *   1. If no image is provided, generate a frame from the prompt using Flux
+ *   2. Send the frame to SVD for animation
+ *
+ * NVIDIA video models are async — they return a request ID for polling.
+ */
+export type VideoJobResponse = {
+  reqId: string;
+  status: "pending" | "running" | "completed" | "failed";
+  video?: string;
+  error?: string;
+};
+
+export async function submitVideoJob(params: VideoGenParams): Promise<VideoJobResponse> {
+  const { prompt, image, seed = 0, cfgScale = 1.8 } = params;
+
+  // Step 1: Get or generate the source image
+  let sourceImage = image;
+  if (!sourceImage) {
+    // Generate a frame from the prompt using Flux.1 Dev
+    const frameResult = await generateImage({
+      model: "black-forest-labs/flux.1-dev",
+      prompt,
+      width: 1344,
+      height: 768,
+      seed,
+    });
+    sourceImage = frameResult.image;
+  }
+
+  // Step 2: Send to Stable Video Diffusion (image-to-video)
+  const body = {
+    image: sourceImage.startsWith("data:") ? sourceImage : `data:image/jpeg;base64,${sourceImage}`,
+    seed,
+    cfg_scale: cfgScale,
+    motion_bucket_id: 127,
+  };
+
+  const res = await fetch(`${BASE_URL}/stabilityai/stable-video-diffusion`, {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${await getApiKey()}`,
+      "Content-Type": "application/json",
+      Accept: "application/json",
+      "NVCF-POLL-SECONDS": "0", // Don't long-poll, return immediately with request ID
+    },
+    body: JSON.stringify(body),
+  });
+
+  // If 202 → async job submitted
+  if (res.status === 202) {
+    const reqId = res.headers.get("NVCF-REQID") ?? "";
+    return { reqId, status: "pending" };
+  }
+
+  // If 200 → completed synchronously (rare for video)
+  if (res.ok) {
+    const json = await res.json();
+    return {
+      reqId: "",
+      status: "completed",
+      video: json.video ?? json.artifacts?.[0]?.base64 ?? "",
+    };
+  }
+
+  const text = await res.text();
+  throw new Error(`NVIDIA Video API error (${res.status}): ${text}`);
+}
+
+export async function pollVideoJob(reqId: string): Promise<VideoJobResponse> {
+  const res = await fetch(
+    `https://api.nvcf.nvidia.com/v2/nvcf/exec/status/${reqId}`,
+    {
+      headers: {
+        Authorization: `Bearer ${await getApiKey()}`,
+        Accept: "application/json",
+      },
+    },
+  );
+
+  if (!res.ok) {
+    const text = await res.text();
+    throw new Error(`NVIDIA poll error (${res.status}): ${text}`);
+  }
+
+  const json = await res.json();
+
+  if (json.status === "fulfilled" || json.status === "completed") {
+    // Response body contains the video
+    const videoData = json.response?.body ?? json.video ?? "";
+    return { reqId, status: "completed", video: videoData };
+  }
+
+  if (json.status === "failed" || json.status === "rejected") {
+    return { reqId, status: "failed", error: json.error ?? "Generation failed" };
+  }
+
+  return { reqId, status: "running" };
+}
+
+/* ---- Helpers ---- */
+
+export function aspectToSize(aspect: string): { width: number; height: number } {
+  switch (aspect) {
+    case "1:1": return { width: 1024, height: 1024 };
+    case "16:9": return { width: 1280, height: 720 };
+    case "9:16": return { width: 720, height: 1280 };
+    case "4:3": return { width: 1024, height: 768 };
+    case "3:2": return { width: 1024, height: 680 };
+    case "2.39:1": return { width: 1280, height: 536 };
+    default: return { width: 1024, height: 1024 };
+  }
+}

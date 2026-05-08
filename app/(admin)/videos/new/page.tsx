@@ -47,7 +47,7 @@ export default function NewProjectPage() {
       scriptSourcePath: "",
       targetDurationSec: 60,
       aspectRatio: "16:9",
-      defaultModel: "veo-3.1",
+      defaultModel: "nvidia/cosmos-nemotron-cc-generate1-12b",
       styleSuffix:
         "shot on ARRI Alexa 35, cinematic color grade, photoreal, no text overlay",
       posterUrl: "",

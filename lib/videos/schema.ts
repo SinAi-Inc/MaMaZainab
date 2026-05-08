@@ -44,7 +44,7 @@ export const ProjectSchema = z.object({
   /** "16:9" | "9:16" | "1:1" | "2.39:1" */
   aspectRatio: z.string().default("2.39:1"),
   /** Default model preference */
-  defaultModel: z.string().default("veo-3.1"),
+  defaultModel: z.string().default("stabilityai/stable-video-diffusion"),
   /** Free-form style notes appended to every prompt */
   styleSuffix: z.string().default(""),
   posterUrl: z.string().default(""),
@@ -137,17 +137,7 @@ export type Shot = z.infer<typeof ShotSchema>;
 /* ---- Take ---------------------------------------------------- */
 
 export const VideoModelSchema = z.enum([
-  "nvidia-cosmos",
-  "nvidia-wan",
-  "veo-3.1",
-  "veo-3",
-  "runway-gen4",
-  "kling-2.5",
-  "sora",
-  "pika",
-  "luma-ray2",
-  "minimax",
-  "other",
+  "stabilityai/stable-video-diffusion",
 ]);
 export type VideoModel = z.infer<typeof VideoModelSchema>;
 
@@ -155,17 +145,7 @@ export const MODEL_META: Record<
   VideoModel,
   { label: string; vendor: string; color: string }
 > = {
-  "nvidia-cosmos": { label: "Cosmos 2.0", vendor: "NVIDIA", color: "#76B900" },
-  "nvidia-wan": { label: "Wan 2.1", vendor: "NVIDIA NIM", color: "#76B900" },
-  "veo-3.1": { label: "Veo 3.1", vendor: "Google", color: "#4285F4" },
-  "veo-3": { label: "Veo 3", vendor: "Google", color: "#4285F4" },
-  "runway-gen4": { label: "Runway Gen-4", vendor: "Runway", color: "#000000" },
-  "kling-2.5": { label: "Kling 2.5 Pro", vendor: "Kuaishou", color: "#FF6B00" },
-  sora: { label: "Sora", vendor: "OpenAI", color: "#10A37F" },
-  pika: { label: "Pika", vendor: "Pika Labs", color: "#7C3AED" },
-  "luma-ray2": { label: "Luma Ray 2", vendor: "Luma", color: "#0EA5E9" },
-  minimax: { label: "MiniMax Hailuo", vendor: "MiniMax", color: "#E11D48" },
-  other: { label: "Other", vendor: "—", color: "#6B7280" },
+  "stabilityai/stable-video-diffusion": { label: "Stable Video Diffusion", vendor: "Stability AI", color: "#8B5CF6" },
 };
 
 export const TakeStatusSchema = z.enum([
@@ -193,7 +173,7 @@ export const TakeSchema = z.object({
   projectId: z.string(),
   shotId: z.string(),
   index: z.coerce.number().int().min(1),
-  model: VideoModelSchema.default("veo-3.1"),
+  model: VideoModelSchema.catch("stabilityai/stable-video-diffusion"),
   prompt: z.string().default(""),
   externalId: z.string().default(""),
   seed: z.string().default(""),

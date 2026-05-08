@@ -2,7 +2,7 @@
 
 import { useTransition, useRef } from "react";
 import { toast } from "sonner";
-import { Settings, Globe, Bell, Lock, User, Save } from "lucide-react";
+import { Settings, Globe, Bell, Lock, User, Save, Plug, Shield, Share2, Cpu } from "lucide-react";
 import { Card, CardBody } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -155,10 +155,98 @@ export function SettingsForm({ settings }: { settings: SettingsType }) {
         </CardBody>
       </Card>
 
+      {/* API Management */}
+      <Card>
+        <CardBody>
+          <SectionHeader icon={Plug} title="API Management" description="Connect external services for orders, POS, and delivery" />
+          <FieldRow label="Ordering API">
+            <div className="flex items-center gap-2">
+              <Input
+                name="orderingApiUrl"
+                defaultValue={settings.orderingApiUrl}
+                placeholder="https://api.example.com/orders"
+                className="text-sm flex-1"
+              />
+              <Toggle name="orderingApiEnabled" defaultChecked={settings.orderingApiEnabled} />
+            </div>
+          </FieldRow>
+          <FieldRow label="POS System">
+            <div className="flex items-center gap-2">
+              <Input
+                name="posApiUrl"
+                defaultValue={settings.posApiUrl}
+                placeholder="https://pos.example.com/api"
+                className="text-sm flex-1"
+              />
+              <Toggle name="posApiEnabled" defaultChecked={settings.posApiEnabled} />
+            </div>
+          </FieldRow>
+          <FieldRow label="Delivery API">
+            <div className="flex items-center gap-2">
+              <Input
+                name="deliveryApiUrl"
+                defaultValue={settings.deliveryApiUrl}
+                placeholder="https://delivery.example.com/v1"
+                className="text-sm flex-1"
+              />
+              <Toggle name="deliveryApiEnabled" defaultChecked={settings.deliveryApiEnabled} />
+            </div>
+          </FieldRow>
+        </CardBody>
+      </Card>
+
+      {/* Social Media */}
+      <Card>
+        <CardBody>
+          <SectionHeader icon={Share2} title="Social Media" description="Links shown on website, coming-soon page, and all public-facing surfaces" />
+          <FieldRow label="Facebook">
+            <Input name="socialFacebook" defaultValue={settings.socialFacebook} placeholder="https://facebook.com/mamazainab" className="text-sm" />
+          </FieldRow>
+          <FieldRow label="Instagram">
+            <Input name="socialInstagram" defaultValue={settings.socialInstagram} placeholder="https://instagram.com/mamazainab" className="text-sm" />
+          </FieldRow>
+          <FieldRow label="TikTok">
+            <Input name="socialTiktok" defaultValue={settings.socialTiktok} placeholder="https://tiktok.com/@mamazainab" className="text-sm" />
+          </FieldRow>
+          <FieldRow label="X / Twitter">
+            <Input name="socialTwitter" defaultValue={settings.socialTwitter} placeholder="https://x.com/mamazainab" className="text-sm" />
+          </FieldRow>
+          <FieldRow label="YouTube">
+            <Input name="socialYoutube" defaultValue={settings.socialYoutube} placeholder="https://youtube.com/@mamazainab" className="text-sm" />
+          </FieldRow>
+          <FieldRow label="WhatsApp">
+            <Input name="socialWhatsapp" defaultValue={settings.socialWhatsapp} placeholder="https://wa.me/201234567890" className="text-sm" />
+          </FieldRow>
+        </CardBody>
+      </Card>
+
+      {/* AI Model Keys */}
+      <Card>
+        <CardBody>
+          <SectionHeader icon={Cpu} title="AI Model Keys" description="API keys for image and video generation models" />
+          <FieldRow label="NVIDIA API Key">
+            <Input
+              name="nvidiaApiKey"
+              type="password"
+              defaultValue={settings.nvidiaApiKey}
+              placeholder="nvapi-..."
+              className="text-sm font-mono"
+            />
+          </FieldRow>
+          <p className="text-[11px] text-muted mt-2">
+            Get your key from{" "}
+            <a href="https://build.nvidia.com" target="_blank" rel="noreferrer" className="underline text-brand-green-deep hover:text-brand-green">
+              build.nvidia.com
+            </a>
+            . Used for Cosmos, Wan-AI, Flux, and Stable Diffusion models. Falls back to <code className="text-[10px] bg-surface-2 px-1 rounded">NVIDIA_API_KEY</code> env var if empty.
+          </p>
+        </CardBody>
+      </Card>
+
       {/* Security */}
       <Card>
         <CardBody>
-          <SectionHeader icon={Lock} title="Security" description="Access control and session settings" />
+          <SectionHeader icon={Shield} title="Security" description="Access control, password, and privacy settings" />
           <FieldRow label="Session Timeout">
             <select
               name="sessionTimeout"
@@ -171,11 +259,20 @@ export function SettingsForm({ settings }: { settings: SettingsType }) {
               <option value="120">2 hours</option>
             </select>
           </FieldRow>
-          <FieldRow label="Two-Factor Auth">
-            <span className="text-sm text-muted">Not configured</span>
+          <FieldRow label="Require Password">
+            <Toggle name="requirePassword" defaultChecked={settings.requirePassword} />
           </FieldRow>
-          <FieldRow label="API Access">
-            <span className="text-sm text-muted">Disabled</span>
+          <FieldRow label="Admin Password">
+            <Input
+              name="adminPassword"
+              type="password"
+              defaultValue={settings.adminPassword}
+              placeholder="Set admin passcode"
+              className="text-sm"
+            />
+          </FieldRow>
+          <FieldRow label="Public Menu Access">
+            <Toggle name="allowPublicMenu" defaultChecked={settings.allowPublicMenu} />
           </FieldRow>
         </CardBody>
       </Card>

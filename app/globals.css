@@ -74,13 +74,22 @@ body {
   font-feature-settings: "liga", "kern";
 }
 
-/* Plaid pattern - gingham check matching brand reference (Mama Zainab apron)
-   tile_gingham_packaging.png: 768px tile, 48px cell, 8 repeats
-   CSS at 384px → 24px visual cells on screen */
+/* Plaid pattern - green + yellow checkerboard matching brand apron reference
+   plaid.png: 768px tile, 64px cells, 12×12 grid
+   CSS at 384px → 32px visual cells on screen */
 .plaid {
   background-image: url('/brand/plaid.png');
   background-repeat: repeat;
   background-size: 384px 384px;
+}
+
+/* Subtle plaid wash — use as an absolute overlay behind content */
+.plaid-wash {
+  background-image: url('/brand/plaid.png');
+  background-repeat: repeat;
+  background-size: 384px 384px;
+  opacity: 0.07;
+  pointer-events: none;
 }
 
 /* Focus ring - accessible & on-brand */
@@ -117,12 +126,6 @@ body {
   21%        { transform: translateY(0);    }
   26%        { transform: translateY(115%); }
   100%       { transform: translateY(115%); }
-}
-
-/* Scattered food items bob gently (rotation lives on the parent wrapper) */
-@keyframes food-drift {
-  0%,  100% { transform: translateY(0px)  scale(1);    }
-  50%        { transform: translateY(-10px) scale(1.03); }
 }
 
 /* ---------- Print layout (A4 portrait — dedicated /menu/print page) ---------- */

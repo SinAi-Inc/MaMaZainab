@@ -6,6 +6,9 @@ import { promises as fs } from "node:fs";
 import path from "node:path";
 import { readStudio, writeStudio } from "./store";
 import { parseScript } from "./parse-script";
+import { submitVideoJob, aspectToSize } from "@/lib/nvidia/client";
+import { buildReferenceContext } from "@/lib/ai/brand-reference";
+import { readCharacters } from "@/lib/characters/store";
 import {
   ProjectInputSchema,
   SceneInputSchema,
@@ -228,8 +231,9 @@ export async function setShotStatus(id: string, status: Shot["status"]) {
 /* ---- Takes -------------------------------------------------- */
 
 /**
- * Generate a new take. v1: this records a queued/ready take with the
- * prompt snapshot. Future: dispatch to provider SDK based on `model`.
+ * Generate a new take. If no videoUrl is provided and NVIDIA_API_KEY is set,
+ * dispatches to the NVIDIA API and stores the request ID for polling.
+ * Brand reference context is injected into the prompt automatically.
  */
 export async function generateTake(input: unknown) {
   const data = TakeInputSchema.parse(input);
@@ -237,13 +241,52 @@ export async function generateTake(input: unknown) {
   const shot = state.shots.find((s) => s.id === data.shotId);
   if (!shot) throw new Error("Shot not found");
 
+  const project = state.projects.find((p) => p.id === data.projectId);
+
+  // Build brand-aware prompt
+  let enrichedPrompt = data.prompt;
+  try {
+    const charState = await readCharacters();
+    const brandCtx = buildReferenceContext(data.prompt, charState.characters, undefined, {
+      includeBrand: true,
+      isVideo: true,
+    });
+    if (brandCtx) {
+      enrichedPrompt = `${data.prompt}\n\n---\n${brandCtx}`;
+    }
+  } catch {
+    // If character store isn't available, proceed with raw prompt
+  }
+
   const existing = state.takes.filter((t) => t.shotId === data.shotId);
+
+  let externalId = data.externalId || "";
+  let status: "queued" | "ready" | "generating" = data.videoUrl ? "ready" : "queued";
+
+  // Dispatch to NVIDIA API if no video URL provided and API key is configured
+  if (!data.videoUrl && process.env.NVIDIA_API_KEY && !process.env.NVIDIA_API_KEY.includes("YOUR_KEY")) {
+    try {
+      const result = await submitVideoJob({
+        model: data.model as Parameters<typeof submitVideoJob>[0]["model"],
+        prompt: enrichedPrompt,
+        seed: data.seed ? Number(data.seed) : undefined,
+      });
+      externalId = result.reqId;
+      status = result.status === "completed" ? "ready" : "generating";
+    } catch (err) {
+      // Log error but still create the take as queued
+      console.error("[generateTake] NVIDIA API error:", err);
+      status = "queued";
+    }
+  }
+
   const take: Take = {
     id: `take_${nanoid(8)}`,
     ...data,
+    prompt: enrichedPrompt,
+    externalId,
     index: existing.length + 1,
-    // If the user provided a videoUrl already, treat as ready; otherwise queue.
-    status: data.videoUrl ? "ready" : "queued",
+    status,
     createdAt: now(),
     updatedAt: now(),
   };
@@ -255,6 +298,40 @@ export async function generateTake(input: unknown) {
 
   await writeStudio(state);
   revalidateAll(shot.projectId);
+  return take;
+}
+
+/**
+ * Poll a generating take's status from NVIDIA API.
+ * Updates the take record if completed or failed.
+ */
+export async function pollTake(takeId: string) {
+  const { pollVideoJob } = await import("@/lib/nvidia/client");
+  const state = await readStudio();
+  const take = state.takes.find((t) => t.id === takeId);
+  if (!take) throw new Error("Take not found");
+  if (take.status !== "generating" || !take.externalId) return take;
+
+  const result = await pollVideoJob(take.externalId);
+
+  if (result.status === "completed" && result.video) {
+    // Save video to disk
+    const filename = `${nanoid(10)}.mp4`;
+    const dir = path.join(process.cwd(), "public", "uploads", "takes");
+    await fs.mkdir(dir, { recursive: true });
+    const buf = Buffer.from(result.video, "base64");
+    await fs.writeFile(path.join(dir, filename), buf);
+    take.videoUrl = `/uploads/takes/${filename}`;
+    take.status = "ready";
+  } else if (result.status === "failed") {
+    take.status = "failed";
+    take.notes = result.error ?? "Generation failed";
+  }
+  // else still running — no change
+
+  take.updatedAt = now();
+  await writeStudio(state);
+  revalidateAll(take.projectId);
   return take;
 }
 

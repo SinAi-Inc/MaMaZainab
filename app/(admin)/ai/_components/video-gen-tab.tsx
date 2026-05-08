@@ -1,0 +1,336 @@
+"use client";
+
+import { useState } from "react";
+import { Copy, Check, Sparkles, Video, Loader2 } from "lucide-react";
+import { toast } from "sonner";
+import { Card, CardBody } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Textarea } from "@/components/ui/input";
+import type { Character } from "@/lib/characters/schema";
+import { buildReferenceContext } from "@/lib/ai/brand-reference";
+
+/* ---- Video models (NVIDIA API Catalog) ---- */
+type VideoModel = {
+  id: string;
+  label: string;
+  vendor: string;
+};
+
+const VIDEO_MODELS: VideoModel[] = [
+  { id: "stabilityai/stable-video-diffusion", label: "Stable Video Diffusion", vendor: "Stability AI" },
+];
+
+const ASPECTS = ["16:9", "9:16", "1:1", "2.39:1", "4:3"];
+const DURATIONS = [4, 5, 6, 8, 10, 15];
+
+const STYLE_PRESETS = [
+  "Cinematic — ARRI Alexa 35, anamorphic, warm Mediterranean highlights + cool teal shadows",
+  "Food photography — overhead, soft diffused light, shallow depth of field",
+  "Street documentary — handheld, natural light, 24fps",
+  "Animated — bold outlines, flat color, smooth motion",
+  "Product showcase — turntable, studio lighting, white cyclorama",
+];
+
+export function VideoGenTab({ characters }: { characters: Character[] }) {
+  const [model, setModel] = useState(VIDEO_MODELS[0].id);
+  const [aspect, setAspect] = useState("16:9");
+  const [duration, setDuration] = useState(5);
+  const [prompt, setPrompt] = useState("");
+  const [stylePreset, setStylePreset] = useState("");
+  const [anchorCharId, setAnchorCharId] = useState("");
+  const [includeBrand, setIncludeBrand] = useState(true);
+  const [copied, setCopied] = useState(false);
+  const [generating, setGenerating] = useState(false);
+  const [jobStatus, setJobStatus] = useState<string | null>(null);
+  const [resultVideo, setResultVideo] = useState<string | null>(null);
+
+  function buildFullPrompt(): string {
+    const parts: string[] = [];
+
+    // User prompt first
+    if (prompt.trim()) parts.push(prompt.trim());
+
+    // Style preset
+    if (stylePreset) {
+      parts.push(`Style: ${stylePreset}`);
+    }
+
+    // Auto-detected brand reference context (characters + materials + palette)
+    const refContext = buildReferenceContext(prompt, characters, anchorCharId || undefined, {
+      includeBrand,
+      isVideo: true,
+    });
+    if (refContext) parts.push(refContext);
+
+    // Technical metadata
+    parts.push(`\nDuration: ${duration}s | Aspect: ${aspect} | Model: ${VIDEO_MODELS.find((m) => m.id === model)?.label ?? model}`);
+
+    return parts.join("\n\n");
+  }
+
+  function handleCopy() {
+    const full = buildFullPrompt();
+    if (!full.trim()) {
+      toast.error("Write a prompt first");
+      return;
+    }
+    navigator.clipboard.writeText(full);
+    setCopied(true);
+    toast.success("Prompt copied — paste into your generation tool");
+    setTimeout(() => setCopied(false), 2000);
+  }
+
+  async function handleGenerate() {
+    const full = buildFullPrompt();
+    if (!full.trim()) {
+      toast.error("Write a prompt first");
+      return;
+    }
+    setGenerating(true);
+    setJobStatus(null);
+    setResultVideo(null);
+    try {
+      const res = await fetch("/api/generate/video", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ model, prompt: full, aspect, duration }),
+      });
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({ error: "Generation failed" }));
+        throw new Error(err.error ?? `HTTP ${res.status}`);
+      }
+      const data = await res.json();
+      if (data.video) {
+        setResultVideo(data.video);
+        toast.success("Video generated!");
+      } else if (data.reqId) {
+        setJobStatus(`Job submitted: ${data.reqId}\nPolling for completion...`);
+        toast.success("Video job submitted — check back shortly");
+        // Start polling
+        pollForResult(data.reqId);
+      }
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : "Generation failed");
+    } finally {
+      setGenerating(false);
+    }
+  }
+
+  async function pollForResult(reqId: string) {
+    const maxAttempts = 30;
+    for (let i = 0; i < maxAttempts; i++) {
+      await new Promise((r) => setTimeout(r, 5000));
+      try {
+        const res = await fetch(`/api/generate/video/${reqId}`);
+        if (!res.ok) continue;
+        const data = await res.json();
+        if (data.status === "completed" && data.video) {
+          setResultVideo(data.video);
+          setJobStatus(null);
+          toast.success("Video ready!");
+          return;
+        }
+        if (data.status === "failed") {
+          setJobStatus("Generation failed.");
+          toast.error("Video generation failed");
+          return;
+        }
+        setJobStatus(`Status: ${data.status} (attempt ${i + 1}/${maxAttempts})`);
+      } catch {
+        // continue polling
+      }
+    }
+    setJobStatus("Timed out waiting for result.");
+  }
+
+  return (
+    <div className="grid gap-6 lg:grid-cols-[1fr_340px]">
+      {/* Left: prompt builder */}
+      <div className="space-y-4">
+        {/* Model row */}
+        <div className="grid grid-cols-2 gap-3">
+          <div>
+            <label className="text-xs font-medium text-muted uppercase tracking-wider block mb-1.5">
+              Model
+            </label>
+            <select
+              value={model}
+              onChange={(e) => setModel(e.target.value)}
+              aria-label="Video model"
+              className="w-full text-sm border border-border-strong rounded-md px-2.5 py-2 bg-white"
+            >
+              {VIDEO_MODELS.map((m) => (
+                <option key={m.id} value={m.id}>
+                  {m.label} — {m.vendor}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div>
+            <label className="text-xs font-medium text-muted uppercase tracking-wider block mb-1.5">
+              Aspect Ratio
+            </label>
+            <div className="flex flex-wrap gap-1.5">
+              {ASPECTS.map((r) => (
+                <button
+                  key={r}
+                  onClick={() => setAspect(r)}
+                  className={`px-2.5 py-1.5 text-xs rounded-md border transition-colors ${
+                    aspect === r
+                      ? "border-brand-green bg-brand-green/10 text-brand-green-deep font-medium"
+                      : "border-border text-muted hover:border-brand-green/50"
+                  }`}
+                >
+                  {r}
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* Duration */}
+        <div>
+          <label className="text-xs font-medium text-muted uppercase tracking-wider block mb-1.5">
+            Duration (seconds)
+          </label>
+          <div className="flex flex-wrap gap-1.5">
+            {DURATIONS.map((d) => (
+              <button
+                key={d}
+                onClick={() => setDuration(d)}
+                className={`px-3 py-1.5 text-xs rounded-md border transition-colors ${
+                  duration === d
+                    ? "border-brand-green bg-brand-green/10 text-brand-green-deep font-medium"
+                    : "border-border text-muted hover:border-brand-green/50"
+                }`}
+              >
+                {d}s
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Style preset */}
+        <div>
+          <label className="text-xs font-medium text-muted uppercase tracking-wider block mb-1.5">
+            Style Preset <span className="font-normal">(optional)</span>
+          </label>
+          <select
+            value={stylePreset}
+            onChange={(e) => setStylePreset(e.target.value)}
+            aria-label="Style preset"
+            className="w-full text-sm border border-border-strong rounded-md px-2.5 py-2 bg-white"
+          >
+            <option value="">— Custom / None —</option>
+            {STYLE_PRESETS.map((s) => (
+              <option key={s} value={s}>
+                {s.split("—")[0].trim()}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        {/* Prompt textarea */}
+        <div>
+          <label className="text-xs font-medium text-muted uppercase tracking-wider block mb-1.5">
+            Prompt
+          </label>
+          <Textarea
+            rows={5}
+            placeholder="Describe the video shot — camera motion, subject, action, mood..."
+            value={prompt}
+            onChange={(e) => setPrompt(e.target.value)}
+          />
+        </div>
+
+        {/* Character anchor + Brand toggle */}
+        <div className="grid grid-cols-2 gap-3">
+          <div>
+            <label className="text-xs font-medium text-muted uppercase tracking-wider block mb-1.5">
+              Character Anchor
+            </label>
+            <select
+              value={anchorCharId}
+              onChange={(e) => setAnchorCharId(e.target.value)}
+              aria-label="Character anchor"
+              className="w-full text-sm border border-border-strong rounded-md px-2.5 py-2 bg-white"
+            >
+              <option value="">— None (auto-detect from prompt) —</option>
+              {characters.map((c) => (
+                <option key={c.id} value={c.id}>
+                  {c.name}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div className="flex items-end pb-1">
+            <label className="flex items-center gap-2 text-sm cursor-pointer">
+              <input
+                type="checkbox"
+                checked={includeBrand}
+                onChange={(e) => setIncludeBrand(e.target.checked)}
+                className="rounded border-border-strong"
+              />
+              Brand reference context
+            </label>
+          </div>
+        </div>
+
+        {/* Actions */}
+        <div className="flex gap-3">
+          <Button onClick={handleCopy} className="flex-1" variant="outline">
+            {copied ? <Check className="size-4" /> : <Copy className="size-4" />}
+            {copied ? "Copied!" : "Copy Full Prompt"}
+          </Button>
+          <Button onClick={handleGenerate} disabled={generating || !prompt.trim()}>
+            {generating ? <Loader2 className="size-4 animate-spin" /> : <Sparkles className="size-4" />}
+            {generating ? "Generating…" : "Generate"}
+          </Button>
+        </div>
+      </div>
+
+      {/* Right: preview panel */}
+      <Card className="h-fit">
+        <CardBody className="space-y-3">
+          {resultVideo ? (
+            <>
+              <h4 className="text-xs font-semibold uppercase tracking-wider text-muted">
+                Generated Video
+              </h4>
+              {/* eslint-disable-next-line jsx-a11y/media-has-caption */}
+              <video
+                src={`data:video/mp4;base64,${resultVideo}`}
+                controls
+                className="w-full rounded-md border border-border"
+              />
+            </>
+          ) : jobStatus ? (
+            <>
+              <h4 className="text-xs font-semibold uppercase tracking-wider text-muted">
+                Job Status
+              </h4>
+              <pre className="text-[11px] font-mono whitespace-pre-wrap leading-relaxed text-brand-ink bg-surface rounded-md p-3 border border-border">
+                {jobStatus}
+              </pre>
+            </>
+          ) : (
+            <>
+              <h4 className="text-xs font-semibold uppercase tracking-wider text-muted">
+                Prompt Preview
+              </h4>
+              <pre className="text-[11px] font-mono whitespace-pre-wrap leading-relaxed text-brand-ink bg-surface rounded-md p-3 max-h-96 overflow-y-auto border border-border">
+                {buildFullPrompt() || "Your composed prompt will appear here..."}
+              </pre>
+              <div className="flex items-center gap-2 text-xs text-muted">
+                <Video className="size-3.5" />
+                <span>
+                  {VIDEO_MODELS.find((m) => m.id === model)?.label} · {aspect} · {duration}s
+                </span>
+              </div>
+            </>
+          )}
+        </CardBody>
+      </Card>
+    </div>
+  );
+}

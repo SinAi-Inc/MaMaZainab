@@ -110,7 +110,7 @@
       "approvedTakeId": "",
       "sort": 0,
       "createdAt": "2026-05-03T22:30:00.000Z",
-      "updatedAt": "2026-05-03T22:30:00.000Z"
+      "updatedAt": "2026-05-07T05:29:46.748Z"
     },
     {
       "id": "shot_KHVxBrAY",
@@ -695,7 +695,7 @@
       "projectId": "prj_brand_incorporation",
       "shotId": "shot_qU90zVUk",
       "index": 1,
-      "model": "veo-3.1",
+      "model": "stabilityai/stable-video-diffusion",
       "prompt": "",
       "externalId": "",
       "seed": "",
@@ -706,6 +706,23 @@
       "notes": "",
       "createdAt": "2026-05-03T22:13:31.507Z",
       "updatedAt": "2026-05-03T22:13:31.507Z"
+    },
+    {
+      "id": "take_wlwh0T5z",
+      "projectId": "prj_brand_incorporation",
+      "shotId": "shot_qU90zVUk",
+      "index": 2,
+      "model": "stabilityai/stable-video-diffusion",
+      "prompt": "Establishing aerial shot, 4 seconds. Cinematic dystopian city at night, torrential rain in slow motion, dense forest of skyscrapers covered in pink, cyan and magenta neon Chinese signage. Camera descends slowly between the towers toward a single illuminated rooftop. Wet reflective streets below. Volumetric fog. Blade Runner 2049 mood. Anamorphic 2.39:1. ARRI Alexa 35, no text or logos visible. Audio: distant thunder, rain, low synth drone. no logos, no readable text, no warped faces, no extra fingers, no duplicated characters, no plastic skin, no AI artifact shimmer, no cartoon style, no anime, no watermark\n\nshot on ARRI Alexa 35, anamorphic 2.39:1, cinematic color grade, warm Mediterranean highlights + cool teal shadows, volumetric haze, photoreal, film grain, no text overlay\n\n---\n[BRAND MATERIAL: Logo / Wordmark]\n\"MaMa Zainab\" wordmark in custom Arabic-inspired script, Brand Green #1B9B00 primary, cream #FFF8E7 background acceptable. Minimum clear space: 1× height on all sides. Always paired with Mama Zainab character or standalone — never with Wong.\n[REF: /brand/logo_final_A/lockup_primary.png]\n\n[BRAND PALETTE] Mahshi Green #1B9B00 | Brand Yellow #EFD200 | Brand Red #E60000 | Ink #2C292A | Cream #FFF8E7 | Plaid v2: green-on-cream diamond weave.",
+      "externalId": "",
+      "seed": "",
+      "status": "queued",
+      "videoUrl": "",
+      "thumbnailUrl": "",
+      "durationSec": 0,
+      "notes": "",
+      "createdAt": "2026-05-07T05:29:46.748Z",
+      "updatedAt": "2026-05-07T05:29:46.748Z"
     }
   ]
 }
