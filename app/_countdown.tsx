@@ -40,16 +40,16 @@ export function CountdownClient({ target }: { target: string }) {
       ];
 
   return (
-    <div className="mt-10 grid grid-cols-4 gap-3 sm:gap-4">
+    <div className="mt-8 grid grid-cols-4 gap-2 sm:gap-3">
       {cells.map(([label, val]) => (
         <div
           key={label}
-          className="min-w-[68px] sm:min-w-[88px] rounded-lg bg-white/5 border border-white/10 px-3 py-3 backdrop-blur"
+          className="min-w-[56px] sm:min-w-[72px] rounded-lg bg-white/5 border border-white/10 px-2 py-2.5 backdrop-blur"
         >
-          <div className="font-display text-3xl sm:text-4xl text-white leading-none tabular-nums">
+          <div className="font-display text-2xl sm:text-3xl text-white leading-none tabular-nums">
             {typeof val === "number" ? String(val).padStart(2, "0") : val}
           </div>
-          <div className="mt-1 text-[10px] uppercase tracking-[0.24em] text-white/55">
+          <div className="mt-1 text-[9px] uppercase tracking-[0.24em] text-white/55">
             {label}
           </div>
         </div>

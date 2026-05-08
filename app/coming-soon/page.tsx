@@ -20,7 +20,7 @@ export default function ComingSoonPage() {
       {/*   Wrapper slides up; img holds the static left lean — independent transforms */}
       <div
         className="absolute bottom-0 right-4 pointer-events-none select-none z-[20]"
-        style={{ width: "300px", animation: "zuzu-pop 33s ease-in-out infinite" }}
+        style={{ width: "240px", animation: "zuzu-pop 33s ease-in-out infinite" }}
       >
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
@@ -37,31 +37,31 @@ export default function ComingSoonPage() {
       </div>
 
       {/* Top bar */}
-      <header className="relative z-10 px-8 py-4 flex items-center justify-between bg-brand-ink/80 backdrop-blur-sm">
-        <div className="flex items-center gap-3">
+      <header className="relative z-10 px-6 py-3 flex items-center justify-between bg-brand-ink/80 backdrop-blur-sm">
+        <div className="flex items-center gap-2">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src="/brand/mark.png"
             alt=""
-            className="size-9"
+            className="size-7"
             draggable={false}
           />
-          <span className="font-[family-name:var(--font-brand)] text-sm tracking-[0.18em] text-white">
+          <span className="font-[family-name:var(--font-brand)] text-xs tracking-[0.18em] text-white">
             MaMa Zainab
           </span>
         </div>
         <Link
           href="/menu/preview?peek=1"
-          className="px-4 py-2 rounded-md bg-white text-brand-ink text-[11px] uppercase tracking-[0.2em] font-semibold hover:bg-white/85 transition"
+          className="px-3 py-1.5 rounded-md bg-white text-brand-ink text-[10px] uppercase tracking-[0.2em] font-semibold hover:bg-white/85 transition"
         >
           Sneak Peek 👀
         </Link>
       </header>
 
       {/* Hero */}
-      <section className="relative z-10 flex-1 flex flex-col items-center justify-center text-center px-6 py-12">
-        <div className="bg-brand-ink/75 backdrop-blur-sm rounded-2xl px-8 py-10 max-w-xl w-full shadow-2xl">
-        <p className="text-[11px] uppercase tracking-[0.4em] text-brand-yellow mb-6">
+      <section className="relative z-10 flex-1 flex flex-col items-center justify-center text-center px-5 py-8">
+        <div className="bg-brand-ink/75 backdrop-blur-sm rounded-2xl px-6 py-8 max-w-md w-full shadow-2xl">
+        <p className="text-[9px] uppercase tracking-[0.4em] text-brand-yellow mb-4">
           Coming Soon · Alexandria, EGYPT
         </p>
 
@@ -70,21 +70,21 @@ export default function ComingSoonPage() {
         <img
           src="/brand/logo-wordmark-transparent.png"
           alt="MaMa Zainab"
-          className="w-full max-w-xl mx-auto"
-          style={{ filter: "drop-shadow(0 0 30px rgba(239,210,0,0.25))" }}
+          className="w-full max-w-sm mx-auto"
+          style={{ filter: "drop-shadow(0 0 24px rgba(239,210,0,0.25))" }}
           draggable={false}
         />
 
         <h1 className="sr-only">MaMa Zainab - Coming Soon</h1>
 
-        <p className="mt-8 text-lg sm:text-xl text-white max-w-xl font-light leading-relaxed">
-          <span className="font-[family-name:var(--font-brand)] tracking-wider text-brand-yellow text-2xl block">
+        <p className="mt-6 text-base sm:text-lg text-white max-w-md font-light leading-relaxed">
+          <span className="font-[family-name:var(--font-brand)] tracking-wider text-brand-yellow text-xl block">
             Homemade taste. Fast-food style.
           </span>
-          <span className="text-sm text-white/70 italic">- for the first time.</span>
+          <span className="text-xs text-white/70 italic">- for the first time.</span>
         </p>
 
-        <p className="mt-4 text-sm text-white/70 max-w-md mx-auto">
+        <p className="mt-3 text-xs text-white/70 max-w-sm mx-auto">
           Hand-rolled, slow-cooked Egyptian comfort food - served the way Mama
           would. Opening late 2026.
         </p>
@@ -94,28 +94,28 @@ export default function ComingSoonPage() {
         <form
           action="/api/notify"
           method="POST"
-          className="mt-10 w-full max-w-md mx-auto flex flex-col sm:flex-row gap-2"
+          className="mt-8 w-full max-w-sm mx-auto flex flex-col sm:flex-row gap-2"
         >
           <input
             type="email"
             name="email"
             required
             placeholder="your@email.com"
-            className="flex-1 px-4 py-3 rounded-md bg-white/15 border border-white/20 placeholder-white/50 text-white outline-none focus:border-brand-yellow focus:bg-white/20 transition"
+            className="flex-1 px-3 py-2.5 rounded-md bg-white/15 border border-white/20 placeholder-white/50 text-white text-sm outline-none focus:border-brand-yellow focus:bg-white/20 transition"
           />
           <button
             type="submit"
-            className="px-6 py-3 rounded-md bg-brand-yellow text-brand-ink font-semibold uppercase tracking-wider text-sm hover:bg-yellow-300 transition"
+            className="px-5 py-2.5 rounded-md bg-brand-yellow text-brand-ink font-semibold uppercase tracking-wider text-xs hover:bg-yellow-300 transition"
           >
             Notify me
           </button>
         </form>
-        <p className="mt-3 text-[11px] text-white/50">
+        <p className="mt-2 text-[10px] text-white/50">
           We&apos;ll only email you on opening day. No spam.
         </p>
 
         {/* Social links */}
-        <div className="mt-8 flex items-center justify-center gap-6 text-[12px] text-white/60">
+        <div className="mt-6 flex items-center justify-center gap-5 text-[10px] text-white/60">
           <a
             href="https://instagram.com/"
             target="_blank"
@@ -147,7 +147,7 @@ export default function ComingSoonPage() {
       </section>
 
       {/* Footer */}
-      <footer className="relative z-10 px-8 py-5 bg-brand-ink/80 backdrop-blur-sm flex flex-col items-center gap-2 text-[11px] text-white/70 text-center">
+      <footer className="relative z-10 px-6 py-4 bg-brand-ink/80 backdrop-blur-sm flex flex-col items-center gap-1.5 text-[10px] text-white/70 text-center">
         <div className="uppercase tracking-[0.24em]">
           © 2026 MaMa Zainab · Alexandria
         </div>
