@@ -2,9 +2,8 @@
 
 import { revalidatePath } from "next/cache";
 import { nanoid } from "nanoid";
-import { promises as fs } from "node:fs";
-import path from "node:path";
 import { readMenu, writeMenu } from "./store";
+import { uploadFile } from "@/lib/upload";
 import {
   CategoryInputSchema,
   ItemInputSchema,
@@ -166,18 +165,8 @@ export async function uploadItemImage(formData: FormData): Promise<string> {
   const file = formData.get("file");
   if (!(file instanceof File)) throw new Error("No file provided");
   if (!file.type.startsWith("image/")) throw new Error("Must be an image");
-  if (file.size > 5 * 1024 * 1024) throw new Error("Max 5MB");
 
-  const ext = file.name.split(".").pop()?.toLowerCase() || "png";
-  const safeExt = ["png", "jpg", "jpeg", "webp", "gif"].includes(ext) ? ext : "png";
-  const filename = `${nanoid(10)}.${safeExt}`;
-
-  const dir = path.join(process.cwd(), "public", "uploads", "menu");
-  await fs.mkdir(dir, { recursive: true });
-  const buf = Buffer.from(await file.arrayBuffer());
-  await fs.writeFile(path.join(dir, filename), buf);
-
-  const publicPath = `/uploads/menu/${filename}`;
+  const url = await uploadFile(file, "menu", ["png", "jpg", "jpeg", "webp", "gif"], 5 * 1024 * 1024);
   revalidateMenu();
-  return publicPath;
+  return url;
 }

@@ -1,6 +1,8 @@
 import Link from "next/link";
 import { Plus, Users, Pencil, Eye } from "lucide-react";
 import { readCharacters } from "@/lib/characters/store";
+
+export const dynamic = "force-dynamic";
 import {
   VISIBILITY_META,
   type CharacterVisibility,

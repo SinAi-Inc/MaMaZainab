@@ -2,9 +2,8 @@
 
 import { revalidatePath } from "next/cache";
 import { nanoid } from "nanoid";
-import { promises as fs } from "node:fs";
-import path from "node:path";
 import { readCharacters, writeCharacters } from "./store";
+import { uploadFile } from "@/lib/upload";
 import { CharacterInputSchema, type Character } from "./schema";
 
 const now = () => new Date().toISOString();
@@ -66,17 +65,8 @@ export async function uploadCharacterImage(formData: FormData): Promise<string> 
   const file = formData.get("file");
   if (!(file instanceof File)) throw new Error("No file provided");
   if (!file.type.startsWith("image/")) throw new Error("Must be an image");
-  if (file.size > 10 * 1024 * 1024) throw new Error("Max 10 MB");
 
-  const ext = file.name.split(".").pop()?.toLowerCase() || "png";
-  const safeExt = ["png", "jpg", "jpeg", "webp"].includes(ext) ? ext : "png";
-  const filename = `${nanoid(10)}.${safeExt}`;
-
-  const dir = path.join(process.cwd(), "public", "brand", "chars");
-  await fs.mkdir(dir, { recursive: true });
-  const buf = Buffer.from(await file.arrayBuffer());
-  await fs.writeFile(path.join(dir, filename), buf);
-
+  const url = await uploadFile(file, "chars", ["png", "jpg", "jpeg", "webp"], 10 * 1024 * 1024);
   revalidate();
-  return `/brand/chars/${filename}`;
+  return url;
 }
