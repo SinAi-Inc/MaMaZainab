@@ -1,13 +1,20 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { Copy, Check, Sparkles, Video, Loader2 } from "lucide-react";
 import { toast } from "sonner";
 import { Card, CardBody } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/input";
+import { recordGeneration } from "@/lib/generations/actions";
 import type { Character } from "@/lib/characters/schema";
-import { buildReferenceContext } from "@/lib/ai/brand-reference";
+import {
+  buildAnchorsFromCharacters,
+  SCENE_CONTEXTS,
+  assemblePrompt,
+  getAnchorByValue,
+  getSceneByValue,
+} from "@/lib/ai/brand-bible";
 
 /* ---- Video models (NVIDIA API Catalog) ---- */
 type VideoModel = {
@@ -32,40 +39,44 @@ const STYLE_PRESETS = [
 ];
 
 export function VideoGenTab({ characters }: { characters: Character[] }) {
+  const characterAnchors = useMemo(
+    () => buildAnchorsFromCharacters(characters),
+    [characters],
+  );
   const [model, setModel] = useState(VIDEO_MODELS[0].id);
   const [aspect, setAspect] = useState("16:9");
   const [duration, setDuration] = useState(5);
   const [prompt, setPrompt] = useState("");
   const [stylePreset, setStylePreset] = useState("");
-  const [anchorCharId, setAnchorCharId] = useState("");
+  const [anchorValue, setAnchorValue] = useState("");
+  const [sceneValue, setSceneValue] = useState("");
   const [includeBrand, setIncludeBrand] = useState(true);
   const [copied, setCopied] = useState(false);
   const [generating, setGenerating] = useState(false);
   const [jobStatus, setJobStatus] = useState<string | null>(null);
   const [resultVideo, setResultVideo] = useState<string | null>(null);
 
+  const selectedAnchor = getAnchorByValue(anchorValue, characterAnchors);
+  const selectedScene = getSceneByValue(sceneValue);
+
   function buildFullPrompt(): string {
-    const parts: string[] = [];
-
-    // User prompt first
-    if (prompt.trim()) parts.push(prompt.trim());
-
-    // Style preset
-    if (stylePreset) {
-      parts.push(`Style: ${stylePreset}`);
-    }
-
-    // Auto-detected brand reference context (characters + materials + palette)
-    const refContext = buildReferenceContext(prompt, characters, anchorCharId || undefined, {
-      includeBrand,
+    const assembled = assemblePrompt({
+      sceneContext: selectedScene,
+      characterAnchor: selectedAnchor,
+      userPrompt: prompt,
+      includePalette: includeBrand,
       isVideo: true,
     });
-    if (refContext) parts.push(refContext);
 
-    // Technical metadata
-    parts.push(`\nDuration: ${duration}s | Aspect: ${aspect} | Model: ${VIDEO_MODELS.find((m) => m.id === model)?.label ?? model}`);
+    // Prepend style preset if set
+    const withStyle = stylePreset
+      ? `Style: ${stylePreset}\n\n${assembled}`
+      : assembled;
 
-    return parts.join("\n\n");
+    if (!withStyle.trim()) return "";
+
+    // Append technical metadata
+    return `${withStyle}\n\nDuration: ${duration}s | Aspect: ${aspect} | Model: ${VIDEO_MODELS.find((m) => m.id === model)?.label ?? model}`;
   }
 
   function handleCopy() {
@@ -89,6 +100,7 @@ export function VideoGenTab({ characters }: { characters: Character[] }) {
     setGenerating(true);
     setJobStatus(null);
     setResultVideo(null);
+    const startTime = Date.now();
     try {
       const res = await fetch("/api/generate/video", {
         method: "POST",
@@ -103,14 +115,53 @@ export function VideoGenTab({ characters }: { characters: Character[] }) {
       if (data.video) {
         setResultVideo(data.video);
         toast.success("Video generated!");
+        recordGeneration({
+          type: "video",
+          model,
+          prompt: full,
+          characterAnchor: anchorValue,
+          sceneContext: sceneValue,
+          aspect,
+          duration,
+          stylePreset,
+          status: "completed",
+          elapsedMs: Date.now() - startTime,
+          base64Output: data.video,
+        }).catch(() => {});
       } else if (data.reqId) {
         setJobStatus(`Job submitted: ${data.reqId}\nPolling for completion...`);
         toast.success("Video job submitted — check back shortly");
-        // Start polling
+        // Record as pending — we'll update when polling completes
+        recordGeneration({
+          type: "video",
+          model,
+          prompt: full,
+          characterAnchor: anchorValue,
+          sceneContext: sceneValue,
+          aspect,
+          duration,
+          stylePreset,
+          status: "pending",
+          elapsedMs: Date.now() - startTime,
+        }).catch(() => {});
         pollForResult(data.reqId);
       }
     } catch (err) {
-      toast.error(err instanceof Error ? err.message : "Generation failed");
+      const msg = err instanceof Error ? err.message : "Generation failed";
+      toast.error(msg);
+      recordGeneration({
+        type: "video",
+        model,
+        prompt: full,
+        characterAnchor: anchorValue,
+        sceneContext: sceneValue,
+        aspect,
+        duration,
+        stylePreset,
+        status: "failed",
+        error: msg,
+        elapsedMs: Date.now() - startTime,
+      }).catch(() => {});
     } finally {
       setGenerating(false);
     }
@@ -243,38 +294,74 @@ export function VideoGenTab({ characters }: { characters: Character[] }) {
           />
         </div>
 
-        {/* Character anchor + Brand toggle */}
+        {/* Scene Context + Character Anchor row */}
         <div className="grid grid-cols-2 gap-3">
+          <div>
+            <label className="text-xs font-medium text-muted uppercase tracking-wider block mb-1.5">
+              Scene Context <span className="font-normal">(optional)</span>
+            </label>
+            <select
+              value={sceneValue}
+              onChange={(e) => setSceneValue(e.target.value)}
+              aria-label="Scene context"
+              className="w-full text-sm border border-border-strong rounded-md px-2.5 py-2 bg-white"
+            >
+              <option value="">— No Scene —</option>
+              {SCENE_CONTEXTS.map((s) => (
+                <option key={s.value} value={s.value}>
+                  {s.label}
+                </option>
+              ))}
+            </select>
+            {selectedScene && (
+              <p className="text-[10px] text-muted mt-1">
+                Mood: {selectedScene.mood}
+              </p>
+            )}
+          </div>
           <div>
             <label className="text-xs font-medium text-muted uppercase tracking-wider block mb-1.5">
               Character Anchor
             </label>
             <select
-              value={anchorCharId}
-              onChange={(e) => setAnchorCharId(e.target.value)}
+              value={anchorValue}
+              onChange={(e) => setAnchorValue(e.target.value)}
               aria-label="Character anchor"
               className="w-full text-sm border border-border-strong rounded-md px-2.5 py-2 bg-white"
             >
-              <option value="">— None (auto-detect from prompt) —</option>
-              {characters.map((c) => (
-                <option key={c.id} value={c.id}>
-                  {c.name}
+              <option value="">— None —</option>
+              {characterAnchors.map((a) => (
+                <option key={a.value} value={a.value}>
+                  {a.label}
                 </option>
               ))}
             </select>
-          </div>
-          <div className="flex items-end pb-1">
-            <label className="flex items-center gap-2 text-sm cursor-pointer">
-              <input
-                type="checkbox"
-                checked={includeBrand}
-                onChange={(e) => setIncludeBrand(e.target.checked)}
-                className="rounded border-border-strong"
-              />
-              Brand reference context
-            </label>
+            {selectedAnchor?.referenceImage && (
+              <div className="mt-2 flex items-center gap-2">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={selectedAnchor.referenceImage}
+                  alt={selectedAnchor.label}
+                  className="size-10 rounded-md object-cover border border-border"
+                />
+                <span className="text-[10px] text-muted">
+                  Reference — {selectedAnchor.label}
+                </span>
+              </div>
+            )}
           </div>
         </div>
+
+        {/* Brand toggle */}
+        <label className="flex items-center gap-2 text-sm cursor-pointer">
+          <input
+            type="checkbox"
+            checked={includeBrand}
+            onChange={(e) => setIncludeBrand(e.target.checked)}
+            className="rounded border-border-strong"
+          />
+          Append brand palette & plaid context
+        </label>
 
         {/* Actions */}
         <div className="flex gap-3">

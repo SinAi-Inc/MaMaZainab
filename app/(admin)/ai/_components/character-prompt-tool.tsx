@@ -6,6 +6,7 @@ import { Copy, Check, ChevronDown } from "lucide-react";
 import { Card, CardBody } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import type { Character } from "@/lib/characters/schema";
+import { PALETTE_BLOCK, PLAID_BLOCK } from "@/lib/ai/brand-bible";
 
 /* Builds the locked anchor block prompt for a character */
 function buildCharacterPrompt(char: Character, style: string): string {
@@ -31,8 +32,8 @@ function buildCharacterPrompt(char: Character, style: string): string {
   }
 
   lines.push(`Style modifier: ${style}`);
-  lines.push(`Brand palette: Mahshi Green #1B9B00, Brand Yellow #EFD200, Ink #2C292A`);
-  lines.push(`Background: optional plaid pattern (mahshi-green on cream)`);
+  lines.push(PALETTE_BLOCK);
+  lines.push(`[PATTERN] ${PLAID_BLOCK}`);
   return lines.join("\n");
 }
 

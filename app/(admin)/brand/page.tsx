@@ -1,265 +1,360 @@
-import { Palette, FileJson, Type, Image as ImageIcon, Grid3X3 } from "lucide-react";
+import {
+  Palette,
+  Type,
+  Image as ImageIcon,
+  Grid3X3,
+  BookOpen,
+  Users,
+  ShieldAlert,
+} from "lucide-react";
 import { Card, CardBody } from "@/components/ui/card";
 import { CopyHexButton } from "./_components/copy-hex-button";
 import { BrandTabs } from "./_components/brand-tabs";
+import { CharactersPanel, ScenesRulesPanel } from "./_components/brand-bible-panels";
+import {
+  BRAND_IDENTITY,
+  COLORS,
+  FONTS,
+  PATTERN,
+  PACKAGING,
+  LOGO_ASSETS,
+  type ColorToken,
+} from "@/lib/brand-bible-data";
 
-type ColorToken = {
-  name: string;
-  token: string;
-  hex: string;
-  rgb: string;
-  role: string;
-};
-
-const PRIMARY_COLORS: ColorToken[] = [
-  {
-    name: "Brand Green",
-    token: "brand.green",
-    hex: "#1B9B00",
-    rgb: "27, 155, 0",
-    role: "PRIMARY (base) - vine leaves, freshness",
-  },
-  {
-    name: "Brand Yellow",
-    token: "brand.yellow",
-    hex: "#EFD200",
-    rgb: "239, 210, 0",
-    role: "SECONDARY (accent) - warmth, generosity",
-  },
-  {
-    name: "Brand Black",
-    token: "brand.black",
-    hex: "#000000",
-    rgb: "0, 0, 0",
-    role: "Strength, body text",
-  },
-  {
-    name: "Brand White",
-    token: "brand.white",
-    hex: "#FFFFFF",
-    rgb: "255, 255, 255",
-    role: "Surface",
-  },
-];
-
-const EXTENDED_COLORS: ColorToken[] = [
-  {
-    name: "Green Deep",
-    token: "extended.greenDeep",
-    hex: "#169216",
-    rgb: "22, 146, 22",
-    role: "Hover / dark green variant",
-  },
-  {
-    name: "Cream",
-    token: "extended.cream",
-    hex: "#F0F4EB",
-    rgb: "240, 244, 235",
-    role: "Warm off-white surface",
-  },
-  {
-    name: "Alert Red",
-    token: "extended.alertRed",
-    hex: "#E60000",
-    rgb: "230, 0, 0",
-    role: "\"STOP\" disruption campaign only",
-  },
-  {
-    name: "Ink",
-    token: "extended.ink",
-    hex: "#2C292A",
-    rgb: "44, 41, 42",
-    role: "Softer body text",
-  },
-  {
-    name: "Muted Grey",
-    token: "extended.mutedGrey",
-    hex: "#B7B7B7",
-    rgb: "183, 183, 183",
-    role: "Dividers / disabled",
-  },
-];
+/* ──── Color Swatch ──── */
 
 function ColorSwatch({ color }: { color: ColorToken }) {
   return (
     <div className="flex items-start gap-3">
       <div
-        className="size-16 rounded-lg border border-border-strong flex-shrink-0 shadow-sm"
+        className="size-14 rounded-lg border border-border-strong flex-shrink-0 shadow-sm"
         style={{ backgroundColor: color.hex }}
         title={color.hex}
       />
       <div className="flex-1 min-w-0">
-        <h4 className="font-semibold text-sm">{color.name}</h4>
-        <p className="text-xs font-mono text-muted mt-0.5">{color.token}</p>
-        <div className="flex items-center gap-3 mt-1 text-xs">
+        <div className="flex items-center gap-2">
+          <h4 className="font-semibold text-sm">{color.name}</h4>
+          {color.locked && (
+            <span className="text-[9px] uppercase tracking-wider px-1.5 py-0.5 rounded-full bg-brand-green/10 text-brand-green-deep">
+              locked
+            </span>
+          )}
+        </div>
+        <div className="flex items-center gap-3 mt-0.5 text-xs">
           <span className="font-mono">{color.hex}</span>
-          <span className="text-muted">RGB {color.rgb}</span>
+          <span className="text-muted">
+            RGB {color.rgb.join(", ")}
+          </span>
           <CopyHexButton hex={color.hex} />
         </div>
-        <p className="text-xs text-muted mt-1">{color.role}</p>
+        <p className="text-xs text-muted mt-0.5">{color.role}</p>
+        <div className="flex flex-wrap gap-1 mt-1">
+          {color.usage.map((u) => (
+            <span
+              key={u}
+              className="text-[9px] px-1.5 py-0.5 rounded bg-zinc-100 text-muted"
+            >
+              {u.replace(/_/g, " ")}
+            </span>
+          ))}
+        </div>
       </div>
     </div>
   );
 }
 
-export default function BrandTokensPage() {
+export default function BrandBiblePage() {
+  const primaryColors = COLORS.filter((c) => c.category === "primary");
+  const secondaryColors = COLORS.filter((c) => c.category === "secondary");
+  const extendedColors = COLORS.filter((c) => c.category === "extended");
+
   return (
     <div className="space-y-6">
+      {/* Page Header */}
       <div>
         <p className="text-xs uppercase tracking-[0.2em] text-muted">
           Brand System v2026.05.0
         </p>
         <h2 className="text-2xl font-semibold mt-1 flex items-center gap-2">
-          <Palette className="size-5 text-brand-green-deep" />
-          Brand Tokens
+          <BookOpen className="size-5 text-brand-green-deep" />
+          Brand Bible
         </h2>
         <p className="text-sm text-muted mt-1">
-          Design tokens, color palette, typography, and plaid patterns.
-          Single source of truth for all UI, packaging, signage, video, and
-          marketing.
+          Complete brand reference — identity, colors, typography, patterns,
+          characters, scenes, and generation rules. Single source of truth for
+          all UI, packaging, signage, video, and marketing.
         </p>
       </div>
 
+      {/* Identity strip */}
+      <Card>
+        <CardBody>
+          <div className="flex items-start gap-4">
+            <div className="size-16 rounded-xl bg-brand-green flex items-center justify-center flex-shrink-0 border border-border">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src="/brand/mark-transparent.png"
+                alt="MZ"
+                className="size-12 object-contain"
+              />
+            </div>
+            <div className="flex-1 min-w-0">
+              <h3 className="text-lg font-semibold flex items-center gap-2">
+                {BRAND_IDENTITY.name}
+                <span className="text-base text-muted font-normal" dir="rtl">
+                  {BRAND_IDENTITY.nameArabic}
+                </span>
+              </h3>
+              <p className="text-sm italic text-brand-green-deep mt-0.5">
+                &ldquo;{BRAND_IDENTITY.tagline}&rdquo;
+              </p>
+              <p className="text-xs text-muted mt-1">
+                {BRAND_IDENTITY.marketPosition} · {BRAND_IDENTITY.foundingCity}
+              </p>
+              <div className="flex flex-wrap gap-1.5 mt-2">
+                {BRAND_IDENTITY.personality.map((p) => (
+                  <span
+                    key={p}
+                    className="text-[10px] uppercase tracking-wider px-2 py-0.5 rounded-full bg-brand-green/10 text-brand-green-deep"
+                  >
+                    {p}
+                  </span>
+                ))}
+              </div>
+            </div>
+          </div>
+        </CardBody>
+      </Card>
+
+      {/* 6 Tabs */}
       <BrandTabs
         tabs={[
-          { id: "colors", label: "Colors & Typography", icon: <Palette className="size-4" /> },
-          { id: "plaid", label: "Plaid Pattern", icon: <Grid3X3 className="size-4" /> },
+          { id: "colors", label: "Colors", icon: <Palette className="size-4" /> },
+          { id: "typography", label: "Typography", icon: <Type className="size-4" /> },
+          { id: "pattern", label: "Pattern", icon: <Grid3X3 className="size-4" /> },
+          { id: "logos", label: "Logos", icon: <ImageIcon className="size-4" /> },
+          { id: "characters", label: "Characters", icon: <Users className="size-4" /> },
+          { id: "scenes", label: "Scenes & Rules", icon: <ShieldAlert className="size-4" /> },
         ]}
       >
         {{
-          colors: <ColorsTypographyPanel />,
-          plaid: <PlaidPatternPanel />,
+          colors: (
+            <ColorsPanel
+              primary={primaryColors}
+              secondary={secondaryColors}
+              extended={extendedColors}
+            />
+          ),
+          typography: <TypographyPanel />,
+          pattern: <PlaidPatternPanel />,
+          logos: <LogosPanel />,
+          characters: <CharactersPanel />,
+          scenes: <ScenesRulesPanel />,
         }}
       </BrandTabs>
     </div>
   );
 }
 
-/* ────────────── Colors & Typography Panel ────────────── */
+/* ──────── Colors Panel ──────── */
 
-function ColorsTypographyPanel() {
+function ColorsPanel({
+  primary,
+  secondary,
+  extended,
+}: {
+  primary: ColorToken[];
+  secondary: ColorToken[];
+  extended: ColorToken[];
+}) {
   return (
     <div className="space-y-6">
       <Card>
         <CardBody>
-          <h3 className="font-semibold mb-4">Primary Palette (locked HEX)</h3>
-          <div className="grid gap-4 sm:grid-cols-2">
-            {PRIMARY_COLORS.map((c) => (
-              <ColorSwatch key={c.token} color={c} />
+          <h3 className="font-semibold mb-4">Primary Palette</h3>
+          <div className="grid gap-5 sm:grid-cols-2">
+            {primary.map((c) => (
+              <ColorSwatch key={c.id} color={c} />
             ))}
           </div>
         </CardBody>
       </Card>
 
-      {/* Extended Palette */}
       <Card>
         <CardBody>
-          <h3 className="font-semibold mb-4">
-            Extended Palette (sampled from guideline)
-          </h3>
-          <div className="grid gap-4 sm:grid-cols-2">
-            {EXTENDED_COLORS.map((c) => (
-              <ColorSwatch key={c.token} color={c} />
+          <h3 className="font-semibold mb-4">Secondary Palette</h3>
+          <div className="grid gap-5 sm:grid-cols-2">
+            {secondary.map((c) => (
+              <ColorSwatch key={c.id} color={c} />
             ))}
           </div>
         </CardBody>
       </Card>
 
-      {/* Full tokens file */}
       <Card>
         <CardBody>
-          <div className="flex items-start gap-3">
-            <FileJson className="size-5 text-brand-green-deep flex-shrink-0 mt-0.5" />
+          <h3 className="font-semibold mb-4">Extended Palette</h3>
+          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            {extended.map((c) => (
+              <ColorSwatch key={c.id} color={c} />
+            ))}
+          </div>
+        </CardBody>
+      </Card>
+    </div>
+  );
+}
+
+/* ──────── Typography Panel ──────── */
+
+function TypographyPanel() {
+  return (
+    <div className="space-y-5">
+      {FONTS.map((f) => (
+        <Card key={f.id}>
+          <CardBody>
+            <div className="border border-border rounded-lg p-4 space-y-2">
+              <div className="flex items-center justify-between flex-wrap gap-2">
+                <span className="text-xs uppercase tracking-wider text-muted font-medium">
+                  {f.role}
+                </span>
+                {f.cssVar && (
+                  <code className="text-[10px] bg-zinc-100 px-1.5 py-0.5 rounded font-mono">
+                    {f.cssVar} · {f.family}
+                  </code>
+                )}
+              </div>
+
+              {/* Live preview */}
+              {f.sampleText && f.cssVar && (
+                <p
+                  className={`text-brand-ink leading-relaxed ${
+                    f.id === "display"
+                      ? "font-[family-name:var(--font-brand)] text-5xl leading-none"
+                      : f.id === "arabic"
+                      ? "font-[family-name:var(--font-arabic)] text-2xl text-right"
+                      : "font-sans text-lg"
+                  }`}
+                  dir={f.id === "arabic" ? "rtl" : undefined}
+                >
+                  {f.sampleText}
+                </p>
+              )}
+
+              {/* Weights */}
+              {f.weights.length > 1 && (
+                <div className="flex gap-4 text-sm font-sans flex-wrap">
+                  {f.weights.map((w) => (
+                    <span
+                      key={w}
+                      className={
+                        w === "Light"
+                          ? "font-light"
+                          : w === "Regular"
+                          ? "font-normal"
+                          : w === "Medium"
+                          ? "font-medium"
+                          : w === "SemiBold"
+                          ? "font-semibold"
+                          : w === "Bold"
+                          ? "font-bold"
+                          : ""
+                      }
+                    >
+                      {w}
+                    </span>
+                  ))}
+                </div>
+              )}
+
+              <p className="text-xs text-muted">
+                {f.family} — {f.usage}
+              </p>
+              <p className="text-[10px] text-muted">
+                Fallback: {f.fallback}
+              </p>
+            </div>
+          </CardBody>
+        </Card>
+      ))}
+    </div>
+  );
+}
+
+/* ──────── Logos Panel ──────── */
+
+function LogosPanel() {
+  return (
+    <div className="space-y-6">
+      {/* Wordmark rules */}
+      <Card>
+        <CardBody>
+          <h3 className="font-semibold mb-3">Wordmark Rules</h3>
+          <dl className="grid grid-cols-2 gap-x-6 gap-y-2 text-xs">
             <div>
-              <h3 className="font-semibold">Full Token System</h3>
-              <p className="text-sm text-muted mt-1">
-                Complete brand system including typography, spacing, logos,
-                and usage rules available in{" "}
-                <code className="text-xs bg-zinc-100 px-1.5 py-0.5 rounded">
-                  01_Brand/BRAND.md
-                </code>{" "}
-                and{" "}
-                <code className="text-xs bg-zinc-100 px-1.5 py-0.5 rounded">
-                  01_Brand/tokens.json
-                </code>
-              </p>
+              <dt className="font-medium text-muted uppercase tracking-wider text-[10px]">
+                Approved Spelling
+              </dt>
+              <dd className="font-semibold mt-0.5">
+                {LOGO_ASSETS.wordmark.approvedSpelling}
+              </dd>
+            </div>
+            <div>
+              <dt className="font-medium text-muted uppercase tracking-wider text-[10px]">
+                Lock
+              </dt>
+              <dd className="mt-0.5">{LOGO_ASSETS.wordmark.lock}</dd>
+            </div>
+            <div>
+              <dt className="font-medium text-muted uppercase tracking-wider text-[10px]">
+                Min Size
+              </dt>
+              <dd className="mt-0.5">
+                Web: {LOGO_ASSETS.wordmark.minSizeWeb} · Print:{" "}
+                {LOGO_ASSETS.wordmark.minSizePrint}
+              </dd>
+            </div>
+            <div>
+              <dt className="font-medium text-muted uppercase tracking-wider text-[10px]">
+                Clear Space
+              </dt>
+              <dd className="mt-0.5">{LOGO_ASSETS.wordmark.clearSpace}</dd>
+            </div>
+          </dl>
+          <div className="mt-3">
+            <p className="text-[10px] text-red-600 font-medium uppercase tracking-wider mb-1">
+              Rejected Spellings
+            </p>
+            <div className="flex flex-wrap gap-1.5">
+              {LOGO_ASSETS.wordmark.rejected.map((r) => (
+                <span
+                  key={r}
+                  className="text-[10px] px-2 py-0.5 rounded-full bg-red-50 text-red-600 line-through"
+                >
+                  {r}
+                </span>
+              ))}
             </div>
           </div>
         </CardBody>
       </Card>
 
-      {/* Typography */}
+      {/* Logo variants */}
       <Card>
         <CardBody>
-          <h3 className="font-semibold mb-4 flex items-center gap-2">
-            <Type className="size-4 text-brand-green-deep" />
-            Typography
-          </h3>
-          <div className="space-y-5">
-            {/* Display */}
-            <div className="border border-border rounded-lg p-4 space-y-2">
-              <div className="flex items-center justify-between">
-                <span className="text-xs uppercase tracking-wider text-muted font-medium">Display / Brand</span>
-                <code className="text-[10px] bg-zinc-100 px-1.5 py-0.5 rounded font-mono">--font-brand · var(--font-brand)</code>
-              </div>
-              <p className="font-[family-name:var(--font-brand)] text-5xl text-brand-ink leading-none">
-                MaMa Zainab
-              </p>
-              <p className="text-xs text-muted">Chinese Monoline — headlines, logo wordmark, section titles. Never body text.</p>
-            </div>
-
-            {/* Body */}
-            <div className="border border-border rounded-lg p-4 space-y-2">
-              <div className="flex items-center justify-between">
-                <span className="text-xs uppercase tracking-wider text-muted font-medium">Body / UI</span>
-                <code className="text-[10px] bg-zinc-100 px-1.5 py-0.5 rounded font-mono">--font-sans · Poppins</code>
-              </div>
-              <p className="font-sans text-lg text-brand-ink leading-relaxed">
-                Homemade taste. Fast-food style — for the first time.
-              </p>
-              <div className="flex gap-4 text-sm font-sans">
-                <span className="font-light">Light 300</span>
-                <span className="font-normal">Regular 400</span>
-                <span className="font-medium">Medium 500</span>
-                <span className="font-semibold">SemiBold 600</span>
-                <span className="font-bold">Bold 700</span>
-              </div>
-              <p className="text-xs text-muted">Poppins — all UI, labels, descriptions, pricing. Google Fonts, loaded on first request.</p>
-            </div>
-
-            {/* Arabic */}
-            <div className="border border-border rounded-lg p-4 space-y-2">
-              <div className="flex items-center justify-between">
-                <span className="text-xs uppercase tracking-wider text-muted font-medium">Arabic</span>
-                <code className="text-[10px] bg-zinc-100 px-1.5 py-0.5 rounded font-mono">--font-arabic · Cairo</code>
-              </div>
-              <p className="font-[family-name:var(--font-arabic)] text-2xl text-brand-ink text-right" dir="rtl">
-                ماما زينب — طعم بيتي بأسلوب الفاست فود
-              </p>
-              <p className="text-xs text-muted">Cairo — all Arabic text, RTL layouts, kiosk screens. Supports Arabic + Latin subsets.</p>
-            </div>
-          </div>
-        </CardBody>
-      </Card>
-
-      {/* Logos */}
-      <Card>
-        <CardBody>
-          <h3 className="font-semibold mb-4 flex items-center gap-2">
-            <ImageIcon className="size-4 text-brand-green-deep" />
-            Logo Assets
-          </h3>
+          <h3 className="font-semibold mb-4">Logo Variants</h3>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            {[
-              { src: "/brand/logo-primary.png", label: "Primary (on light)", bg: "bg-brand-cream" },
-              { src: "/brand/logo-on-dark.png", label: "On dark", bg: "bg-brand-ink" },
-              { src: "/brand/logo-wordmark-transparent.png", label: "Wordmark (transparent)", bg: "bg-brand-green" },
-              { src: "/brand/logo-mono.png", label: "Mono", bg: "bg-zinc-100" },
-            ].map(({ src, label, bg }) => (
+            {LOGO_ASSETS.variants.map(({ src, label, bg }) => (
               <div key={src} className="space-y-2">
-                <div className={`${bg} rounded-lg p-4 flex items-center justify-center h-24 border border-border`}>
+                <div
+                  className={`${bg} rounded-lg p-4 flex items-center justify-center h-24 border border-border`}
+                >
                   {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={src} alt={label} className="max-h-full max-w-full object-contain" />
+                  <img
+                    src={src}
+                    alt={label}
+                    className="max-h-full max-w-full object-contain"
+                  />
                 </div>
                 <p className="text-xs text-center text-muted">{label}</p>
               </div>
@@ -268,17 +363,21 @@ function ColorsTypographyPanel() {
 
           {/* Mark variants */}
           <div className="mt-5 border-t border-border pt-5">
-            <p className="text-xs uppercase tracking-wider text-muted font-medium mb-3">Mark / Icon</p>
+            <p className="text-xs uppercase tracking-wider text-muted font-medium mb-3">
+              Mark / Icon
+            </p>
             <div className="flex gap-4 flex-wrap">
-              {[
-                { src: "/brand/mark.png", label: "Default", bg: "bg-white" },
-                { src: "/brand/mark-transparent.png", label: "Transparent", bg: "bg-brand-green" },
-                { src: "/brand/mark-avatar.png", label: "Avatar (circle)", bg: "bg-brand-cream" },
-              ].map(({ src, label, bg }) => (
+              {LOGO_ASSETS.marks.map(({ src, label, bg }) => (
                 <div key={src} className="space-y-1 text-center">
-                  <div className={`${bg} rounded-xl p-3 size-20 flex items-center justify-center border border-border mx-auto`}>
+                  <div
+                    className={`${bg} rounded-xl p-3 size-20 flex items-center justify-center border border-border mx-auto`}
+                  >
                     {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src={src} alt={label} className="max-h-full max-w-full object-contain" />
+                    <img
+                      src={src}
+                      alt={label}
+                      className="max-h-full max-w-full object-contain"
+                    />
                   </div>
                   <p className="text-[11px] text-muted">{label}</p>
                 </div>
@@ -291,31 +390,7 @@ function ColorsTypographyPanel() {
   );
 }
 
-/* ────────────── Plaid Pattern Panel ────────────── */
-
-const PLAID_VARIANTS = [
-  {
-    name: "Web",
-    file: "tile_gingham_web.png",
-    swatch: "swatch_web.png",
-    cell: "32px",
-    use: "Website heroes, app backgrounds, digital banners",
-  },
-  {
-    name: "Packaging",
-    file: "tile_gingham_packaging.png",
-    swatch: "swatch_packaging.png",
-    cell: "48px",
-    use: "Boxes, bags, wrapping paper, side panels",
-  },
-  {
-    name: "Apron",
-    file: "tile_gingham_apron.png",
-    swatch: "swatch_apron.png",
-    cell: "64px",
-    use: "Staff aprons, tablecloths, napkins, merch",
-  },
-];
+/* ──────── Plaid Pattern Panel ──────── */
 
 function PlaidPatternPanel() {
   return (
@@ -323,17 +398,61 @@ function PlaidPatternPanel() {
       {/* Intro + live tile */}
       <Card>
         <CardBody>
-          <h3 className="font-semibold mb-2">Brand Plaid — Checkerboard</h3>
+          <h3 className="font-semibold mb-2">{PATTERN.name}</h3>
           <p className="text-sm text-muted mb-1">
-            Alternating <strong className="text-brand-green-deep">brand green</strong> +{" "}
-            <strong className="text-yellow-600">brand yellow</strong> squares.
-            Clean, bold, and recognizable — the signature MaMa Zainab pattern
-            used across aprons, packaging, web, and all brand surfaces.
+            {PATTERN.description}
+          </p>
+          <p className="text-xs text-muted mb-1">
+            Structure: {PATTERN.structure}
           </p>
           <p className="text-xs text-muted mb-4">
-            Locked as of 2026-05. Matches the apron / uniform reference.
+            Line weight: {PATTERN.lineWeight} · Diamond: {PATTERN.diamondSize}
           </p>
           <div className="plaid h-48 rounded-lg border border-border-strong" />
+        </CardBody>
+      </Card>
+
+      {/* Prompt anchor */}
+      <Card>
+        <CardBody>
+          <h3 className="font-semibold mb-2">AI Prompt Anchor</h3>
+          <div className="bg-zinc-50 border border-border rounded-lg p-3">
+            <p className="text-xs font-mono text-brand-ink leading-relaxed">
+              {PATTERN.promptAnchor}
+            </p>
+          </div>
+          {PATTERN.doNots.length > 0 && (
+            <div className="mt-3">
+              <p className="text-[10px] uppercase tracking-wider text-red-600 font-medium mb-1">
+                Do Not
+              </p>
+              <ul className="space-y-0.5">
+                {PATTERN.doNots.map((d) => (
+                  <li key={d} className="text-xs text-red-700/80 flex items-start gap-1.5">
+                    <span className="text-red-400 mt-0.5">✕</span>
+                    {d}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+        </CardBody>
+      </Card>
+
+      {/* Usage contexts */}
+      <Card>
+        <CardBody>
+          <h3 className="font-semibold mb-3">Usage Contexts</h3>
+          <div className="flex flex-wrap gap-1.5">
+            {PATTERN.usage.map((u) => (
+              <span
+                key={u}
+                className="text-xs px-2.5 py-1 rounded-full bg-brand-green/10 text-brand-green-deep"
+              >
+                {u}
+              </span>
+            ))}
+          </div>
         </CardBody>
       </Card>
 
@@ -343,23 +462,23 @@ function PlaidPatternPanel() {
           <h3 className="font-semibold mb-4">Density Variants</h3>
           <p className="text-sm text-muted mb-4">
             Three cell sizes tuned for different surfaces. Smaller cells for
-            digital, larger for physical textiles where the weave should be visible.
+            digital, larger for physical textiles.
           </p>
           <div className="grid gap-6 md:grid-cols-3">
-            {PLAID_VARIANTS.map((v) => (
+            {PATTERN.variants.map((v) => (
               <div key={v.name} className="space-y-3">
                 <div className="rounded-lg border border-border overflow-hidden">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
-                    src={`/brand/plaid/${v.swatch}`}
+                    src={v.swatchPng}
                     alt={`${v.name} plaid swatch`}
                     className="w-full h-auto"
                   />
                 </div>
                 <div>
                   <h4 className="font-semibold text-sm">{v.name}</h4>
-                  <p className="text-xs text-muted mt-0.5">Cell: {v.cell}</p>
-                  <p className="text-xs text-muted mt-0.5">{v.use}</p>
+                  <p className="text-xs text-muted mt-0.5">Cell: {v.cellSize}</p>
+                  <p className="text-xs text-muted mt-0.5">{v.usage}</p>
                 </div>
               </div>
             ))}
@@ -367,14 +486,10 @@ function PlaidPatternPanel() {
         </CardBody>
       </Card>
 
-      {/* Contact sheet overview */}
+      {/* Contact sheet */}
       <Card>
         <CardBody>
           <h3 className="font-semibold mb-2">Density Comparison (Contact Sheet)</h3>
-          <p className="text-sm text-muted mb-4">
-            All three checkerboard densities side by side: web (32px),
-            packaging (48px), apron (64px).
-          </p>
           <div className="rounded-lg border border-border overflow-hidden">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
@@ -386,14 +501,33 @@ function PlaidPatternPanel() {
         </CardBody>
       </Card>
 
+      {/* Color spec */}
+      <Card>
+        <CardBody>
+          <h3 className="font-semibold mb-2">Pattern Colors</h3>
+          <div className="flex gap-4 mb-3">
+            {PATTERN.colors.map((hex, i) => (
+              <div key={hex} className="flex items-center gap-2">
+                <div
+                  className="size-8 rounded border border-border"
+                  style={{ backgroundColor: hex }}
+                />
+                <div>
+                  <p className="text-xs font-semibold">
+                    {i === 0 ? "Base" : i === 1 ? "Weft" : "Cross"}
+                  </p>
+                  <p className="text-[11px] font-mono text-muted">{hex}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </CardBody>
+      </Card>
+
       {/* CSS usage */}
       <Card>
         <CardBody>
           <h3 className="font-semibold mb-2">CSS Usage</h3>
-          <p className="text-sm text-muted mb-3">
-            Apply the <code className="text-xs bg-zinc-100 px-1.5 py-0.5 rounded">.plaid</code> class
-            to any element. Adjust opacity for subtle washes.
-          </p>
           <pre className="bg-zinc-50 border border-border rounded-lg p-4 text-xs font-mono overflow-x-auto">
 {`.plaid {
   background-image: url('/brand/plaid.png');
@@ -401,48 +535,12 @@ function PlaidPatternPanel() {
   background-size: 384px 384px;
 }
 
-/* Subtle wash behind content */
 .plaid-wash {
   @apply plaid opacity-[0.07] pointer-events-none;
-}
-
-/* Hero with dark vignette overlay */
-<div class="plaid relative">
-  <div class="absolute inset-0 bg-gradient-to-b
-    from-black/55 to-black/70" />
-  <div class="relative z-10">Content</div>
-</div>`}
+}`}
           </pre>
-        </CardBody>
-      </Card>
-
-      {/* Color spec */}
-      <Card>
-        <CardBody>
-          <h3 className="font-semibold mb-2">Pattern Spec (from tokens.json)</h3>
-          <div className="grid grid-cols-3 gap-4 mb-4">
-            <div className="flex items-center gap-2">
-              <div className="size-8 rounded border border-border" style={{ backgroundColor: "#1B9B00" }} />
-              <div>
-                <p className="text-xs font-semibold">Base</p>
-                <p className="text-[11px] font-mono text-muted">#1B9B00</p>
-              </div>
-            </div>
-            <div className="flex items-center gap-2">
-              <div className="size-8 rounded border border-border" style={{ backgroundColor: "#EFD200" }} />
-              <div>
-                <p className="text-xs font-semibold">Stripe</p>
-                <p className="text-[11px] font-mono text-muted">#EFD200</p>
-              </div>
-            </div>
-          </div>
-          <p className="text-xs text-muted">
-            Pattern: checkerboard (alternating squares) ·
-            Usage: apron, packaging, awning, web heroes, app onboarding
-          </p>
         </CardBody>
       </Card>
     </div>
   );
 }
-

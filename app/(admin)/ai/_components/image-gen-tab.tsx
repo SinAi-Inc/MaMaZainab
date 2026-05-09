@@ -1,13 +1,20 @@
 "use client";
 
-import { useState, useRef, useCallback } from "react";
+import { useState, useRef, useCallback, useMemo } from "react";
 import { Copy, Check, Sparkles, ImageIcon, Loader2, Download, X } from "lucide-react";
 import { toast } from "sonner";
 import { Card, CardBody } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/input";
+import { recordGeneration } from "@/lib/generations/actions";
 import type { Character } from "@/lib/characters/schema";
-import { buildReferenceContext } from "@/lib/ai/brand-reference";
+import {
+  buildAnchorsFromCharacters,
+  SCENE_CONTEXTS,
+  assemblePrompt,
+  getAnchorByValue,
+  getSceneByValue,
+} from "@/lib/ai/brand-bible";
 
 /* ---- Image models (NVIDIA API Catalog) ---- */
 type ImageModel = {
@@ -26,10 +33,15 @@ const IMAGE_MODELS: ImageModel[] = [
 const ASPECT_RATIOS = ["1:1", "16:9", "9:16", "4:3", "3:2", "2.39:1"];
 
 export function ImageGenTab({ characters }: { characters: Character[] }) {
+  const characterAnchors = useMemo(
+    () => buildAnchorsFromCharacters(characters),
+    [characters],
+  );
   const [model, setModel] = useState(IMAGE_MODELS[0].id);
   const [aspect, setAspect] = useState("1:1");
   const [prompt, setPrompt] = useState("");
-  const [anchorCharId, setAnchorCharId] = useState("");
+  const [anchorValue, setAnchorValue] = useState("");
+  const [sceneValue, setSceneValue] = useState("");
   const [includeBrand, setIncludeBrand] = useState(true);
   const [copied, setCopied] = useState(false);
   const [generating, setGenerating] = useState(false);
@@ -47,25 +59,22 @@ export function ImageGenTab({ characters }: { characters: Character[] }) {
     if (timerRef.current) { clearInterval(timerRef.current); timerRef.current = null; }
   }, []);
 
-  const selectedChar = characters.find((c) => c.id === anchorCharId);
+  const selectedAnchor = getAnchorByValue(anchorValue, characterAnchors);
+  const selectedScene = getSceneByValue(sceneValue);
 
   function buildFullPrompt(): string {
-    const parts: string[] = [];
-
-    // User prompt first
-    if (prompt.trim()) parts.push(prompt.trim());
-
-    // Auto-detected brand reference context (characters + materials + palette)
-    const refContext = buildReferenceContext(prompt, characters, anchorCharId || undefined, {
-      includeBrand,
+    const assembled = assemblePrompt({
+      sceneContext: selectedScene,
+      characterAnchor: selectedAnchor,
+      userPrompt: prompt,
+      includePalette: includeBrand,
       isVideo: false,
     });
-    if (refContext) parts.push(refContext);
 
-    // Aspect & model tag
-    parts.push(`\nAspect ratio: ${aspect} | Model: ${IMAGE_MODELS.find((m) => m.id === model)?.label ?? model}`);
+    if (!assembled.trim()) return "";
 
-    return parts.join("\n\n");
+    // Append technical metadata
+    return `${assembled}\n\nAspect ratio: ${aspect} | Model: ${IMAGE_MODELS.find((m) => m.id === model)?.label ?? model}`;
   }
 
   function handleCopy() {
@@ -90,6 +99,7 @@ export function ImageGenTab({ characters }: { characters: Character[] }) {
     setResultImage(null);
     setError(null);
     startTimer();
+    const startTime = Date.now();
     try {
       const res = await fetch("/api/generate/image", {
         method: "POST",
@@ -103,10 +113,33 @@ export function ImageGenTab({ characters }: { characters: Character[] }) {
       const data = await res.json();
       setResultImage(data.image);
       toast.success("Image generated!");
+      // Record in history (fire-and-forget)
+      recordGeneration({
+        type: "image",
+        model,
+        prompt: full,
+        characterAnchor: anchorValue,
+        sceneContext: sceneValue,
+        aspect,
+        status: "completed",
+        elapsedMs: Date.now() - startTime,
+        base64Output: data.image,
+      }).catch(() => {});
     } catch (err) {
       const msg = err instanceof Error ? err.message : "Generation failed";
       setError(msg);
       toast.error(msg);
+      recordGeneration({
+        type: "image",
+        model,
+        prompt: full,
+        characterAnchor: anchorValue,
+        sceneContext: sceneValue,
+        aspect,
+        status: "failed",
+        error: msg,
+        elapsedMs: Date.now() - startTime,
+      }).catch(() => {});
     } finally {
       stopTimer();
       setGenerating(false);
@@ -158,24 +191,62 @@ export function ImageGenTab({ characters }: { characters: Character[] }) {
           </div>
         </div>
 
-        {/* Character anchor */}
-        <div>
-          <label className="text-xs font-medium text-muted uppercase tracking-wider block mb-1.5">
-            Character Anchor <span className="font-normal">(optional)</span>
-          </label>
-          <select
-            value={anchorCharId}
-            onChange={(e) => setAnchorCharId(e.target.value)}
-            aria-label="Character anchor"
-            className="w-full text-sm border border-border-strong rounded-md px-2.5 py-2 bg-white"
-          >
-            <option value="">— None —</option>
-            {characters.map((c) => (
-              <option key={c.id} value={c.id}>
-                {c.name}
-              </option>
-            ))}
-          </select>
+        {/* Scene Context + Character Anchor row */}
+        <div className="grid grid-cols-2 gap-3">
+          <div>
+            <label className="text-xs font-medium text-muted uppercase tracking-wider block mb-1.5">
+              Scene Context <span className="font-normal">(optional)</span>
+            </label>
+            <select
+              value={sceneValue}
+              onChange={(e) => setSceneValue(e.target.value)}
+              aria-label="Scene context"
+              className="w-full text-sm border border-border-strong rounded-md px-2.5 py-2 bg-white"
+            >
+              <option value="">— No Scene —</option>
+              {SCENE_CONTEXTS.map((s) => (
+                <option key={s.value} value={s.value}>
+                  {s.label}
+                </option>
+              ))}
+            </select>
+            {selectedScene && (
+              <p className="text-[10px] text-muted mt-1">
+                Mood: {selectedScene.mood}
+              </p>
+            )}
+          </div>
+          <div>
+            <label className="text-xs font-medium text-muted uppercase tracking-wider block mb-1.5">
+              Character Anchor <span className="font-normal">(optional)</span>
+            </label>
+            <select
+              value={anchorValue}
+              onChange={(e) => setAnchorValue(e.target.value)}
+              aria-label="Character anchor"
+              className="w-full text-sm border border-border-strong rounded-md px-2.5 py-2 bg-white"
+            >
+              <option value="">— None —</option>
+              {characterAnchors.map((a) => (
+                <option key={a.value} value={a.value}>
+                  {a.label}
+                </option>
+              ))}
+            </select>
+            {selectedAnchor?.referenceImage && (
+              <div className="mt-2 flex items-center gap-2">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={selectedAnchor.referenceImage}
+                  alt={selectedAnchor.label}
+                  className="size-10 rounded-md object-cover border border-border"
+                />
+                <span className="text-[10px] text-muted">
+                  Reference — {selectedAnchor.label}
+                </span>
+              </div>
+            )}
+          </div>
         </div>
 
         {/* Prompt textarea */}
@@ -248,7 +319,8 @@ export function ImageGenTab({ characters }: { characters: Character[] }) {
                 <ImageIcon className="size-3.5" />
                 <span>
                   {IMAGE_MODELS.find((m) => m.id === model)?.label} · {aspect}
-                  {selectedChar ? ` · ${selectedChar.name}` : ""}
+                  {selectedAnchor ? ` · ${selectedAnchor.label}` : ""}
+                  {selectedScene ? ` · ${selectedScene.label}` : ""}
                 </span>
               </div>
             </>

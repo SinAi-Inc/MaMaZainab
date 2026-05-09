@@ -10,8 +10,8 @@
       "anchorBlock": "Egyptian woman in her late 50s, warm kind face, soft dark eyes, gentle smile lines,\nolive skin, headscarf in soft cream tone, wearing a GREEN-base plaid apron with\nyellow stripes and white weft (PLAID v2), simple gold hoop earrings, silver wedding\nband, flour-dusted hands, dignified posture, calm matriarchal energy.\n[REF: /brand/chars/mama-zainab.jpeg]",
       "referenceImages": [
         {
-          "url": "/brand/chars/mama-zainab.jpeg",
-          "label": "Mama Zainab — Final",
+          "url": "/uploads/chars/7HlpzYSxK7.jpg",
+          "label": "MaMaZainab",
           "isPrimary": true
         }
       ],
@@ -81,7 +81,7 @@
       "active": true,
       "sort": 1,
       "createdAt": "2026-05-05T03:39:10.925Z",
-      "updatedAt": "2026-05-05T03:39:10.925Z"
+      "updatedAt": "2026-05-09T01:12:30.619Z"
     },
     {
       "id": "chr_zuzu",
@@ -158,8 +158,18 @@
       "anchorBlock": "East-Asian man in his 60s, salt-and-pepper hair tied back loosely, weathered face\nwith old fight scars (subtle), calm dangerous eyes, wearing dark silken warrior\nrobes in cinematic scenes OR a premium minimalist cream-linen suit in business\nscenes, dignified silent presence, slow deliberate movement.\n[REF: /brand/chars/wong-hong.png]",
       "referenceImages": [
         {
-          "url": "/brand/chars/wong-hong.png",
-          "label": "Wong Hong — Reference",
+          "url": "/uploads/chars/YEcQAWdIki.jpg",
+          "label": "Wong",
+          "isPrimary": false
+        },
+        {
+          "url": "/uploads/chars/8bWy0tL7k-.jpg",
+          "label": "WongAfter",
+          "isPrimary": false
+        },
+        {
+          "url": "/uploads/chars/hyoRbUUPTY.jpg",
+          "label": "IsolatedWongAfter",
           "isPrimary": true
         }
       ],
@@ -219,7 +229,7 @@
       "active": true,
       "sort": 3,
       "createdAt": "2026-05-05T03:39:10.925Z",
-      "updatedAt": "2026-05-05T03:39:10.925Z"
+      "updatedAt": "2026-05-09T03:10:07.966Z"
     },
     {
       "id": "chr_ghost_zainab",
@@ -230,8 +240,8 @@
       "anchorBlock": "Ethereal translucent apparition of MaMa Zainab, glowing soft warm light,\nsemi-transparent robes in cream and green hues, gentle floating movement,\nwise amused expression, aged village woman energy with divine calm.\nDerived from MaMa Zainab — same face, same headscarf, luminous ghost form.\n[REF: /brand/chars/mama-zainab.jpeg — ghost/ethereal version]",
       "referenceImages": [
         {
-          "url": "/brand/chars/mama-zainab.jpeg",
-          "label": "Base — Mama Zainab (apply ghost treatment)",
+          "url": "/uploads/chars/VLN-tk2bbb.jpg",
+          "label": "ZainabSoul",
           "isPrimary": true
         }
       ],
@@ -273,7 +283,7 @@
       "active": true,
       "sort": 4,
       "createdAt": "2026-05-05T03:39:10.925Z",
-      "updatedAt": "2026-05-05T03:39:10.925Z"
+      "updatedAt": "2026-05-09T02:40:12.395Z"
     }
   ]
 }
