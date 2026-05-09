@@ -64,7 +64,7 @@
       "nameEn": "Green Fingers",
       "descriptionEn": "Vine leaves rolled with rice, herbs, and a hint of lemon.",
       "priceEgp": 44.99,
-      "imageUrl": "/uploads/menu/AD9RorhMAn.jpg",
+      "imageUrl": "/uploads/menu/FUVEVujk2i.jpg",
       "badges": [
         "bestseller",
         "vegan"
@@ -72,13 +72,13 @@
       "available": true,
       "sort": 1,
       "createdAt": "2026-05-03T20:23:46.882Z",
-      "updatedAt": "2026-05-08T17:17:18.984Z"
+      "updatedAt": "2026-05-08T23:40:05.120Z"
     },
     {
       "id": "itm_stuffy_cabbage",
       "categoryId": "cat_stuffy",
       "sku": "MZ-STU-0002",
-      "nameEn": "Flower Roll",
+      "nameEn": "Flowers Roll",
       "descriptionEn": "Cabbage rolls, slow-cooked in tomato broth.",
       "priceEgp": 44.99,
       "imageUrl": "/uploads/menu/JrICg7foUI.png",
@@ -90,7 +90,7 @@
       "available": true,
       "sort": 2,
       "createdAt": "2026-05-03T20:23:46.882Z",
-      "updatedAt": "2026-05-08T16:53:44.923Z"
+      "updatedAt": "2026-05-08T21:02:25.566Z"
     },
     {
       "id": "itm_side_salad",
@@ -116,7 +116,7 @@
       "nameEn": "Chilled Hibi",
       "descriptionEn": "Chilled hibiscus, lightly sweet.",
       "priceEgp": 64.99,
-      "imageUrl": "/uploads/menu/rql1ELnbW5.jpg",
+      "imageUrl": "/uploads/menu/0OZ9MkTvlr.jpeg",
       "badges": [
         "vegan",
         "chefs_pick"
@@ -124,7 +124,7 @@
       "available": true,
       "sort": 1,
       "createdAt": "2026-05-03T20:23:46.882Z",
-      "updatedAt": "2026-05-08T05:05:46.125Z"
+      "updatedAt": "2026-05-08T23:37:42.639Z"
     },
     {
       "id": "itm_9Ybo7jaK",
@@ -329,7 +329,7 @@
       "nameEn": "Onion Bombs",
       "descriptionEn": "",
       "priceEgp": 34.99,
-      "imageUrl": "/uploads/menu/TxLxP2Ptqm.webp",
+      "imageUrl": "/uploads/menu/Igen8q_92n.jpg",
       "badges": [
         "vegan",
         "new"
@@ -337,7 +337,7 @@
       "available": true,
       "sort": 9,
       "createdAt": "2026-05-05T03:07:46.209Z",
-      "updatedAt": "2026-05-08T06:14:56.073Z"
+      "updatedAt": "2026-05-09T03:49:33.361Z"
     },
     {
       "id": "itm_S_vXN0Y-",
@@ -346,7 +346,7 @@
       "nameEn": "Mumba Bites",
       "descriptionEn": "",
       "priceEgp": 59.99,
-      "imageUrl": "/uploads/menu/iZlwrgEWlc.jpg",
+      "imageUrl": "/uploads/menu/P19vsmOC9k.jpg",
       "badges": [
         "limited",
         "chefs_pick",
@@ -355,7 +355,7 @@
       "available": true,
       "sort": 3,
       "createdAt": "2026-05-05T03:10:20.827Z",
-      "updatedAt": "2026-05-08T05:58:04.513Z"
+      "updatedAt": "2026-05-09T03:47:40.357Z"
     },
     {
       "id": "itm_bKy6kP9n",
@@ -364,14 +364,14 @@
       "nameEn": "Beef Balls",
       "descriptionEn": "",
       "priceEgp": 49.99,
-      "imageUrl": "/uploads/menu/PTSTtKVrK5.jpg",
+      "imageUrl": "/uploads/menu/QeYydk8s9L.jpg",
       "badges": [
         "bestseller"
       ],
       "available": true,
       "sort": 1,
       "createdAt": "2026-05-07T05:04:34.288Z",
-      "updatedAt": "2026-05-08T16:54:30.879Z"
+      "updatedAt": "2026-05-08T23:42:05.414Z"
     },
     {
       "id": "itm_ztKN5cP7",
@@ -380,7 +380,7 @@
       "nameEn": "Chick Balls",
       "descriptionEn": "",
       "priceEgp": 44.99,
-      "imageUrl": "/uploads/menu/fPFWZYt4cY.jpg",
+      "imageUrl": "/uploads/menu/d8Zpm6y7K2.jpg",
       "badges": [
         "chefs_pick",
         "spicy",
@@ -389,7 +389,7 @@
       "available": true,
       "sort": 2,
       "createdAt": "2026-05-07T21:22:34.933Z",
-      "updatedAt": "2026-05-08T05:58:31.102Z"
+      "updatedAt": "2026-05-08T23:39:01.458Z"
     },
     {
       "id": "itm_9FRGnc8n",
@@ -397,8 +397,8 @@
       "sku": "MZ-ADD-0010",
       "nameEn": "Caramelized Onions",
       "descriptionEn": "",
-      "priceEgp": 0,
-      "imageUrl": "",
+      "priceEgp": 14.99,
+      "imageUrl": "/uploads/menu/S1u4x3Nkxx.jpg",
       "badges": [
         "vegan",
         "chefs_pick"
@@ -406,7 +406,7 @@
       "available": true,
       "sort": 1,
       "createdAt": "2026-05-08T17:23:49.107Z",
-      "updatedAt": "2026-05-08T17:51:16.785Z"
+      "updatedAt": "2026-05-08T21:25:55.485Z"
     },
     {
       "id": "itm_37mNuSRf",
@@ -414,8 +414,8 @@
       "sku": "MZ-ADD-0011",
       "nameEn": "Crazy Nuts ",
       "descriptionEn": "",
-      "priceEgp": 0,
-      "imageUrl": "",
+      "priceEgp": 16.99,
+      "imageUrl": "/uploads/menu/aj0ZgHHbBz.webp",
       "badges": [
         "vegan",
         "bestseller"
@@ -423,23 +423,25 @@
       "available": true,
       "sort": 2,
       "createdAt": "2026-05-08T17:28:13.167Z",
-      "updatedAt": "2026-05-08T17:51:00.554Z"
+      "updatedAt": "2026-05-08T21:25:27.538Z"
     },
     {
       "id": "itm_2qpqUe9b",
       "categoryId": "cat_7qady6T-",
       "sku": "MZ-ADD-0012",
-      "nameEn": "Liver's Mix",
+      "nameEn": "Foié Mix",
       "descriptionEn": "",
-      "priceEgp": 0,
-      "imageUrl": "",
+      "priceEgp": 19.99,
+      "imageUrl": "/uploads/menu/FTl1tzwwWq.jpg",
       "badges": [
-        "new"
+        "new",
+        "chefs_pick",
+        "spicy"
       ],
       "available": true,
       "sort": 3,
       "createdAt": "2026-05-08T17:28:55.109Z",
-      "updatedAt": "2026-05-08T17:28:55.109Z"
+      "updatedAt": "2026-05-08T21:23:22.135Z"
     },
     {
       "id": "itm_vcj5CQDE",
@@ -447,8 +449,8 @@
       "sku": "MZ-ADD-0013",
       "nameEn": "Sausage Mix",
       "descriptionEn": "",
-      "priceEgp": 0,
-      "imageUrl": "",
+      "priceEgp": 24.99,
+      "imageUrl": "/uploads/menu/c3kkC042aM.jpg",
       "badges": [
         "spicy",
         "chefs_pick"
@@ -456,7 +458,7 @@
       "available": true,
       "sort": 4,
       "createdAt": "2026-05-08T17:29:26.190Z",
-      "updatedAt": "2026-05-08T17:29:26.190Z"
+      "updatedAt": "2026-05-08T21:24:46.989Z"
     }
   ]
 }

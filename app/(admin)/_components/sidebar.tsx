@@ -8,7 +8,7 @@ import {
   Globe,
   Video,
   Users,
-  Palette,
+  BookOpen,
   Settings,
   Sparkles,
   Mail,
@@ -48,7 +48,7 @@ const NAV: { section: string; items: NavItem[] }[] = [
     section: "Brand",
     items: [
       { href: "/characters", label: "Characters", icon: Users, status: "active" },
-      { href: "/brand", label: "Brand Tokens", icon: Palette, status: "active" },
+      { href: "/brand", label: "Brand Bible", icon: BookOpen, status: "active" },
     ],
   },
   {

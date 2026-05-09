@@ -1,0 +1,274 @@
+/**
+ * Brand Bible data for Studio UI integration.
+ * Source of truth: Characters → characters.json (via readCharacters / props)
+ *                  Scenes    → hardcoded (narrative arc + marketing presets)
+ *
+ * Character anchors are now DERIVED from the Character[] array so edits in
+ * the Characters page immediately flow into Studio generations.
+ */
+
+import type { Character } from "@/lib/characters/schema";
+
+/* ---- Character Anchor Options (derived from Characters data) ---- */
+
+export type CharacterAnchorOption = {
+  label: string;
+  value: string;
+  promptAnchor: string;
+  alsoInjectsPlaid: boolean;
+  doNots: string[];
+  /** Primary reference image URL from the Characters page (if any) */
+  referenceImage?: string;
+};
+
+/**
+ * Build Studio anchor options from the canonical Character[] array.
+ * Multi-mode characters (e.g. Wong: Warrior / Business) expand into
+ * one dropdown entry per mode.
+ */
+export function buildAnchorsFromCharacters(
+  characters: Character[],
+): CharacterAnchorOption[] {
+  const anchors: CharacterAnchorOption[] = [];
+  const plaidCharIds = new Set(["chr_mama_zainab", "chr_zuzu"]);
+
+  for (const c of characters) {
+    if (!c.active) continue;
+
+    const refImg = c.referenceImages.find((r) => r.isPrimary)?.url
+      ?? c.referenceImages[0]?.url;
+
+    const injectsPlaid = plaidCharIds.has(c.id)
+      || c.anchorBlock.toLowerCase().includes("plaid");
+
+    if (c.modes.length > 0) {
+      // Expand each mode into its own anchor entry
+      for (const mode of c.modes) {
+        anchors.push({
+          label: `${c.name} — ${mode.label}`,
+          value: `${c.id}_${mode.label.toLowerCase().replace(/\s+/g, "_")}`,
+          promptAnchor: buildModeAnchor(c, mode),
+          alsoInjectsPlaid: injectsPlaid,
+          doNots: [...c.donts],
+          referenceImage: refImg,
+        });
+      }
+    } else {
+      anchors.push({
+        label: c.name,
+        value: c.id,
+        promptAnchor: c.anchorBlock.trim() || buildFallbackAnchor(c),
+        alsoInjectsPlaid: injectsPlaid,
+        doNots: [...c.donts],
+        referenceImage: refImg,
+      });
+    }
+  }
+
+  return anchors;
+}
+
+/** Build anchor text for a specific mode of a multi-mode character */
+function buildModeAnchor(
+  c: Character,
+  mode: { label: string; costume: string; posture: string; when: string },
+): string {
+  // Start with the base anchor block but append mode-specific details
+  const base = c.anchorBlock.trim() || buildFallbackAnchor(c);
+  const modeDetails = [
+    mode.costume && `Costume: ${mode.costume}`,
+    mode.posture && `Posture: ${mode.posture}`,
+    mode.when && `When: ${mode.when}`,
+  ]
+    .filter(Boolean)
+    .join(". ");
+  return `${base}\n[MODE: ${mode.label}] ${modeDetails}`;
+}
+
+/** Fallback anchor from structured identity fields when anchorBlock is empty */
+function buildFallbackAnchor(c: Character): string {
+  const parts = [`${c.name} — ${c.role || c.subtitle}`];
+  for (const f of c.identityFields) {
+    if (f.value) parts.push(`${f.field}: ${f.value}`);
+  }
+  return parts.join(", ");
+}
+
+/* ---- Scene Context Options ---- */
+
+export type SceneContextOption = {
+  label: string;
+  value: string;
+  mood: string;
+  paletteFocus: string[];
+  patternUsage: string;
+  characters: string[];
+  wongMode?: string;
+};
+
+export const SCENE_CONTEXTS: SceneContextOption[] = [
+  {
+    label: "Scene 1 — Neon Rooftop",
+    value: "scene_1_rooftop",
+    mood: "dark, neon, rain, high-action",
+    paletteFocus: ["Ink #2C292A", "Brand Red #E60000"],
+    patternUsage: "none",
+    characters: ["char_wong_warrior"],
+    wongMode: "warrior",
+  },
+  {
+    label: "Scene 2 — Pyramids",
+    value: "scene_2_pyramids",
+    mood: "epic, golden, vast, meditative",
+    paletteFocus: ["Cream #FFF8E7", "Mahshi Green #1B9B00", "Brand Yellow #EFD200"],
+    patternUsage: "none",
+    characters: ["char_wong_warrior"],
+    wongMode: "warrior",
+  },
+  {
+    label: "Scene 3 — Competition",
+    value: "scene_3_competition",
+    mood: "bright, Mediterranean, festive, competitive",
+    paletteFocus: ["Mahshi Green #1B9B00", "Brand Yellow #EFD200", "Cream #FFF8E7"],
+    patternUsage: "aprons, stage_banners",
+    characters: ["char_wong_business", "char_mama_zainab"],
+    wongMode: "business",
+  },
+  {
+    label: "Scene 4 — Cooking",
+    value: "scene_4_cooking",
+    mood: "comedic, chaotic, warm",
+    paletteFocus: ["Mahshi Green #1B9B00", "Brand Yellow #EFD200", "Cream #FFF8E7"],
+    patternUsage: "apron, zuzu_ribbon",
+    characters: ["char_mama_zainab", "char_zuzu", "char_ghost"],
+  },
+  {
+    label: "Scene 5 — Judging",
+    value: "scene_5_judging",
+    mood: "dramatic, emotional, triumphant",
+    paletteFocus: ["Mahshi Green #1B9B00", "Brand Yellow #EFD200"],
+    patternUsage: "apron",
+    characters: ["char_wong_business", "char_mama_zainab"],
+    wongMode: "business",
+  },
+  {
+    label: "Scene 6 — Command Center",
+    value: "scene_6_command_center",
+    mood: "clean, futuristic, peaceful, Apple-store aesthetic",
+    paletteFocus: ["Garlic White #FAFAFA", "Mahshi Green #1B9B00", "Cream #FFF8E7"],
+    patternUsage: "apron, subtle_office_accents",
+    characters: ["char_mama_zainab", "char_zuzu", "char_ghost", "char_wong_silhouette"],
+    wongMode: "silhouette",
+  },
+  {
+    label: "Marketing — General",
+    value: "marketing_general",
+    mood: "warm, inviting, authentic, village-premium",
+    paletteFocus: ["Mahshi Green #1B9B00", "Brand Yellow #EFD200", "Cream #FFF8E7"],
+    patternUsage: "apron, packaging_accents",
+    characters: ["char_mama_zainab", "char_zuzu"],
+  },
+  {
+    label: "Packaging Shot",
+    value: "packaging_shot",
+    mood: "clean, studio-lit, product-focused",
+    paletteFocus: ["Mahshi Green #1B9B00", "Cream #FFF8E7", "Brand Yellow #EFD200"],
+    patternUsage: "packaging_wrap, plaid_band",
+    characters: [],
+  },
+  {
+    label: "Menu Item Hero",
+    value: "menu_hero",
+    mood: "food photography, warm, overhead or 45°, shallow DoF",
+    paletteFocus: ["Mahshi Green #1B9B00", "Cream #FFF8E7"],
+    patternUsage: "optional_tablecloth",
+    characters: [],
+  },
+];
+
+/* ---- Prompt Blocks ---- */
+
+export const PALETTE_BLOCK =
+  "[BRAND PALETTE] Mahshi Green #1B9B00 | Brand Yellow #EFD200 | Brand Red #E60000 | Ink #2C292A | Cream #FFF8E7";
+
+export const PLAID_BLOCK =
+  "Plaid v2: green-on-cream diamond weave with thin yellow cross-threads, rustic village-handwoven textile aesthetic";
+
+export const CAST_RULES =
+  "[CAST RULES] Mama Zainab always largest/centered. ZuZu supporting, lower-third. Wong separate from food. Ghost only in video. FORBIDDEN: ZuZu + Wong in same frame.";
+
+/* ---- 6-Step Prompt Assembly ---- */
+
+export function assemblePrompt(opts: {
+  sceneContext?: SceneContextOption;
+  characterAnchor?: CharacterAnchorOption;
+  userPrompt: string;
+  includePalette: boolean;
+  isVideo?: boolean;
+}): string {
+  const { sceneContext, characterAnchor, userPrompt, includePalette, isVideo } = opts;
+  const parts: string[] = [];
+
+  // Step 1: Scene Context (mood + palette_focus)
+  if (sceneContext) {
+    parts.push(
+      `[SCENE: ${sceneContext.label}] Mood: ${sceneContext.mood}. Palette focus: ${sceneContext.paletteFocus.join(", ")}. Pattern: ${sceneContext.patternUsage}.`
+    );
+  }
+
+  // Step 2: Character Anchor
+  if (characterAnchor) {
+    parts.push(`[CHARACTER ANCHOR] ${characterAnchor.promptAnchor}`);
+  }
+
+  // Step 3: User Prompt
+  if (userPrompt.trim()) {
+    parts.push(userPrompt.trim());
+  }
+
+  // Step 4: Palette Block
+  if (includePalette) {
+    parts.push(PALETTE_BLOCK);
+  }
+
+  // Step 5: Plaid Block (if character has apron/ribbon OR packaging scene)
+  const needsPlaid =
+    characterAnchor?.alsoInjectsPlaid ||
+    sceneContext?.value === "packaging_shot" ||
+    (sceneContext?.patternUsage && sceneContext.patternUsage !== "none");
+  if (includePalette && needsPlaid) {
+    parts.push(`[PATTERN] ${PLAID_BLOCK}`);
+  }
+
+  // Step 6: Negative Prompt (do_not rules)
+  if (characterAnchor && characterAnchor.doNots.length > 0) {
+    parts.push(`--no ${characterAnchor.doNots.join(", ")}`);
+  }
+
+  // Cast rules if scene has multiple characters
+  if (sceneContext && sceneContext.characters.length > 1) {
+    parts.push(CAST_RULES);
+  }
+
+  // Ghost warning for image gen
+  if (!isVideo && characterAnchor?.value.includes("ghost")) {
+    parts.push(
+      "⚠️ Ghost of Mama Zainab is primarily a VIDEO character. Still images may lack the ethereal motion effect."
+    );
+  }
+
+  return parts.join("\n\n");
+}
+
+/* ---- Helpers ---- */
+
+export function getAnchorByValue(
+  value: string,
+  anchors: CharacterAnchorOption[],
+): CharacterAnchorOption | undefined {
+  return anchors.find((a) => a.value === value);
+}
+
+export function getSceneByValue(value: string): SceneContextOption | undefined {
+  return SCENE_CONTEXTS.find((s) => s.value === value);
+}

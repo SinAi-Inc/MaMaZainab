@@ -34,6 +34,10 @@ data/contacts.json        # real subscriber emails
 data/videos.json          # brand script, Falaha strategy, cinematic screenplay (business IP)
 .pnpm-debug.log*
 
+# runtime-generated uploads (too large / ephemeral for git)
+public/uploads/menu-source/
+public/uploads/generations/
+
 # env files (can opt-in for committing if needed)
 .env*
 
