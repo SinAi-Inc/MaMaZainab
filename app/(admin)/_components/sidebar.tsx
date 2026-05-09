@@ -33,7 +33,8 @@ const NAV: { section: string; items: NavItem[] }[] = [
   {
     section: "Operations",
     items: [
-      { href: "/branches", label: "Owner's Eye", icon: Store, status: "active" },
+      { href: "/owners-eye", label: "Owner's Eye", icon: LayoutDashboard, status: "active" },
+      { href: "/branches", label: "Kiosks", icon: Store, status: "active" },
       { href: "/menu", label: "Menu", icon: UtensilsCrossed, status: "active" },
     ],
   },

@@ -2,6 +2,25 @@
   "version": 1,
   "entries": [
     {
+      "characterAnchor": "chr_wong_warrior",
+      "sceneContext": "scene_1_rooftop",
+      "aspect": "1:1",
+      "stylePreset": "",
+      "outputPath": "/uploads/generations/f78228ae3f89bf5b.jpg",
+      "status": "completed",
+      "error": "",
+      "elapsedMs": 14010,
+      "type": "image",
+      "model": "black-forest-labs/flux.1-dev",
+      "prompt": "[SCENE: Scene 1 — Neon Rooftop] Mood: dark, neon, rain, high-action. Palette focus: Ink #2C292A, Brand Red #E60000. Pattern: none.\n\n[CHARACTER ANCHOR] East-Asian man in his 60s, salt-and-pepper hair tied back loosely, weathered face\nwith old fight scars (subtle), calm dangerous eyes, wearing dark silken warrior\nrobes in cinematic scenes OR a premium minimalist cream-linen suit in business\nscenes, dignified silent presence, slow deliberate movement.\n[REF: /brand/chars/wong-hong.png]\n[MODE: Warrior] Costume: Dark silken warrior robes, no logos. Posture: Coiled stillness. When: Scenes 1, 2 (origin / strategy)\n\n[SCENE: Scene 1 — Neon Rooftop] Mood: dark, neon, rain, high-action. Palette focus: Ink #2C292A, Brand Red #E60000. Pattern: none.\n\n[CHARACTER ANCHOR] East-Asian man in his 60s, salt-and-pepper hair tied back loosely, weathered face\nwith old fight scars (subtle), calm dangerous eyes, wearing dark silken warrior\nrobes in cinematic scenes OR a premium minimalist cream-linen suit in business\nscenes, dignified silent presence, slow deliberate movement.\n[REF: /brand/chars/wong-hong.png]\n[MODE: Warrior] Costume: Dark silken warrior robes, no logos. Posture: Coiled stillness. When: Scenes 1, 2 (origin / strategy)\n\n[BRAND PALETTE] Mahshi Green #1B9B00 | Brand Yellow #EFD200 | Brand Red #E60000 | Ink #2C292A | Cream #FFF8E7\n\n--no Show him cooking, plating, or eating, Put him on packaging or menus, Brand him as a co-spokesperson with Zainab, Show him touching Mama Zainab — strict respect distance, Raise his voice, smile widely, use slang\n\nAspect ratio: 1:1 | Model: Flux.1 Dev\n\n[BRAND PALETTE] Mahshi Green #1B9B00 | Brand Yellow #EFD200 | Brand Red #E60000 | Ink #2C292A | Cream #FFF8E7\n\n--no Show him cooking, plating, or eating, Put him on packaging or menus, Brand him as a co-spokesperson with Zainab, Show him touching Mama Zainab — strict respect distance, Raise his voice, smile widely, use slang\n\nAspect ratio: 1:1 | Model: Flux.1 Dev",
+      "id": "3f26138a112c",
+      "createdAt": "2026-05-09T14:09:25.803Z"
+    },
+    {
+      "id": "1a1e48c48891",
+      "type": "image",
+      "model": "black-forest-labs/flux.1-dev",
+      "prompt": "[CHARACTER ANCHOR] Plump healthy white domestic goose, fluffy clean feathers, alert curious posture,\nexpressive amber eyes, vivid orange beak and feet, wearing a tiny ribbon around\nthe neck made of GREEN-base plaid v2 fabric (matching Mama Zainab's apron),\nslight comedic personality, photoreal feather detail, never anthropomorphic\nclothing beyond the ribbon.\n[REF: /brand/chars/zuzu.jpeg]\n\n[CHARACTER ANCHOR] Plump healthy white domestic goose, fluffy clean feathers, alert curious posture,\nexpressive amber eyes, vivid orange beak and feet, wearing a tiny ribbon around\nthe neck made of GREEN-base plaid v2 fabric (matching Mama Zainab's apron),\nslight comedic personality, photoreal feather detail, never anthropomorphic\nclothing beyond the ribbon.\n[REF: /brand/chars/zuzu.jpeg]\n\n[BRAND PALETTE] Mahshi Green #1B9B00 | Brand Yellow #EFD200 | Brand Red #E60000 | Ink #2C292A | Cream #FFF8E7\n\n[PATTERN] Plaid v2: green-on-cream diamond weave with thin yellow cross-threads, rustic village-handwoven textile aesthetic\n\n--no Aprons, hats, sunglasses, T-shirts, Make ZuZu the focus of food shots (food first, ZuZu garnish), Cute anthropomorphic eyes, Photoshop a human face onto her\n\nAspect ratio: 1:1 | Model: Flux.1 Dev\n\n[BRAND PALETTE] Mahshi Green #1B9B00 | Brand Yellow #EFD200 | Brand Red #E60000 | Ink #2C292A | Cream #FFF8E7\n\n[PATTERN] Plaid v2: green-on-cream diamond weave with thin yellow cross-threads, rustic village-handwoven textile aesthetic\n\n--no Aprons, hats, sunglasses, T-shirts, Make ZuZu the focus of food shots (food first, ZuZu garnish), Cute baby-style anthropomorphic eyes, Photoshop a human face onto her\n\nAspect ratio: 1:1 | Model: Flux.1 Dev",
       "characterAnchor": "chr_zuzu",
       "sceneContext": "",
       "aspect": "1:1",
@@ -10,10 +29,6 @@
       "status": "completed",
       "error": "",
       "elapsedMs": 12645,
-      "type": "image",
-      "model": "black-forest-labs/flux.1-dev",
-      "prompt": "[CHARACTER ANCHOR] Plump healthy white domestic goose, fluffy clean feathers, alert curious posture,\nexpressive amber eyes, vivid orange beak and feet, wearing a tiny ribbon around\nthe neck made of GREEN-base plaid v2 fabric (matching Mama Zainab's apron),\nslight comedic personality, photoreal feather detail, never anthropomorphic\nclothing beyond the ribbon.\n[REF: /brand/chars/zuzu.jpeg]\n\n[CHARACTER ANCHOR] Plump healthy white domestic goose, fluffy clean feathers, alert curious posture,\nexpressive amber eyes, vivid orange beak and feet, wearing a tiny ribbon around\nthe neck made of GREEN-base plaid v2 fabric (matching Mama Zainab's apron),\nslight comedic personality, photoreal feather detail, never anthropomorphic\nclothing beyond the ribbon.\n[REF: /brand/chars/zuzu.jpeg]\n\n[BRAND PALETTE] Mahshi Green #1B9B00 | Brand Yellow #EFD200 | Brand Red #E60000 | Ink #2C292A | Cream #FFF8E7\n\n[PATTERN] Plaid v2: green-on-cream diamond weave with thin yellow cross-threads, rustic village-handwoven textile aesthetic\n\n--no Aprons, hats, sunglasses, T-shirts, Make ZuZu the focus of food shots (food first, ZuZu garnish), Cute anthropomorphic eyes, Photoshop a human face onto her\n\nAspect ratio: 1:1 | Model: Flux.1 Dev\n\n[BRAND PALETTE] Mahshi Green #1B9B00 | Brand Yellow #EFD200 | Brand Red #E60000 | Ink #2C292A | Cream #FFF8E7\n\n[PATTERN] Plaid v2: green-on-cream diamond weave with thin yellow cross-threads, rustic village-handwoven textile aesthetic\n\n--no Aprons, hats, sunglasses, T-shirts, Make ZuZu the focus of food shots (food first, ZuZu garnish), Cute baby-style anthropomorphic eyes, Photoshop a human face onto her\n\nAspect ratio: 1:1 | Model: Flux.1 Dev",
-      "id": "1a1e48c48891",
       "createdAt": "2026-05-09T04:15:56.023Z"
     },
     {
