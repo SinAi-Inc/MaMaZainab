@@ -144,6 +144,26 @@ create table if not exists projects (
 );
 
 -- ============================================================
+-- 8. Generations — Studio generation history
+-- ============================================================
+create table if not exists generations (
+  id                text primary key,
+  type              text not null,            -- 'image' | 'video'
+  model             text not null,
+  prompt            text not null,
+  character_anchor  text not null default '',
+  scene_context     text not null default '',
+  aspect            text not null default '1:1',
+  duration          integer,
+  style_preset      text not null default '',
+  output_path       text not null default '',
+  status            text not null default 'completed',
+  error             text not null default '',
+  elapsed_ms        integer not null default 0,
+  created_at        text not null
+);
+
+-- ============================================================
 -- 8. Video Studio — Scenes
 -- ============================================================
 create table if not exists scenes (

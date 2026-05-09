@@ -113,7 +113,7 @@ export const SCENE_CONTEXTS: SceneContextOption[] = [
     mood: "dark, neon, rain, high-action",
     paletteFocus: ["Ink #2C292A", "Brand Red #E60000"],
     patternUsage: "none",
-    characters: ["char_wong_warrior"],
+    characters: ["chr_wong_warrior"],
     wongMode: "warrior",
   },
   {
@@ -122,7 +122,7 @@ export const SCENE_CONTEXTS: SceneContextOption[] = [
     mood: "epic, golden, vast, meditative",
     paletteFocus: ["Cream #FFF8E7", "Mahshi Green #1B9B00", "Brand Yellow #EFD200"],
     patternUsage: "none",
-    characters: ["char_wong_warrior"],
+    characters: ["chr_wong_warrior"],
     wongMode: "warrior",
   },
   {
@@ -131,7 +131,7 @@ export const SCENE_CONTEXTS: SceneContextOption[] = [
     mood: "bright, Mediterranean, festive, competitive",
     paletteFocus: ["Mahshi Green #1B9B00", "Brand Yellow #EFD200", "Cream #FFF8E7"],
     patternUsage: "aprons, stage_banners",
-    characters: ["char_wong_business", "char_mama_zainab"],
+    characters: ["chr_wong_business", "chr_mama_zainab"],
     wongMode: "business",
   },
   {
@@ -140,7 +140,7 @@ export const SCENE_CONTEXTS: SceneContextOption[] = [
     mood: "comedic, chaotic, warm",
     paletteFocus: ["Mahshi Green #1B9B00", "Brand Yellow #EFD200", "Cream #FFF8E7"],
     patternUsage: "apron, zuzu_ribbon",
-    characters: ["char_mama_zainab", "char_zuzu", "char_ghost"],
+    characters: ["chr_mama_zainab", "chr_zuzu", "chr_ghost_zainab"],
   },
   {
     label: "Scene 5 — Judging",
@@ -148,7 +148,7 @@ export const SCENE_CONTEXTS: SceneContextOption[] = [
     mood: "dramatic, emotional, triumphant",
     paletteFocus: ["Mahshi Green #1B9B00", "Brand Yellow #EFD200"],
     patternUsage: "apron",
-    characters: ["char_wong_business", "char_mama_zainab"],
+    characters: ["chr_wong_business", "chr_mama_zainab"],
     wongMode: "business",
   },
   {
@@ -157,7 +157,7 @@ export const SCENE_CONTEXTS: SceneContextOption[] = [
     mood: "clean, futuristic, peaceful, Apple-store aesthetic",
     paletteFocus: ["Garlic White #FAFAFA", "Mahshi Green #1B9B00", "Cream #FFF8E7"],
     patternUsage: "apron, subtle_office_accents",
-    characters: ["char_mama_zainab", "char_zuzu", "char_ghost", "char_wong_silhouette"],
+    characters: ["chr_mama_zainab", "chr_zuzu", "chr_ghost_zainab", "chr_wong_silhouette"],
     wongMode: "silhouette",
   },
   {
@@ -166,7 +166,7 @@ export const SCENE_CONTEXTS: SceneContextOption[] = [
     mood: "warm, inviting, authentic, village-premium",
     paletteFocus: ["Mahshi Green #1B9B00", "Brand Yellow #EFD200", "Cream #FFF8E7"],
     patternUsage: "apron, packaging_accents",
-    characters: ["char_mama_zainab", "char_zuzu"],
+    characters: ["chr_mama_zainab", "chr_zuzu"],
   },
   {
     label: "Packaging Shot",
