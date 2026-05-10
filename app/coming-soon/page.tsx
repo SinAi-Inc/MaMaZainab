@@ -177,6 +177,13 @@ export default function ComingSoonPage() {
             SinAI Inc.
           </a>
         </div>
+        {/* Discreet admin toggle — intentionally subtle */}
+        <Link
+          href="/login"
+          className="mt-1 text-white/20 hover:text-white/50 transition text-[9px] tracking-[0.2em] uppercase"
+        >
+          Admin →
+        </Link>
       </footer>
     </main>
   );
