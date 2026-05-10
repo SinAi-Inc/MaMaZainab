@@ -3,8 +3,14 @@ import { Badge } from "@/components/ui/badge";
 import { formatEGP } from "@/lib/utils";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
+import type { Metadata } from "next";
 
 export const dynamic = "force-dynamic";
+
+export const metadata: Metadata = {
+  title: "Sneak Peek · MaMa Zainab Menu",
+  description: "A sneak peek at the MaMa Zainab menu — opening late 2026.",
+};
 
 /**
  * Public-style menu preview.
