@@ -17,16 +17,9 @@ import {
 } from "@/lib/ai/brand-bible";
 import { PresetPicker } from "./preset-picker";
 
-/* ---- Video models (NVIDIA API Catalog) ---- */
-type VideoModel = {
-  id: string;
-  label: string;
-  vendor: string;
-};
-
-const VIDEO_MODELS: VideoModel[] = [
-  { id: "stabilityai/stable-video-diffusion", label: "Stable Video Diffusion", vendor: "Stability AI" },
-];
+// NOTE: NVIDIA Stable Video Diffusion deprecated 2026-05. No live video models.
+const VIDEO_MODELS = [] as const;
+const VIDEO_UNAVAILABLE = VIDEO_MODELS.length === 0;
 
 const ASPECTS = ["16:9", "9:16", "1:1", "2.39:1", "4:3"];
 const DURATIONS = [4, 5, 6, 8, 10, 15];
@@ -44,7 +37,7 @@ export function VideoGenTab({ characters }: { characters: Character[] }) {
     () => buildAnchorsFromCharacters(characters),
     [characters],
   );
-  const [model, setModel] = useState(VIDEO_MODELS[0].id);
+  const [model, setModel] = useState<string>("");
   const [aspect, setAspect] = useState("16:9");
   const [duration, setDuration] = useState(5);
   const [prompt, setPrompt] = useState("");
@@ -77,7 +70,7 @@ export function VideoGenTab({ characters }: { characters: Character[] }) {
     if (!withStyle.trim()) return "";
 
     // Append technical metadata
-    return `${withStyle}\n\nDuration: ${duration}s | Aspect: ${aspect} | Model: ${VIDEO_MODELS.find((m) => m.id === model)?.label ?? model}`;
+    return `${withStyle}\n\nDuration: ${duration}s | Aspect: ${aspect}`;
   }
 
   function handleCopy() {
@@ -199,6 +192,18 @@ export function VideoGenTab({ characters }: { characters: Character[] }) {
     <div className="grid gap-6 lg:grid-cols-[1fr_340px]">
       {/* Left: prompt builder */}
       <div className="space-y-4">
+        {/* Unavailability banner */}
+        {VIDEO_UNAVAILABLE && (
+          <div className="flex items-start gap-3 rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-900">
+            <Video className="mt-0.5 size-4 flex-shrink-0 text-amber-600" />
+            <div>
+              <p className="font-semibold">Video generation temporarily unavailable</p>
+              <p className="mt-0.5 text-xs text-amber-700">
+                The NVIDIA Stable Video Diffusion model has been deprecated. Use the prompt builder below to craft your video prompt, then copy it for use with an external tool (Runway, Kling, Veo, etc.).
+              </p>
+            </div>
+          </div>
+        )}
         <PresetPicker
           mode="video"
           anchors={characterAnchors}
@@ -212,6 +217,7 @@ export function VideoGenTab({ characters }: { characters: Character[] }) {
         />
         {/* Model row */}
         <div className="grid grid-cols-2 gap-3">
+          {!VIDEO_UNAVAILABLE && (
           <div>
             <label className="text-xs font-medium text-muted uppercase tracking-wider block mb-1.5">
               Model
@@ -222,13 +228,14 @@ export function VideoGenTab({ characters }: { characters: Character[] }) {
               aria-label="Video model"
               className="w-full text-sm border border-border-strong rounded-md px-2.5 py-2 bg-white"
             >
-              {VIDEO_MODELS.map((m) => (
+              {([...VIDEO_MODELS] as { id: string; label: string; vendor: string }[]).map((m) => (
                 <option key={m.id} value={m.id}>
                   {m.label} — {m.vendor}
                 </option>
               ))}
             </select>
           </div>
+          )}
           <div>
             <label className="text-xs font-medium text-muted uppercase tracking-wider block mb-1.5">
               Aspect Ratio
@@ -381,7 +388,7 @@ export function VideoGenTab({ characters }: { characters: Character[] }) {
             {copied ? <Check className="size-4" /> : <Copy className="size-4" />}
             {copied ? "Copied!" : "Copy Full Prompt"}
           </Button>
-          <Button onClick={handleGenerate} disabled={generating || !prompt.trim()}>
+          <Button onClick={handleGenerate} disabled={generating || !prompt.trim() || VIDEO_UNAVAILABLE}>
             {generating ? <Loader2 className="size-4 animate-spin" /> : <Sparkles className="size-4" />}
             {generating ? "Generating…" : "Generate"}
           </Button>
@@ -423,7 +430,7 @@ export function VideoGenTab({ characters }: { characters: Character[] }) {
               <div className="flex items-center gap-2 text-xs text-muted">
                 <Video className="size-3.5" />
                 <span>
-                  {VIDEO_MODELS.find((m) => m.id === model)?.label} · {aspect} · {duration}s
+                  {aspect} · {duration}s
                 </span>
               </div>
             </>

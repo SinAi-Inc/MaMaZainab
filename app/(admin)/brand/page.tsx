@@ -20,6 +20,9 @@ import {
   LOGO_ASSETS,
   type ColorToken,
 } from "@/lib/brand-bible-data";
+import { readCharacters } from "@/lib/characters/store";
+
+export const dynamic = "force-dynamic";
 
 
 
@@ -63,10 +66,12 @@ function ColorSwatch({ color }: { color: ColorToken }) {
   );
 }
 
-export default function BrandBiblePage() {
+export default async function BrandBiblePage() {
   const primaryColors = COLORS.filter((c) => c.category === "primary");
   const secondaryColors = COLORS.filter((c) => c.category === "secondary");
   const extendedColors = COLORS.filter((c) => c.category === "extended");
+  const charState = await readCharacters();
+  const liveCharacters = [...charState.characters].sort((a, b) => a.sort - b.sort);
 
   return (
     <div className="space-y-6">
@@ -148,7 +153,7 @@ export default function BrandBiblePage() {
           typography: <TypographyPanel />,
           pattern: <PlaidPatternPanel />,
           logos: <LogosPanel />,
-          characters: <CharactersPanel />,
+          characters: <CharactersPanel characters={liveCharacters} />,
           scenes: <ScenesRulesPanel />,
         }}
       </BrandTabs>

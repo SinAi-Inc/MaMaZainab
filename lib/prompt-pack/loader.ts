@@ -47,7 +47,7 @@ const PromptPackSchema = z.object({
     })
     .passthrough()
     .default({}),
-  characters: z.union([z.array(z.unknown()), z.record(z.unknown())]).default([]),
+  characters: z.union([z.array(z.unknown()), z.record(z.string(), z.unknown())]).default([]),
   scenes: z.array(SceneSchema).default([]),
   summary: z.unknown().optional(),
 });

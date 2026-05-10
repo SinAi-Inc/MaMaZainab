@@ -27,16 +27,23 @@ async function writeJson(state: CharacterState): Promise<void> {
 
 function charToRow(c: Character): Record<string, unknown> {
   const row = toSnake(c as unknown as Record<string, unknown>);
-  row.reference_images = JSON.stringify(c.referenceImages);
-  row.identity_fields = JSON.stringify(c.identityFields);
-  row.modes = JSON.stringify(c.modes);
-  row.dos = JSON.stringify(c.dos);
-  row.donts = JSON.stringify(c.donts);
+  // jsonb columns — send arrays directly, no JSON.stringify needed
+  row.reference_images = c.referenceImages;
+  row.identity_fields = c.identityFields;
+  row.modes = c.modes;
+  row.dos = c.dos;
+  row.donts = c.donts;
   return row;
 }
 
 function rowToChar(row: Record<string, unknown>): Character {
-  return toCamel(row) as unknown as Character;
+  const parsed = { ...row };
+  for (const col of ["reference_images", "identity_fields", "modes", "dos", "donts"] as const) {
+    if (typeof parsed[col] === "string") {
+      try { parsed[col] = JSON.parse(parsed[col] as string); } catch { parsed[col] = []; }
+    }
+  }
+  return toCamel(parsed) as unknown as Character;
 }
 
 

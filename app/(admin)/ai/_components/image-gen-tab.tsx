@@ -17,19 +17,10 @@ import {
 } from "@/lib/ai/brand-bible";
 import { PresetPicker } from "./preset-picker";
 
-/* ---- Image models (NVIDIA API Catalog) ---- */
-type ImageModel = {
-  id: string;
-  label: string;
-  vendor: string;
-};
-
-const IMAGE_MODELS: ImageModel[] = [
+const IMAGE_MODELS = [
   { id: "black-forest-labs/flux.1-dev", label: "Flux.1 Dev", vendor: "Black Forest Labs" },
-  { id: "black-forest-labs/flux_1-schnell", label: "Flux.1 Schnell", vendor: "Black Forest Labs" },
-  { id: "stabilityai/stable-diffusion-3-medium", label: "SD 3 Medium", vendor: "Stability AI" },
-  { id: "stabilityai/stable-diffusion-xl", label: "SDXL", vendor: "Stability AI" },
-];
+  { id: "black-forest-labs/flux.1-schnell", label: "Flux.1 Schnell", vendor: "Black Forest Labs" },
+] as const;
 
 const ASPECT_RATIOS = ["1:1", "16:9", "9:16", "4:3", "3:2", "2.39:1"];
 
@@ -38,7 +29,7 @@ export function ImageGenTab({ characters }: { characters: Character[] }) {
     () => buildAnchorsFromCharacters(characters),
     [characters],
   );
-  const [model, setModel] = useState(IMAGE_MODELS[0].id);
+  const [model, setModel] = useState<string>(IMAGE_MODELS[0].id);
   const [aspect, setAspect] = useState("1:1");
   const [prompt, setPrompt] = useState("");
   const [anchorValue, setAnchorValue] = useState("");

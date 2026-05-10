@@ -14,14 +14,9 @@ type ModelCostEntry = {
 };
 
 const MODEL_COSTS: Record<string, ModelCostEntry> = {
-  // Black Forest Labs (NVIDIA-hosted)
+  // Black Forest Labs (NVIDIA-hosted) — live models
   "black-forest-labs/flux.1-dev": { perCallUsd: 0.04, note: "~50 steps" },
-  "black-forest-labs/flux_1-schnell": { perCallUsd: 0.003, note: "4 steps, fast" },
-
-  // Stability AI (NVIDIA-hosted)
-  "stabilityai/stable-diffusion-3-medium": { perCallUsd: 0.035 },
-  "stabilityai/stable-diffusion-xl": { perCallUsd: 0.02 },
-  "stabilityai/stable-video-diffusion": { perCallUsd: 0.20, note: "~14 frames" },
+  "black-forest-labs/flux.1-schnell": { perCallUsd: 0.003, note: "4 steps, fast" },
 };
 
 /** Get the estimated cost for a single generation call. */
