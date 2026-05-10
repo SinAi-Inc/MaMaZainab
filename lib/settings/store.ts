@@ -8,7 +8,7 @@ const FILE = path.join(process.cwd(), "data", "settings.json");
 const DATA_DIR = path.join(process.cwd(), "data");
 const DEFAULTS: Settings = SettingsSchema.parse({});
 
-/* ── JSON fallback ───────────────────────────────── */
+
 
 async function readJson(): Promise<Settings> {
   try {
@@ -24,7 +24,7 @@ async function writeJson(settings: Settings): Promise<void> {
   await fs.writeFile(FILE, JSON.stringify(settings, null, 2), "utf8");
 }
 
-/* ── Public API ──────────────────────────────────── */
+
 
 export async function readSettings(): Promise<Settings> {
   if (!isSupabaseConfigured()) return readJson();

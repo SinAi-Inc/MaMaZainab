@@ -7,7 +7,7 @@ import { CharacterStateSchema, type Character, type CharacterState } from "./sch
 const FILE = path.join(process.cwd(), "data", "characters.json");
 const DATA_DIR = path.join(process.cwd(), "data");
 
-/* ── JSON fallback ───────────────────────────────── */
+
 
 async function readJson(): Promise<CharacterState> {
   try {
@@ -23,7 +23,7 @@ async function writeJson(state: CharacterState): Promise<void> {
   await fs.writeFile(FILE, JSON.stringify(state, null, 2), "utf8");
 }
 
-/* ── Supabase row converters ─────────────────────── */
+
 
 function charToRow(c: Character): Record<string, unknown> {
   const row = toSnake(c as unknown as Record<string, unknown>);
@@ -39,7 +39,7 @@ function rowToChar(row: Record<string, unknown>): Character {
   return toCamel(row) as unknown as Character;
 }
 
-/* ── Public API ──────────────────────────────────── */
+
 
 export async function readCharacters(): Promise<CharacterState> {
   if (!isSupabaseConfigured()) return readJson();

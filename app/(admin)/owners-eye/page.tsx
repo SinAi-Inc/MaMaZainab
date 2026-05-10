@@ -32,7 +32,7 @@ export default async function OwnersEyeHubPage() {
     readGenerations(),
   ]);
 
-  /* ── Live derived metrics ──────────────────────── */
+  
   const activeBranches = branches.branches.filter((b) => b.status === "active").length;
   const constructionBranches = branches.branches.filter((b) => b.status === "construction").length;
   const totalKiosks = branches.branches.length;
@@ -48,7 +48,7 @@ export default async function OwnersEyeHubPage() {
   const totalGenerations = generations.entries.length;
   const failedGenerations = generations.entries.filter((g) => g.status === "failed").length;
 
-  /* ── Decision surface — what needs attention now ── */
+  
   const decisions: DecisionItem[] = [];
 
   if (constructionBranches > 0) {

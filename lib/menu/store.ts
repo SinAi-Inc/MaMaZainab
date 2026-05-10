@@ -24,7 +24,7 @@ const SEED_ITEMS: MenuItem[] = [
   { id: "itm_drink_hibiscus", categoryId: "cat_drinks", sku: "MZ-DRK-0001", nameEn: "Hibiscus Cooler",   descriptionEn: "Chilled hibiscus, lightly sweet.", priceEgp: 25, imageUrl: "", badges: [], available: true, sort: 1, createdAt: now(), updatedAt: now() },
 ];
 
-/* ── JSON fallback ───────────────────────────────── */
+
 
 async function readJson(): Promise<MenuState> {
   try {
@@ -42,7 +42,7 @@ async function writeJson(state: MenuState): Promise<void> {
   await fs.writeFile(FILE, JSON.stringify(state, null, 2), "utf8");
 }
 
-/* ── Supabase seed ───────────────────────────────── */
+
 
 async function seed() {
   const sb = getSupabase();
@@ -54,7 +54,7 @@ async function seed() {
   }
 }
 
-/* ── Public API ──────────────────────────────────── */
+
 
 export async function readMenu(): Promise<MenuState> {
   if (!isSupabaseConfigured()) return readJson();

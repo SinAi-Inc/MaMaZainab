@@ -6,7 +6,7 @@
  * identity, colors, typography, pattern, packaging, characters, scenes, rules.
  */
 
-/* ──────── Brand Identity ──────── */
+
 
 export const BRAND_IDENTITY = {
   name: "MaMa Zainab",
@@ -20,7 +20,7 @@ export const BRAND_IDENTITY = {
   foundingCity: "Alexandria, Egypt",
 } as const;
 
-/* ──────── Colors ──────── */
+
 
 export type ColorToken = {
   id: string;
@@ -140,7 +140,7 @@ export const COLORS: ColorToken[] = [
   },
 ];
 
-/* ──────── Typography ──────── */
+
 
 export type FontToken = {
   id: string;
@@ -210,7 +210,7 @@ export const FONTS: FontToken[] = [
   },
 ];
 
-/* ──────── Pattern ──────── */
+
 
 export type PatternVariant = {
   name: string;
@@ -270,7 +270,7 @@ export const PATTERN = {
   ] as PatternVariant[],
 };
 
-/* ──────── Characters (full detail) ──────── */
+
 
 export type BrandCharacter = {
   id: string;
@@ -443,7 +443,7 @@ export const CHARACTERS: BrandCharacter[] = [
   },
 ];
 
-/* ──────── Packaging ──────── */
+
 
 export type PackagingItem = {
   id: string;
@@ -470,7 +470,7 @@ export const PACKAGING = {
   ] as PackagingItem[],
 };
 
-/* ──────── Scenes ──────── */
+
 
 export type SceneMapping = {
   id: string;
@@ -545,7 +545,7 @@ export const SCENES: SceneMapping[] = [
   },
 ];
 
-/* ──────── Generation Rules ──────── */
+
 
 export const GENERATION_RULES = {
   mandatory: [
@@ -566,7 +566,7 @@ export const GENERATION_RULES = {
   ],
 };
 
-/* ──────── Logo ──────── */
+
 
 export const LOGO_ASSETS = {
   wordmark: {

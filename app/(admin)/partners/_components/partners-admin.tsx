@@ -185,7 +185,7 @@ export function PartnersAdmin({ branches }: { branches: Branch[] }) {
   );
 }
 
-/* ── Sub-components ──────────────────────────────── */
+
 
 function ToggleSwitch({
   checked,

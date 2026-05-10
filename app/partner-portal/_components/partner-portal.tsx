@@ -29,7 +29,7 @@ export function PartnerPortal({
   const [error, setError] = useState("");
   const [isPending, startTransition] = useTransition();
 
-  /* ── Portal disabled ─────────────────────────── */
+  
   if (!portalEnabled) {
     return (
       <main className="min-h-screen bg-brand-green text-white flex flex-col items-center justify-center px-5">
@@ -54,7 +54,7 @@ export function PartnerPortal({
     );
   }
 
-  /* ── Passcode gate ───────────────────────────── */
+  
   if (!authenticated) {
     function handleSubmit(e: React.FormEvent) {
       e.preventDefault();
@@ -118,7 +118,7 @@ export function PartnerPortal({
     );
   }
 
-  /* ── Authenticated portal ────────────────────── */
+  
   return (
     <main className="min-h-screen bg-[#FAFAF5] text-brand-ink">
       {/* Top bar */}
@@ -139,7 +139,7 @@ export function PartnerPortal({
       </header>
 
       <div className="max-w-5xl mx-auto px-5 py-10 space-y-12">
-        {/* ── Brand Overview ─────────────────── */}
+        {}
         {showBrandOverview && (
           <section className="text-center">
             {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -165,7 +165,7 @@ export function PartnerPortal({
           </section>
         )}
 
-        {/* ── Presentation placeholder ───────── */}
+        {}
         {showPresentation && (
           <section className="bg-white rounded-2xl border border-brand-ink/10 overflow-hidden shadow-sm">
             <div className="bg-brand-green/5 px-6 py-4 border-b border-brand-ink/5 flex items-center gap-2">
@@ -187,7 +187,7 @@ export function PartnerPortal({
           </section>
         )}
 
-        {/* ── Locations ──────────────────────── */}
+        {}
         {showLocations && locations.length > 0 && (
           <section className="bg-white rounded-2xl border border-brand-ink/10 overflow-hidden shadow-sm">
             <div className="bg-brand-green/5 px-6 py-4 border-b border-brand-ink/5 flex items-center gap-2">
@@ -231,7 +231,7 @@ export function PartnerPortal({
           </section>
         )}
 
-        {/* ── Menu preview ───────────────────── */}
+        {}
         {showMenu && (
           <section className="bg-white rounded-2xl border border-brand-ink/10 overflow-hidden shadow-sm">
             <div className="bg-brand-green/5 px-6 py-4 border-b border-brand-ink/5 flex items-center gap-2">
@@ -261,7 +261,7 @@ export function PartnerPortal({
   );
 }
 
-/* ── Helpers ──────────────────────────────────────── */
+
 
 function Stat({ label, value }: { label: string; value: string }) {
   return (
