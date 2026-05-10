@@ -480,6 +480,7 @@ function PlaidPatternPanel() {
       </Card>
 
       {/* ── Mama Zainab Plaid ──────────────────────────────── */}
+      <Card>
         <CardBody>
           <h3 className="font-semibold mb-2">{PATTERN.name}</h3>
           <p className="text-sm text-muted mb-1">
