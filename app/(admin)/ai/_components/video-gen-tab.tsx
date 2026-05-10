@@ -15,6 +15,7 @@ import {
   getAnchorByValue,
   getSceneByValue,
 } from "@/lib/ai/brand-bible";
+import { PresetPicker } from "./preset-picker";
 
 /* ---- Video models (NVIDIA API Catalog) ---- */
 type VideoModel = {
@@ -198,6 +199,17 @@ export function VideoGenTab({ characters }: { characters: Character[] }) {
     <div className="grid gap-6 lg:grid-cols-[1fr_340px]">
       {/* Left: prompt builder */}
       <div className="space-y-4">
+        <PresetPicker
+          mode="video"
+          anchors={characterAnchors}
+          onLoad={(p) => {
+            setPrompt(p.prompt);
+            setAspect(p.aspect);
+            setSceneValue(p.sceneValue);
+            setAnchorValue(p.anchorValue);
+            toast.success(`Loaded Shot ${p.shotNumber} — ${p.shotDescription}`);
+          }}
+        />
         {/* Model row */}
         <div className="grid grid-cols-2 gap-3">
           <div>

@@ -1,9 +1,11 @@
 {
-  "passcode": "",
-  "portalEnabled": false,
+  "passcode": "carrefour2030",
+  "portalEnabled": true,
   "showPresentation": true,
-  "showLocations": true,
+  "showLocations": false,
   "showBrandOverview": true,
-  "showMenu": false,
-  "featuredLocationIds": []
+  "showMenu": true,
+  "featuredLocationIds": [
+    "build-1"
+  ]
 }

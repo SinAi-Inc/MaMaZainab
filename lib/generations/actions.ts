@@ -4,6 +4,7 @@ import { promises as fs } from "node:fs";
 import path from "node:path";
 import { randomBytes } from "node:crypto";
 import { readGenerations, addGeneration, deleteGeneration, clearGenerations } from "./store";
+import { estimateCostUsd } from "@/lib/ai/cost";
 import type { GenerationEntry, GenerationState } from "./schema";
 
 const UPLOAD_DIR = path.join(process.cwd(), "public", "uploads", "generations");
@@ -37,6 +38,7 @@ export async function recordGeneration(
     status: "completed" as const,
     error: "",
     elapsedMs: 0,
+    costUsd: 0,
     ...input,
   };
   let outputPath = entry.outputPath || "";
@@ -46,8 +48,16 @@ export async function recordGeneration(
     outputPath = await saveGeneratedImage(entry.base64Output, ext);
   }
 
+  // Auto-fill cost from lookup if not provided and the call succeeded
+  const costUsd = entry.costUsd > 0
+    ? entry.costUsd
+    : entry.status === "completed"
+      ? estimateCostUsd(entry.model)
+      : 0;
+
   const record: GenerationEntry = {
     ...entry,
+    costUsd,
     id: randomBytes(6).toString("hex"),
     outputPath,
     createdAt: new Date().toISOString(),

@@ -144,7 +144,7 @@ export function PartnerPortal({
           <section className="text-center">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src="/brand/logo-wordmark-transparent.png"
+              src="/brand/logo-primary.png"
               alt="MaMa Zainab"
               className="max-w-xs mx-auto"
               style={{ filter: "drop-shadow(0 2px 8px rgba(0,0,0,0.08))" }}
