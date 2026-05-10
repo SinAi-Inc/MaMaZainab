@@ -74,8 +74,19 @@ export type ImageGenResult = {
   seed: number;
 };
 
+/** Strip tags FLUX can't process to keep prompt lean */
+function cleanPrompt(raw: string): string {
+  return raw
+    // Remove [REF: ...] image reference tags (FLUX is text-only)
+    .replace(/\[REF:[^\]]*\]/gi, "")
+    // Collapse multiple blank lines left by removals
+    .replace(/\n{3,}/g, "\n\n")
+    .trim();
+}
+
 export async function generateImage(params: ImageGenParams): Promise<ImageGenResult> {
-  const { model, prompt, width = 1024, height = 1024, seed = 0, steps, cfgScale } = params;
+  const { model, prompt: rawPrompt, width = 1024, height = 1024, seed = 0, steps, cfgScale } = params;
+  const prompt = cleanPrompt(rawPrompt);
 
   // Flux.1-dev and Flux.1-schnell only accept prompt/width/height/seed.
   // cfg_scale, steps, num_inference_steps, guidance_scale are forbidden (NVIDIA Catalog 2026-05).
@@ -86,15 +97,30 @@ export async function generateImage(params: ImageGenParams): Promise<ImageGenRes
     ...(seed ? { seed } : {}),
   };
 
-  const res = await fetch(`${BASE_URL}/${model}`, {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${await getApiKey()}`,
-      "Content-Type": "application/json",
-      Accept: "application/json",
-    },
-    body: JSON.stringify(body),
-  });
+  // 90-second hard timeout — NVIDIA can queue; without this the route hangs 370s+
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), 90_000);
+
+  let res: Response;
+  try {
+    res = await fetch(`${BASE_URL}/${model}`, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${await getApiKey()}`,
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+      body: JSON.stringify(body),
+      signal: controller.signal,
+    });
+  } catch (err) {
+    if ((err as Error).name === "AbortError") {
+      throw new Error("NVIDIA API timed out after 90 s — try Flux.1 Schnell (faster) or retry");
+    }
+    throw err;
+  } finally {
+    clearTimeout(timeoutId);
+  }
 
   if (!res.ok) {
     const text = await res.text();

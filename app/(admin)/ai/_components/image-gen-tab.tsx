@@ -6,7 +6,6 @@ import { toast } from "sonner";
 import { Card, CardBody } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/input";
-import { recordGeneration } from "@/lib/generations/actions";
 import type { Character } from "@/lib/characters/schema";
 import {
   buildAnchorsFromCharacters,
@@ -58,13 +57,15 @@ export function ImageGenTab({ characters }: { characters: Character[] }) {
 
   const selectedScene = getSceneByValue(sceneValue);
 
+  const MAX_PROMPT = 2000;
+
   function toggleAnchor(value: string) {
     setAnchorValues((prev) =>
       prev.includes(value) ? prev.filter((v) => v !== value) : [...prev, value],
     );
   }
 
-  function buildFullPrompt(): string {
+  const fullPrompt = useMemo(() => {
     const assembled = assemblePrompt({
       sceneContext: selectedScene,
       characterAnchors: selectedAnchors,
@@ -74,7 +75,12 @@ export function ImageGenTab({ characters }: { characters: Character[] }) {
     });
     if (!assembled.trim()) return "";
     return `${assembled}\n\nAspect ratio: ${aspect} | Model: ${IMAGE_MODELS.find((m) => m.id === model)?.label ?? model}`;
-  }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedScene, selectedAnchors, prompt, includeBrand, aspect, model]);
+
+  const promptTooLong = fullPrompt.length > MAX_PROMPT;
+
+  function buildFullPrompt(): string { return fullPrompt; }
 
   function handleCopy() {
     const full = buildFullPrompt();
@@ -92,12 +98,19 @@ export function ImageGenTab({ characters }: { characters: Character[] }) {
     setResultImage(null);
     setError(null);
     startTimer();
-    const startTime = Date.now();
     try {
+      // Pass characterAnchor + sceneContext so the SERVER saves history.
+      // Generation and history save both happen server-side — survives tab switches.
       const res = await fetch("/api/generate/image", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ model, prompt: full, aspect }),
+        body: JSON.stringify({
+          model,
+          prompt: full,
+          aspect,
+          characterAnchor: anchorValues.join(","),
+          sceneContext: sceneValue,
+        }),
       });
       if (!res.ok) {
         const err = await res.json().catch(() => ({ error: "Generation failed" }));
@@ -105,33 +118,11 @@ export function ImageGenTab({ characters }: { characters: Character[] }) {
       }
       const data = await res.json();
       setResultImage(data.image);
-      toast.success("Image generated!");
-      recordGeneration({
-        type: "image",
-        model,
-        prompt: full,
-        characterAnchor: anchorValues.join(","),
-        sceneContext: sceneValue,
-        aspect,
-        status: "completed",
-        elapsedMs: Date.now() - startTime,
-        base64Output: data.image,
-      }).catch(() => {});
+      toast.success("Image generated & saved to History");
     } catch (err) {
       const msg = err instanceof Error ? err.message : "Generation failed";
       setError(msg);
       toast.error(msg);
-      recordGeneration({
-        type: "image",
-        model,
-        prompt: full,
-        characterAnchor: anchorValues.join(","),
-        sceneContext: sceneValue,
-        aspect,
-        status: "failed",
-        error: msg,
-        elapsedMs: Date.now() - startTime,
-      }).catch(() => {});
     } finally {
       stopTimer();
       setGenerating(false);
@@ -273,15 +264,25 @@ export function ImageGenTab({ characters }: { characters: Character[] }) {
 
         {/* Prompt textarea */}
         <div>
-          <label className="text-xs font-medium text-muted uppercase tracking-wider block mb-1.5">
-            Director's Notes
-          </label>
+          <div className="flex items-center justify-between mb-1.5">
+            <label className="text-xs font-medium text-muted uppercase tracking-wider">
+              Director's Notes
+            </label>
+            <span className={`text-[10px] tabular-nums ${promptTooLong ? "text-red-600 font-semibold" : "text-muted"}`}>
+              {fullPrompt.length} / {MAX_PROMPT}
+            </span>
+          </div>
           <Textarea
             rows={4}
             placeholder="Describe shot composition, action, lighting, props..."
             value={prompt}
             onChange={(e) => setPrompt(e.target.value)}
           />
+          {promptTooLong && (
+            <p className="text-[10px] text-red-600 mt-1">
+              Prompt exceeds {MAX_PROMPT} chars — remove some character anchors or shorten Director's Notes.
+            </p>
+          )}
         </div>
 
         {/* Brand toggle */}
@@ -301,15 +302,20 @@ export function ImageGenTab({ characters }: { characters: Character[] }) {
             {copied ? <Check className="size-4" /> : <Copy className="size-4" />}
             {copied ? "Copied!" : "Copy Full Prompt"}
           </Button>
-          <Button onClick={handleGenerate} disabled={generating || !prompt.trim()}>
+          <Button onClick={handleGenerate} disabled={generating || !prompt.trim() || promptTooLong}>
             {generating
-              ? <><Loader2 className="size-4 animate-spin" /> {(elapsedMs / 1000).toFixed(1)}s</>
+              ? <><Loader2 className="size-4 animate-spin" /> {(elapsedMs / 1000).toFixed(1)}s&nbsp;— up to 90s</>
               : <><Sparkles className="size-4" /> Generate</>
             }
           </Button>
         </div>
         {error && (
           <p className="text-sm text-red-600 bg-red-50 border border-red-200 rounded-md px-3 py-2">{error}</p>
+        )}
+        {generating && (
+          <p className="text-xs text-amber-700 bg-amber-50 border border-amber-200 rounded-md px-3 py-2">
+            Generation running on server — you can switch tabs safely. Result will appear here when ready.
+          </p>
         )}
       </div>
 
