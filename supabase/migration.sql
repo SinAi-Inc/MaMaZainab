@@ -246,14 +246,8 @@ insert into partner_settings (id) values ('singleton') on conflict do nothing;
 -- 12. Storage bucket for uploads
 -- ============================================================
 -- Creates the public 'uploads' bucket if it does not already exist.
-insert into storage.buckets (id, name, public, file_size_limit, allowed_mime_types)
-values (
-  'uploads',
-  'uploads',
-  true,
-  314572800,   -- 300 MB
-  '{image/png,image/jpeg,image/webp,image/gif,video/mp4,video/webm,video/quicktime}'
-)
+insert into storage.buckets (id, name, public)
+values ('uploads', 'uploads', true)
 on conflict (id) do nothing;
 
 -- Allow public read of all objects in the uploads bucket

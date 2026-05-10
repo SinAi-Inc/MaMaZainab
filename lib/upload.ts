@@ -36,15 +36,10 @@ export async function uploadFile(
   const sb = getSupabase();
   const storagePath = `${subdir}/${filename}`;
 
-  // Auto-create the bucket if it doesn't exist yet (idempotent)
-  const { error: bucketErr } = await sb.storage.createBucket(BUCKET, {
-    public: true,
-    fileSizeLimit: 314572800, // 300 MB
-  });
-  // Ignore "already exists" error (23505 = unique_violation)
-  if (bucketErr && !bucketErr.message.includes("already exists") && bucketErr.message !== "Bucket already exists") {
-    throw new Error(`Storage bucket error: ${bucketErr.message}`);
-  }
+  // Best-effort bucket creation — ignore all errors (bucket may already exist,
+  // or the plan's fileSizeLimit may differ). The upload call below will surface
+  // any real problem with a descriptive message.
+  await sb.storage.createBucket(BUCKET, { public: true }).catch(() => null);
 
   const { error } = await sb.storage
     .from(BUCKET)
