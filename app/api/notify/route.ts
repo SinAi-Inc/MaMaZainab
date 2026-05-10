@@ -22,7 +22,7 @@ function isRateLimited(ip: string): boolean {
 export async function POST(req: NextRequest) {
   const ip = req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ?? "unknown";
   if (isRateLimited(ip)) {
-    return NextResponse.redirect(new URL("/coming-soon?subscribed=limited", req.url), 303);
+    return NextResponse.json({ status: "limited" }, { status: 429 });
   }
 
   const form = await req.formData();
@@ -30,7 +30,7 @@ export async function POST(req: NextRequest) {
   const ok = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 
   if (!ok) {
-    return NextResponse.redirect(new URL("/coming-soon?subscribed=invalid", req.url), 303);
+    return NextResponse.json({ status: "invalid" }, { status: 400 });
   }
 
   const exists = await contactExists(email);
@@ -44,5 +44,5 @@ export async function POST(req: NextRequest) {
     revalidatePath("/contacts");
   }
 
-  return NextResponse.redirect(new URL("/coming-soon?subscribed=ok", req.url), 303);
+  return NextResponse.json({ status: "ok" });
 }
