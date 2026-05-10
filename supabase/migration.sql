@@ -160,8 +160,12 @@ create table if not exists generations (
   status            text not null default 'completed',
   error             text not null default '',
   elapsed_ms        integer not null default 0,
+  cost_usd          numeric(10, 4) not null default 0,
   created_at        text not null
 );
+
+-- Idempotent migration for existing deployments
+alter table generations add column if not exists cost_usd numeric(10, 4) not null default 0;
 
 -- ============================================================
 -- 8. Video Studio — Scenes

@@ -26,6 +26,8 @@ export const GenerationEntrySchema = z.object({
   error: z.string().default(""),
   /** Time taken in ms */
   elapsedMs: z.number().default(0),
+  /** Estimated cost in USD for this generation */
+  costUsd: z.number().default(0),
   createdAt: z.string(),
 });
 export type GenerationEntry = z.infer<typeof GenerationEntrySchema>;
