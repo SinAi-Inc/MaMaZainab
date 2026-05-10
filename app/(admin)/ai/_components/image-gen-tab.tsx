@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useRef, useCallback, useMemo } from "react";
-import { Copy, Check, Sparkles, ImageIcon, Loader2, Download, X } from "lucide-react";
+import { Copy, Check, Sparkles, ImageIcon, Loader2, Users } from "lucide-react";
 import { toast } from "sonner";
 import { Card, CardBody } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -32,7 +32,7 @@ export function ImageGenTab({ characters }: { characters: Character[] }) {
   const [model, setModel] = useState<string>(IMAGE_MODELS[0].id);
   const [aspect, setAspect] = useState("1:1");
   const [prompt, setPrompt] = useState("");
-  const [anchorValue, setAnchorValue] = useState("");
+  const [anchorValues, setAnchorValues] = useState<string[]>([]);
   const [sceneValue, setSceneValue] = useState("");
   const [includeBrand, setIncludeBrand] = useState(true);
   const [copied, setCopied] = useState(false);
@@ -51,42 +51,43 @@ export function ImageGenTab({ characters }: { characters: Character[] }) {
     if (timerRef.current) { clearInterval(timerRef.current); timerRef.current = null; }
   }, []);
 
-  const selectedAnchor = getAnchorByValue(anchorValue, characterAnchors);
+  const selectedAnchors = useMemo(
+    () => anchorValues.map((v) => getAnchorByValue(v, characterAnchors)).filter(Boolean) as ReturnType<typeof getAnchorByValue>[],
+    [anchorValues, characterAnchors],
+  ) as NonNullable<ReturnType<typeof getAnchorByValue>>[];
+
   const selectedScene = getSceneByValue(sceneValue);
+
+  function toggleAnchor(value: string) {
+    setAnchorValues((prev) =>
+      prev.includes(value) ? prev.filter((v) => v !== value) : [...prev, value],
+    );
+  }
 
   function buildFullPrompt(): string {
     const assembled = assemblePrompt({
       sceneContext: selectedScene,
-      characterAnchor: selectedAnchor,
+      characterAnchors: selectedAnchors,
       userPrompt: prompt,
       includePalette: includeBrand,
       isVideo: false,
     });
-
     if (!assembled.trim()) return "";
-
-    // Append technical metadata
     return `${assembled}\n\nAspect ratio: ${aspect} | Model: ${IMAGE_MODELS.find((m) => m.id === model)?.label ?? model}`;
   }
 
   function handleCopy() {
     const full = buildFullPrompt();
-    if (!full.trim()) {
-      toast.error("Write a prompt first");
-      return;
-    }
+    if (!full.trim()) { toast.error("Write a prompt first"); return; }
     navigator.clipboard.writeText(full);
     setCopied(true);
-    toast.success("Prompt copied — paste into your generation tool");
+    toast.success("Prompt copied");
     setTimeout(() => setCopied(false), 2000);
   }
 
   async function handleGenerate() {
     const full = buildFullPrompt();
-    if (!full.trim()) {
-      toast.error("Write a prompt first");
-      return;
-    }
+    if (!full.trim()) { toast.error("Write a prompt first"); return; }
     setGenerating(true);
     setResultImage(null);
     setError(null);
@@ -105,12 +106,11 @@ export function ImageGenTab({ characters }: { characters: Character[] }) {
       const data = await res.json();
       setResultImage(data.image);
       toast.success("Image generated!");
-      // Record in history (fire-and-forget)
       recordGeneration({
         type: "image",
         model,
         prompt: full,
-        characterAnchor: anchorValue,
+        characterAnchor: anchorValues.join(","),
         sceneContext: sceneValue,
         aspect,
         status: "completed",
@@ -125,7 +125,7 @@ export function ImageGenTab({ characters }: { characters: Character[] }) {
         type: "image",
         model,
         prompt: full,
-        characterAnchor: anchorValue,
+        characterAnchor: anchorValues.join(","),
         sceneContext: sceneValue,
         aspect,
         status: "failed",
@@ -141,7 +141,7 @@ export function ImageGenTab({ characters }: { characters: Character[] }) {
   return (
     <div className="grid gap-6 lg:grid-cols-[1fr_340px]">
       {/* Left: prompt builder */}
-      <div className="space-y-4">
+      <div className="space-y-5">
         <PresetPicker
           mode="image"
           anchors={characterAnchors}
@@ -149,10 +149,11 @@ export function ImageGenTab({ characters }: { characters: Character[] }) {
             setPrompt(p.prompt);
             setAspect(p.aspect);
             setSceneValue(p.sceneValue);
-            setAnchorValue(p.anchorValue);
+            setAnchorValues(p.anchorValue ? [p.anchorValue] : []);
             toast.success(`Loaded Shot ${p.shotNumber} — ${p.shotDescription}`);
           }}
         />
+
         {/* Model + Aspect row */}
         <div className="grid grid-cols-2 gap-3">
           <div>
@@ -166,9 +167,7 @@ export function ImageGenTab({ characters }: { characters: Character[] }) {
               className="w-full text-sm border border-border-strong rounded-md px-2.5 py-2 bg-white"
             >
               {IMAGE_MODELS.map((m) => (
-                <option key={m.id} value={m.id}>
-                  {m.label} — {m.vendor}
-                </option>
+                <option key={m.id} value={m.id}>{m.label} — {m.vendor}</option>
               ))}
             </select>
           </div>
@@ -194,72 +193,92 @@ export function ImageGenTab({ characters }: { characters: Character[] }) {
           </div>
         </div>
 
-        {/* Scene Context + Character Anchor row */}
-        <div className="grid grid-cols-2 gap-3">
-          <div>
-            <label className="text-xs font-medium text-muted uppercase tracking-wider block mb-1.5">
-              Scene Context <span className="font-normal">(optional)</span>
+        {/* Scene Context */}
+        <div>
+          <label className="text-xs font-medium text-muted uppercase tracking-wider block mb-1.5">
+            Scene Context <span className="font-normal">(optional)</span>
+          </label>
+          <select
+            value={sceneValue}
+            onChange={(e) => setSceneValue(e.target.value)}
+            aria-label="Scene context"
+            className="w-full text-sm border border-border-strong rounded-md px-2.5 py-2 bg-white"
+          >
+            <option value="">— No Scene —</option>
+            {SCENE_CONTEXTS.map((s) => (
+              <option key={s.value} value={s.value}>{s.label}</option>
+            ))}
+          </select>
+          {selectedScene && (
+            <p className="text-[10px] text-muted mt-1">
+              Mood: {selectedScene.mood} · Suggested cast: {selectedScene.characters.join(", ") || "none"}
+            </p>
+          )}
+        </div>
+
+        {/* Character Anchors — multi-select with thumbnails */}
+        <div>
+          <div className="flex items-center gap-2 mb-2">
+            <label className="text-xs font-medium text-muted uppercase tracking-wider">
+              Characters in Frame
             </label>
-            <select
-              value={sceneValue}
-              onChange={(e) => setSceneValue(e.target.value)}
-              aria-label="Scene context"
-              className="w-full text-sm border border-border-strong rounded-md px-2.5 py-2 bg-white"
-            >
-              <option value="">— No Scene —</option>
-              {SCENE_CONTEXTS.map((s) => (
-                <option key={s.value} value={s.value}>
-                  {s.label}
-                </option>
-              ))}
-            </select>
-            {selectedScene && (
-              <p className="text-[10px] text-muted mt-1">
-                Mood: {selectedScene.mood}
-              </p>
-            )}
+            <span className="flex items-center gap-1 text-[10px] text-muted border border-border rounded-full px-2 py-0.5">
+              <Users className="size-3" />
+              {anchorValues.length === 0 ? "none selected" : `${anchorValues.length} selected`}
+            </span>
           </div>
-          <div>
-            <label className="text-xs font-medium text-muted uppercase tracking-wider block mb-1.5">
-              Character Anchor <span className="font-normal">(optional)</span>
-            </label>
-            <select
-              value={anchorValue}
-              onChange={(e) => setAnchorValue(e.target.value)}
-              aria-label="Character anchor"
-              className="w-full text-sm border border-border-strong rounded-md px-2.5 py-2 bg-white"
-            >
-              <option value="">— None —</option>
-              {characterAnchors.map((a) => (
-                <option key={a.value} value={a.value}>
-                  {a.label}
-                </option>
-              ))}
-            </select>
-            {selectedAnchor?.referenceImage && (
-              <div className="mt-2 flex items-center gap-2">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src={selectedAnchor.referenceImage}
-                  alt={selectedAnchor.label}
-                  className="size-10 rounded-md object-cover border border-border"
-                />
-                <span className="text-[10px] text-muted">
-                  Reference — {selectedAnchor.label}
-                </span>
-              </div>
-            )}
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+            {characterAnchors.map((anchor) => {
+              const checked = anchorValues.includes(anchor.value);
+              return (
+                <button
+                  key={anchor.value}
+                  onClick={() => toggleAnchor(anchor.value)}
+                  className={`flex items-center gap-2.5 rounded-lg border px-3 py-2 text-left transition-all ${
+                    checked
+                      ? "border-brand-green bg-brand-green/8 ring-1 ring-brand-green/30"
+                      : "border-border bg-surface hover:border-brand-green/40"
+                  }`}
+                >
+                  {anchor.referenceImage ? (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img
+                      src={anchor.referenceImage}
+                      alt={anchor.label}
+                      className="size-9 rounded-md object-cover shrink-0 border border-border"
+                    />
+                  ) : (
+                    <div className="size-9 rounded-md bg-surface-2 flex items-center justify-center shrink-0 border border-border">
+                      <Users className="size-4 text-muted" />
+                    </div>
+                  )}
+                  <div className="min-w-0">
+                    <p className={`text-xs font-medium leading-tight truncate ${checked ? "text-brand-green-deep" : ""}`}>
+                      {anchor.label}
+                    </p>
+                    {checked && (
+                      <p className="text-[9px] text-brand-green mt-0.5">✓ anchored</p>
+                    )}
+                  </div>
+                </button>
+              );
+            })}
           </div>
+          {anchorValues.length > 1 && (
+            <p className="text-[10px] text-amber-700 bg-amber-50 border border-amber-200 rounded-md px-3 py-2 mt-2">
+              Multi-character frame — Cast Rules will be injected automatically. Mama Zainab must be largest/centered.
+            </p>
+          )}
         </div>
 
         {/* Prompt textarea */}
         <div>
           <label className="text-xs font-medium text-muted uppercase tracking-wider block mb-1.5">
-            Prompt
+            Director's Notes
           </label>
           <Textarea
-            rows={5}
-            placeholder="Describe the image you want to generate..."
+            rows={4}
+            placeholder="Describe shot composition, action, lighting, props..."
             value={prompt}
             onChange={(e) => setPrompt(e.target.value)}
           />
@@ -283,48 +302,78 @@ export function ImageGenTab({ characters }: { characters: Character[] }) {
             {copied ? "Copied!" : "Copy Full Prompt"}
           </Button>
           <Button onClick={handleGenerate} disabled={generating || !prompt.trim()}>
-            {generating ? <Loader2 className="size-4 animate-spin" /> : <Sparkles className="size-4" />}
-            {generating ? "Generating…" : "Generate"}
+            {generating
+              ? <><Loader2 className="size-4 animate-spin" /> {(elapsedMs / 1000).toFixed(1)}s</>
+              : <><Sparkles className="size-4" /> Generate</>
+            }
           </Button>
         </div>
+        {error && (
+          <p className="text-sm text-red-600 bg-red-50 border border-red-200 rounded-md px-3 py-2">{error}</p>
+        )}
       </div>
 
-      {/* Right: preview panel */}
-      <Card className="h-fit">
+      {/* Right: preview / result panel */}
+      <Card className="h-fit sticky top-4">
         <CardBody className="space-y-3">
           {resultImage ? (
             <>
-              <h4 className="text-xs font-semibold uppercase tracking-wider text-muted">
-                Generated Image
-              </h4>
+              <div className="flex items-center justify-between">
+                <h4 className="text-xs font-semibold uppercase tracking-wider text-muted">Generated</h4>
+                <a
+                  href={`data:image/jpeg;base64,${resultImage}`}
+                  download={`mz-gen-${Date.now()}.jpg`}
+                  className="text-xs text-brand-green hover:underline"
+                >
+                  Download
+                </a>
+              </div>
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={`data:image/jpeg;base64,${resultImage}`}
                 alt="Generated"
                 className="w-full rounded-md border border-border"
               />
-              <div className="flex items-center gap-2 text-xs text-muted">
-                <ImageIcon className="size-3.5" />
-                <span>
-                  {IMAGE_MODELS.find((m) => m.id === model)?.label} · {aspect}
-                </span>
+              <div className="flex flex-wrap gap-1 text-[10px] text-muted">
+                <span>{IMAGE_MODELS.find((m) => m.id === model)?.label}</span>
+                <span>·</span>
+                <span>{aspect}</span>
+                {selectedAnchors.map((a) => (
+                  <span key={a.value}>· {a.label}</span>
+                ))}
               </div>
+              <Button variant="outline" className="w-full text-xs" onClick={() => setResultImage(null)}>
+                Back to prompt
+              </Button>
             </>
           ) : (
             <>
               <h4 className="text-xs font-semibold uppercase tracking-wider text-muted">
-                Prompt Preview
+                Assembled Prompt
               </h4>
-              <pre className="text-[11px] font-mono whitespace-pre-wrap leading-relaxed text-brand-ink bg-surface rounded-md p-3 max-h-96 overflow-y-auto border border-border">
-                {buildFullPrompt() || "Your composed prompt will appear here..."}
+              {/* Selected character thumbnails */}
+              {selectedAnchors.length > 0 && (
+                <div className="flex gap-2 flex-wrap">
+                  {selectedAnchors.map((a) => a.referenceImage && (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img
+                      key={a.value}
+                      src={a.referenceImage}
+                      alt={a.label}
+                      title={a.label}
+                      className="size-12 rounded-md object-cover border border-brand-green/40"
+                    />
+                  ))}
+                </div>
+              )}
+              <pre className="text-[11px] font-mono whitespace-pre-wrap leading-relaxed text-brand-ink bg-surface rounded-md p-3 max-h-80 overflow-y-auto border border-border">
+                {buildFullPrompt() || "Select characters, set a scene, then write director's notes..."}
               </pre>
-              <div className="flex items-center gap-2 text-xs text-muted">
-                <ImageIcon className="size-3.5" />
-                <span>
-                  {IMAGE_MODELS.find((m) => m.id === model)?.label} · {aspect}
-                  {selectedAnchor ? ` · ${selectedAnchor.label}` : ""}
-                  {selectedScene ? ` · ${selectedScene.label}` : ""}
-                </span>
+              <div className="flex flex-wrap gap-x-2 gap-y-0.5 text-[10px] text-muted">
+                <span>{IMAGE_MODELS.find((m) => m.id === model)?.label}</span>
+                <span>·</span><span>{aspect}</span>
+                {selectedAnchors.length > 0 && <span>· {selectedAnchors.map((a) => a.label).join(", ")}</span>}
+                {selectedScene && <span>· {selectedScene.label}</span>}
               </div>
             </>
           )}

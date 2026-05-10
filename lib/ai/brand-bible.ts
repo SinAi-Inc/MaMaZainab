@@ -201,12 +201,22 @@ export const CAST_RULES =
 
 export function assemblePrompt(opts: {
   sceneContext?: SceneContextOption;
+  /** Single anchor (legacy) OR multiple anchors for multi-character frames */
   characterAnchor?: CharacterAnchorOption;
+  characterAnchors?: CharacterAnchorOption[];
   userPrompt: string;
   includePalette: boolean;
   isVideo?: boolean;
 }): string {
-  const { sceneContext, characterAnchor, userPrompt, includePalette, isVideo } = opts;
+  const { sceneContext, userPrompt, includePalette, isVideo } = opts;
+
+  // Normalise to an array — support both single and multi-anchor call sites
+  const anchors: CharacterAnchorOption[] = opts.characterAnchors?.length
+    ? opts.characterAnchors
+    : opts.characterAnchor
+    ? [opts.characterAnchor]
+    : [];
+
   const parts: string[] = [];
 
   // Step 1: Scene Context (mood + palette_focus)
@@ -216,9 +226,15 @@ export function assemblePrompt(opts: {
     );
   }
 
-  // Step 2: Character Anchor
-  if (characterAnchor) {
-    parts.push(`[CHARACTER ANCHOR] ${characterAnchor.promptAnchor}`);
+  // Step 2: Character Anchors (one block per character)
+  if (anchors.length === 1) {
+    parts.push(`[CHARACTER ANCHOR] ${anchors[0].promptAnchor}`);
+  } else if (anchors.length > 1) {
+    for (const a of anchors) {
+      parts.push(`[CHARACTER: ${a.label}] ${a.promptAnchor}`);
+    }
+    // Multi-character cast rules always apply
+    parts.push(CAST_RULES);
   }
 
   // Step 3: User Prompt
@@ -231,27 +247,28 @@ export function assemblePrompt(opts: {
     parts.push(PALETTE_BLOCK);
   }
 
-  // Step 5: Plaid Block (if character has apron/ribbon OR packaging scene)
+  // Step 5: Plaid Block (if any anchor has apron/ribbon OR packaging scene)
   const needsPlaid =
-    characterAnchor?.alsoInjectsPlaid ||
+    anchors.some((a) => a.alsoInjectsPlaid) ||
     sceneContext?.value === "packaging_shot" ||
     (sceneContext?.patternUsage && sceneContext.patternUsage !== "none");
   if (includePalette && needsPlaid) {
     parts.push(`[PATTERN] ${PLAID_BLOCK}`);
   }
 
-  // Step 6: Negative Prompt (do_not rules)
-  if (characterAnchor && characterAnchor.doNots.length > 0) {
-    parts.push(`--no ${characterAnchor.doNots.join(", ")}`);
+  // Step 6: Negative Prompt (merge do_not rules from all anchors)
+  const allDoNots = [...new Set(anchors.flatMap((a) => a.doNots))];
+  if (allDoNots.length > 0) {
+    parts.push(`--no ${allDoNots.join(", ")}`);
   }
 
-  // Cast rules if scene has multiple characters
-  if (sceneContext && sceneContext.characters.length > 1) {
+  // Cast rules for scene with multiple characters (single-anchor path)
+  if (anchors.length <= 1 && sceneContext && sceneContext.characters.length > 1) {
     parts.push(CAST_RULES);
   }
 
   // Ghost warning for image gen
-  if (!isVideo && characterAnchor?.value.includes("ghost")) {
+  if (!isVideo && anchors.some((a) => a.value.includes("ghost"))) {
     parts.push(
       "⚠️ Ghost of Mama Zainab is primarily a VIDEO character. Still images may lack the ethereal motion effect."
     );

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useMemo } from "react";
-import { Copy, Check, Sparkles, Video, Loader2 } from "lucide-react";
+import { Copy, Check, Video, ExternalLink, Users } from "lucide-react";
 import { toast } from "sonner";
 import { Card, CardBody } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -17,10 +17,6 @@ import {
 } from "@/lib/ai/brand-bible";
 import { PresetPicker } from "./preset-picker";
 
-// NOTE: NVIDIA Stable Video Diffusion deprecated 2026-05. No live video models.
-const VIDEO_MODELS = [] as const;
-const VIDEO_UNAVAILABLE = VIDEO_MODELS.length === 0;
-
 const ASPECTS = ["16:9", "9:16", "1:1", "2.39:1", "4:3"];
 const DURATIONS = [4, 5, 6, 8, 10, 15];
 
@@ -32,178 +28,125 @@ const STYLE_PRESETS = [
   "Product showcase — turntable, studio lighting, white cyclorama",
 ];
 
+// External video generation services
+const SERVICES = [
+  {
+    id: "runway",
+    label: "Runway Gen-4",
+    url: "https://app.runwayml.com",
+    description: "Best for cinematic motion + character consistency",
+    badge: "Recommended",
+    badgeColor: "bg-brand-green/10 text-brand-green-deep border-brand-green/30",
+  },
+  {
+    id: "kling",
+    label: "Kling AI",
+    url: "https://klingai.com",
+    description: "Strong on Asian talent + food scenes",
+    badge: null,
+    badgeColor: "",
+  },
+  {
+    id: "veo",
+    label: "Google Veo 3",
+    url: "https://labs.google/veo",
+    description: "Highest fidelity, native audio generation",
+    badge: null,
+    badgeColor: "",
+  },
+  {
+    id: "pika",
+    label: "Pika 2.2",
+    url: "https://pika.art",
+    description: "Fast turnaround, great for social clips",
+    badge: null,
+    badgeColor: "",
+  },
+] as const;
+
 export function VideoGenTab({ characters }: { characters: Character[] }) {
   const characterAnchors = useMemo(
     () => buildAnchorsFromCharacters(characters),
     [characters],
   );
-  const [model, setModel] = useState<string>("");
   const [aspect, setAspect] = useState("16:9");
   const [duration, setDuration] = useState(5);
   const [prompt, setPrompt] = useState("");
   const [stylePreset, setStylePreset] = useState("");
-  const [anchorValue, setAnchorValue] = useState("");
+  const [anchorValues, setAnchorValues] = useState<string[]>([]);
   const [sceneValue, setSceneValue] = useState("");
   const [includeBrand, setIncludeBrand] = useState(true);
-  const [copied, setCopied] = useState(false);
-  const [generating, setGenerating] = useState(false);
-  const [jobStatus, setJobStatus] = useState<string | null>(null);
-  const [resultVideo, setResultVideo] = useState<string | null>(null);
+  const [copied, setCopied] = useState<string | null>(null); // tracks which button copied
 
-  const selectedAnchor = getAnchorByValue(anchorValue, characterAnchors);
+  const selectedAnchors = useMemo(
+    () => anchorValues.map((v) => getAnchorByValue(v, characterAnchors)).filter(Boolean) as ReturnType<typeof getAnchorByValue>[],
+    [anchorValues, characterAnchors],
+  ) as NonNullable<ReturnType<typeof getAnchorByValue>>[];
+
   const selectedScene = getSceneByValue(sceneValue);
+
+  function toggleAnchor(value: string) {
+    setAnchorValues((prev) =>
+      prev.includes(value) ? prev.filter((v) => v !== value) : [...prev, value],
+    );
+  }
 
   function buildFullPrompt(): string {
     const assembled = assemblePrompt({
       sceneContext: selectedScene,
-      characterAnchor: selectedAnchor,
+      characterAnchors: selectedAnchors,
       userPrompt: prompt,
       includePalette: includeBrand,
       isVideo: true,
     });
-
-    // Prepend style preset if set
-    const withStyle = stylePreset
-      ? `Style: ${stylePreset}\n\n${assembled}`
-      : assembled;
-
+    const withStyle = stylePreset ? `Style: ${stylePreset}\n\n${assembled}` : assembled;
     if (!withStyle.trim()) return "";
-
-    // Append technical metadata
     return `${withStyle}\n\nDuration: ${duration}s | Aspect: ${aspect}`;
   }
 
-  function handleCopy() {
+  function handleCopy(serviceId?: string) {
     const full = buildFullPrompt();
-    if (!full.trim()) {
-      toast.error("Write a prompt first");
-      return;
-    }
+    if (!full.trim()) { toast.error("Write a prompt first"); return; }
     navigator.clipboard.writeText(full);
-    setCopied(true);
-    toast.success("Prompt copied — paste into your generation tool");
-    setTimeout(() => setCopied(false), 2000);
+    const key = serviceId ?? "generic";
+    setCopied(key);
+    toast.success("Prompt copied to clipboard");
+    setTimeout(() => setCopied(null), 2500);
+    // Record in history
+    recordGeneration({
+      type: "video",
+      model: serviceId ?? "external",
+      prompt: full,
+      characterAnchor: anchorValues.join(","),
+      sceneContext: sceneValue,
+      aspect,
+      duration,
+      stylePreset,
+      status: "completed",
+      elapsedMs: 0,
+    }).catch(() => {});
   }
 
-  async function handleGenerate() {
-    const full = buildFullPrompt();
-    if (!full.trim()) {
-      toast.error("Write a prompt first");
-      return;
-    }
-    setGenerating(true);
-    setJobStatus(null);
-    setResultVideo(null);
-    const startTime = Date.now();
-    try {
-      const res = await fetch("/api/generate/video", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ model, prompt: full, aspect, duration }),
-      });
-      if (!res.ok) {
-        const err = await res.json().catch(() => ({ error: "Generation failed" }));
-        throw new Error(err.error ?? `HTTP ${res.status}`);
-      }
-      const data = await res.json();
-      if (data.video) {
-        setResultVideo(data.video);
-        toast.success("Video generated!");
-        recordGeneration({
-          type: "video",
-          model,
-          prompt: full,
-          characterAnchor: anchorValue,
-          sceneContext: sceneValue,
-          aspect,
-          duration,
-          stylePreset,
-          status: "completed",
-          elapsedMs: Date.now() - startTime,
-          base64Output: data.video,
-        }).catch(() => {});
-      } else if (data.reqId) {
-        setJobStatus(`Job submitted: ${data.reqId}\nPolling for completion...`);
-        toast.success("Video job submitted — check back shortly");
-        // Record as pending — we'll update when polling completes
-        recordGeneration({
-          type: "video",
-          model,
-          prompt: full,
-          characterAnchor: anchorValue,
-          sceneContext: sceneValue,
-          aspect,
-          duration,
-          stylePreset,
-          status: "pending",
-          elapsedMs: Date.now() - startTime,
-        }).catch(() => {});
-        pollForResult(data.reqId);
-      }
-    } catch (err) {
-      const msg = err instanceof Error ? err.message : "Generation failed";
-      toast.error(msg);
-      recordGeneration({
-        type: "video",
-        model,
-        prompt: full,
-        characterAnchor: anchorValue,
-        sceneContext: sceneValue,
-        aspect,
-        duration,
-        stylePreset,
-        status: "failed",
-        error: msg,
-        elapsedMs: Date.now() - startTime,
-      }).catch(() => {});
-    } finally {
-      setGenerating(false);
-    }
-  }
-
-  async function pollForResult(reqId: string) {
-    const maxAttempts = 30;
-    for (let i = 0; i < maxAttempts; i++) {
-      await new Promise((r) => setTimeout(r, 5000));
-      try {
-        const res = await fetch(`/api/generate/video/${reqId}`);
-        if (!res.ok) continue;
-        const data = await res.json();
-        if (data.status === "completed" && data.video) {
-          setResultVideo(data.video);
-          setJobStatus(null);
-          toast.success("Video ready!");
-          return;
-        }
-        if (data.status === "failed") {
-          setJobStatus("Generation failed.");
-          toast.error("Video generation failed");
-          return;
-        }
-        setJobStatus(`Status: ${data.status} (attempt ${i + 1}/${maxAttempts})`);
-      } catch {
-        // continue polling
-      }
-    }
-    setJobStatus("Timed out waiting for result.");
+  function handleLaunch(service: (typeof SERVICES)[number]) {
+    handleCopy(service.id);
+    setTimeout(() => window.open(service.url, "_blank", "noopener,noreferrer"), 300);
   }
 
   return (
-    <div className="grid gap-6 lg:grid-cols-[1fr_340px]">
+    <div className="grid gap-6 lg:grid-cols-[1fr_360px]">
       {/* Left: prompt builder */}
-      <div className="space-y-4">
-        {/* Unavailability banner */}
-        {VIDEO_UNAVAILABLE && (
-          <div className="flex items-start gap-3 rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-900">
-            <Video className="mt-0.5 size-4 flex-shrink-0 text-amber-600" />
-            <div>
-              <p className="font-semibold">Video generation temporarily unavailable</p>
-              <p className="mt-0.5 text-xs text-amber-700">
-                The NVIDIA Stable Video Diffusion model has been deprecated. Use the prompt builder below to craft your video prompt, then copy it for use with an external tool (Runway, Kling, Veo, etc.).
-              </p>
-            </div>
+      <div className="space-y-5">
+        {/* External service banner */}
+        <div className="flex items-start gap-3 rounded-lg border border-blue-200 bg-blue-50 px-4 py-3 text-sm text-blue-900">
+          <Video className="mt-0.5 size-4 flex-shrink-0 text-blue-600" />
+          <div>
+            <p className="font-semibold">Video Prompt Studio</p>
+            <p className="mt-0.5 text-xs text-blue-700">
+              Build a brand-locked prompt below, then launch directly into Runway, Kling, Veo, or Pika. Your prompt is auto-copied on launch.
+            </p>
           </div>
-        )}
+        </div>
+
         <PresetPicker
           mode="video"
           anchors={characterAnchors}
@@ -211,31 +154,13 @@ export function VideoGenTab({ characters }: { characters: Character[] }) {
             setPrompt(p.prompt);
             setAspect(p.aspect);
             setSceneValue(p.sceneValue);
-            setAnchorValue(p.anchorValue);
+            setAnchorValues(p.anchorValue ? [p.anchorValue] : []);
             toast.success(`Loaded Shot ${p.shotNumber} — ${p.shotDescription}`);
           }}
         />
-        {/* Model row */}
+
+        {/* Aspect + Duration */}
         <div className="grid grid-cols-2 gap-3">
-          {!VIDEO_UNAVAILABLE && (
-          <div>
-            <label className="text-xs font-medium text-muted uppercase tracking-wider block mb-1.5">
-              Model
-            </label>
-            <select
-              value={model}
-              onChange={(e) => setModel(e.target.value)}
-              aria-label="Video model"
-              className="w-full text-sm border border-border-strong rounded-md px-2.5 py-2 bg-white"
-            >
-              {([...VIDEO_MODELS] as { id: string; label: string; vendor: string }[]).map((m) => (
-                <option key={m.id} value={m.id}>
-                  {m.label} — {m.vendor}
-                </option>
-              ))}
-            </select>
-          </div>
-          )}
           <div>
             <label className="text-xs font-medium text-muted uppercase tracking-wider block mb-1.5">
               Aspect Ratio
@@ -256,27 +181,25 @@ export function VideoGenTab({ characters }: { characters: Character[] }) {
               ))}
             </div>
           </div>
-        </div>
-
-        {/* Duration */}
-        <div>
-          <label className="text-xs font-medium text-muted uppercase tracking-wider block mb-1.5">
-            Duration (seconds)
-          </label>
-          <div className="flex flex-wrap gap-1.5">
-            {DURATIONS.map((d) => (
-              <button
-                key={d}
-                onClick={() => setDuration(d)}
-                className={`px-3 py-1.5 text-xs rounded-md border transition-colors ${
-                  duration === d
-                    ? "border-brand-green bg-brand-green/10 text-brand-green-deep font-medium"
-                    : "border-border text-muted hover:border-brand-green/50"
-                }`}
-              >
-                {d}s
-              </button>
-            ))}
+          <div>
+            <label className="text-xs font-medium text-muted uppercase tracking-wider block mb-1.5">
+              Duration (seconds)
+            </label>
+            <div className="flex flex-wrap gap-1.5">
+              {DURATIONS.map((d) => (
+                <button
+                  key={d}
+                  onClick={() => setDuration(d)}
+                  className={`px-3 py-1.5 text-xs rounded-md border transition-colors ${
+                    duration === d
+                      ? "border-brand-green bg-brand-green/10 text-brand-green-deep font-medium"
+                      : "border-border text-muted hover:border-brand-green/50"
+                  }`}
+                >
+                  {d}s
+                </button>
+              ))}
+            </div>
           </div>
         </div>
 
@@ -293,82 +216,100 @@ export function VideoGenTab({ characters }: { characters: Character[] }) {
           >
             <option value="">— Custom / None —</option>
             {STYLE_PRESETS.map((s) => (
-              <option key={s} value={s}>
-                {s.split("—")[0].trim()}
-              </option>
+              <option key={s} value={s}>{s.split("—")[0].trim()}</option>
             ))}
           </select>
+        </div>
+
+        {/* Scene Context */}
+        <div>
+          <label className="text-xs font-medium text-muted uppercase tracking-wider block mb-1.5">
+            Scene Context <span className="font-normal">(optional)</span>
+          </label>
+          <select
+            value={sceneValue}
+            onChange={(e) => setSceneValue(e.target.value)}
+            aria-label="Scene context"
+            className="w-full text-sm border border-border-strong rounded-md px-2.5 py-2 bg-white"
+          >
+            <option value="">— No Scene —</option>
+            {SCENE_CONTEXTS.map((s) => (
+              <option key={s.value} value={s.value}>{s.label}</option>
+            ))}
+          </select>
+          {selectedScene && (
+            <p className="text-[10px] text-muted mt-1">
+              Mood: {selectedScene.mood} · Suggested cast: {selectedScene.characters.join(", ") || "none"}
+            </p>
+          )}
+        </div>
+
+        {/* Character Anchors — multi-select */}
+        <div>
+          <div className="flex items-center gap-2 mb-2">
+            <label className="text-xs font-medium text-muted uppercase tracking-wider">
+              Characters in Frame
+            </label>
+            <span className="flex items-center gap-1 text-[10px] text-muted border border-border rounded-full px-2 py-0.5">
+              <Users className="size-3" />
+              {anchorValues.length === 0 ? "none selected" : `${anchorValues.length} selected`}
+            </span>
+          </div>
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+            {characterAnchors.map((anchor) => {
+              const checked = anchorValues.includes(anchor.value);
+              return (
+                <button
+                  key={anchor.value}
+                  onClick={() => toggleAnchor(anchor.value)}
+                  className={`flex items-center gap-2.5 rounded-lg border px-3 py-2 text-left transition-all ${
+                    checked
+                      ? "border-brand-green bg-brand-green/8 ring-1 ring-brand-green/30"
+                      : "border-border bg-surface hover:border-brand-green/40"
+                  }`}
+                >
+                  {anchor.referenceImage ? (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img
+                      src={anchor.referenceImage}
+                      alt={anchor.label}
+                      className="size-9 rounded-md object-cover shrink-0 border border-border"
+                    />
+                  ) : (
+                    <div className="size-9 rounded-md bg-surface-2 flex items-center justify-center shrink-0 border border-border">
+                      <Users className="size-4 text-muted" />
+                    </div>
+                  )}
+                  <div className="min-w-0">
+                    <p className={`text-xs font-medium leading-tight truncate ${checked ? "text-brand-green-deep" : ""}`}>
+                      {anchor.label}
+                    </p>
+                    {checked && (
+                      <p className="text-[9px] text-brand-green mt-0.5">✓ anchored</p>
+                    )}
+                  </div>
+                </button>
+              );
+            })}
+          </div>
+          {anchorValues.length > 1 && (
+            <p className="text-[10px] text-amber-700 bg-amber-50 border border-amber-200 rounded-md px-3 py-2 mt-2">
+              Multi-character frame — Cast Rules will be injected automatically.
+            </p>
+          )}
         </div>
 
         {/* Prompt textarea */}
         <div>
           <label className="text-xs font-medium text-muted uppercase tracking-wider block mb-1.5">
-            Prompt
+            Director&apos;s Notes
           </label>
           <Textarea
-            rows={5}
-            placeholder="Describe the video shot — camera motion, subject, action, mood..."
+            rows={4}
+            placeholder="Camera motion, action, mood, framing, lighting details..."
             value={prompt}
             onChange={(e) => setPrompt(e.target.value)}
           />
-        </div>
-
-        {/* Scene Context + Character Anchor row */}
-        <div className="grid grid-cols-2 gap-3">
-          <div>
-            <label className="text-xs font-medium text-muted uppercase tracking-wider block mb-1.5">
-              Scene Context <span className="font-normal">(optional)</span>
-            </label>
-            <select
-              value={sceneValue}
-              onChange={(e) => setSceneValue(e.target.value)}
-              aria-label="Scene context"
-              className="w-full text-sm border border-border-strong rounded-md px-2.5 py-2 bg-white"
-            >
-              <option value="">— No Scene —</option>
-              {SCENE_CONTEXTS.map((s) => (
-                <option key={s.value} value={s.value}>
-                  {s.label}
-                </option>
-              ))}
-            </select>
-            {selectedScene && (
-              <p className="text-[10px] text-muted mt-1">
-                Mood: {selectedScene.mood}
-              </p>
-            )}
-          </div>
-          <div>
-            <label className="text-xs font-medium text-muted uppercase tracking-wider block mb-1.5">
-              Character Anchor
-            </label>
-            <select
-              value={anchorValue}
-              onChange={(e) => setAnchorValue(e.target.value)}
-              aria-label="Character anchor"
-              className="w-full text-sm border border-border-strong rounded-md px-2.5 py-2 bg-white"
-            >
-              <option value="">— None —</option>
-              {characterAnchors.map((a) => (
-                <option key={a.value} value={a.value}>
-                  {a.label}
-                </option>
-              ))}
-            </select>
-            {selectedAnchor?.referenceImage && (
-              <div className="mt-2 flex items-center gap-2">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src={selectedAnchor.referenceImage}
-                  alt={selectedAnchor.label}
-                  className="size-10 rounded-md object-cover border border-border"
-                />
-                <span className="text-[10px] text-muted">
-                  Reference — {selectedAnchor.label}
-                </span>
-              </div>
-            )}
-          </div>
         </div>
 
         {/* Brand toggle */}
@@ -382,61 +323,79 @@ export function VideoGenTab({ characters }: { characters: Character[] }) {
           Append brand palette & plaid context
         </label>
 
-        {/* Actions */}
-        <div className="flex gap-3">
-          <Button onClick={handleCopy} className="flex-1" variant="outline">
-            {copied ? <Check className="size-4" /> : <Copy className="size-4" />}
-            {copied ? "Copied!" : "Copy Full Prompt"}
-          </Button>
-          <Button onClick={handleGenerate} disabled={generating || !prompt.trim() || VIDEO_UNAVAILABLE}>
-            {generating ? <Loader2 className="size-4 animate-spin" /> : <Sparkles className="size-4" />}
-            {generating ? "Generating…" : "Generate"}
-          </Button>
-        </div>
+        {/* Copy-only action */}
+        <Button onClick={() => handleCopy()} variant="outline" className="w-full">
+          {copied === "generic" ? <><Check className="size-4" /> Copied!</> : <><Copy className="size-4" /> Copy Full Prompt</>}
+        </Button>
       </div>
 
-      {/* Right: preview panel */}
-      <Card className="h-fit">
-        <CardBody className="space-y-3">
-          {resultVideo ? (
-            <>
-              <h4 className="text-xs font-semibold uppercase tracking-wider text-muted">
-                Generated Video
-              </h4>
-              {/* eslint-disable-next-line jsx-a11y/media-has-caption */}
-              <video
-                src={`data:video/mp4;base64,${resultVideo}`}
-                controls
-                className="w-full rounded-md border border-border"
-              />
-            </>
-          ) : jobStatus ? (
-            <>
-              <h4 className="text-xs font-semibold uppercase tracking-wider text-muted">
-                Job Status
-              </h4>
-              <pre className="text-[11px] font-mono whitespace-pre-wrap leading-relaxed text-brand-ink bg-surface rounded-md p-3 border border-border">
-                {jobStatus}
-              </pre>
-            </>
-          ) : (
-            <>
-              <h4 className="text-xs font-semibold uppercase tracking-wider text-muted">
-                Prompt Preview
-              </h4>
-              <pre className="text-[11px] font-mono whitespace-pre-wrap leading-relaxed text-brand-ink bg-surface rounded-md p-3 max-h-96 overflow-y-auto border border-border">
-                {buildFullPrompt() || "Your composed prompt will appear here..."}
-              </pre>
-              <div className="flex items-center gap-2 text-xs text-muted">
-                <Video className="size-3.5" />
-                <span>
-                  {aspect} · {duration}s
-                </span>
+      {/* Right: prompt preview + service launchers */}
+      <div className="space-y-4">
+        <Card className="sticky top-4">
+          <CardBody className="space-y-3">
+            <h4 className="text-xs font-semibold uppercase tracking-wider text-muted">
+              Assembled Prompt
+            </h4>
+            {selectedAnchors.length > 0 && (
+              <div className="flex gap-2 flex-wrap">
+                {selectedAnchors.map((a) => a.referenceImage && (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img
+                    key={a.value}
+                    src={a.referenceImage}
+                    alt={a.label}
+                    title={a.label}
+                    className="size-12 rounded-md object-cover border border-brand-green/40"
+                  />
+                ))}
               </div>
-            </>
-          )}
-        </CardBody>
-      </Card>
+            )}
+            <pre className="text-[11px] font-mono whitespace-pre-wrap leading-relaxed text-brand-ink bg-surface rounded-md p-3 max-h-64 overflow-y-auto border border-border">
+              {buildFullPrompt() || "Select scene, characters, and write director's notes..."}
+            </pre>
+            <div className="flex flex-wrap gap-x-2 text-[10px] text-muted">
+              <span>{aspect}</span>
+              <span>·</span><span>{duration}s</span>
+              {selectedAnchors.length > 0 && <span>· {selectedAnchors.map((a) => a.label).join(", ")}</span>}
+              {selectedScene && <span>· {selectedScene.label}</span>}
+            </div>
+          </CardBody>
+        </Card>
+
+        {/* Service launchers */}
+        <div>
+          <p className="text-xs font-medium text-muted uppercase tracking-wider mb-2">Launch in</p>
+          <div className="space-y-2">
+            {SERVICES.map((service) => (
+              <button
+                key={service.id}
+                onClick={() => handleLaunch(service)}
+                className="w-full flex items-center gap-3 rounded-lg border border-border bg-surface hover:bg-surface-2 px-4 py-3 text-left transition-colors group"
+              >
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center gap-2">
+                    <span className="text-sm font-medium">{service.label}</span>
+                    {service.badge && (
+                      <span className={`text-[9px] font-medium px-1.5 py-0.5 rounded-full border ${service.badgeColor}`}>
+                        {service.badge}
+                      </span>
+                    )}
+                  </div>
+                  <p className="text-[11px] text-muted mt-0.5">{service.description}</p>
+                </div>
+                <div className="flex items-center gap-1.5 text-xs text-muted group-hover:text-brand-green transition-colors shrink-0">
+                  {copied === service.id ? (
+                    <><Check className="size-3.5 text-brand-green" /><span className="text-brand-green">Copied!</span></>
+                  ) : (
+                    <><Copy className="size-3.5" /><ExternalLink className="size-3.5" /></>
+                  )}
+                </div>
+              </button>
+            ))}
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
+
