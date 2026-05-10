@@ -42,14 +42,12 @@ export function PartnersAdmin({ branches }: { branches: Branch[] }) {
     if (!settings) return;
     setSaveError(null);
     startTransition(async () => {
-      try {
-        await updatePartnerSettings(settings);
+      const result = await updatePartnerSettings(settings);
+      if (result.error) {
+        setSaveError(result.error);
+      } else {
         setSaved(true);
         setTimeout(() => setSaved(false), 3000);
-      } catch (err) {
-        setSaveError(
-          err instanceof Error ? err.message : "Save failed — please check Supabase setup.",
-        );
       }
     });
   }
