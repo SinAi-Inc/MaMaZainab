@@ -7,6 +7,7 @@ import { Badge, StatusPill } from "@/components/ui/badge";
 import { formatEGP } from "@/lib/utils";
 import { ItemActions } from "./_components/item-actions";
 import { GenerateSkuButton } from "./_components/generate-sku-button";
+import { SyncButton } from "./_components/sync-button";
 
 export const dynamic = "force-dynamic";
 
@@ -55,6 +56,9 @@ export default async function MenuPage() {
         <Pencil className="size-4 text-brand-green-deep" />
         Click any item row to edit it. Use the buttons on the right to hide or delete.
       </div>
+
+      {/* Sync local → Supabase */}
+      <SyncButton />
 
       {/* Stats */}
       <div className="grid grid-cols-3 gap-4">

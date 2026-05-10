@@ -89,20 +89,28 @@ export async function readMenu(): Promise<MenuState> {
 }
 
 export async function writeMenu(state: MenuState): Promise<void> {
-  if (!isSupabaseConfigured()) return writeJson(state);
+  // Always persist to local JSON — it's the committed source of truth
+  await writeJson(state);
 
-  const sb = getSupabase();
-  await sb.from("menu_items").delete().neq("id", "");
-  await sb.from("menu_categories").delete().neq("id", "");
+  // Also push to Supabase when configured (keeps production in sync)
+  if (isSupabaseConfigured()) {
+    const sb = getSupabase();
+    await sb.from("menu_items").delete().neq("id", "");
+    await sb.from("menu_categories").delete().neq("id", "");
 
-  if (state.categories.length > 0) {
-    const catRows = state.categories.map((c) => toSnake(c as unknown as Record<string, unknown>));
-    const { error } = await sb.from("menu_categories").insert(catRows);
-    if (error) throw error;
-  }
-  if (state.items.length > 0) {
-    const itemRows = state.items.map((i) => toSnake(i as unknown as Record<string, unknown>));
-    const { error } = await sb.from("menu_items").insert(itemRows);
-    if (error) throw error;
+    if (state.categories.length > 0) {
+      const catRows = state.categories.map((c) => toSnake(c as unknown as Record<string, unknown>));
+      const { error } = await sb.from("menu_categories").insert(catRows);
+      if (error) throw error;
+    }
+    if (state.items.length > 0) {
+      const itemRows = state.items.map((i) => {
+        const row = toSnake(i as unknown as Record<string, unknown>);
+        if (Array.isArray(row.badges)) row.badges = JSON.stringify(row.badges);
+        return row;
+      });
+      const { error } = await sb.from("menu_items").insert(itemRows);
+      if (error) throw error;
+    }
   }
 }
