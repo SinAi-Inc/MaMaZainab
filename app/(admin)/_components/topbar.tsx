@@ -3,6 +3,7 @@
 import { usePathname } from "next/navigation";
 import { Eye, Printer } from "lucide-react";
 import Link from "next/link";
+import { LogoutButton } from "./logout-button";
 
 const TITLES: Record<string, string> = {
   "/menu": "Menu",
@@ -70,6 +71,7 @@ export function Topbar() {
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src="/brand/mark-avatar.png" alt="MZ" className="size-full object-cover" />
         </div>
+        <LogoutButton />
       </div>
     </header>
   );
