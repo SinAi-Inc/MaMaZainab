@@ -13,9 +13,13 @@ import {
   ChevronUp,
   Copy,
   Check,
+  Pencil,
+  ExternalLink,
 } from "lucide-react";
+import Link from "next/link";
 import type { BrandCharacter, SceneMapping } from "@/lib/brand-bible-data";
 import { CHARACTERS, SCENES, GENERATION_RULES } from "@/lib/brand-bible-data";
+import type { Character } from "@/lib/characters/schema";
 
 
 
@@ -171,22 +175,178 @@ function CharacterCard({ char }: { char: BrandCharacter }) {
   );
 }
 
-export function CharactersPanel() {
+export function CharactersPanel({ characters }: { characters: Character[] }) {
   return (
     <div className="space-y-4">
       <div className="flex items-center gap-2 mb-2">
         <Users className="size-4 text-brand-green-deep" />
-        <h3 className="font-semibold">Brand Characters</h3>
+        <h3 className="font-semibold">Cast Members</h3>
         <span className="text-xs text-muted ml-auto">
-          {CHARACTERS.length} characters defined
+          {characters.length} character{characters.length !== 1 ? "s" : ""} · live from Character Bible
         </span>
+        <Link
+          href="/characters"
+          className="text-xs text-brand-green-deep hover:underline flex items-center gap-1"
+        >
+          Manage <ExternalLink className="size-3" />
+        </Link>
       </div>
-      <div className="grid gap-4 lg:grid-cols-2">
-        {CHARACTERS.map((c) => (
-          <CharacterCard key={c.id} char={c} />
-        ))}
-      </div>
+      {characters.length === 0 ? (
+        <Card>
+          <CardBody className="py-10 text-center text-muted text-sm">
+            <Users className="size-8 mx-auto mb-2 opacity-30" />
+            No characters yet. <Link href="/characters/new" className="text-brand-green-deep hover:underline">Add the first cast member</Link>.
+          </CardBody>
+        </Card>
+      ) : (
+        <div className="grid gap-4 lg:grid-cols-2">
+          {characters.map((c) => (
+            <LiveCharacterCard key={c.id} char={c} />
+          ))}
+        </div>
+      )}
     </div>
+  );
+}
+
+function LiveCharacterCard({ char }: { char: Character }) {
+  const [open, setOpen] = useState(false);
+  const [copied, setCopied] = useState(false);
+  const [, startTransition] = useTransition();
+  const primary = char.referenceImages.find((r) => r.isPrimary) ?? char.referenceImages[0];
+
+  function copyAnchor() {
+    startTransition(async () => {
+      await navigator.clipboard.writeText(char.anchorBlock);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    });
+  }
+
+  return (
+    <Card className={char.active ? undefined : "opacity-60"}>
+      <CardBody className="space-y-3">
+        {/* Header */}
+        <div className="flex items-start gap-3">
+          {primary ? (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img
+              src={primary.url}
+              alt={char.name}
+              className="size-14 rounded-lg object-cover object-top border border-border-strong flex-shrink-0"
+            />
+          ) : (
+            <div className="size-14 rounded-lg bg-zinc-100 border border-border flex-shrink-0 flex items-center justify-center">
+              <Users className="size-6 text-zinc-300" />
+            </div>
+          )}
+          <div className="flex-1 min-w-0">
+            <div className="flex items-center gap-2 flex-wrap">
+              <h4 className="font-semibold">{char.name}</h4>
+              {!char.active && (
+                <span className="text-[10px] px-1.5 py-0.5 rounded-full bg-zinc-200 text-zinc-600">Inactive</span>
+              )}
+            </div>
+            {char.subtitle && (
+              <p className="text-xs text-muted italic mt-0.5">{char.subtitle}</p>
+            )}
+            {char.role && (
+              <p className="text-xs text-foreground/80 mt-1 line-clamp-2">{char.role}</p>
+            )}
+          </div>
+          <Link href={`/characters/${char.id}/edit`} className="text-muted hover:text-brand-green-deep" title="Edit character">
+            <Pencil className="size-3.5" />
+          </Link>
+        </div>
+
+        {/* Identity fields */}
+        {char.identityFields.length > 0 && (
+          <dl className="grid grid-cols-2 gap-x-4 gap-y-1 text-xs">
+            {char.identityFields.map((f) => (
+              <div key={f.field} className="flex gap-1.5">
+                <dt className="font-medium text-brand-ink shrink-0">{f.field}:</dt>
+                <dd className="text-muted truncate">{f.value}</dd>
+              </div>
+            ))}
+          </dl>
+        )}
+
+        {/* Anchor block */}
+        {char.anchorBlock && (
+          <div className="relative bg-zinc-50 border border-border rounded-lg p-3">
+            <p className="text-[10px] uppercase tracking-wider text-muted font-medium mb-1">
+              Visual Prompt Anchor
+            </p>
+            <p className="text-xs text-brand-ink leading-relaxed pr-8 whitespace-pre-wrap">
+              {char.anchorBlock}
+            </p>
+            <button
+              onClick={copyAnchor}
+              title="Copy prompt anchor"
+              className="absolute top-3 right-3 text-muted hover:text-brand-green-deep transition-colors"
+            >
+              {copied ? <Check className="size-3.5 text-brand-green" /> : <Copy className="size-3.5" />}
+            </button>
+          </div>
+        )}
+
+        {/* Modes */}
+        {char.modes.length > 0 && (
+          <div className="flex flex-wrap gap-1.5">
+            {char.modes.map((m) => (
+              <span key={m.label} className="text-[10px] uppercase tracking-wider px-2 py-0.5 rounded-full bg-brand-green/10 text-brand-green-deep">
+                {m.label}
+              </span>
+            ))}
+          </div>
+        )}
+
+        {/* Toggle dos/donts */}
+        {(char.dos.length > 0 || char.donts.length > 0) && (
+          <>
+            <button
+              onClick={() => setOpen(!open)}
+              className="flex items-center gap-1 text-xs text-muted hover:text-brand-green-deep transition-colors"
+            >
+              {open ? <ChevronUp className="size-3.5" /> : <ChevronDown className="size-3.5" />}
+              {open ? "Hide rules" : "Dos & Don'ts"}
+            </button>
+            {open && (
+              <div className="grid grid-cols-2 gap-3 pt-1">
+                {char.dos.length > 0 && (
+                  <div>
+                    <p className="text-[10px] uppercase tracking-wider text-brand-green-deep font-medium mb-1.5">Do</p>
+                    <ul className="space-y-1">
+                      {char.dos.map((d) => (
+                        <li key={d} className="text-xs text-foreground/80 flex items-start gap-1.5">
+                          <span className="text-brand-green mt-0.5">&#10003;</span>
+                          {d}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+                {char.donts.length > 0 && (
+                  <div>
+                    <p className="text-[10px] uppercase tracking-wider text-red-600 font-medium mb-1.5 flex items-center gap-1">
+                      <ShieldAlert className="size-3" /> Don't
+                    </p>
+                    <ul className="space-y-1">
+                      {char.donts.map((d) => (
+                        <li key={d} className="text-xs text-red-700/80 flex items-start gap-1.5">
+                          <span className="text-red-400 mt-0.5">&#10007;</span>
+                          {d}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+              </div>
+            )}
+          </>
+        )}
+      </CardBody>
+    </Card>
   );
 }
 

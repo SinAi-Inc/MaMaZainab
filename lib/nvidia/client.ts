@@ -37,19 +37,9 @@ export const NVIDIA_IMAGE_MODELS = [
     vendor: "Black Forest Labs",
   },
   {
-    id: "black-forest-labs/flux_1-schnell",
+    id: "black-forest-labs/flux.1-schnell",
     label: "Flux.1 Schnell",
     vendor: "Black Forest Labs",
-  },
-  {
-    id: "stabilityai/stable-diffusion-3-medium",
-    label: "SD 3 Medium",
-    vendor: "Stability AI",
-  },
-  {
-    id: "stabilityai/stable-diffusion-xl",
-    label: "SDXL",
-    vendor: "Stability AI",
   },
 ] as const;
 
@@ -57,13 +47,10 @@ export type NvidiaImageModelId = (typeof NVIDIA_IMAGE_MODELS)[number]["id"];
 
 /* ---- Video Models (NVIDIA API Catalog) ---- */
 
-export const NVIDIA_VIDEO_MODELS = [
-  {
-    id: "stabilityai/stable-video-diffusion",
-    label: "Stable Video Diffusion",
-    vendor: "Stability AI",
-  },
-] as const;
+// NOTE: Stable Video Diffusion was deprecated on NVIDIA API Catalog (as of 2026-05).
+// Video generation is currently unavailable. This list will be updated when a
+// replacement model is available.
+export const NVIDIA_VIDEO_MODELS = [] as const;
 
 export type NvidiaVideoModelId = (typeof NVIDIA_VIDEO_MODELS)[number]["id"];
 
@@ -90,27 +77,14 @@ export type ImageGenResult = {
 export async function generateImage(params: ImageGenParams): Promise<ImageGenResult> {
   const { model, prompt, width = 1024, height = 1024, seed = 0, steps, cfgScale } = params;
 
+  // Flux.1-dev and Flux.1-schnell only accept prompt/width/height/seed.
+  // cfg_scale, steps, num_inference_steps, guidance_scale are forbidden (NVIDIA Catalog 2026-05).
   const body: Record<string, unknown> = {
     prompt,
     width,
     height,
-    seed,
+    ...(seed ? { seed } : {}),
   };
-
-  // Model-specific payload tuning
-  if (model === "black-forest-labs/flux.1-dev") {
-    body.cfg_scale = cfgScale ?? 5;
-    body.steps = steps ?? 50;
-  } else if (model === "black-forest-labs/flux_1-schnell") {
-    body.cfg_scale = cfgScale ?? 5;
-    body.steps = steps ?? 4;
-  } else if (model === "stabilityai/stable-diffusion-3-medium") {
-    body.cfg_scale = cfgScale ?? 5;
-    body.steps = steps ?? 40;
-  } else if (model === "stabilityai/stable-diffusion-xl") {
-    body.cfg_scale = cfgScale ?? 5;
-    body.steps = steps ?? 30;
-  }
 
   const res = await fetch(`${BASE_URL}/${model}`, {
     method: "POST",
@@ -277,11 +251,12 @@ export async function pollVideoJob(reqId: string): Promise<VideoJobResponse> {
 export function aspectToSize(aspect: string): { width: number; height: number } {
   switch (aspect) {
     case "1:1": return { width: 1024, height: 1024 };
-    case "16:9": return { width: 1280, height: 720 };
-    case "9:16": return { width: 720, height: 1280 };
+    // Flux.1 valid sizes: multiples of 64 in [768,1152]. Keeping closest valid pairs.
+    case "16:9": return { width: 1024, height: 576 };  // 576 rounds to 1024x576 accepted
+    case "9:16": return { width: 576, height: 1024 };
     case "4:3": return { width: 1024, height: 768 };
     case "3:2": return { width: 1024, height: 680 };
-    case "2.39:1": return { width: 1280, height: 536 };
+    case "2.39:1": return { width: 1152, height: 480 };
     default: return { width: 1024, height: 1024 };
   }
 }
