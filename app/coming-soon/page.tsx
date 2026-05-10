@@ -10,7 +10,12 @@ export const metadata: Metadata = {
 
 const LAUNCH_ISO = "2026-09-01T12:00:00+02:00";
 
-export default function ComingSoonPage() {
+export default async function ComingSoonPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ subscribed?: string }>;
+}) {
+  const { subscribed } = await searchParams;
   return (
     <main className="min-h-screen bg-brand-green text-white relative overflow-hidden flex flex-col">
       {/* Background plaid — full brightness, matching brand apron */}
@@ -99,28 +104,56 @@ export default function ComingSoonPage() {
 
         <CountdownClient target={LAUNCH_ISO} />
 
-        <form
-          action="/api/notify"
-          method="POST"
-          className="mt-8 w-full max-w-sm mx-auto flex flex-col sm:flex-row gap-2"
-        >
-          <input
-            type="email"
-            name="email"
-            required
-            placeholder="your@email.com"
-            className="flex-1 px-3 py-2.5 rounded-md bg-white/15 border border-white/20 placeholder-white/50 text-white text-sm outline-none focus:border-brand-yellow focus:bg-white/20 transition"
-          />
-          <button
-            type="submit"
-            className="px-5 py-2.5 rounded-md bg-brand-yellow text-brand-ink font-semibold uppercase tracking-wider text-xs hover:bg-yellow-300 transition"
-          >
-            Notify me
-          </button>
-        </form>
-        <p className="mt-2 text-[10px] text-white/50">
-          We&apos;ll only email you on opening day. No spam.
-        </p>
+        {subscribed === "ok" ? (
+          /* ── Success state ── */
+          <div className="mt-8 w-full max-w-sm mx-auto rounded-xl bg-brand-yellow/15 border border-brand-yellow/40 px-5 py-5 text-center">
+            <div className="text-2xl mb-2">💛</div>
+            <p className="text-sm font-semibold text-brand-yellow tracking-wide">
+              You&apos;re on the list!
+            </p>
+            <p className="mt-2 text-xs text-white/80 leading-relaxed">
+              We&apos;ve registered your interest. When we open, you&apos;ll be the first to know —
+              and the first to get a{" "}
+              <span className="text-brand-yellow font-semibold">very special price</span>,
+              just for loving us early. ❤️
+            </p>
+            <p className="mt-3 text-[10px] text-white/50">
+              Check your email on opening day. Spread the love 🙌
+            </p>
+          </div>
+        ) : (
+          /* ── Notify form ── */
+          <>
+            <form
+              action="/api/notify"
+              method="POST"
+              className="mt-8 w-full max-w-sm mx-auto flex flex-col sm:flex-row gap-2"
+            >
+              <input
+                type="email"
+                name="email"
+                required
+                placeholder="your@email.com"
+                className="flex-1 px-3 py-2.5 rounded-md bg-white/15 border border-white/20 placeholder-white/50 text-white text-sm outline-none focus:border-brand-yellow focus:bg-white/20 transition"
+              />
+              <button
+                type="submit"
+                className="px-5 py-2.5 rounded-md bg-brand-yellow text-brand-ink font-semibold uppercase tracking-wider text-xs hover:bg-yellow-300 transition"
+              >
+                Notify me
+              </button>
+            </form>
+            {subscribed === "limited" && (
+              <p className="mt-2 text-[11px] text-red-300">Too many attempts — please try again in a minute.</p>
+            )}
+            {subscribed === "invalid" && (
+              <p className="mt-2 text-[11px] text-red-300">Please enter a valid email address.</p>
+            )}
+            <p className="mt-2 text-[10px] text-white/50">
+              We&apos;ll only email you on opening day. No spam, ever.
+            </p>
+          </>
+        )}
 
         {/* Social links */}
         <div className="mt-6 flex items-center justify-center gap-3 sm:gap-5 flex-wrap text-[10px] text-white/60">

@@ -12,6 +12,7 @@ export function PartnersAdmin({ branches }: { branches: Branch[] }) {
   const [showPasscode, setShowPasscode] = useState(false);
   const [isPending, startTransition] = useTransition();
   const [saved, setSaved] = useState(false);
+  const [saveError, setSaveError] = useState<string | null>(null);
 
   useEffect(() => {
     getPartnerSettings().then(setSettings);
@@ -39,10 +40,17 @@ export function PartnersAdmin({ branches }: { branches: Branch[] }) {
 
   function handleSave() {
     if (!settings) return;
+    setSaveError(null);
     startTransition(async () => {
-      await updatePartnerSettings(settings);
-      setSaved(true);
-      setTimeout(() => setSaved(false), 2000);
+      try {
+        await updatePartnerSettings(settings);
+        setSaved(true);
+        setTimeout(() => setSaved(false), 3000);
+      } catch (err) {
+        setSaveError(
+          err instanceof Error ? err.message : "Save failed — please check Supabase setup.",
+        );
+      }
     });
   }
 
@@ -168,17 +176,27 @@ export function PartnersAdmin({ branches }: { branches: Branch[] }) {
       </div>
 
       {/* Save */}
-      <div className="flex items-center gap-3">
-        <button
-          onClick={handleSave}
-          disabled={isPending}
-          className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-brand-green text-white text-sm font-medium hover:bg-brand-green-deep transition disabled:opacity-50"
-        >
-          <Save className="size-4" />
-          {isPending ? "Saving…" : "Save Settings"}
-        </button>
-        {saved && (
-          <span className="text-xs text-brand-green font-medium">✓ Saved</span>
+      <div className="space-y-2">
+        <div className="flex items-center gap-3">
+          <button
+            onClick={handleSave}
+            disabled={isPending}
+            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-brand-green text-white text-sm font-medium hover:bg-brand-green-deep transition disabled:opacity-50"
+          >
+            <Save className="size-4" />
+            {isPending ? "Saving…" : "Save Settings"}
+          </button>
+          {saved && (
+            <span className="text-xs text-brand-green font-medium">✓ Saved successfully</span>
+          )}
+        </div>
+        {saveError && (
+          <div className="rounded-lg bg-red-50 border border-red-200 px-4 py-3 text-sm text-red-700">
+            <strong>Save failed:</strong> {saveError}
+            <p className="mt-1 text-xs text-red-500">
+              Run the <code className="bg-red-100 px-1 rounded">partner_settings</code> migration in your Supabase SQL Editor if this is the first time saving.
+            </p>
+          </div>
         )}
       </div>
     </div>
