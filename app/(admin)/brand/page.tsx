@@ -16,6 +16,7 @@ import {
   COLORS,
   FONTS,
   PATTERN,
+  BRAND_ICON_PATTERN,
   PACKAGING,
   LOGO_ASSETS,
   type ColorToken,
@@ -400,8 +401,85 @@ function LogosPanel() {
 function PlaidPatternPanel() {
   return (
     <div className="space-y-6">
-      {/* Intro + live tile */}
+
+      {/* ── Brand Icon Pattern ─────────────────────────────── */}
       <Card>
+        <CardBody>
+          <h3 className="font-semibold mb-1">{BRAND_ICON_PATTERN.name}</h3>
+          <p className="text-sm text-muted mb-4">{BRAND_ICON_PATTERN.description}</p>
+          {/* Full-width preview */}
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={BRAND_ICON_PATTERN.imagePath}
+            alt="MaMa Zainab Brand Icon Pattern"
+            className="w-full rounded-lg border border-border mb-4"
+          />
+          {/* Icon legend */}
+          <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 md:grid-cols-5 mb-4">
+            {BRAND_ICON_PATTERN.icons.map((icon) => (
+              <div
+                key={icon.id}
+                className="text-center rounded-lg border border-border p-2 bg-zinc-50"
+              >
+                <p className="text-xs font-semibold text-brand-ink">{icon.label}</p>
+                <p className="text-[10px] text-muted leading-snug mt-0.5">{icon.desc}</p>
+              </div>
+            ))}
+          </div>
+          {/* Color swatches */}
+          <div className="flex gap-3 mb-4">
+            {BRAND_ICON_PATTERN.colors.map((hex, i) => (
+              <div key={hex} className="flex items-center gap-2">
+                <div
+                  className="size-6 rounded border border-border"
+                  style={{ backgroundColor: hex }}
+                />
+                <span className="text-[11px] font-mono text-muted">
+                  {hex}
+                  {i === 0 ? " · Mahshi Green" : i === 1 ? " · Saffron" : " · White"}
+                </span>
+              </div>
+            ))}
+          </div>
+          {/* Usage chips */}
+          <div className="flex flex-wrap gap-1.5 mb-4">
+            {BRAND_ICON_PATTERN.usage.map((u) => (
+              <span key={u} className="text-xs px-2.5 py-1 rounded-full bg-brand-green/10 text-brand-green-deep">
+                {u}
+              </span>
+            ))}
+          </div>
+        </CardBody>
+      </Card>
+
+      {/* Icon Pattern — AI Prompt Anchor */}
+      <Card>
+        <CardBody>
+          <h3 className="font-semibold mb-2">Icon Pattern — AI Prompt Anchor</h3>
+          <div className="bg-zinc-50 border border-border rounded-lg p-3 mb-3">
+            <p className="text-xs font-mono text-brand-ink leading-relaxed">
+              {BRAND_ICON_PATTERN.promptAnchor}
+            </p>
+          </div>
+          {BRAND_ICON_PATTERN.doNots.length > 0 && (
+            <div>
+              <p className="text-[10px] uppercase tracking-wider text-red-600 font-medium mb-1">
+                Do Not
+              </p>
+              <ul className="space-y-0.5">
+                {BRAND_ICON_PATTERN.doNots.map((d) => (
+                  <li key={d} className="text-xs text-red-700/80 flex items-start gap-1.5">
+                    <span className="text-red-400 mt-0.5">✕</span>
+                    {d}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+        </CardBody>
+      </Card>
+
+      {/* ── Mama Zainab Plaid ──────────────────────────────── */}
         <CardBody>
           <h3 className="font-semibold mb-2">{PATTERN.name}</h3>
           <p className="text-sm text-muted mb-1">

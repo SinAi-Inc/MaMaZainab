@@ -270,6 +270,44 @@ export const PATTERN = {
   ] as PatternVariant[],
 };
 
+/**
+ * Brand Icon Pattern — the repeating checkerboard surface pattern
+ * made of brand-icon tiles (swan, mahshi rolls, plaid diamond, plate circle, cutlery).
+ */
+export const BRAND_ICON_PATTERN = {
+  id: "brand_icon_pattern",
+  name: "Brand Icon Pattern",
+  description:
+    "A repeating checkerboard surface pattern built from five brand icons — the Swan, Mahshi Rolls, Diamond Plaid, Plate Circle, and Cutlery — arranged on alternating Mahshi Green, Saffron Yellow, and cream squares.",
+  icons: [
+    { id: "swan",    label: "Swan",          desc: "Brand mascot — grace, heritage, Egyptian waterway" },
+    { id: "mahshi",  label: "Mahshi Rolls",  desc: "Signature dish — stuffed grape-leaf rolls, the brand hero" },
+    { id: "diamond", label: "Diamond Plaid", desc: "Plaid v2 motif — links the icon pattern to the textile plaid" },
+    { id: "plate",   label: "Plate Circle",  desc: "Hospitality mark — cutlery inside a circle" },
+    { id: "cutlery", label: "Cutlery",       desc: "Spoon + fork — food service identity" },
+  ],
+  colors: ["#1B9B00", "#EFD200", "#FFFFFF"] as string[],
+  imagePath: "/brand/pattern/patern-graphy.jpeg",
+  tileable: true,
+  promptAnchor:
+    "repeating icon checkerboard pattern: alternating green #1B9B00 and yellow #EFD200 squares on white, each square contains one silhouette icon — a swan, stuffed grape-leaf rolls, a diamond argyle motif, a plate with cutlery circle, or a fork-and-spoon set — clean flat vector style, brand colors only, no gradients",
+  doNots: [
+    "Mix in non-brand icons",
+    "Use photographic textures inside the squares",
+    "Rotate individual tiles",
+    "Use on white-only backgrounds without contrast (pattern must remain legible)",
+  ],
+  usage: [
+    "Packaging wraps (full-cover or band)",
+    "Social media backgrounds",
+    "Website hero sections",
+    "Video lower-thirds & transitions",
+    "Kiosk interior walls",
+    "Merchandise (tote bags, cups, boxes)",
+    "AI-generated scene backgrounds",
+  ],
+};
+
 
 
 export type BrandCharacter = {
