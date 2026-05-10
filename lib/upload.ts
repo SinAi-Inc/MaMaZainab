@@ -50,6 +50,6 @@ export async function uploadFile(
 
   if (error) throw new Error(`Upload failed: ${error.message}`);
 
-  const { data } = sb.storage.from(BUCKET).getPublicUrl(storagePath);
-  return data.publicUrl;
+  // Always return relative path — Next.js rewrite proxies to Supabase Storage
+  return `/uploads/${subdir}/${filename}`;
 }

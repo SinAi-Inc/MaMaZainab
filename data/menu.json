@@ -11,6 +11,15 @@
       "updatedAt": "2026-05-08T05:01:47.084Z"
     },
     {
+      "id": "cat_TZRflJUU",
+      "nameEn": "Essential Protein",
+      "descriptionEn": "Power your day with clean, high-quality fuel designed to keep you satisfied and energized from the first bite to the last.",
+      "sort": 2,
+      "visible": true,
+      "createdAt": "2026-05-07T05:03:23.800Z",
+      "updatedAt": "2026-05-07T05:03:23.800Z"
+    },
+    {
       "id": "cat_sides",
       "nameEn": "Sauces",
       "descriptionEn": "Elevate meals instantly with versatile add-on sauces like chili crisp, pesto, or homemade mayo-based sauces (ranch, tartar, or garlic yogurt)",
@@ -18,6 +27,15 @@
       "visible": true,
       "createdAt": "2026-05-03T20:23:46.882Z",
       "updatedAt": "2026-05-08T17:17:49.113Z"
+    },
+    {
+      "id": "cat_7qady6T-",
+      "nameEn": "Add-ons",
+      "descriptionEn": "",
+      "sort": 3,
+      "visible": true,
+      "createdAt": "2026-05-08T17:18:32.499Z",
+      "updatedAt": "2026-05-08T17:18:32.499Z"
     },
     {
       "id": "cat_drinks",
@@ -36,27 +54,42 @@
       "visible": true,
       "createdAt": "2026-05-03T22:40:25.474Z",
       "updatedAt": "2026-05-03T22:40:25.474Z"
-    },
-    {
-      "id": "cat_TZRflJUU",
-      "nameEn": "Essential Protein",
-      "descriptionEn": "Power your day with clean, high-quality fuel designed to keep you satisfied and energized from the first bite to the last.",
-      "sort": 2,
-      "visible": true,
-      "createdAt": "2026-05-07T05:03:23.800Z",
-      "updatedAt": "2026-05-07T05:03:23.800Z"
-    },
-    {
-      "id": "cat_7qady6T-",
-      "nameEn": "Add-ons",
-      "descriptionEn": "",
-      "sort": 3,
-      "visible": true,
-      "createdAt": "2026-05-08T17:18:32.499Z",
-      "updatedAt": "2026-05-08T17:18:32.499Z"
     }
   ],
   "items": [
+    {
+      "id": "itm_bKy6kP9n",
+      "categoryId": "cat_TZRflJUU",
+      "sku": "MZ-ESS-0001",
+      "nameEn": "Beef Balls",
+      "descriptionEn": "",
+      "priceEgp": 29.99,
+      "imageUrl": "/uploads/menu/QeYydk8s9L.jpg",
+      "badges": [
+        "bestseller"
+      ],
+      "available": true,
+      "sort": 1,
+      "createdAt": "2026-05-07T05:04:34.288Z",
+      "updatedAt": "2026-05-10T13:49:03.968Z"
+    },
+    {
+      "id": "itm_9Ybo7jaK",
+      "categoryId": "cat_1lrM_pmb",
+      "sku": "MZ-DES-0001",
+      "nameEn": "Zaktata",
+      "descriptionEn": "a blend of ground barley, fresh milk, and pure honey",
+      "priceEgp": 68.99,
+      "imageUrl": "/uploads/menu/5eQ2r3zLV4.jpg",
+      "badges": [
+        "bestseller",
+        "chefs_pick"
+      ],
+      "available": true,
+      "sort": 1,
+      "createdAt": "2026-05-03T22:44:32.262Z",
+      "updatedAt": "2026-05-08T05:08:01.492Z"
+    },
     {
       "id": "itm_stuffy_grape",
       "categoryId": "cat_stuffy",
@@ -64,7 +97,7 @@
       "nameEn": "Green Fingers",
       "descriptionEn": "Vine leaves rolled with rice, herbs, and a hint of lemon.",
       "priceEgp": 24.99,
-      "imageUrl": "/uploads/menu/FUVEVujk2i.jpg",
+      "imageUrl": "/uploads/menu/d6Yy_DbHAE.jpg",
       "badges": [
         "bestseller",
         "vegan"
@@ -72,25 +105,24 @@
       "available": true,
       "sort": 1,
       "createdAt": "2026-05-03T20:23:46.882Z",
-      "updatedAt": "2026-05-10T13:47:18.007Z"
+      "updatedAt": "2026-05-10T16:11:52.161Z"
     },
     {
-      "id": "itm_stuffy_cabbage",
-      "categoryId": "cat_stuffy",
-      "sku": "MZ-STU-0002",
-      "nameEn": "Flowers Roll",
-      "descriptionEn": "Cabbage rolls, slow-cooked in tomato broth.",
-      "priceEgp": 24.99,
-      "imageUrl": "/uploads/menu/JrICg7foUI.png",
+      "id": "itm_9FRGnc8n",
+      "categoryId": "cat_7qady6T-",
+      "sku": "MZ-ADD-0010",
+      "nameEn": "Caramelized Onions",
+      "descriptionEn": "",
+      "priceEgp": 9.99,
+      "imageUrl": "/uploads/menu/S1u4x3Nkxx.jpg",
       "badges": [
-        "chefs_pick",
         "vegan",
-        "bestseller"
+        "chefs_pick"
       ],
       "available": true,
-      "sort": 2,
-      "createdAt": "2026-05-03T20:23:46.882Z",
-      "updatedAt": "2026-05-10T13:47:30.640Z"
+      "sort": 1,
+      "createdAt": "2026-05-08T17:23:49.107Z",
+      "updatedAt": "2026-05-10T13:49:42.837Z"
     },
     {
       "id": "itm_side_salad",
@@ -127,104 +159,6 @@
       "updatedAt": "2026-05-08T23:37:42.639Z"
     },
     {
-      "id": "itm_9Ybo7jaK",
-      "categoryId": "cat_1lrM_pmb",
-      "sku": "MZ-DES-0001",
-      "nameEn": "Zaktata",
-      "descriptionEn": "a blend of ground barley, fresh milk, and pure honey",
-      "priceEgp": 68.99,
-      "imageUrl": "/uploads/menu/5eQ2r3zLV4.jpg",
-      "badges": [
-        "bestseller",
-        "chefs_pick"
-      ],
-      "available": true,
-      "sort": 1,
-      "createdAt": "2026-05-03T22:44:32.262Z",
-      "updatedAt": "2026-05-08T05:08:01.492Z"
-    },
-    {
-      "id": "itm_3mNDEwd2",
-      "categoryId": "cat_drinks",
-      "sku": "MZ-DRI-0002",
-      "nameEn": "Minty Breeze",
-      "descriptionEn": "a refreshing drink made from fresh mint, lemon juice, and a sweetener, often prepared as a simple syrup or blended directly for a slushy consistency.",
-      "priceEgp": 54.99,
-      "imageUrl": "/uploads/menu/YhzNThyRgl.jpg",
-      "badges": [
-        "bestseller"
-      ],
-      "available": true,
-      "sort": 2,
-      "createdAt": "2026-05-03T22:53:24.330Z",
-      "updatedAt": "2026-05-08T05:04:57.556Z"
-    },
-    {
-      "id": "itm_ZF2PCQv5",
-      "categoryId": "cat_sides",
-      "sku": "MZ-ADD-0002",
-      "nameEn": "Garlic Yogurt",
-      "descriptionEn": "",
-      "priceEgp": 8.99,
-      "imageUrl": "/uploads/menu/hqOWIsMRYy.jpg",
-      "badges": [
-        "new"
-      ],
-      "available": true,
-      "sort": 2,
-      "createdAt": "2026-05-05T01:33:41.344Z",
-      "updatedAt": "2026-05-08T05:21:39.345Z"
-    },
-    {
-      "id": "itm_zmv8hJ3O",
-      "categoryId": "cat_sides",
-      "sku": "MZ-ADD-0003",
-      "nameEn": "Smoked Paprika",
-      "descriptionEn": "",
-      "priceEgp": 9.99,
-      "imageUrl": "/uploads/menu/XPk5S83eXU.jpg",
-      "badges": [
-        "spicy"
-      ],
-      "available": true,
-      "sort": 5,
-      "createdAt": "2026-05-05T01:34:21.329Z",
-      "updatedAt": "2026-05-08T16:59:46.115Z"
-    },
-    {
-      "id": "itm_WT8fHuUS",
-      "categoryId": "cat_sides",
-      "sku": "MZ-ADD-0004",
-      "nameEn": "Ranch",
-      "descriptionEn": "",
-      "priceEgp": 8.98,
-      "imageUrl": "/uploads/menu/W7XrXbubuu.jpg",
-      "badges": [
-        "new"
-      ],
-      "available": true,
-      "sort": 9,
-      "createdAt": "2026-05-05T01:34:54.243Z",
-      "updatedAt": "2026-05-08T17:05:24.033Z"
-    },
-    {
-      "id": "itm_7b3gSQrq",
-      "categoryId": "cat_sides",
-      "sku": "MZ-ADD-0005",
-      "nameEn": "Honey Mustard",
-      "descriptionEn": "",
-      "priceEgp": 8.99,
-      "imageUrl": "/uploads/menu/VqfzYgp5Fn.jpg",
-      "badges": [
-        "limited",
-        "spicy"
-      ],
-      "available": true,
-      "sort": 4,
-      "createdAt": "2026-05-05T01:35:19.453Z",
-      "updatedAt": "2026-05-08T16:58:14.487Z"
-    },
-    {
       "id": "itm_w8zVv8Vt",
       "categoryId": "cat_sides",
       "sku": "MZ-ADD-0006",
@@ -240,138 +174,6 @@
       "sort": 2,
       "createdAt": "2026-05-05T01:36:00.865Z",
       "updatedAt": "2026-05-08T05:21:29.221Z"
-    },
-    {
-      "id": "itm_BxSaRyI7",
-      "categoryId": "cat_sides",
-      "sku": "MZ-ADD-0007",
-      "nameEn": "Creamy Garlic",
-      "descriptionEn": "",
-      "priceEgp": 8.99,
-      "imageUrl": "/uploads/menu/9vuJDtEPLd.jpg",
-      "badges": [
-        "new"
-      ],
-      "available": true,
-      "sort": 8,
-      "createdAt": "2026-05-05T01:36:30.478Z",
-      "updatedAt": "2026-05-08T17:03:58.649Z"
-    },
-    {
-      "id": "itm_bF8L5LsH",
-      "categoryId": "cat_sides",
-      "sku": "MZ-ADD-0008",
-      "nameEn": "Pomegranate Molasses",
-      "descriptionEn": "",
-      "priceEgp": 9.99,
-      "imageUrl": "/uploads/menu/BYqOGz6CRC.jpg",
-      "badges": [
-        "vegan"
-      ],
-      "available": true,
-      "sort": 7,
-      "createdAt": "2026-05-05T01:41:11.646Z",
-      "updatedAt": "2026-05-08T17:02:36.402Z"
-    },
-    {
-      "id": "itm_bKVqhips",
-      "categoryId": "cat_sides",
-      "sku": "MZ-ADD-0009",
-      "nameEn": "Tahini Lemon",
-      "descriptionEn": "",
-      "priceEgp": 8.99,
-      "imageUrl": "/uploads/menu/9z90qDGD-I.jpg",
-      "badges": [
-        "chefs_pick"
-      ],
-      "available": true,
-      "sort": 6,
-      "createdAt": "2026-05-05T01:42:12.436Z",
-      "updatedAt": "2026-05-08T17:00:44.317Z"
-    },
-    {
-      "id": "itm_1XDtkoPk",
-      "categoryId": "cat_stuffy",
-      "sku": "MZ-STU-0003",
-      "nameEn": "Purple Hose!..",
-      "descriptionEn": "",
-      "priceEgp": 24.99,
-      "imageUrl": "/uploads/menu/ZUQLPPI_PN.jpg",
-      "badges": [
-        "vegan"
-      ],
-      "available": true,
-      "sort": 4,
-      "createdAt": "2026-05-05T03:05:33.495Z",
-      "updatedAt": "2026-05-10T13:48:13.316Z"
-    },
-    {
-      "id": "itm_58d_MhQ9",
-      "categoryId": "cat_stuffy",
-      "sku": "MZ-STU-0004",
-      "nameEn": "Boring Zucchini",
-      "descriptionEn": "",
-      "priceEgp": 19.99,
-      "imageUrl": "/uploads/menu/1C_EG6CC8K.jpg",
-      "badges": [
-        "vegan",
-        "limited"
-      ],
-      "available": true,
-      "sort": 4,
-      "createdAt": "2026-05-05T03:06:08.818Z",
-      "updatedAt": "2026-05-10T13:48:34.672Z"
-    },
-    {
-      "id": "itm_K6MVkHOd",
-      "categoryId": "cat_stuffy",
-      "sku": "MZ-STU-0005",
-      "nameEn": "Onion Bombs",
-      "descriptionEn": "",
-      "priceEgp": 19.99,
-      "imageUrl": "/uploads/menu/Igen8q_92n.jpg",
-      "badges": [
-        "vegan",
-        "new"
-      ],
-      "available": true,
-      "sort": 9,
-      "createdAt": "2026-05-05T03:07:46.209Z",
-      "updatedAt": "2026-05-10T13:48:46.495Z"
-    },
-    {
-      "id": "itm_S_vXN0Y-",
-      "categoryId": "cat_stuffy",
-      "sku": "MZ-STU-0009",
-      "nameEn": "Mumba Bites",
-      "descriptionEn": "",
-      "priceEgp": 39.99,
-      "imageUrl": "/uploads/menu/P19vsmOC9k.jpg",
-      "badges": [
-        "limited",
-        "chefs_pick",
-        "spicy"
-      ],
-      "available": true,
-      "sort": 3,
-      "createdAt": "2026-05-05T03:10:20.827Z",
-      "updatedAt": "2026-05-10T13:48:00.695Z"
-    },
-    {
-      "id": "itm_bKy6kP9n",
-      "categoryId": "cat_TZRflJUU",
-      "sku": "MZ-ESS-0001",
-      "nameEn": "Beef Balls",
-      "descriptionEn": "",
-      "priceEgp": 29.99,
-      "imageUrl": "/uploads/menu/QeYydk8s9L.jpg",
-      "badges": [
-        "bestseller"
-      ],
-      "available": true,
-      "sort": 1,
-      "createdAt": "2026-05-07T05:04:34.288Z",
-      "updatedAt": "2026-05-10T13:49:03.968Z"
     },
     {
       "id": "itm_ztKN5cP7",
@@ -392,23 +194,6 @@
       "updatedAt": "2026-05-10T13:49:15.413Z"
     },
     {
-      "id": "itm_9FRGnc8n",
-      "categoryId": "cat_7qady6T-",
-      "sku": "MZ-ADD-0010",
-      "nameEn": "Caramelized Onions",
-      "descriptionEn": "",
-      "priceEgp": 9.99,
-      "imageUrl": "/uploads/menu/S1u4x3Nkxx.jpg",
-      "badges": [
-        "vegan",
-        "chefs_pick"
-      ],
-      "available": true,
-      "sort": 1,
-      "createdAt": "2026-05-08T17:23:49.107Z",
-      "updatedAt": "2026-05-10T13:49:42.837Z"
-    },
-    {
       "id": "itm_37mNuSRf",
       "categoryId": "cat_7qady6T-",
       "sku": "MZ-ADD-0011",
@@ -424,6 +209,56 @@
       "sort": 2,
       "createdAt": "2026-05-08T17:28:13.167Z",
       "updatedAt": "2026-05-10T13:50:25.334Z"
+    },
+    {
+      "id": "itm_ZF2PCQv5",
+      "categoryId": "cat_sides",
+      "sku": "MZ-ADD-0002",
+      "nameEn": "Garlic Yogurt",
+      "descriptionEn": "",
+      "priceEgp": 8.99,
+      "imageUrl": "/uploads/menu/hqOWIsMRYy.jpg",
+      "badges": [
+        "new"
+      ],
+      "available": true,
+      "sort": 2,
+      "createdAt": "2026-05-05T01:33:41.344Z",
+      "updatedAt": "2026-05-08T05:21:39.345Z"
+    },
+    {
+      "id": "itm_stuffy_cabbage",
+      "categoryId": "cat_stuffy",
+      "sku": "MZ-STU-0002",
+      "nameEn": "Flowers Roll",
+      "descriptionEn": "Cabbage rolls, slow-cooked in tomato broth.",
+      "priceEgp": 24.99,
+      "imageUrl": "/uploads/menu/vIm-u0mYVZ.jpeg",
+      "badges": [
+        "chefs_pick",
+        "vegan",
+        "bestseller"
+      ],
+      "available": true,
+      "sort": 2,
+      "createdAt": "2026-05-03T20:23:46.882Z",
+      "updatedAt": "2026-05-10T16:12:06.976Z"
+    },
+    {
+      "id": "itm_3mNDEwd2",
+      "categoryId": "cat_drinks",
+      "sku": "MZ-DRI-0002",
+      "nameEn": "Minty Breeze",
+      "descriptionEn": "a refreshing drink made from fresh mint, lemon juice, and a sweetener, often prepared as a simple syrup or blended directly for a slushy consistency.",
+      "priceEgp": 54.99,
+      "imageUrl": "/uploads/menu/YhzNThyRgl.jpg",
+      "badges": [
+        "bestseller"
+      ],
+      "available": true,
+      "sort": 2,
+      "createdAt": "2026-05-03T22:53:24.330Z",
+      "updatedAt": "2026-05-08T05:04:57.556Z"
     },
     {
       "id": "itm_2qpqUe9b",
@@ -444,6 +279,24 @@
       "updatedAt": "2026-05-09T04:27:49.782Z"
     },
     {
+      "id": "itm_S_vXN0Y-",
+      "categoryId": "cat_stuffy",
+      "sku": "MZ-STU-0009",
+      "nameEn": "Mumba Bites",
+      "descriptionEn": "",
+      "priceEgp": 39.99,
+      "imageUrl": "/uploads/menu/P19vsmOC9k.jpg",
+      "badges": [
+        "limited",
+        "chefs_pick",
+        "spicy"
+      ],
+      "available": true,
+      "sort": 3,
+      "createdAt": "2026-05-05T03:10:20.827Z",
+      "updatedAt": "2026-05-10T13:48:00.695Z"
+    },
+    {
       "id": "itm_vcj5CQDE",
       "categoryId": "cat_7qady6T-",
       "sku": "MZ-ADD-0013",
@@ -459,6 +312,153 @@
       "sort": 4,
       "createdAt": "2026-05-08T17:29:26.190Z",
       "updatedAt": "2026-05-08T21:24:46.989Z"
+    },
+    {
+      "id": "itm_7b3gSQrq",
+      "categoryId": "cat_sides",
+      "sku": "MZ-ADD-0005",
+      "nameEn": "Honey Mustard",
+      "descriptionEn": "",
+      "priceEgp": 8.99,
+      "imageUrl": "/uploads/menu/VqfzYgp5Fn.jpg",
+      "badges": [
+        "limited",
+        "spicy"
+      ],
+      "available": true,
+      "sort": 4,
+      "createdAt": "2026-05-05T01:35:19.453Z",
+      "updatedAt": "2026-05-08T16:58:14.487Z"
+    },
+    {
+      "id": "itm_1XDtkoPk",
+      "categoryId": "cat_stuffy",
+      "sku": "MZ-STU-0003",
+      "nameEn": "Purple Hose!..",
+      "descriptionEn": "",
+      "priceEgp": 24.99,
+      "imageUrl": "/uploads/menu/o8iHDr0gQ6.jpg",
+      "badges": [
+        "vegan"
+      ],
+      "available": true,
+      "sort": 4,
+      "createdAt": "2026-05-05T03:05:33.495Z",
+      "updatedAt": "2026-05-10T17:22:38.406Z"
+    },
+    {
+      "id": "itm_58d_MhQ9",
+      "categoryId": "cat_stuffy",
+      "sku": "MZ-STU-0004",
+      "nameEn": "Boring Zucchini",
+      "descriptionEn": "",
+      "priceEgp": 19.99,
+      "imageUrl": "/uploads/menu/S11C3v7Z0a.jpeg",
+      "badges": [
+        "vegan",
+        "limited"
+      ],
+      "available": true,
+      "sort": 4,
+      "createdAt": "2026-05-05T03:06:08.818Z",
+      "updatedAt": "2026-05-10T17:21:49.669Z"
+    },
+    {
+      "id": "itm_zmv8hJ3O",
+      "categoryId": "cat_sides",
+      "sku": "MZ-ADD-0003",
+      "nameEn": "Smoked Paprika",
+      "descriptionEn": "",
+      "priceEgp": 9.99,
+      "imageUrl": "/uploads/menu/XPk5S83eXU.jpg",
+      "badges": [
+        "spicy"
+      ],
+      "available": true,
+      "sort": 5,
+      "createdAt": "2026-05-05T01:34:21.329Z",
+      "updatedAt": "2026-05-08T16:59:46.115Z"
+    },
+    {
+      "id": "itm_bKVqhips",
+      "categoryId": "cat_sides",
+      "sku": "MZ-ADD-0009",
+      "nameEn": "Tahini Lemon",
+      "descriptionEn": "",
+      "priceEgp": 8.99,
+      "imageUrl": "/uploads/menu/9z90qDGD-I.jpg",
+      "badges": [
+        "chefs_pick"
+      ],
+      "available": true,
+      "sort": 6,
+      "createdAt": "2026-05-05T01:42:12.436Z",
+      "updatedAt": "2026-05-08T17:00:44.317Z"
+    },
+    {
+      "id": "itm_bF8L5LsH",
+      "categoryId": "cat_sides",
+      "sku": "MZ-ADD-0008",
+      "nameEn": "Pomegranate Molasses",
+      "descriptionEn": "",
+      "priceEgp": 9.99,
+      "imageUrl": "/uploads/menu/BYqOGz6CRC.jpg",
+      "badges": [
+        "vegan"
+      ],
+      "available": true,
+      "sort": 7,
+      "createdAt": "2026-05-05T01:41:11.646Z",
+      "updatedAt": "2026-05-08T17:02:36.402Z"
+    },
+    {
+      "id": "itm_BxSaRyI7",
+      "categoryId": "cat_sides",
+      "sku": "MZ-ADD-0007",
+      "nameEn": "Creamy Garlic",
+      "descriptionEn": "",
+      "priceEgp": 8.99,
+      "imageUrl": "/uploads/menu/9vuJDtEPLd.jpg",
+      "badges": [
+        "new"
+      ],
+      "available": true,
+      "sort": 8,
+      "createdAt": "2026-05-05T01:36:30.478Z",
+      "updatedAt": "2026-05-08T17:03:58.649Z"
+    },
+    {
+      "id": "itm_K6MVkHOd",
+      "categoryId": "cat_stuffy",
+      "sku": "MZ-STU-0005",
+      "nameEn": "Onion Bombs",
+      "descriptionEn": "",
+      "priceEgp": 19.99,
+      "imageUrl": "/uploads/menu/KuOgGd674o.jpg",
+      "badges": [
+        "vegan",
+        "new"
+      ],
+      "available": true,
+      "sort": 9,
+      "createdAt": "2026-05-05T03:07:46.209Z",
+      "updatedAt": "2026-05-10T17:41:52.517Z"
+    },
+    {
+      "id": "itm_WT8fHuUS",
+      "categoryId": "cat_sides",
+      "sku": "MZ-ADD-0004",
+      "nameEn": "Ranch",
+      "descriptionEn": "",
+      "priceEgp": 8.98,
+      "imageUrl": "/uploads/menu/W7XrXbubuu.jpg",
+      "badges": [
+        "new"
+      ],
+      "available": true,
+      "sort": 9,
+      "createdAt": "2026-05-05T01:34:54.243Z",
+      "updatedAt": "2026-05-08T17:05:24.033Z"
     }
   ]
 }
