@@ -58,5 +58,8 @@ export async function writePartnerSettings(settings: PartnerSettings): Promise<v
   const { error } = await getSupabase()
     .from("partner_settings")
     .upsert(row, { onConflict: "id" });
-  if (error) throw error;
+  if (error) {
+    console.error("[partner_settings upsert]", JSON.stringify(error));
+    throw new Error(`Supabase ${error.code}: ${error.message}`);
+  }
 }
