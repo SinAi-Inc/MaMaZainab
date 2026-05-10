@@ -272,15 +272,15 @@ export const PATTERN = {
 
 /**
  * Brand Icon Pattern — the repeating checkerboard surface pattern
- * made of brand-icon tiles (swan, mahshi rolls, plaid diamond, plate circle, cutlery).
+ * made of brand-icon tiles (White Goose, mahshi rolls, plaid diamond, plate circle, cutlery).
  */
 export const BRAND_ICON_PATTERN = {
   id: "brand_icon_pattern",
   name: "Brand Icon Pattern",
   description:
-    "A repeating checkerboard surface pattern built from five brand icons — the Swan, Mahshi Rolls, Diamond Plaid, Plate Circle, and Cutlery — arranged on alternating Mahshi Green, Saffron Yellow, and cream squares.",
+    "A repeating checkerboard surface pattern built from five brand icons — the White Goose, Mahshi Rolls, Diamond Plaid, Plate Circle, and Cutlery — arranged on alternating Mahshi Green, Saffron Yellow, and cream squares.",
   icons: [
-    { id: "swan",    label: "Swan",          desc: "Brand mascot — grace, heritage, Egyptian waterway" },
+    { id: "White Goose",    label: "White Goose",          desc: "Brand mascot — grace, heritage, Egyptian waterway" },
     { id: "mahshi",  label: "Mahshi Rolls",  desc: "Signature dish — stuffed grape-leaf rolls, the brand hero" },
     { id: "diamond", label: "Diamond Plaid", desc: "Plaid v2 motif — links the icon pattern to the textile plaid" },
     { id: "plate",   label: "Plate Circle",  desc: "Hospitality mark — cutlery inside a circle" },
@@ -290,7 +290,7 @@ export const BRAND_ICON_PATTERN = {
   imagePath: "/brand/pattern/patern-graphy.jpeg",
   tileable: true,
   promptAnchor:
-    "repeating icon checkerboard pattern: alternating green #1B9B00 and yellow #EFD200 squares on white, each square contains one silhouette icon — a swan, stuffed grape-leaf rolls, a diamond argyle motif, a plate with cutlery circle, or a fork-and-spoon set — clean flat vector style, brand colors only, no gradients",
+    "repeating icon checkerboard pattern: alternating green #1B9B00 and yellow #EFD200 squares on white, each square contains one silhouette icon — a White Goose, stuffed grape-leaf rolls, a diamond argyle motif, a plate with cutlery circle, or a fork-and-spoon set — clean flat vector style, brand colors only, no gradients",
   doNots: [
     "Mix in non-brand icons",
     "Use photographic textures inside the squares",
@@ -443,7 +443,7 @@ export const CHARACTERS: BrandCharacter[] = [
     personality: ["mischievous", "protective", "comedic", "loyal", "scene-stealer"],
     signatureLine: undefined,
     doNots: [
-      "Make it a duck or swan",
+      "Make it a duck or White Goose",
       "Make it look aggressive or scary",
       "Forget the plaid ribbon",
       "Make it too small — it's a full-size goose",
