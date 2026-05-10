@@ -197,6 +197,16 @@ export const PLAID_BLOCK =
 export const CAST_RULES =
   "[CAST RULES] Mama Zainab always largest/centered. ZuZu supporting, lower-third. Wong separate from food. Ghost only in video. FORBIDDEN: ZuZu + Wong in same frame.";
 
+/**
+ * Injected first in every assembled prompt.
+ * FLUX.1 has no negative_prompt field — style must be enforced in the positive prompt.
+ * Without this, FLUX defaults to 3D CGI/cartoon when mascot characters are present.
+ */
+export const RENDER_STYLE_BLOCK =
+  "Photorealistic photography and cinematography. Real subjects, natural materials, authentic lighting. " +
+  "Cinematic film still quality, high detail. " +
+  "NOT 3D CGI. NOT Pixar animation. NOT cartoon. NOT anime. NOT digital illustration. NOT concept art. NOT video game render.";
+
 /* ---- 6-Step Prompt Assembly ---- */
 
 export function assemblePrompt(opts: {
@@ -218,6 +228,9 @@ export function assemblePrompt(opts: {
     : [];
 
   const parts: string[] = [];
+
+  // Step 0: Render Style — must come first so FLUX weighs it highest
+  parts.push(RENDER_STYLE_BLOCK);
 
   // Step 1: Scene Context (mood + palette_focus)
   if (sceneContext) {
@@ -257,9 +270,10 @@ export function assemblePrompt(opts: {
   }
 
   // Step 6: Negative Prompt (merge do_not rules from all anchors)
+  // FLUX.1 has no negative_prompt API field — embed avoidances inline
   const allDoNots = [...new Set(anchors.flatMap((a) => a.doNots))];
   if (allDoNots.length > 0) {
-    parts.push(`--no ${allDoNots.join(", ")}`);
+    parts.push(`[AVOID] ${allDoNots.join(". ")}`);
   }
 
   // Cast rules for scene with multiple characters (single-anchor path)
