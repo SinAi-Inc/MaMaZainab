@@ -63,7 +63,7 @@
       "sku": "MZ-STU-0001",
       "nameEn": "Green Fingers",
       "descriptionEn": "Vine leaves rolled with rice, herbs, and a hint of lemon.",
-      "priceEgp": 44.99,
+      "priceEgp": 24.99,
       "imageUrl": "/uploads/menu/FUVEVujk2i.jpg",
       "badges": [
         "bestseller",
@@ -72,7 +72,7 @@
       "available": true,
       "sort": 1,
       "createdAt": "2026-05-03T20:23:46.882Z",
-      "updatedAt": "2026-05-08T23:40:05.120Z"
+      "updatedAt": "2026-05-10T13:47:18.007Z"
     },
     {
       "id": "itm_stuffy_cabbage",
@@ -80,7 +80,7 @@
       "sku": "MZ-STU-0002",
       "nameEn": "Flowers Roll",
       "descriptionEn": "Cabbage rolls, slow-cooked in tomato broth.",
-      "priceEgp": 44.99,
+      "priceEgp": 24.99,
       "imageUrl": "/uploads/menu/JrICg7foUI.png",
       "badges": [
         "chefs_pick",
@@ -90,7 +90,7 @@
       "available": true,
       "sort": 2,
       "createdAt": "2026-05-03T20:23:46.882Z",
-      "updatedAt": "2026-05-08T21:02:25.566Z"
+      "updatedAt": "2026-05-10T13:47:30.640Z"
     },
     {
       "id": "itm_side_salad",
@@ -295,7 +295,7 @@
       "sku": "MZ-STU-0003",
       "nameEn": "Purple Hose!..",
       "descriptionEn": "",
-      "priceEgp": 44.99,
+      "priceEgp": 24.99,
       "imageUrl": "/uploads/menu/ZUQLPPI_PN.jpg",
       "badges": [
         "vegan"
@@ -303,7 +303,7 @@
       "available": true,
       "sort": 4,
       "createdAt": "2026-05-05T03:05:33.495Z",
-      "updatedAt": "2026-05-08T05:33:00.786Z"
+      "updatedAt": "2026-05-10T13:48:13.316Z"
     },
     {
       "id": "itm_58d_MhQ9",
@@ -311,7 +311,7 @@
       "sku": "MZ-STU-0004",
       "nameEn": "Boring Zucchini",
       "descriptionEn": "",
-      "priceEgp": 39.99,
+      "priceEgp": 19.99,
       "imageUrl": "/uploads/menu/1C_EG6CC8K.jpg",
       "badges": [
         "vegan",
@@ -320,7 +320,7 @@
       "available": true,
       "sort": 4,
       "createdAt": "2026-05-05T03:06:08.818Z",
-      "updatedAt": "2026-05-08T05:57:07.408Z"
+      "updatedAt": "2026-05-10T13:48:34.672Z"
     },
     {
       "id": "itm_K6MVkHOd",
@@ -328,7 +328,7 @@
       "sku": "MZ-STU-0005",
       "nameEn": "Onion Bombs",
       "descriptionEn": "",
-      "priceEgp": 34.99,
+      "priceEgp": 19.99,
       "imageUrl": "/uploads/menu/Igen8q_92n.jpg",
       "badges": [
         "vegan",
@@ -337,7 +337,7 @@
       "available": true,
       "sort": 9,
       "createdAt": "2026-05-05T03:07:46.209Z",
-      "updatedAt": "2026-05-09T03:49:33.361Z"
+      "updatedAt": "2026-05-10T13:48:46.495Z"
     },
     {
       "id": "itm_S_vXN0Y-",
@@ -345,7 +345,7 @@
       "sku": "MZ-STU-0009",
       "nameEn": "Mumba Bites",
       "descriptionEn": "",
-      "priceEgp": 59.99,
+      "priceEgp": 39.99,
       "imageUrl": "/uploads/menu/P19vsmOC9k.jpg",
       "badges": [
         "limited",
@@ -355,7 +355,7 @@
       "available": true,
       "sort": 3,
       "createdAt": "2026-05-05T03:10:20.827Z",
-      "updatedAt": "2026-05-09T03:47:40.357Z"
+      "updatedAt": "2026-05-10T13:48:00.695Z"
     },
     {
       "id": "itm_bKy6kP9n",
@@ -363,7 +363,7 @@
       "sku": "MZ-ESS-0001",
       "nameEn": "Beef Balls",
       "descriptionEn": "",
-      "priceEgp": 49.99,
+      "priceEgp": 29.99,
       "imageUrl": "/uploads/menu/QeYydk8s9L.jpg",
       "badges": [
         "bestseller"
@@ -371,7 +371,7 @@
       "available": true,
       "sort": 1,
       "createdAt": "2026-05-07T05:04:34.288Z",
-      "updatedAt": "2026-05-08T23:42:05.414Z"
+      "updatedAt": "2026-05-10T13:49:03.968Z"
     },
     {
       "id": "itm_ztKN5cP7",
@@ -379,7 +379,7 @@
       "sku": "MZ-ESS-0002",
       "nameEn": "Chick Balls",
       "descriptionEn": "",
-      "priceEgp": 44.99,
+      "priceEgp": 24.99,
       "imageUrl": "/uploads/menu/d8Zpm6y7K2.jpg",
       "badges": [
         "chefs_pick",
@@ -389,7 +389,7 @@
       "available": true,
       "sort": 2,
       "createdAt": "2026-05-07T21:22:34.933Z",
-      "updatedAt": "2026-05-08T23:39:01.458Z"
+      "updatedAt": "2026-05-10T13:49:15.413Z"
     },
     {
       "id": "itm_9FRGnc8n",
@@ -397,7 +397,7 @@
       "sku": "MZ-ADD-0010",
       "nameEn": "Caramelized Onions",
       "descriptionEn": "",
-      "priceEgp": 14.99,
+      "priceEgp": 9.99,
       "imageUrl": "/uploads/menu/S1u4x3Nkxx.jpg",
       "badges": [
         "vegan",
@@ -406,7 +406,7 @@
       "available": true,
       "sort": 1,
       "createdAt": "2026-05-08T17:23:49.107Z",
-      "updatedAt": "2026-05-08T21:25:55.485Z"
+      "updatedAt": "2026-05-10T13:49:42.837Z"
     },
     {
       "id": "itm_37mNuSRf",
@@ -414,7 +414,7 @@
       "sku": "MZ-ADD-0011",
       "nameEn": "Crazy Nuts ",
       "descriptionEn": "",
-      "priceEgp": 16.99,
+      "priceEgp": 14.99,
       "imageUrl": "/uploads/menu/aj0ZgHHbBz.webp",
       "badges": [
         "vegan",
@@ -423,7 +423,7 @@
       "available": true,
       "sort": 2,
       "createdAt": "2026-05-08T17:28:13.167Z",
-      "updatedAt": "2026-05-08T21:25:27.538Z"
+      "updatedAt": "2026-05-10T13:50:25.334Z"
     },
     {
       "id": "itm_2qpqUe9b",

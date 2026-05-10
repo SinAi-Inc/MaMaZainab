@@ -222,7 +222,24 @@ create table if not exists takes (
 );
 
 -- ============================================================
--- 11. Storage bucket for uploads
+-- 11. Partner Settings (singleton)
+-- ============================================================
+create table if not exists partner_settings (
+  id                     text primary key default 'singleton' check (id = 'singleton'),
+  passcode               text not null default '',
+  portal_enabled         boolean not null default false,
+  show_presentation      boolean not null default true,
+  show_locations         boolean not null default true,
+  show_brand_overview    boolean not null default true,
+  show_menu              boolean not null default false,
+  featured_location_ids  jsonb not null default '[]'
+);
+
+-- Insert default row
+insert into partner_settings (id) values ('singleton') on conflict do nothing;
+
+-- ============================================================
+-- 12. Storage bucket for uploads
 -- ============================================================
 -- Run this separately or via the Supabase dashboard:
 -- insert into storage.buckets (id, name, public) values ('uploads', 'uploads', true);

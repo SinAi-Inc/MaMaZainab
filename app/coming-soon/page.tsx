@@ -50,12 +50,20 @@ export default function ComingSoonPage() {
             MaMa Zainab
           </span>
         </div>
-        <Link
-          href="/menu/preview?peek=1"
-          className="px-3 py-1.5 rounded-md bg-white text-brand-ink text-[10px] uppercase tracking-[0.2em] font-semibold hover:bg-white/85 transition"
-        >
-          Sneak Peek 👀
-        </Link>
+        <div className="flex items-center gap-2">
+          <Link
+            href="/partners"
+            className="px-3 py-1.5 rounded-md bg-brand-yellow/90 text-brand-ink text-[10px] uppercase tracking-[0.2em] font-semibold hover:bg-brand-yellow transition"
+          >
+            Partners
+          </Link>
+          <Link
+            href="/menu/preview?peek=1"
+            className="px-3 py-1.5 rounded-md bg-white text-brand-ink text-[10px] uppercase tracking-[0.2em] font-semibold hover:bg-white/85 transition"
+          >
+            Sneak Peek 👀
+          </Link>
+        </div>
       </header>
 
       {/* Hero */}
