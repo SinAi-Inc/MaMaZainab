@@ -65,6 +65,14 @@ export function ImageGenTab({ characters }: { characters: Character[] }) {
     );
   }
 
+  /** Mirror of server cleanPrompt() — strips tags FLUX can't use */
+  function clientClean(raw: string): string {
+    return raw
+      .replace(/\[REF:[^\]]*\]/gi, "")
+      .replace(/\n{3,}/g, "\n\n")
+      .trim();
+  }
+
   const fullPrompt = useMemo(() => {
     const assembled = assemblePrompt({
       sceneContext: selectedScene,
@@ -78,7 +86,10 @@ export function ImageGenTab({ characters }: { characters: Character[] }) {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedScene, selectedAnchors, prompt, includeBrand, aspect, model]);
 
-  const promptTooLong = fullPrompt.length > MAX_PROMPT;
+  /** What actually reaches NVIDIA — [REF:...] stripped, same as server cleanPrompt() */
+  const sendablePrompt = useMemo(() => clientClean(fullPrompt), [fullPrompt]);
+
+  const promptTooLong = sendablePrompt.length > MAX_PROMPT;
 
   function buildFullPrompt(): string { return fullPrompt; }
 
@@ -269,7 +280,7 @@ export function ImageGenTab({ characters }: { characters: Character[] }) {
               Director's Notes
             </label>
             <span className={`text-[10px] tabular-nums ${promptTooLong ? "text-red-600 font-semibold" : "text-muted"}`}>
-              {fullPrompt.length} / {MAX_PROMPT}
+              {sendablePrompt.length} / {MAX_PROMPT}
             </span>
           </div>
           <Textarea
@@ -354,9 +365,29 @@ export function ImageGenTab({ characters }: { characters: Character[] }) {
             </>
           ) : (
             <>
-              <h4 className="text-xs font-semibold uppercase tracking-wider text-muted">
-                Assembled Prompt
-              </h4>
+              <div className="flex items-center justify-between">
+                <h4 className="text-xs font-semibold uppercase tracking-wider text-muted">
+                  Assembled Prompt
+                </h4>
+                {sendablePrompt && (
+                  <span className={`text-[10px] tabular-nums font-medium ${promptTooLong ? "text-red-600" : sendablePrompt.length > MAX_PROMPT * 0.85 ? "text-amber-600" : "text-brand-green-deep"}`}>
+                    {sendablePrompt.length} / {MAX_PROMPT}
+                  </span>
+                )}
+              </div>
+              {/* Prompt length progress bar */}
+              {sendablePrompt && (
+                <div className="h-1 w-full rounded-full bg-surface-2 overflow-hidden -mt-1">
+                  <div
+                    className={`h-full rounded-full transition-all ${
+                      promptTooLong ? "bg-red-500" :
+                      sendablePrompt.length > MAX_PROMPT * 0.85 ? "bg-amber-400" :
+                      "bg-brand-green"
+                    }`}
+                    style={{ width: `${Math.min(100, (sendablePrompt.length / MAX_PROMPT) * 100)}%` }}
+                  />
+                </div>
+              )}
               {/* Selected character thumbnails */}
               {selectedAnchors.length > 0 && (
                 <div className="flex gap-2 flex-wrap">
@@ -373,7 +404,7 @@ export function ImageGenTab({ characters }: { characters: Character[] }) {
                 </div>
               )}
               <pre className="text-[11px] font-mono whitespace-pre-wrap leading-relaxed text-brand-ink bg-surface rounded-md p-3 max-h-80 overflow-y-auto border border-border">
-                {buildFullPrompt() || "Select characters, set a scene, then write director's notes..."}
+                {sendablePrompt || "Select characters, set a scene, then write director's notes..."}
               </pre>
               <div className="flex flex-wrap gap-x-2 gap-y-0.5 text-[10px] text-muted">
                 <span>{IMAGE_MODELS.find((m) => m.id === model)?.label}</span>
