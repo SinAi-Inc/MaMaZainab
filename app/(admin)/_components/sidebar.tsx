@@ -205,7 +205,7 @@ export function Sidebar() {
             <img
               src="/brand/mark-transparent.png"
               alt="MaMa Zainab"
-              className="size-8 object-contain"
+              className="size-8 object-contain brightness-0 invert opacity-90"
               draggable={false}
             />
             <button
