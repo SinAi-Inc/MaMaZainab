@@ -46,14 +46,14 @@ export async function readPartnerSettings(): Promise<PartnerSettings> {
     .eq("id", "singleton")
     .maybeSingle();
 
-  if (error) throw error;
-  if (!data) return PartnerSettingsSchema.parse({});
+  if (error || !data) return PartnerSettingsSchema.parse({});
   return rowToSettings(data as unknown as Record<string, unknown>);
 }
 
 export async function writePartnerSettings(settings: PartnerSettings): Promise<void> {
   if (!isSupabaseConfigured()) return writeJson(settings);
 
+  try { await writeJson(settings); } catch { /* read-only FS on Vercel — expected */ }
   const row = settingsToRow(settings);
   const { error } = await getSupabase()
     .from("partner_settings")
