@@ -45,7 +45,7 @@ export async function readGenerations(): Promise<GenerationState> {
     .order("created_at", { ascending: false })
     .limit(200);
 
-  if (error) throw error;
+  if (error) return { version: 1, entries: [] };
   return {
     version: 1,
     entries: (data ?? []).map((r) => rowToEntry(r as unknown as Record<string, unknown>)),
