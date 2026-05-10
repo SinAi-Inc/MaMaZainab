@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import {
   LayoutDashboard,
   UtensilsCrossed,
@@ -141,13 +141,23 @@ function NavLink({
 // ── Sidebar ────────────────────────────────────────────────────────────────
 export function Sidebar() {
   const pathname = usePathname();
-  const { mode, mobileOpen, toggle, closeMobile } = useSidebar();
+  const { mode, mobileOpen, toggle, toggleMobile, closeMobile } = useSidebar();
 
   const collapsed = mode === "collapsed";
-  // In mobile drawer mode we always render as expanded
-  const isIconOnly = collapsed && !mobileOpen;
 
-  // Close mobile drawer when navigating to a new page
+  // Track viewport size — drives mobile-specific behaviour
+  const [isMobile, setIsMobile] = useState(false);
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 768);
+    check();
+    window.addEventListener("resize", check);
+    return () => window.removeEventListener("resize", check);
+  }, []);
+
+  // Icon-only when: mobile strip (not expanded) OR desktop collapsed
+  const isIconOnly = isMobile ? !mobileOpen : collapsed;
+
+  // Close mobile overlay when navigating
   useEffect(() => {
     closeMobile();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -155,10 +165,10 @@ export function Sidebar() {
 
   return (
     <>
-      {/* Mobile backdrop */}
-      {mobileOpen && (
+      {/* Mobile backdrop — shown only when mobile overlay is open */}
+      {mobileOpen && isMobile && (
         <div
-          className="fixed inset-0 z-40 bg-black/50 md:hidden"
+          className="fixed inset-0 z-40 bg-black/50"
           onClick={closeMobile}
           aria-hidden="true"
         />
@@ -166,14 +176,23 @@ export function Sidebar() {
 
       <aside
         className={cn(
-          // Base — always present on md+, hidden on mobile unless drawer open
           "flex flex-col bg-sidebar-bg text-sidebar-fg shrink-0",
           "transition-[width] duration-200 ease-in-out overflow-hidden",
-          // Desktop sizing
-          "hidden md:flex sticky top-0 h-screen",
-          collapsed ? "md:w-16" : "md:w-64",
-          // Mobile drawer — fixed overlay
-          mobileOpen && "!flex fixed inset-y-0 left-0 z-50 w-72 shadow-2xl"
+          // Positioning: fixed overlay when mobile is expanded, sticky otherwise
+          mobileOpen && isMobile
+            ? "fixed inset-y-0 left-0 z-50 shadow-2xl"
+            : "sticky top-0 h-screen",
+          // Width logic:
+          //  mobile overlay → w-64
+          //  mobile strip   → w-16 (always icon-only)
+          //  desktop        → w-16 collapsed / w-64 expanded
+          mobileOpen && isMobile
+            ? "w-64"
+            : isMobile
+            ? "w-16"
+            : collapsed
+            ? "w-16"
+            : "w-64"
         )}
       >
         {/* ── Logo ─────────────────────────────────────────────────── */}
@@ -266,7 +285,7 @@ export function Sidebar() {
           {isIconOnly ? (
             <div className="relative group/tip">
               <button
-                onClick={toggle}
+                onClick={isMobile ? toggleMobile : toggle}
                 className="p-2 rounded-md hover:bg-white/10 text-sidebar-muted hover:text-sidebar-fg transition-colors"
                 aria-label="Expand sidebar"
               >
@@ -298,10 +317,10 @@ export function Sidebar() {
                   </div>
                 </div>
               </div>
-              {/* Collapse toggle — desktop only */}
+              {/* Collapse toggle */}
               <button
-                onClick={toggle}
-                className="hidden md:flex items-center gap-1.5 text-[10px] text-sidebar-muted hover:text-sidebar-fg transition-colors"
+                onClick={isMobile ? closeMobile : toggle}
+                className="flex items-center gap-1.5 text-[10px] text-sidebar-muted hover:text-sidebar-fg transition-colors"
                 aria-label="Collapse sidebar"
               >
                 <ChevronLeft className="size-3" />
