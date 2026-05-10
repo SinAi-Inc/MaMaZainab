@@ -17,7 +17,6 @@ import {
   Handshake,
   ChevronLeft,
   ChevronRight,
-  X,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useSidebar } from "./sidebar-context";
@@ -157,6 +156,9 @@ export function Sidebar() {
   // Icon-only when: mobile strip (not expanded) OR desktop collapsed
   const isIconOnly = isMobile ? !mobileOpen : collapsed;
 
+  // Unified toggle: on mobile toggles the overlay, on desktop toggles width
+  const handleToggle = isMobile ? toggleMobile : toggle;
+
   // Close mobile overlay when navigating
   useEffect(() => {
     closeMobile();
@@ -195,50 +197,51 @@ export function Sidebar() {
             : "w-64"
         )}
       >
-        {/* ── Logo ─────────────────────────────────────────────────── */}
-        <div
-          className={cn(
-            "border-b border-white/5 flex items-center shrink-0",
-            isIconOnly ? "justify-center px-0 py-5" : "px-6 pt-7 pb-5"
-          )}
-        >
-          {isIconOnly ? (
-            // eslint-disable-next-line @next/next/no-img-element
+        {/* ── Logo + toggle ─────────────────────────────────────────── */}
+        {isIconOnly ? (
+          /* Icon-only header: mark above, toggle button below */
+          <div className="border-b border-white/5 flex flex-col items-center gap-2 py-4 shrink-0">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src="/brand/mark-transparent.png"
               alt="MaMa Zainab"
               className="size-8 object-contain"
               draggable={false}
             />
-          ) : (
-            <div className="w-full">
-              <div className="flex items-center justify-between">
-                <div className="flex-1 flex items-center justify-center">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    src="/brand/logo-wordmark-transparent.png"
-                    alt="MaMa Zainab"
-                    className="h-12 w-auto object-contain"
-                    draggable={false}
-                  />
-                </div>
-                {/* Mobile-only close button inside drawer */}
-                {mobileOpen && (
-                  <button
-                    onClick={closeMobile}
-                    className="md:hidden p-1.5 rounded hover:bg-white/10 text-sidebar-muted transition-colors"
-                    aria-label="Close menu"
-                  >
-                    <X className="size-4" />
-                  </button>
-                )}
+            <button
+              onClick={handleToggle}
+              className="p-1.5 rounded-md hover:bg-white/10 text-sidebar-muted hover:text-sidebar-fg transition-colors"
+              aria-label="Expand sidebar"
+            >
+              <ChevronRight className="size-4" />
+            </button>
+          </div>
+        ) : (
+          /* Expanded header: wordmark + collapse toggle pinned top-right */
+          <div className="border-b border-white/5 px-5 pt-6 pb-4 shrink-0">
+            <div className="flex items-start gap-2">
+              <div className="flex-1 flex items-center justify-center">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src="/brand/logo-wordmark-transparent.png"
+                  alt="MaMa Zainab"
+                  className="h-11 w-auto object-contain"
+                  draggable={false}
+                />
               </div>
-              <div className="mt-3 font-[family-name:var(--font-brand)] text-[11px] tracking-[0.28em] text-sidebar-muted text-center">
-                Brand Admin
-              </div>
+              <button
+                onClick={handleToggle}
+                className="shrink-0 p-1.5 rounded-md hover:bg-white/10 text-sidebar-muted hover:text-sidebar-fg transition-colors"
+                aria-label="Collapse sidebar"
+              >
+                <ChevronLeft className="size-4" />
+              </button>
             </div>
-          )}
-        </div>
+            <div className="mt-2 font-[family-name:var(--font-brand)] text-[11px] tracking-[0.28em] text-sidebar-muted text-center">
+              Brand Admin
+            </div>
+          </div>
+        )}
 
         {/* ── Nav ──────────────────────────────────────────────────── */}
         <nav
@@ -275,60 +278,29 @@ export function Sidebar() {
           ))}
         </nav>
 
-        {/* ── Footer / toggle ──────────────────────────────────────── */}
-        <div
-          className={cn(
-            "border-t border-white/5 shrink-0",
-            isIconOnly ? "px-1 py-3 flex justify-center" : "px-6 py-4"
-          )}
-        >
-          {isIconOnly ? (
-            <div className="relative group/tip">
-              <button
-                onClick={isMobile ? toggleMobile : toggle}
-                className="p-2 rounded-md hover:bg-white/10 text-sidebar-muted hover:text-sidebar-fg transition-colors"
-                aria-label="Expand sidebar"
-              >
-                <ChevronRight className="size-4" />
-              </button>
-              <div className="pointer-events-none absolute left-full top-1/2 -translate-y-1/2 ml-3 px-2.5 py-1.5 rounded-md bg-brand-ink text-white text-xs whitespace-nowrap shadow-lg opacity-0 group-hover/tip:opacity-100 transition-opacity duration-150 z-[60]">
-                Expand
+        {/* ── Footer ───────────────────────────────────────────────── */}
+        {!isIconOnly && (
+          <div className="border-t border-white/5 px-6 py-4 shrink-0">
+            <div className="h-1.5 w-12 rounded bg-brand-yellow mb-2" />
+            <div className="text-[10px] text-sidebar-muted leading-tight space-y-0.5">
+              <div>MaMa Zainab · Alexandria</div>
+              <div className="opacity-60">
+                <Link href="/cn" className="hover:text-brand-yellow transition">
+                  Sheng Heng Wang
+                </Link>
+                {" · "}
+                <a
+                  href="https://sinai-inc.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-brand-yellow transition"
+                >
+                  SinAI Inc.
+                </a>
               </div>
             </div>
-          ) : (
-            <div className="space-y-3">
-              <div>
-                <div className="h-1.5 w-12 rounded bg-brand-yellow mb-2" />
-                <div className="text-[10px] text-sidebar-muted leading-tight space-y-0.5">
-                  <div>MaMa Zainab · Alexandria</div>
-                  <div className="opacity-60">
-                    <Link href="/cn" className="hover:text-brand-yellow transition">
-                      Sheng Heng Wang
-                    </Link>
-                    {" · "}
-                    <a
-                      href="https://sinai-inc.com"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="hover:text-brand-yellow transition"
-                    >
-                      SinAI Inc.
-                    </a>
-                  </div>
-                </div>
-              </div>
-              {/* Collapse toggle */}
-              <button
-                onClick={isMobile ? closeMobile : toggle}
-                className="flex items-center gap-1.5 text-[10px] text-sidebar-muted hover:text-sidebar-fg transition-colors"
-                aria-label="Collapse sidebar"
-              >
-                <ChevronLeft className="size-3" />
-                <span>Collapse</span>
-              </button>
-            </div>
-          )}
-        </div>
+          </div>
+        )}
       </aside>
     </>
   );
