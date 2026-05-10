@@ -51,7 +51,15 @@ export async function readPartnerSettings(): Promise<PartnerSettings> {
 }
 
 export async function writePartnerSettings(settings: PartnerSettings): Promise<void> {
-  if (!isSupabaseConfigured()) return writeJson(settings);
+  if (!isSupabaseConfigured()) {
+    try {
+      return await writeJson(settings);
+    } catch {
+      throw new Error(
+        "Supabase is not configured. Add NEXT_PUBLIC_SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY to your Vercel environment variables, then redeploy.",
+      );
+    }
+  }
 
   const row = settingsToRow(settings);
   const { error } = await getSupabase()
