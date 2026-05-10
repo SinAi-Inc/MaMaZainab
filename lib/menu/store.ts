@@ -78,7 +78,13 @@ export async function readMenu(): Promise<MenuState> {
   return {
     version: 1,
     categories: (cats ?? []).map((r) => toCamel(r) as unknown as MenuCategory),
-    items: (items ?? []).map((r) => toCamel(r) as unknown as MenuItem),
+    items: (items ?? []).map((r) => {
+      const parsed = { ...(r as Record<string, unknown>) };
+      if (typeof parsed.badges === "string") {
+        try { parsed.badges = JSON.parse(parsed.badges); } catch { parsed.badges = []; }
+      }
+      return toCamel(parsed) as unknown as MenuItem;
+    }),
   };
 }
 
