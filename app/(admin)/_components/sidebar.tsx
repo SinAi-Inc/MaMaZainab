@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useEffect } from "react";
 import {
   LayoutDashboard,
   UtensilsCrossed,
@@ -14,8 +15,12 @@ import {
   Mail,
   Store,
   Handshake,
+  ChevronLeft,
+  ChevronRight,
+  X,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useSidebar } from "./sidebar-context";
 
 type NavItem = {
   href: string;
@@ -69,89 +74,243 @@ const NAV: { section: string; items: NavItem[] }[] = [
   },
 ];
 
+// ── Single nav link (expanded or icon-only) ────────────────────────────────
+function NavLink({
+  item,
+  active,
+  collapsed,
+  onClick,
+}: {
+  item: NavItem;
+  active: boolean;
+  collapsed: boolean;
+  onClick?: () => void;
+}) {
+  const isSoon = item.status === "soon";
+  const Icon = item.icon;
+
+  return (
+    <li>
+      <div className="relative group/tip">
+        <Link
+          href={isSoon ? "#" : item.href}
+          aria-disabled={isSoon}
+          onClick={(e) => {
+            if (isSoon) e.preventDefault();
+            onClick?.();
+          }}
+          className={cn(
+            "flex items-center gap-3 rounded-md text-sm transition-colors",
+            collapsed ? "justify-center px-0 py-2.5 w-10 mx-auto" : "px-3 py-2 w-full",
+            active
+              ? "bg-sidebar-active-bg text-sidebar-active-fg"
+              : "text-sidebar-fg/85 hover:bg-white/5 hover:text-sidebar-fg",
+            isSoon && "opacity-50 cursor-not-allowed"
+          )}
+        >
+          <Icon className="size-4 shrink-0" />
+          {!collapsed && (
+            <>
+              <span className="flex-1">{item.label}</span>
+              {isSoon && (
+                <span className="text-[9px] uppercase tracking-wider px-1.5 py-0.5 rounded bg-white/10 text-sidebar-muted">
+                  soon
+                </span>
+              )}
+            </>
+          )}
+        </Link>
+
+        {/* Floating tooltip — shown only in icon-only mode */}
+        {collapsed && (
+          <div
+            className="pointer-events-none absolute left-full top-1/2 -translate-y-1/2 ml-3
+                       px-2.5 py-1.5 rounded-md bg-brand-ink text-white text-xs
+                       whitespace-nowrap shadow-lg
+                       opacity-0 group-hover/tip:opacity-100 transition-opacity duration-150 z-[60]"
+          >
+            {item.label}
+            {isSoon && <span className="ml-1 opacity-60">(soon)</span>}
+          </div>
+        )}
+      </div>
+    </li>
+  );
+}
+
+// ── Sidebar ────────────────────────────────────────────────────────────────
 export function Sidebar() {
   const pathname = usePathname();
+  const { mode, mobileOpen, toggle, closeMobile } = useSidebar();
+
+  const collapsed = mode === "collapsed";
+  // In mobile drawer mode we always render as expanded
+  const isIconOnly = collapsed && !mobileOpen;
+
+  // Close mobile drawer when navigating to a new page
+  useEffect(() => {
+    closeMobile();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pathname]);
+
   return (
-    <aside className="w-64 shrink-0 bg-sidebar-bg text-sidebar-fg flex flex-col sticky top-0 h-screen">
-      {/* Logo / brand */}
-      <div className="px-6 pt-7 pb-5 border-b border-white/5">
-        <div className="flex items-center justify-center">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src="/brand/logo-wordmark-transparent.png"
-            alt="MaMa Zainab"
-            className="h-12 w-auto object-contain"
-            draggable={false}
-          />
-        </div>
-        <div className="mt-3 font-[family-name:var(--font-brand)] text-[11px] tracking-[0.28em] text-sidebar-muted text-center">
-          Brand Admin
-        </div>
-      </div>
+    <>
+      {/* Mobile backdrop */}
+      {mobileOpen && (
+        <div
+          className="fixed inset-0 z-40 bg-black/50 md:hidden"
+          onClick={closeMobile}
+          aria-hidden="true"
+        />
+      )}
 
-      {/* Nav */}
-      <nav className="flex-1 overflow-y-auto px-3 py-5 space-y-6">
-        {NAV.map((sec) => (
-          <div key={sec.section}>
-            <div className="px-3 mb-2 text-[10px] uppercase tracking-[0.16em] text-sidebar-muted">
-              {sec.section}
+      <aside
+        className={cn(
+          // Base — always present on md+, hidden on mobile unless drawer open
+          "flex flex-col bg-sidebar-bg text-sidebar-fg shrink-0",
+          "transition-[width] duration-200 ease-in-out overflow-hidden",
+          // Desktop sizing
+          "hidden md:flex sticky top-0 h-screen",
+          collapsed ? "md:w-16" : "md:w-64",
+          // Mobile drawer — fixed overlay
+          mobileOpen && "!flex fixed inset-y-0 left-0 z-50 w-72 shadow-2xl"
+        )}
+      >
+        {/* ── Logo ─────────────────────────────────────────────────── */}
+        <div
+          className={cn(
+            "border-b border-white/5 flex items-center shrink-0",
+            isIconOnly ? "justify-center px-0 py-5" : "px-6 pt-7 pb-5"
+          )}
+        >
+          {isIconOnly ? (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img
+              src="/brand/mark-transparent.png"
+              alt="MaMa Zainab"
+              className="size-8 object-contain"
+              draggable={false}
+            />
+          ) : (
+            <div className="w-full">
+              <div className="flex items-center justify-between">
+                <div className="flex-1 flex items-center justify-center">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src="/brand/logo-wordmark-transparent.png"
+                    alt="MaMa Zainab"
+                    className="h-12 w-auto object-contain"
+                    draggable={false}
+                  />
+                </div>
+                {/* Mobile-only close button inside drawer */}
+                {mobileOpen && (
+                  <button
+                    onClick={closeMobile}
+                    className="md:hidden p-1.5 rounded hover:bg-white/10 text-sidebar-muted transition-colors"
+                    aria-label="Close menu"
+                  >
+                    <X className="size-4" />
+                  </button>
+                )}
+              </div>
+              <div className="mt-3 font-[family-name:var(--font-brand)] text-[11px] tracking-[0.28em] text-sidebar-muted text-center">
+                Brand Admin
+              </div>
             </div>
-            <ul className="space-y-1">
-              {sec.items.map((item) => {
-                const active = pathname === item.href || pathname.startsWith(item.href + "/");
-                const isSoon = item.status === "soon";
-                const Icon = item.icon;
-                return (
-                  <li key={item.href}>
-                    <Link
-                      href={isSoon ? "#" : item.href}
-                      aria-disabled={isSoon}
-                      className={cn(
-                        "group flex items-center gap-3 px-3 py-2 rounded-md text-sm transition-colors",
-                        active
-                          ? "bg-sidebar-active-bg text-sidebar-active-fg"
-                          : "text-sidebar-fg/85 hover:bg-white/5 hover:text-sidebar-fg",
-                        isSoon && "opacity-50 cursor-not-allowed"
-                      )}
-                      onClick={(e) => isSoon && e.preventDefault()}
-                    >
-                      <Icon className="size-4 shrink-0" />
-                      <span className="flex-1">{item.label}</span>
-                      {isSoon && (
-                        <span className="text-[9px] uppercase tracking-wider px-1.5 py-0.5 rounded bg-white/10 text-sidebar-muted">
-                          soon
-                        </span>
-                      )}
-                    </Link>
-                  </li>
-                );
-              })}
-            </ul>
-          </div>
-        ))}
-      </nav>
-
-      {/* Footer brand bar */}
-      <div className="px-6 py-4 border-t border-white/5">
-        <div className="h-1.5 w-12 rounded bg-brand-yellow mb-2" />
-        <div className="text-[10px] text-sidebar-muted leading-tight space-y-0.5">
-          <div>MaMa Zainab · Alexandria</div>
-          <div className="opacity-60">
-            <Link href="/cn" className="hover:text-brand-yellow transition">
-              Sheng Heng Wang
-            </Link>
-            {" · "}
-            <a
-              href="https://sinai-inc.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hover:text-brand-yellow transition"
-            >
-              SinAI Inc.
-            </a>
-          </div>
+          )}
         </div>
-      </div>
-    </aside>
+
+        {/* ── Nav ──────────────────────────────────────────────────── */}
+        <nav
+          className={cn(
+            "flex-1 overflow-y-auto overflow-x-hidden py-5 space-y-6",
+            isIconOnly ? "px-1" : "px-3"
+          )}
+        >
+          {NAV.map((sec) => (
+            <div key={sec.section}>
+              {/* Section label — hidden in icon-only mode */}
+              {!isIconOnly && (
+                <div className="px-3 mb-2 text-[10px] uppercase tracking-[0.16em] text-sidebar-muted select-none">
+                  {sec.section}
+                </div>
+              )}
+              {isIconOnly && <div className="mx-2 mb-2 border-t border-white/10" />}
+              <ul className="space-y-1">
+                {sec.items.map((item) => {
+                  const active =
+                    pathname === item.href || pathname.startsWith(item.href + "/");
+                  return (
+                    <NavLink
+                      key={item.href}
+                      item={item}
+                      active={active}
+                      collapsed={isIconOnly}
+                      onClick={mobileOpen ? closeMobile : undefined}
+                    />
+                  );
+                })}
+              </ul>
+            </div>
+          ))}
+        </nav>
+
+        {/* ── Footer / toggle ──────────────────────────────────────── */}
+        <div
+          className={cn(
+            "border-t border-white/5 shrink-0",
+            isIconOnly ? "px-1 py-3 flex justify-center" : "px-6 py-4"
+          )}
+        >
+          {isIconOnly ? (
+            <div className="relative group/tip">
+              <button
+                onClick={toggle}
+                className="p-2 rounded-md hover:bg-white/10 text-sidebar-muted hover:text-sidebar-fg transition-colors"
+                aria-label="Expand sidebar"
+              >
+                <ChevronRight className="size-4" />
+              </button>
+              <div className="pointer-events-none absolute left-full top-1/2 -translate-y-1/2 ml-3 px-2.5 py-1.5 rounded-md bg-brand-ink text-white text-xs whitespace-nowrap shadow-lg opacity-0 group-hover/tip:opacity-100 transition-opacity duration-150 z-[60]">
+                Expand
+              </div>
+            </div>
+          ) : (
+            <div className="space-y-3">
+              <div>
+                <div className="h-1.5 w-12 rounded bg-brand-yellow mb-2" />
+                <div className="text-[10px] text-sidebar-muted leading-tight space-y-0.5">
+                  <div>MaMa Zainab · Alexandria</div>
+                  <div className="opacity-60">
+                    <Link href="/cn" className="hover:text-brand-yellow transition">
+                      Sheng Heng Wang
+                    </Link>
+                    {" · "}
+                    <a
+                      href="https://sinai-inc.com"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="hover:text-brand-yellow transition"
+                    >
+                      SinAI Inc.
+                    </a>
+                  </div>
+                </div>
+              </div>
+              {/* Collapse toggle — desktop only */}
+              <button
+                onClick={toggle}
+                className="hidden md:flex items-center gap-1.5 text-[10px] text-sidebar-muted hover:text-sidebar-fg transition-colors"
+                aria-label="Collapse sidebar"
+              >
+                <ChevronLeft className="size-3" />
+                <span>Collapse</span>
+              </button>
+            </div>
+          )}
+        </div>
+      </aside>
+    </>
   );
 }
