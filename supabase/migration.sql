@@ -251,19 +251,19 @@ values ('uploads', 'uploads', true)
 on conflict (id) do nothing;
 
 -- Allow public read of all objects in the uploads bucket
-create policy if not exists "uploads_public_read"
-  on storage.objects for select
-  using ( bucket_id = 'uploads' );
+do $$ begin
+  create policy "uploads_public_read" on storage.objects for select using ( bucket_id = 'uploads' );
+exception when duplicate_object then null; end $$;
 
 -- Allow authenticated service-role writes (server actions use service role key)
-create policy if not exists "uploads_service_write"
-  on storage.objects for insert
-  with check ( bucket_id = 'uploads' );
+do $$ begin
+  create policy "uploads_service_write" on storage.objects for insert with check ( bucket_id = 'uploads' );
+exception when duplicate_object then null; end $$;
 
-create policy if not exists "uploads_service_update"
-  on storage.objects for update
-  using ( bucket_id = 'uploads' );
+do $$ begin
+  create policy "uploads_service_update" on storage.objects for update using ( bucket_id = 'uploads' );
+exception when duplicate_object then null; end $$;
 
-create policy if not exists "uploads_service_delete"
-  on storage.objects for delete
-  using ( bucket_id = 'uploads' );
+do $$ begin
+  create policy "uploads_service_delete" on storage.objects for delete using ( bucket_id = 'uploads' );
+exception when duplicate_object then null; end $$;
