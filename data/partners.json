@@ -1,0 +1,9 @@
+{
+  "passcode": "",
+  "portalEnabled": false,
+  "showPresentation": true,
+  "showLocations": true,
+  "showBrandOverview": true,
+  "showMenu": false,
+  "featuredLocationIds": []
+}
