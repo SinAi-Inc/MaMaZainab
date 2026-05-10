@@ -13,6 +13,7 @@ import {
   Sparkles,
   Mail,
   Store,
+  Handshake,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -50,6 +51,12 @@ const NAV: { section: string; items: NavItem[] }[] = [
     items: [
       { href: "/characters", label: "Characters", icon: Users, status: "active" },
       { href: "/brand", label: "Brand Bible", icon: BookOpen, status: "active" },
+    ],
+  },
+  {
+    section: "Business",
+    items: [
+      { href: "/partners", label: "Investors & Partners", icon: Handshake, status: "active" },
     ],
   },
   {

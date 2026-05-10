@@ -1,27 +1,24 @@
 "use client";
 
 import { useState } from "react";
-import { ImageIcon, Video, BookOpen, History, Handshake } from "lucide-react";
+import { ImageIcon, Video, BookOpen, History } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { ImageGenTab } from "./image-gen-tab";
 import { VideoGenTab } from "./video-gen-tab";
 import { CharacterPromptTool } from "./character-prompt-tool";
 import { HistoryTab } from "./history-tab";
-import { PartnersTab } from "./partners-tab";
 import type { Character } from "@/lib/characters/schema";
-import type { Branch } from "@/lib/branches/schema";
 
-type Tab = "image" | "video" | "prompts" | "history" | "partners";
+type Tab = "image" | "video" | "prompts" | "history";
 
 const TABS: { id: Tab; label: string; icon: React.ComponentType<{ className?: string }> }[] = [
   { id: "image", label: "Image Generation", icon: ImageIcon },
   { id: "video", label: "Video Generation", icon: Video },
   { id: "prompts", label: "Prompt Bible", icon: BookOpen },
   { id: "history", label: "History", icon: History },
-  { id: "partners", label: "Partners", icon: Handshake },
 ];
 
-export function StudioTabs({ characters, branches }: { characters: Character[]; branches: Branch[] }) {
+export function StudioTabs({ characters }: { characters: Character[] }) {
   const [active, setActive] = useState<Tab>("image");
 
   return (
@@ -63,7 +60,6 @@ export function StudioTabs({ characters, branches }: { characters: Character[]; 
       {active === "video" && <VideoGenTab characters={characters} />}
       {active === "prompts" && <CharacterPromptTool characters={characters} />}
       {active === "history" && <HistoryTab />}
-      {active === "partners" && <PartnersTab branches={branches} />}
     </div>
   );
 }
