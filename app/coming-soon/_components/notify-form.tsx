@@ -15,28 +15,13 @@ export function NotifyForm() {
     try {
       const fd = new FormData();
       fd.append("email", email);
-      // Use fetch so we can inspect the redirect target without following it
-      const res = await fetch("/api/notify", {
-        method: "POST",
-        body: fd,
-        redirect: "manual", // intercept the 303 redirect
-      });
+      const res = await fetch("/api/notify", { method: "POST", body: fd });
+      const json = await res.json() as { status: string };
 
-      // The API redirects to ?subscribed=<status>
-      // With redirect:"manual" the response is opaque type but the Location header is accessible
-      const location = res.headers.get("location") ?? "";
-      if (location.includes("subscribed=ok")) {
-        setState("success");
-      } else if (location.includes("subscribed=limited")) {
-        setState("error");
-      } else if (location.includes("subscribed=invalid")) {
-        setState("invalid");
-      } else if (res.ok || res.status === 0) {
-        // opaque redirect — assume success (some browsers hide location)
-        setState("success");
-      } else {
-        setState("error");
-      }
+      if (json.status === "ok") setState("success");
+      else if (json.status === "limited") setState("error");
+      else if (json.status === "invalid") setState("invalid");
+      else setState("error");
     } catch {
       setState("error");
     }
