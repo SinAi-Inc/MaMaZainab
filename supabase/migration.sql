@@ -245,5 +245,31 @@ insert into partner_settings (id) values ('singleton') on conflict do nothing;
 -- ============================================================
 -- 12. Storage bucket for uploads
 -- ============================================================
--- Run this separately or via the Supabase dashboard:
--- insert into storage.buckets (id, name, public) values ('uploads', 'uploads', true);
+-- Creates the public 'uploads' bucket if it does not already exist.
+insert into storage.buckets (id, name, public, file_size_limit, allowed_mime_types)
+values (
+  'uploads',
+  'uploads',
+  true,
+  314572800,   -- 300 MB
+  '{image/png,image/jpeg,image/webp,image/gif,video/mp4,video/webm,video/quicktime}'
+)
+on conflict (id) do nothing;
+
+-- Allow public read of all objects in the uploads bucket
+create policy if not exists "uploads_public_read"
+  on storage.objects for select
+  using ( bucket_id = 'uploads' );
+
+-- Allow authenticated service-role writes (server actions use service role key)
+create policy if not exists "uploads_service_write"
+  on storage.objects for insert
+  with check ( bucket_id = 'uploads' );
+
+create policy if not exists "uploads_service_update"
+  on storage.objects for update
+  using ( bucket_id = 'uploads' );
+
+create policy if not exists "uploads_service_delete"
+  on storage.objects for delete
+  using ( bucket_id = 'uploads' );

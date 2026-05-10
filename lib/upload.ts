@@ -33,16 +33,28 @@ export async function uploadFile(
     return `/uploads/${subdir}/${filename}`;
   }
 
+  const sb = getSupabase();
   const storagePath = `${subdir}/${filename}`;
-  const { error } = await getSupabase().storage
+
+  // Auto-create the bucket if it doesn't exist yet (idempotent)
+  const { error: bucketErr } = await sb.storage.createBucket(BUCKET, {
+    public: true,
+    fileSizeLimit: 314572800, // 300 MB
+  });
+  // Ignore "already exists" error (23505 = unique_violation)
+  if (bucketErr && !bucketErr.message.includes("already exists") && bucketErr.message !== "Bucket already exists") {
+    throw new Error(`Storage bucket error: ${bucketErr.message}`);
+  }
+
+  const { error } = await sb.storage
     .from(BUCKET)
     .upload(storagePath, buf, {
       contentType: file.type,
       upsert: false,
     });
 
-  if (error) throw error;
+  if (error) throw new Error(`Upload failed: ${error.message}`);
 
-  const { data } = getSupabase().storage.from(BUCKET).getPublicUrl(storagePath);
+  const { data } = sb.storage.from(BUCKET).getPublicUrl(storagePath);
   return data.publicUrl;
 }
