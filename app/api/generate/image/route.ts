@@ -1,8 +1,15 @@
 import { NextRequest, NextResponse } from "next/server";
 import { generateImage, NVIDIA_IMAGE_MODELS, type NvidiaImageModelId } from "@/lib/nvidia/client";
 import { requireAdmin } from "@/lib/api-guard";
+import { recordGeneration } from "@/lib/generations/actions";
+
+// Vercel Hobby: 60s max. Vercel Pro: up to 300s. Set 90s to match client timeout.
+export const maxDuration = 90;
 
 const VALID_MODELS = new Set(NVIDIA_IMAGE_MODELS.map((m) => m.id));
+
+// NVIDIA FLUX.1 practical prompt limit — beyond ~2000 chars quality degrades
+const MAX_PROMPT_CHARS = 2000;
 
 function aspectToSize(aspect: string): { width: number; height: number } {
   switch (aspect) {
@@ -19,12 +26,16 @@ export async function POST(req: NextRequest) {
   const denied = await requireAdmin(req);
   if (denied) return denied;
 
+  const startTime = Date.now();
+
   try {
     const body = await req.json();
-    const { model, prompt, aspect } = body as {
+    const { model, prompt, aspect, characterAnchor = "", sceneContext = "" } = body as {
       model: string;
       prompt: string;
       aspect: string;
+      characterAnchor?: string;
+      sceneContext?: string;
     };
 
     if (!model || !prompt) {
@@ -35,8 +46,11 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Invalid model" }, { status: 400 });
     }
 
-    if (typeof prompt !== "string" || prompt.length > 10000) {
-      return NextResponse.json({ error: "Prompt must be a string under 10000 chars" }, { status: 400 });
+    if (typeof prompt !== "string" || prompt.length > MAX_PROMPT_CHARS) {
+      return NextResponse.json(
+        { error: `Prompt too long (${prompt.length} chars) — keep under ${MAX_PROMPT_CHARS}` },
+        { status: 400 },
+      );
     }
 
     const { width, height } = aspectToSize(aspect ?? "1:1");
@@ -48,10 +62,47 @@ export async function POST(req: NextRequest) {
       height,
     });
 
-    return NextResponse.json({ image: result.image });
+    const elapsedMs = Date.now() - startTime;
+
+    // Save to generation history server-side — survives browser tab switches/disconnects
+    let savedEntry;
+    try {
+      savedEntry = await recordGeneration({
+        type: "image",
+        model,
+        prompt,
+        characterAnchor,
+        sceneContext,
+        aspect: aspect ?? "1:1",
+        status: "completed",
+        elapsedMs,
+        base64Output: result.image,
+      });
+    } catch (saveErr) {
+      // Non-fatal — still return the image even if history save fails
+      console.error("[/api/generate/image] history save failed:", saveErr);
+    }
+
+    return NextResponse.json({
+      image: result.image,
+      elapsedMs,
+      generationId: savedEntry?.id ?? null,
+      outputPath: savedEntry?.outputPath ?? null,
+    });
   } catch (err) {
     const message = err instanceof Error ? err.message : "Generation failed";
     console.error("[/api/generate/image]", message);
+
+    // Record failure in history too (best-effort)
+    recordGeneration({
+      type: "image",
+      model: "unknown",
+      prompt: "",
+      status: "failed",
+      error: message,
+      elapsedMs: Date.now() - startTime,
+    }).catch(() => {});
+
     return NextResponse.json({ error: message }, { status: 500 });
   }
 }
