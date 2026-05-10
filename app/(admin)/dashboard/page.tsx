@@ -10,6 +10,9 @@ import {
   Clock,
   AlertCircle,
   Tag,
+  Database,
+  Eye,
+  LayoutDashboard,
 } from "lucide-react";
 import { readMenu } from "@/lib/menu/store";
 import { readStudio } from "@/lib/videos/store";
@@ -17,6 +20,7 @@ import { readCharacters } from "@/lib/characters/store";
 import { readContacts } from "@/lib/contacts/store";
 import { Card, CardBody } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
+import { SyncMenuButton } from "./_components/sync-menu-button";
 
 export const dynamic = "force-dynamic";
 
@@ -196,6 +200,83 @@ export default async function DashboardPage() {
           href="/contacts"
           accent="green"
         />
+      </div>
+
+      {/* ── Command Center (HITL controls) ──────────────────────────── */}
+      <div>
+        <p className="text-xs uppercase tracking-[0.2em] text-muted mb-1">Command Center</p>
+        <p className="text-sm text-muted mb-4">
+          Owner-controlled actions — you decide, the system executes.
+        </p>
+        <div className="grid sm:grid-cols-2 xl:grid-cols-3 gap-4">
+          {/* Publish Menu */}
+          <Card>
+            <CardBody className="flex items-start gap-3">
+              <div className="size-10 rounded-lg bg-brand-green/10 flex items-center justify-center shrink-0">
+                <Database className="size-5 text-brand-green-deep" />
+              </div>
+              <div className="flex-1 min-w-0">
+                <p className="font-semibold text-sm">Publish Menu</p>
+                <p className="text-xs text-muted mt-0.5 leading-snug">
+                  Push <code className="font-mono">menu.json</code> → Supabase.
+                  Required after any menu edit.
+                </p>
+                <SyncMenuButton />
+              </div>
+            </CardBody>
+          </Card>
+
+          {/* Public previews */}
+          <Card>
+            <CardBody className="flex items-start gap-3">
+              <div className="size-10 rounded-lg bg-blue-50 flex items-center justify-center shrink-0">
+                <Eye className="size-5 text-blue-600" />
+              </div>
+              <div className="flex-1 min-w-0">
+                <p className="font-semibold text-sm">Public Preview</p>
+                <p className="text-xs text-muted mt-0.5 leading-snug">
+                  See exactly what customers see — landing page and menu.
+                </p>
+                <div className="mt-3 flex flex-wrap gap-2">
+                  <Link
+                    href="/coming-soon"
+                    target="_blank"
+                    className="inline-flex items-center gap-1.5 px-2.5 py-1 text-xs rounded-md border border-border hover:border-blue-400 hover:bg-blue-50 transition-colors"
+                  >
+                    <Eye className="size-3" /> Coming Soon
+                  </Link>
+                  <Link
+                    href="/menu/preview"
+                    target="_blank"
+                    className="inline-flex items-center gap-1.5 px-2.5 py-1 text-xs rounded-md border border-border hover:border-blue-400 hover:bg-blue-50 transition-colors"
+                  >
+                    <UtensilsCrossed className="size-3" /> Menu
+                  </Link>
+                </div>
+              </div>
+            </CardBody>
+          </Card>
+
+          {/* Owner's Eye shortcut */}
+          <Card className="hover:shadow-md transition-shadow">
+            <Link href="/owners-eye" className="block">
+              <CardBody className="flex items-start gap-3">
+                <div className="size-10 rounded-lg bg-brand-yellow/20 flex items-center justify-center shrink-0">
+                  <LayoutDashboard className="size-5 text-brand-ink" />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <p className="font-semibold text-sm">Owner's Eye</p>
+                  <p className="text-xs text-muted mt-0.5 leading-snug">
+                    5-layer operating system hub — frontline, ops, AI, growth, governance.
+                  </p>
+                  <div className="mt-3 inline-flex items-center gap-1 text-xs font-semibold text-brand-green-deep">
+                    Open <ArrowRight className="size-3" />
+                  </div>
+                </div>
+              </CardBody>
+            </Link>
+          </Card>
+        </div>
       </div>
 
       {/* Two-column: status + quick actions */}

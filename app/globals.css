@@ -29,8 +29,8 @@
 }
 
 /* Map our tokens into Tailwind v4 utility space.
-   `@theme inline` keeps var() references intact so utilities resolve at runtime. */
-@theme inline {
+   `@theme` keeps var() references intact so utilities resolve at runtime. */
+@theme {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
 
@@ -204,8 +204,8 @@ body {
     align-items: start !important;
     padding-top: 5mm !important;
     padding-bottom: 5mm !important;
-    orphans: 3;
-    widows: 3;
+    orphans: 3 !important;
+    widows: 3 !important;
   }
 
   /* Footer: inside the grid as last child, spans both columns.

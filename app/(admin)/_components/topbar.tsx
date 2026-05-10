@@ -1,9 +1,10 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import { Eye, Printer } from "lucide-react";
+import { Eye, Printer, Menu } from "lucide-react";
 import Link from "next/link";
 import { LogoutButton } from "./logout-button";
+import { useSidebar } from "./sidebar-context";
 
 const TITLES: Record<string, string> = {
   "/menu": "Menu",
@@ -21,6 +22,7 @@ const TITLES: Record<string, string> = {
 
 export function Topbar() {
   const pathname = usePathname();
+  const { toggleMobile } = useSidebar();
   const title =
     TITLES[pathname] ||
     Object.entries(TITLES)
@@ -43,9 +45,17 @@ export function Topbar() {
   }
 
   return (
-    <header className="h-16 px-8 bg-surface-2 border-b border-border flex items-center justify-between">
-      <div>
-        <h1 className="text-xl font-semibold tracking-tight">{title}</h1>
+    <header className="h-16 px-4 md:px-8 bg-surface-2 border-b border-border flex items-center justify-between gap-3">
+      <div className="flex items-center gap-3 min-w-0">
+        {/* Mobile hamburger — only visible below md */}
+        <button
+          onClick={toggleMobile}
+          className="md:hidden p-2 rounded-md hover:bg-surface transition-colors text-muted"
+          aria-label="Open navigation"
+        >
+          <Menu className="size-5" />
+        </button>
+        <h1 className="text-xl font-semibold tracking-tight truncate">{title}</h1>
       </div>
       <div className="flex items-center gap-2">
         {onMenu && (

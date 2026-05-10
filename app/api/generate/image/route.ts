@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { generateImage, NVIDIA_IMAGE_MODELS, type NvidiaImageModelId } from "@/lib/nvidia/client";
+import { requireAdmin } from "@/lib/api-guard";
 
 const VALID_MODELS = new Set(NVIDIA_IMAGE_MODELS.map((m) => m.id));
 
@@ -15,6 +16,9 @@ function aspectToSize(aspect: string): { width: number; height: number } {
 }
 
 export async function POST(req: NextRequest) {
+  const denied = await requireAdmin(req);
+  if (denied) return denied;
+
   try {
     const body = await req.json();
     const { model, prompt, aspect } = body as {
