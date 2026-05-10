@@ -61,14 +61,32 @@ async function writeJson(state: StudioState): Promise<void> {
 
 function projectToRow(p: Project): Record<string, unknown> {
   const row = toSnake(p as unknown as Record<string, unknown>);
-  row.tags = JSON.stringify(p.tags);
+  // jsonb columns — send arrays directly, do NOT JSON.stringify
+  row.tags = p.tags;
   return row;
+}
+
+function rowToProject(row: Record<string, unknown>): Project {
+  const parsed = { ...row };
+  if (typeof parsed.tags === "string") {
+    try { parsed.tags = JSON.parse(parsed.tags as string); } catch { parsed.tags = []; }
+  }
+  return toCamel(parsed) as unknown as Project;
 }
 
 function shotToRow(s: Shot): Record<string, unknown> {
   const row = toSnake(s as unknown as Record<string, unknown>);
-  row.reference_urls = JSON.stringify(s.referenceUrls);
+  // jsonb columns — send arrays directly, do NOT JSON.stringify
+  row.reference_urls = s.referenceUrls;
   return row;
+}
+
+function rowToShot(row: Record<string, unknown>): Shot {
+  const parsed = { ...row };
+  if (typeof parsed.reference_urls === "string") {
+    try { parsed.reference_urls = JSON.parse(parsed.reference_urls as string); } catch { parsed.reference_urls = []; }
+  }
+  return toCamel(parsed) as unknown as Shot;
 }
 
 
@@ -90,9 +108,9 @@ export async function readStudio(): Promise<StudioState> {
 
   return {
     version: 2,
-    projects: projects.map((r) => toCamel(r as unknown as Record<string, unknown>) as unknown as Project),
+    projects: projects.map((r) => rowToProject(r as unknown as Record<string, unknown>)),
     scenes: (scenes ?? []).map((r) => toCamel(r as unknown as Record<string, unknown>) as unknown as Scene),
-    shots: (shots ?? []).map((r) => toCamel(r as unknown as Record<string, unknown>) as unknown as Shot),
+    shots: (shots ?? []).map((r) => rowToShot(r as unknown as Record<string, unknown>)),
     takes: (takes ?? []).map((r) => toCamel(r as unknown as Record<string, unknown>) as unknown as Take),
   };
 }
@@ -145,7 +163,7 @@ export async function readProject(id: string) {
   const { data: pData } = await sb.from("projects").select("*").eq("id", id).single();
   if (!pData) return null;
 
-  const project = toCamel(pData as unknown as Record<string, unknown>) as unknown as Project;
+  const project = rowToProject(pData as unknown as Record<string, unknown>);
 
   const { data: sceneData } = await sb
     .from("scenes").select("*").eq("project_id", id).order("sort");
@@ -155,7 +173,7 @@ export async function readProject(id: string) {
     .from("takes").select("*").eq("project_id", id).order("index");
 
   const scenes = (sceneData ?? []).map((r) => toCamel(r as unknown as Record<string, unknown>) as unknown as Scene);
-  const shots = (shotData ?? []).map((r) => toCamel(r as unknown as Record<string, unknown>) as unknown as Shot);
+  const shots = (shotData ?? []).map((r) => rowToShot(r as unknown as Record<string, unknown>));
   const takes = (takeData ?? []).map((r) => toCamel(r as unknown as Record<string, unknown>) as unknown as Take);
 
   return { project, scenes, shots, takes };
