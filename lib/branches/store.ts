@@ -7,7 +7,7 @@ import { BranchesStateSchema, type Branch, type BranchesState } from "./schema";
 const FILE = path.join(process.cwd(), "data", "branches.json");
 const DATA_DIR = path.join(process.cwd(), "data");
 
-/* ── JSON fallback ───────────────────────────────── */
+
 
 async function readJson(): Promise<BranchesState> {
   try {
@@ -25,7 +25,7 @@ async function writeJson(state: BranchesState): Promise<void> {
   await fs.writeFile(FILE, JSON.stringify(state.branches, null, 2), "utf8");
 }
 
-/* ── Public API ──────────────────────────────────── */
+
 
 export async function readBranches(): Promise<BranchesState> {
   if (!isSupabaseConfigured()) return readJson();

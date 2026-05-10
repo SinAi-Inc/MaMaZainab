@@ -3,7 +3,7 @@ import { nanoid } from "nanoid";
 import { revalidatePath } from "next/cache";
 import { insertContact, contactExists } from "@/lib/contacts/store";
 
-/* ── In-memory rate limiter (per IP, 3 requests / 60 s) ─────────────── */
+
 const WINDOW_MS = 60_000;
 const MAX_HITS = 3;
 const hits = new Map<string, { count: number; resetAt: number }>();

@@ -39,7 +39,7 @@ const SEED: StudioState = {
   takes: [],
 };
 
-/* ── JSON fallback ───────────────────────────────── */
+
 
 async function readJson(): Promise<StudioState> {
   try {
@@ -57,7 +57,7 @@ async function writeJson(state: StudioState): Promise<void> {
   await fs.writeFile(FILE, JSON.stringify(validated, null, 2), "utf8");
 }
 
-/* ── Supabase row converters ─────────────────────── */
+
 
 function projectToRow(p: Project): Record<string, unknown> {
   const row = toSnake(p as unknown as Record<string, unknown>);
@@ -71,7 +71,7 @@ function shotToRow(s: Shot): Record<string, unknown> {
   return row;
 }
 
-/* ── Public API ──────────────────────────────────── */
+
 
 export async function readStudio(): Promise<StudioState> {
   if (!isSupabaseConfigured()) return readJson();

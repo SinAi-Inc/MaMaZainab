@@ -21,7 +21,7 @@ import {
   type ColorToken,
 } from "@/lib/brand-bible-data";
 
-/* ──── Color Swatch ──── */
+
 
 function ColorSwatch({ color }: { color: ColorToken }) {
   return (
@@ -156,7 +156,7 @@ export default function BrandBiblePage() {
   );
 }
 
-/* ──────── Colors Panel ──────── */
+
 
 function ColorsPanel({
   primary,
@@ -205,7 +205,7 @@ function ColorsPanel({
   );
 }
 
-/* ──────── Typography Panel ──────── */
+
 
 function TypographyPanel() {
   return (
@@ -281,7 +281,7 @@ function TypographyPanel() {
   );
 }
 
-/* ──────── Logos Panel ──────── */
+
 
 function LogosPanel() {
   return (
@@ -390,7 +390,7 @@ function LogosPanel() {
   );
 }
 
-/* ──────── Plaid Pattern Panel ──────── */
+
 
 function PlaidPatternPanel() {
   return (

@@ -7,7 +7,7 @@ import { GenerationStateSchema, type GenerationEntry, type GenerationState } fro
 const FILE = path.join(process.cwd(), "data", "generations.json");
 const DATA_DIR = path.join(process.cwd(), "data");
 
-/* ── JSON fallback ─────────────────────────────────── */
+
 
 async function readJson(): Promise<GenerationState> {
   try {
@@ -23,7 +23,7 @@ async function writeJson(state: GenerationState): Promise<void> {
   await fs.writeFile(FILE, JSON.stringify(state, null, 2), "utf8");
 }
 
-/* ── Supabase row converters ─────────────────────── */
+
 
 function entryToRow(e: GenerationEntry): Record<string, unknown> {
   return toSnake(e as unknown as Record<string, unknown>);
@@ -33,7 +33,7 @@ function rowToEntry(row: Record<string, unknown>): GenerationEntry {
   return toCamel(row) as unknown as GenerationEntry;
 }
 
-/* ── Public API ──────────────────────────────────── */
+
 
 /** Read all generation history entries (newest first). */
 export async function readGenerations(): Promise<GenerationState> {

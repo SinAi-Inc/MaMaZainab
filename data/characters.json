@@ -10,8 +10,8 @@
       "anchorBlock": "Egyptian woman in her late 50s, warm kind face, soft dark eyes, gentle smile lines,\nolive skin, headscarf in soft cream tone, wearing a GREEN-base plaid apron with\nyellow stripes and white weft (PLAID v2), simple gold hoop earrings, silver wedding\nband, flour-dusted hands, dignified posture, calm matriarchal energy.\n[REF: /brand/chars/mama-zainab.jpeg]",
       "referenceImages": [
         {
-          "url": "/uploads/chars/7HlpzYSxK7.jpg",
-          "label": "MaMaZainab",
+          "url": "/uploads/chars/L3SP6ixQDt.jpg",
+          "label": "MaMaHZainab",
           "isPrimary": true
         }
       ],
@@ -81,7 +81,7 @@
       "active": true,
       "sort": 1,
       "createdAt": "2026-05-05T03:39:10.925Z",
-      "updatedAt": "2026-05-09T01:12:30.619Z"
+      "updatedAt": "2026-05-10T14:48:30.207Z"
     },
     {
       "id": "chr_zuzu",

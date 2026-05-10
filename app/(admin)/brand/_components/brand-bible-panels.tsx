@@ -17,7 +17,7 @@ import {
 import type { BrandCharacter, SceneMapping } from "@/lib/brand-bible-data";
 import { CHARACTERS, SCENES, GENERATION_RULES } from "@/lib/brand-bible-data";
 
-/* ──────── Characters Panel ──────── */
+
 
 function CharacterCard({ char }: { char: BrandCharacter }) {
   const [open, setOpen] = useState(false);
@@ -190,7 +190,7 @@ export function CharactersPanel() {
   );
 }
 
-/* ──────── Scenes & Rules Panel ──────── */
+
 
 function SceneRow({ scene }: { scene: SceneMapping }) {
   const [open, setOpen] = useState(false);

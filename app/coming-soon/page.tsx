@@ -16,7 +16,7 @@ export default function ComingSoonPage() {
       {/* Background plaid — full brightness, matching brand apron */}
       <div className="absolute inset-0 plaid pointer-events-none" />
 
-      {/* ── ZuZu — 45° corner pop every ~30 s ─────────────────────────────── */}
+      {}
       {/*   Wrapper slides up; img holds the static left lean — independent transforms */}
       <div
         className="absolute bottom-0 right-4 pointer-events-none select-none z-[20] hidden md:block"

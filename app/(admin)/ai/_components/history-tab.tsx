@@ -33,7 +33,7 @@ export function HistoryTab() {
     });
   }
 
-  /* ── Stats ─────────────────────────────────── */
+  // Stats
   const stats = useMemo(() => {
     const now = Date.now();
     const dayMs = 24 * 60 * 60 * 1000;
@@ -120,7 +120,7 @@ export function HistoryTab() {
   );
 }
 
-/* ── Stat card ─────────────────────────────────── */
+// Stat card
 
 function StatCard({
   label,
@@ -158,7 +158,7 @@ function StatCard({
   );
 }
 
-/* ── Empty state ─────────────────────────────── */
+// Empty state
 
 function EmptyState() {
   return (
@@ -175,7 +175,7 @@ function EmptyState() {
   );
 }
 
-/* ── Card ────────────────────────────────────────── */
+// Card
 
 function HistoryCard({
   entry,

@@ -7,7 +7,7 @@ import { PartnerSettingsSchema, type PartnerSettings } from "./schema";
 const FILE = path.join(process.cwd(), "data", "partners.json");
 const DATA_DIR = path.join(process.cwd(), "data");
 
-/* ── JSON fallback ─────────────────────────────────── */
+
 
 async function readJson(): Promise<PartnerSettings> {
   try {
@@ -23,7 +23,7 @@ async function writeJson(settings: PartnerSettings): Promise<void> {
   await fs.writeFile(FILE, JSON.stringify(settings, null, 2), "utf8");
 }
 
-/* ── Supabase helpers ──────────────────────────────── */
+
 
 function settingsToRow(s: PartnerSettings): Record<string, unknown> {
   return { id: "singleton", ...toSnake(s as unknown as Record<string, unknown>) };
@@ -35,7 +35,7 @@ function rowToSettings(row: Record<string, unknown>): PartnerSettings {
   return PartnerSettingsSchema.parse(camel);
 }
 
-/* ── Public API ──────────────────────────────────── */
+
 
 export async function readPartnerSettings(): Promise<PartnerSettings> {
   if (!isSupabaseConfigured()) return readJson();

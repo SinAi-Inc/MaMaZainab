@@ -7,7 +7,7 @@ import { ContactsStateSchema, type Contact, type ContactsState } from "./schema"
 const FILE = path.join(process.cwd(), "data", "contacts.json");
 const DATA_DIR = path.join(process.cwd(), "data");
 
-/* ── JSON fallback ───────────────────────────────── */
+
 
 async function readJson(): Promise<ContactsState> {
   try {
@@ -23,7 +23,7 @@ async function writeJson(state: ContactsState): Promise<void> {
   await fs.writeFile(FILE, JSON.stringify(state, null, 2), "utf8");
 }
 
-/* ── Public API ──────────────────────────────────── */
+
 
 export async function readContacts(): Promise<ContactsState> {
   if (!isSupabaseConfigured()) return readJson();
