@@ -1,10 +1,9 @@
 import { type NextRequest, NextResponse } from "next/server";
-import { promises as fs } from "node:fs";
-import path from "node:path";
 import { isSupabaseConfigured, getSupabase } from "@/lib/supabase";
 import { toSnake } from "@/lib/case";
 import { MenuStateSchema } from "@/lib/menu/schema";
 import { verifySessionToken, COOKIE_NAME } from "@/lib/auth";
+import menuData from "@/data/menu.json";
 
 /**
  * POST /api/menu/sync
@@ -27,10 +26,8 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  // Read committed menu.json from the deployed bundle
-  const filePath = path.join(process.cwd(), "data", "menu.json");
-  const raw = await fs.readFile(filePath, "utf8");
-  const state = MenuStateSchema.parse(JSON.parse(raw));
+  // Parse the bundled menu.json (included at build time)
+  const state = MenuStateSchema.parse(menuData);
 
   const sb = getSupabase();
 
