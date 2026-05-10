@@ -52,7 +52,7 @@ export default function ComingSoonPage() {
         </div>
         <div className="flex items-center gap-2">
           <Link
-            href="/partners"
+            href="/partner-portal"
             className="px-3 py-1.5 rounded-md bg-brand-yellow/90 text-brand-ink text-[10px] uppercase tracking-[0.2em] font-semibold hover:bg-brand-yellow transition"
           >
             Partners

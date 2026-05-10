@@ -1,13 +1,13 @@
 "use client";
 
 import { useState, useTransition, useEffect } from "react";
-import { Eye, EyeOff, Save, Globe, MapPin, Presentation, Utensils, BookOpen, ExternalLink } from "lucide-react";
+import { Eye, EyeOff, Save, MapPin, Presentation, Utensils, BookOpen, ExternalLink } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { getPartnerSettings, updatePartnerSettings } from "@/lib/partners/actions";
 import type { PartnerSettings } from "@/lib/partners/schema";
 import type { Branch } from "@/lib/branches/schema";
 
-export function PartnersTab({ branches }: { branches: Branch[] }) {
+export function PartnersAdmin({ branches }: { branches: Branch[] }) {
   const [settings, setSettings] = useState<PartnerSettings | null>(null);
   const [showPasscode, setShowPasscode] = useState(false);
   const [isPending, startTransition] = useTransition();
@@ -54,8 +54,8 @@ export function PartnersTab({ branches }: { branches: Branch[] }) {
           <h3 className="text-sm font-semibold">Partner Portal</h3>
           <p className="text-xs text-muted mt-0.5">
             Control what partners see at{" "}
-            <a href="/partners" target="_blank" rel="noopener noreferrer" className="text-brand-green hover:underline inline-flex items-center gap-0.5">
-              /partners <ExternalLink className="size-3" />
+            <a href="/partner-portal" target="_blank" rel="noopener noreferrer" className="text-brand-green hover:underline inline-flex items-center gap-0.5">
+              /partner-portal <ExternalLink className="size-3" />
             </a>
           </p>
         </div>
