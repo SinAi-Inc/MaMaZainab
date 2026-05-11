@@ -12,7 +12,7 @@ const VALID_MODELS = new Set(
 );
 
 // NVIDIA FLUX.1 practical prompt limit — beyond ~2000 chars quality degrades
-const MAX_PROMPT_CHARS = 2000;
+const MAX_PROMPT_CHARS = 3000;
 
 function aspectToSize(aspect: string): { width: number; height: number } {
   switch (aspect) {
