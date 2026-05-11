@@ -1,10 +1,14 @@
 import { NextRequest, NextResponse } from "next/server";
 import { pollVideoJob } from "@/lib/nvidia/client";
+import { requireAdmin } from "@/lib/api-guard";
 
 export async function GET(
-  _req: NextRequest,
+  req: NextRequest,
   { params }: { params: Promise<{ reqId: string }> }
 ) {
+  const denied = await requireAdmin(req);
+  if (denied) return denied;
+
   try {
     const { reqId } = await params;
 
