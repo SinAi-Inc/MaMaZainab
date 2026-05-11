@@ -5,22 +5,41 @@ import path from "node:path";
 import { randomBytes } from "node:crypto";
 import { readGenerations, addGeneration, deleteGeneration, clearGenerations } from "./store";
 import { estimateCostUsd } from "@/lib/ai/cost";
+import { isSupabaseConfigured, getSupabase } from "@/lib/supabase";
 import type { GenerationEntry, GenerationState } from "./schema";
 
 const UPLOAD_DIR = path.join(process.cwd(), "public", "uploads", "generations");
+const BUCKET = "uploads";
+const STORAGE_SUBDIR = "generations";
 
-/** Save a base64 image to uploads/generations/ and return the public path. */
+/** Save a base64 image to persistent storage (Supabase on prod, local disk on dev). */
 export async function saveGeneratedImage(
   base64: string,
   ext: string = "jpg",
 ): Promise<string> {
-  await fs.mkdir(UPLOAD_DIR, { recursive: true });
   const slug = randomBytes(8).toString("hex");
   const filename = `${slug}.${ext}`;
-  const filePath = path.join(UPLOAD_DIR, filename);
   const buffer = Buffer.from(base64, "base64");
+
+  if (isSupabaseConfigured()) {
+    const sb = getSupabase();
+    const storagePath = `${STORAGE_SUBDIR}/${filename}`;
+    await sb.storage.createBucket(BUCKET, { public: true }).catch(() => null);
+    const { error } = await sb.storage
+      .from(BUCKET)
+      .upload(storagePath, buffer, {
+        contentType: ext === "mp4" ? "video/mp4" : `image/${ext}`,
+        upsert: false,
+      });
+    if (error) throw new Error(`Upload failed: ${error.message}`);
+    return `/uploads/${STORAGE_SUBDIR}/${filename}`;
+  }
+
+  // Local dev fallback
+  await fs.mkdir(UPLOAD_DIR, { recursive: true });
+  const filePath = path.join(UPLOAD_DIR, filename);
   await fs.writeFile(filePath, buffer);
-  return `/uploads/generations/${filename}`;
+  return `/uploads/${STORAGE_SUBDIR}/${filename}`;
 }
 
 type RecordInput = Omit<GenerationEntry, "id" | "createdAt"> & { base64Output?: string };

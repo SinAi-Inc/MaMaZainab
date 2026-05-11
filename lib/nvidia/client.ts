@@ -338,14 +338,15 @@ export async function pollVideoJob(reqId: string): Promise<VideoJobResponse> {
 /* ---- Helpers ---- */
 
 export function aspectToSize(aspect: string): { width: number; height: number } {
+  // FLUX.1 valid sizes: multiples of 64 within the supported range.
+  // Aligned with API route mapping for consistency.
   switch (aspect) {
-    case "1:1": return { width: 1024, height: 1024 };
-    // Flux.1 valid sizes: multiples of 64 in [768,1152]. Keeping closest valid pairs.
-    case "16:9": return { width: 1024, height: 576 };  // 576 rounds to 1024x576 accepted
-    case "9:16": return { width: 576, height: 1024 };
-    case "4:3": return { width: 1024, height: 768 };
-    case "3:2": return { width: 1024, height: 680 };
-    case "2.39:1": return { width: 1152, height: 480 };
-    default: return { width: 1024, height: 1024 };
+    case "1:1":    return { width: 1024, height: 1024 };
+    case "16:9":   return { width: 1344, height: 768 };
+    case "9:16":   return { width: 768, height: 1344 };
+    case "4:3":    return { width: 1152, height: 896 };
+    case "3:2":    return { width: 1216, height: 832 };
+    case "2.39:1": return { width: 1344, height: 768 };
+    default:       return { width: 1024, height: 1024 };
   }
 }
