@@ -44,7 +44,7 @@ export const ProjectSchema = z.object({
   /** "16:9" | "9:16" | "1:1" | "2.39:1" */
   aspectRatio: z.string().default("2.39:1"),
   /** Default model preference */
-  defaultModel: z.string().default("stabilityai/stable-video-diffusion"),
+  defaultModel: z.string().default("runway/gen4"),
   /** Free-form style notes appended to every prompt */
   styleSuffix: z.string().default(""),
   posterUrl: z.string().default(""),
@@ -138,6 +138,10 @@ export type Shot = z.infer<typeof ShotSchema>;
 
 export const VideoModelSchema = z.enum([
   "stabilityai/stable-video-diffusion",
+  "runway/gen4",
+  "kling/3.0",
+  "google/veo-3",
+  "pika/2.2",
 ]);
 export type VideoModel = z.infer<typeof VideoModelSchema>;
 
@@ -145,7 +149,11 @@ export const MODEL_META: Record<
   VideoModel,
   { label: string; vendor: string; color: string }
 > = {
-  "stabilityai/stable-video-diffusion": { label: "Stable Video Diffusion", vendor: "Stability AI", color: "#8B5CF6" },
+  "stabilityai/stable-video-diffusion": { label: "SVD (legacy)", vendor: "Stability AI", color: "#6B7280" },
+  "runway/gen4":    { label: "Runway Gen-4",        vendor: "Runway",       color: "#7C3AED" },
+  "kling/3.0":      { label: "Kling 3.0",           vendor: "Kling AI",     color: "#0EA5E9" },
+  "google/veo-3":   { label: "Google Veo 3.1",      vendor: "Google",       color: "#1B9B00" },
+  "pika/2.2":       { label: "Pika 2.2",            vendor: "Pika",         color: "#F59E0B" },
 };
 
 export const TakeStatusSchema = z.enum([
@@ -173,7 +181,7 @@ export const TakeSchema = z.object({
   projectId: z.string(),
   shotId: z.string(),
   index: z.coerce.number().int().min(1),
-  model: VideoModelSchema.catch("stabilityai/stable-video-diffusion"),
+  model: VideoModelSchema.catch("runway/gen4"),
   prompt: z.string().default(""),
   externalId: z.string().default(""),
   seed: z.string().default(""),
