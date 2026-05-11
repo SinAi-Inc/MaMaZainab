@@ -126,15 +126,22 @@ export async function generateImage(params: ImageGenParams): Promise<ImageGenRes
   //   POST /v1/genai/<model-id>  { prompt, width, height, seed }
   //   Response: { artifacts: [{ base64, seed }] } or { image }
 
-  const usingNim = nimAvailable();
-  const baseUrl = getBaseUrl();
+  // Route per-model: NIM-only models → NIM endpoint; cloud models → always cloud.
+  // This prevents "fetch failed" when NIM_BASE_URL is set but container isn't running
+  // for models that work fine via the cloud catalog.
+  const modelDef = NVIDIA_IMAGE_MODELS.find((m) => m.id === model);
+  const usingNim = modelDef?.nimOnly ? true : false;
 
   let url: string;
   let body: Record<string, unknown>;
 
   if (usingNim) {
-    // Strip /v1/genai suffix if user included it — NIM base is just the host
-    const nimBase = baseUrl.replace(/\/v1\/genai\/?$/, "").replace(/\/$/, "");
+    if (!nimAvailable()) {
+      throw new Error(
+        `${modelDef?.label ?? model} requires a NIM container — set NVIDIA_NIM_BASE_URL or choose a cloud model (Flux.1 Dev / Schnell)`
+      );
+    }
+    const nimBase = getBaseUrl().replace(/\/v1\/genai\/?$/, "").replace(/\/$/, "");
     url = `${nimBase}/v1/images/generations`;
     body = {
       model,
@@ -147,7 +154,7 @@ export async function generateImage(params: ImageGenParams): Promise<ImageGenRes
     };
   } else {
     // NVIDIA API Catalog: path includes model ID
-    url = `${baseUrl}/${model}`;
+    url = `${CLOUD_BASE_URL}/${model}`;
     body = {
       prompt,
       width,
@@ -156,34 +163,61 @@ export async function generateImage(params: ImageGenParams): Promise<ImageGenRes
     };
   }
 
-  // 90-second hard timeout — NVIDIA can queue; without this the route hangs 370s+
-  const controller = new AbortController();
-  const timeoutId = setTimeout(() => controller.abort(), 90_000);
+  // 180-second hard timeout — Flux.1 Dev regularly needs 90–120 s;
+  // without a cap the route can hang 370 s+.
+  const apiKey = await getApiKey();
+  const headers: Record<string, string> = {
+    Authorization: `Bearer ${apiKey}`,
+    "Content-Type": "application/json",
+    Accept: "application/json",
+  };
+  const bodyStr = JSON.stringify(body);
 
-  let res: Response;
-  try {
-    res = await fetch(url, {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${await getApiKey()}`,
-        "Content-Type": "application/json",
-        Accept: "application/json",
-      },
-      body: JSON.stringify(body),
-      signal: controller.signal,
-    });
-  } catch (err) {
-    if ((err as Error).name === "AbortError") {
-      throw new Error("NVIDIA API timed out after 90 s — try Flux.1 Schnell (faster) or retry");
+  /** Single fetch attempt with abort timeout. */
+  async function attempt(): Promise<Response> {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 180_000);
+    try {
+      return await fetch(url, {
+        method: "POST",
+        headers,
+        body: bodyStr,
+        signal: controller.signal,
+      });
+    } catch (err) {
+      if ((err as Error).name === "AbortError") {
+        throw new Error("NVIDIA API timed out after 180 s — try Flux.1 Schnell (faster) or retry");
+      }
+      if (usingNim) {
+        throw new Error(
+          `Cannot reach NIM container at ${url} — is the container running? (${(err as Error).message})`
+        );
+      }
+      throw new Error(
+        `Cannot reach NVIDIA API — check your internet connection and API key (${(err as Error).message})`
+      );
+    } finally {
+      clearTimeout(timeoutId);
     }
-    throw err;
-  } finally {
-    clearTimeout(timeoutId);
+  }
+
+  // Retry once on transient 500/502/503 — NVIDIA API has intermittent failures.
+  let res = await attempt();
+  if (res.status >= 500 && res.status < 600) {
+    console.warn(`[nvidia] ${res.status} on first attempt — retrying once...`);
+    await new Promise((r) => setTimeout(r, 2000));
+    res = await attempt();
   }
 
   if (!res.ok) {
     const text = await res.text();
-    throw new Error(`NVIDIA API error (${res.status}): ${text}`);
+    // Try to extract a meaningful message from NVIDIA's JSON error body
+    let detail = text;
+    try {
+      const errJson = JSON.parse(text);
+      detail = errJson.detail || errJson.error?.message || errJson.message || text;
+    } catch { /* plain text is fine */ }
+    throw new Error(`NVIDIA API error (${res.status}): ${detail}`);
   }
 
   const json = await res.json();

@@ -65,7 +65,7 @@ export function ImageGenTab({ characters, nimAvailable }: { characters: Characte
     setSceneValue("");
     setAspect("1:1");
     setModel(availableModels[0].id);
-    setIncludeBrand(true);
+    setIncludeBrand(false);
     setResultImage(null);
     setError(null);
     setElapsedMs(0);
@@ -429,14 +429,14 @@ export function ImageGenTab({ characters, nimAvailable }: { characters: Characte
 
         {/* Actions */}
         <div className="flex gap-3">
-          <Button onClick={handleReset} variant="ghost" className="shrink-0 text-muted" title="Reset all fields" aria-label="Reset">
-            <RotateCcw className="size-4" />
+          <Button onClick={handleReset} variant="outline" className="shrink-0" title="Reset all fields">
+            <RotateCcw className="size-4" /> Reset
           </Button>
           <Button onClick={handleCopy} className="flex-1" variant="outline">
             {copied ? <Check className="size-4" /> : <Copy className="size-4" />}
             {copied ? "Copied!" : "Copy Full Prompt"}
           </Button>
-          <Button onClick={handleGenerate} disabled={generating || !prompt.trim() || promptTooLong}>
+          <Button onClick={handleGenerate} disabled={generating || !sendablePrompt.trim() || promptTooLong}>
             {generating
               ? <><Loader2 className="size-4 animate-spin" /> {(elapsedMs / 1000).toFixed(1)}s&nbsp;— up to 90s</>
               : <><Sparkles className="size-4" /> Generate</>
