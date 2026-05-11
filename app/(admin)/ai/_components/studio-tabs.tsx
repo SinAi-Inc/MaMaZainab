@@ -8,6 +8,7 @@ import { VideoGenTab } from "./video-gen-tab";
 import { CharacterPromptTool } from "./character-prompt-tool";
 import { HistoryTab } from "./history-tab";
 import type { Character } from "@/lib/characters/schema";
+import type { MenuCategory, MenuItem } from "@/lib/menu/schema";
 
 type Tab = "image" | "video" | "prompts" | "history";
 
@@ -18,7 +19,13 @@ const TABS: { id: Tab; label: string; icon: React.ComponentType<{ className?: st
   { id: "history", label: "History", icon: History },
 ];
 
-export function StudioTabs({ characters, nvidiaKeySet, nimAvailable }: { characters: Character[]; nvidiaKeySet: boolean; nimAvailable: boolean }) {
+export function StudioTabs({ characters, menuCategories, menuItems, nvidiaKeySet, nimAvailable }: {
+  characters: Character[];
+  menuCategories: MenuCategory[];
+  menuItems: MenuItem[];
+  nvidiaKeySet: boolean;
+  nimAvailable: boolean;
+}) {
   const [active, setActive] = useState<Tab>("image");
 
   return (
@@ -73,7 +80,7 @@ export function StudioTabs({ characters, nvidiaKeySet, nimAvailable }: { charact
       </div>
 
       {/* Tab content */}
-      {active === "image" && <ImageGenTab characters={characters} nimAvailable={nimAvailable} />}
+      {active === "image" && <ImageGenTab characters={characters} menuCategories={menuCategories} menuItems={menuItems} nimAvailable={nimAvailable} />}
       {active === "video" && <VideoGenTab characters={characters} />}
       {active === "prompts" && <CharacterPromptTool characters={characters} />}
       {active === "history" && <HistoryTab />}

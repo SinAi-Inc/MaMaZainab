@@ -1,18 +1,20 @@
 "use client";
 
 import { useState, useRef, useCallback, useMemo } from "react";
-import { Copy, Check, Sparkles, ImageIcon, Loader2, Users, RotateCcw, ShieldCheck, CheckCircle2, XCircle } from "lucide-react";
+import { Copy, Check, Sparkles, ImageIcon, Loader2, Users, RotateCcw, ShieldCheck, CheckCircle2, XCircle, UtensilsCrossed } from "lucide-react";
 import { toast } from "sonner";
 import { Card, CardBody } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/input";
 import type { Character } from "@/lib/characters/schema";
+import type { MenuCategory, MenuItem } from "@/lib/menu/schema";
 import {
   buildAnchorsFromCharacters,
   SCENE_CONTEXTS,
   assemblePrompt,
   getAnchorByValue,
   getSceneByValue,
+  buildMenuItemPrompt,
 } from "@/lib/ai/brand-bible";
 import { PresetPicker } from "./preset-picker";
 
@@ -24,7 +26,12 @@ const IMAGE_MODELS = [
 
 const ASPECT_RATIOS = ["1:1", "16:9", "9:16", "4:3", "3:2", "2.39:1"];
 
-export function ImageGenTab({ characters, nimAvailable }: { characters: Character[]; nimAvailable: boolean }) {
+export function ImageGenTab({ characters, menuCategories, menuItems, nimAvailable }: {
+  characters: Character[];
+  menuCategories: MenuCategory[];
+  menuItems: MenuItem[];
+  nimAvailable: boolean;
+}) {
   const characterAnchors = useMemo(
     () => buildAnchorsFromCharacters(characters),
     [characters],
@@ -35,6 +42,7 @@ export function ImageGenTab({ characters, nimAvailable }: { characters: Characte
   const [prompt, setPrompt] = useState("");
   const [anchorValues, setAnchorValues] = useState<string[]>([]);
   const [sceneValue, setSceneValue] = useState("");
+  const [menuItemId, setMenuItemId] = useState("");
   const [includeBrand, setIncludeBrand] = useState(true);
   const [copied, setCopied] = useState(false);
   const [generating, setGenerating] = useState(false);
@@ -63,6 +71,7 @@ export function ImageGenTab({ characters, nimAvailable }: { characters: Characte
     setPrompt("");
     setAnchorValues([]);
     setSceneValue("");
+    setMenuItemId("");
     setAspect("1:1");
     setModel(IMAGE_MODELS[0].id);
     setIncludeBrand(false);
@@ -106,6 +115,20 @@ export function ImageGenTab({ characters, nimAvailable }: { characters: Characte
 
   const selectedScene = getSceneByValue(sceneValue);
 
+  // Menu item lookup for food photography
+  const selectedMenuItem = menuItemId
+    ? menuItems.find((i) => i.id === menuItemId)
+    : undefined;
+  const menuItemPromptText = useMemo(() => {
+    if (!selectedMenuItem) return undefined;
+    const cat = menuCategories.find((c) => c.id === selectedMenuItem.categoryId);
+    return buildMenuItemPrompt({
+      nameEn: selectedMenuItem.nameEn,
+      descriptionEn: selectedMenuItem.descriptionEn,
+      categoryName: cat?.nameEn,
+    });
+  }, [selectedMenuItem, menuCategories]);
+
   const MAX_PROMPT = 3000;
 
   function toggleAnchor(value: string) {
@@ -130,14 +153,30 @@ export function ImageGenTab({ characters, nimAvailable }: { characters: Characte
       userPrompt: prompt,
       includePalette: includeBrand,
       isVideo: false,
+      menuItemPrompt: menuItemPromptText,
     });
     if (!assembled.trim()) return "";
     return `${assembled}\n\nAspect ratio: ${aspect} | Model: ${IMAGE_MODELS.find((m) => m.id === model)?.label ?? model}`;
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedScene, selectedAnchors, prompt, includeBrand, aspect, model]);
+  }, [selectedScene, selectedAnchors, prompt, includeBrand, aspect, model, menuItemPromptText]);
 
   /** What actually reaches NVIDIA — [REF:...] stripped, same as server cleanPrompt() */
   const sendablePrompt = useMemo(() => clientClean(fullPrompt), [fullPrompt]);
+
+  /** Brand system prompt (without user's Director's Notes) — for split preview */
+  const brandOnlyPrompt = useMemo(() => {
+    return clientClean(assemblePrompt({
+      sceneContext: selectedScene,
+      characterAnchors: selectedAnchors,
+      userPrompt: "",
+      includePalette: includeBrand,
+      isVideo: false,
+      menuItemPrompt: menuItemPromptText,
+    }));
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedScene, selectedAnchors, includeBrand, menuItemPromptText]);
+
+  const directorsNoteClean = prompt.trim();
 
   const promptTooLong = sendablePrompt.length > MAX_PROMPT;
 
@@ -339,6 +378,43 @@ export function ImageGenTab({ characters, nimAvailable }: { characters: Characte
           )}
         </div>
 
+        {/* Menu Item Picker — visible when scene is "Menu Item Hero" */}
+        {sceneValue === "menu_hero" && (
+          <div>
+            <label className="text-xs font-medium text-muted uppercase tracking-wider block mb-1.5">
+              <UtensilsCrossed className="size-3 inline mr-1" />
+              Menu Item <span className="font-normal">(your actual menu)</span>
+            </label>
+            <select
+              value={menuItemId}
+              onChange={(e) => setMenuItemId(e.target.value)}
+              aria-label="Menu item"
+              className="w-full text-sm border border-border-strong rounded-md px-2.5 py-2 bg-white"
+            >
+              <option value="">— Select a dish —</option>
+              {menuCategories.map((cat) => {
+                const catItems = menuItems.filter((i) => i.categoryId === cat.id && i.available);
+                if (catItems.length === 0) return null;
+                return (
+                  <optgroup key={cat.id} label={cat.nameEn}>
+                    {catItems.map((item) => (
+                      <option key={item.id} value={item.id}>
+                        {item.nameEn}{item.descriptionEn ? ` — ${item.descriptionEn}` : ""}
+                      </option>
+                    ))}
+                  </optgroup>
+                );
+              })}
+            </select>
+            {selectedMenuItem && (
+              <p className="text-[10px] text-brand-green-deep bg-brand-green/5 border border-brand-green/20 rounded-md px-3 py-1.5 mt-1.5">
+                Food direction will be auto-injected: <strong>{selectedMenuItem.nameEn}</strong>
+                {selectedMenuItem.descriptionEn && ` — ${selectedMenuItem.descriptionEn}`}
+              </p>
+            )}
+          </div>
+        )}
+
         {/* Character Anchors — multi-select with thumbnails */}
         <div>
           <div className="flex items-center gap-2 mb-2">
@@ -527,14 +603,36 @@ export function ImageGenTab({ characters, nimAvailable }: { characters: Characte
                   ))}
                 </div>
               )}
-              <pre className="text-[11px] font-mono whitespace-pre-wrap leading-relaxed text-brand-ink bg-surface rounded-md p-3 max-h-80 overflow-y-auto border border-border">
-                {sendablePrompt || "Select characters, set a scene, then write director's notes..."}
-              </pre>
+
+              {/* Split preview: Brand System Prompt + Director's Note */}
+              <div className="space-y-2">
+                {/* Brand System Prompt */}
+                <div>
+                  <p className="text-[9px] font-semibold uppercase tracking-wider text-brand-green-deep mb-1">
+                    Brand System Prompt
+                  </p>
+                  <pre className="text-[11px] font-mono whitespace-pre-wrap leading-relaxed text-brand-ink bg-brand-green/5 rounded-md p-2.5 max-h-40 overflow-y-auto border border-brand-green/20">
+                    {brandOnlyPrompt || "Select a scene or characters to build the brand prompt..."}
+                  </pre>
+                </div>
+
+                {/* Director's Note */}
+                <div>
+                  <p className="text-[9px] font-semibold uppercase tracking-wider text-amber-700 mb-1">
+                    Director&apos;s Note
+                  </p>
+                  <pre className="text-[11px] font-mono whitespace-pre-wrap leading-relaxed text-brand-ink bg-amber-50 rounded-md p-2.5 max-h-24 overflow-y-auto border border-amber-200">
+                    {directorsNoteClean || "Your creative direction will appear here..."}
+                  </pre>
+                </div>
+              </div>
+
               <div className="flex flex-wrap gap-x-2 gap-y-0.5 text-[10px] text-muted">
                 <span>{IMAGE_MODELS.find((m) => m.id === model)?.label}</span>
                 <span>·</span><span>{aspect}</span>
                 {selectedAnchors.length > 0 && <span>· {selectedAnchors.map((a) => a.label).join(", ")}</span>}
                 {selectedScene && <span>· {selectedScene.label}</span>}
+                {selectedMenuItem && <span>· 🍽 {selectedMenuItem.nameEn}</span>}
               </div>
             </>
           )}

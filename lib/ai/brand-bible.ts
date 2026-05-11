@@ -57,7 +57,7 @@ export function buildAnchorsFromCharacters(
       anchors.push({
         label: c.name,
         value: c.id,
-        promptAnchor: c.anchorBlock.trim() || buildFallbackAnchor(c),
+        promptAnchor: buildEnrichedAnchor(c),
         alsoInjectsPlaid: injectsPlaid,
         doNots: [...c.donts],
         referenceImage: refImg,
@@ -73,7 +73,6 @@ function buildModeAnchor(
   c: Character,
   mode: { label: string; costume: string; posture: string; when: string },
 ): string {
-  // Start with the base anchor block but append mode-specific details
   const base = c.anchorBlock.trim() || buildFallbackAnchor(c);
   const modeDetails = [
     mode.costume && `Costume: ${mode.costume}`,
@@ -82,7 +81,13 @@ function buildModeAnchor(
   ]
     .filter(Boolean)
     .join(". ");
-  return `${base}\nMode ${mode.label}: ${modeDetails}`;
+  const dosText = c.dos.length > 0
+    ? `Direction: ${c.dos.join(". ")}.`
+    : "";
+  return [
+    `${base}\nMode ${mode.label}: ${modeDetails}`,
+    dosText,
+  ].filter(Boolean).join("\n");
 }
 
 /** Fallback anchor from structured identity fields when anchorBlock is empty */
@@ -92,6 +97,35 @@ function buildFallbackAnchor(c: Character): string {
     if (f.value) parts.push(`${f.field}: ${f.value}`);
   }
   return parts.join(", ");
+}
+
+/**
+ * Build enriched anchor: base anchorBlock + identity fields + positive "dos".
+ * FLUX weights the start of the prompt highest (CLIP ~77 token window),
+ * so critical visual features (age, headscarf, skin tone) come first.
+ */
+function buildEnrichedAnchor(c: Character): string {
+  const base = c.anchorBlock.trim() || buildFallbackAnchor(c);
+
+  // Append identity fields not already in the base anchor (for specificity)
+  const extras: string[] = [];
+  for (const f of c.identityFields) {
+    if (!f.value) continue;
+    // Skip if the base anchor already mentions this field's value
+    if (base.toLowerCase().includes(f.value.toLowerCase().slice(0, 10))) continue;
+    extras.push(`${f.field}: ${f.value}`);
+  }
+
+  // Append positive brand dos as reinforcement
+  const dosText = c.dos.length > 0
+    ? `Direction: ${c.dos.join(". ")}.`
+    : "";
+
+  const parts = [base];
+  if (extras.length > 0) parts.push(extras.join(". "));
+  if (dosText) parts.push(dosText);
+
+  return parts.join("\n");
 }
 
 /* ---- Scene Context Options ---- */
@@ -211,6 +245,23 @@ export const RENDER_STYLE_BLOCK =
 
 /* ---- 6-Step Prompt Assembly ---- */
 
+/** Build food photography direction from a menu item's real data */
+export function buildMenuItemPrompt(item: {
+  nameEn: string;
+  descriptionEn: string;
+  categoryName?: string;
+}): string {
+  const parts = [`Hero food shot: ${item.nameEn}`];
+  if (item.descriptionEn) parts.push(`(${item.descriptionEn})`);
+  if (item.categoryName) parts.push(`Category: ${item.categoryName}`);
+  parts.push(
+    "Overhead or 45-degree angle, shallow depth of field, warm directional light, " +
+    "rustic ceramic plate on cream linen, garnished with fresh herbs. " +
+    "Authentic Egyptian home-cooking presentation, not restaurant fine-dining."
+  );
+  return parts.join(". ");
+}
+
 export function assemblePrompt(opts: {
   sceneContext?: SceneContextOption;
   /** Single anchor (legacy) OR multiple anchors for multi-character frames */
@@ -219,8 +270,10 @@ export function assemblePrompt(opts: {
   userPrompt: string;
   includePalette: boolean;
   isVideo?: boolean;
+  /** When set, injects food photography direction from the real menu */
+  menuItemPrompt?: string;
 }): string {
-  const { sceneContext, userPrompt, includePalette, isVideo } = opts;
+  const { sceneContext, userPrompt, includePalette, isVideo, menuItemPrompt } = opts;
 
   // Normalise to an array — support both single and multi-anchor call sites
   const anchors: CharacterAnchorOption[] = opts.characterAnchors?.length
@@ -239,6 +292,11 @@ export function assemblePrompt(opts: {
     parts.push(
       `Scene: ${sceneContext.label}. Mood: ${sceneContext.mood}. Key colors: ${sceneContext.paletteFocus.join(", ")}. Pattern usage: ${sceneContext.patternUsage}.`
     );
+  }
+
+  // Step 1b: Menu Item (food photography direction from real menu data)
+  if (menuItemPrompt) {
+    parts.push(menuItemPrompt);
   }
 
   // Step 2: Character Anchors (one block per character)
