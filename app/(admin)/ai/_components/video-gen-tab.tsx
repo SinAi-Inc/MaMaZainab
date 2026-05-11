@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useMemo } from "react";
-import { Copy, Check, Video, ExternalLink, Users } from "lucide-react";
+import { Copy, Check, Video, ExternalLink, Users, RotateCcw } from "lucide-react";
 import { toast } from "sonner";
 import { Card, CardBody } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -130,6 +130,18 @@ export function VideoGenTab({ characters }: { characters: Character[] }) {
   function handleLaunch(service: (typeof SERVICES)[number]) {
     handleCopy(service.id);
     setTimeout(() => window.open(service.url, "_blank", "noopener,noreferrer"), 300);
+  }
+
+  function handleReset() {
+    setPrompt("");
+    setAnchorValues([]);
+    setSceneValue("");
+    setAspect("16:9");
+    setDuration(5);
+    setStylePreset("");
+    setIncludeBrand(true);
+    setCopied(null);
+    toast.success("All fields reset");
   }
 
   return (
@@ -324,9 +336,14 @@ export function VideoGenTab({ characters }: { characters: Character[] }) {
         </label>
 
         {/* Copy-only action */}
-        <Button onClick={() => handleCopy()} variant="outline" className="w-full">
-          {copied === "generic" ? <><Check className="size-4" /> Copied!</> : <><Copy className="size-4" /> Copy Full Prompt</>}
-        </Button>
+        <div className="flex gap-3">
+          <Button onClick={handleReset} variant="ghost" className="shrink-0 text-muted" title="Reset all fields" aria-label="Reset">
+            <RotateCcw className="size-4" />
+          </Button>
+          <Button onClick={() => handleCopy()} variant="outline" className="flex-1">
+            {copied === "generic" ? <><Check className="size-4" /> Copied!</> : <><Copy className="size-4" /> Copy Full Prompt</>}
+          </Button>
+        </div>
       </div>
 
       {/* Right: prompt preview + service launchers */}
