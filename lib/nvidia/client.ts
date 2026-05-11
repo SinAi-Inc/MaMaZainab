@@ -117,14 +117,44 @@ export async function generateImage(params: ImageGenParams): Promise<ImageGenRes
   const { model, prompt: rawPrompt, width = 1024, height = 1024, seed = 0, steps, cfgScale } = params;
   const prompt = cleanPrompt(rawPrompt);
 
-  // Flux.1-dev and Flux.1-schnell only accept prompt/width/height/seed.
-  // cfg_scale, steps, num_inference_steps, guidance_scale are forbidden (NVIDIA Catalog 2026-05).
-  const body: Record<string, unknown> = {
-    prompt,
-    width,
-    height,
-    ...(seed ? { seed } : {}),
-  };
+  // ── Request format ────────────────────────────────────────────────────────
+  // NIM containers (NVIDIA_NIM_BASE_URL set) expose OpenAI-compatible Images API:
+  //   POST /v1/images/generations  { model, prompt, width, height, n, response_format }
+  //   Response: { data: [{ b64_json, ... }] }
+  //
+  // NVIDIA API Catalog (cloud) uses a different path per-model:
+  //   POST /v1/genai/<model-id>  { prompt, width, height, seed }
+  //   Response: { artifacts: [{ base64, seed }] } or { image }
+
+  const usingNim = nimAvailable();
+  const baseUrl = getBaseUrl();
+
+  let url: string;
+  let body: Record<string, unknown>;
+
+  if (usingNim) {
+    // Strip /v1/genai suffix if user included it — NIM base is just the host
+    const nimBase = baseUrl.replace(/\/v1\/genai\/?$/, "").replace(/\/$/, "");
+    url = `${nimBase}/v1/images/generations`;
+    body = {
+      model,
+      prompt,
+      n: 1,
+      width,
+      height,
+      response_format: "b64_json",
+      ...(seed ? { seed } : {}),
+    };
+  } else {
+    // NVIDIA API Catalog: path includes model ID
+    url = `${baseUrl}/${model}`;
+    body = {
+      prompt,
+      width,
+      height,
+      ...(seed ? { seed } : {}),
+    };
+  }
 
   // 90-second hard timeout — NVIDIA can queue; without this the route hangs 370s+
   const controller = new AbortController();
@@ -132,7 +162,7 @@ export async function generateImage(params: ImageGenParams): Promise<ImageGenRes
 
   let res: Response;
   try {
-    res = await fetch(`${getBaseUrl()}/${model}`, {
+    res = await fetch(url, {
       method: "POST",
       headers: {
         Authorization: `Bearer ${await getApiKey()}`,
@@ -158,11 +188,15 @@ export async function generateImage(params: ImageGenParams): Promise<ImageGenRes
 
   const json = await res.json();
 
-  // NVIDIA returns { artifacts: [{ base64, seed, ... }] } or { image: "base64..." }
+  // Parse response — NIM returns OpenAI shape, Catalog returns artifacts shape
   let imageData: string;
   let resultSeed = seed;
 
-  if (json.artifacts?.[0]) {
+  if (json.data?.[0]?.b64_json) {
+    // NIM / OpenAI Images format
+    imageData = json.data[0].b64_json;
+  } else if (json.artifacts?.[0]) {
+    // NVIDIA API Catalog format
     imageData = json.artifacts[0].base64;
     resultSeed = json.artifacts[0].seed ?? seed;
   } else if (json.image) {
