@@ -72,7 +72,8 @@ create table if not exists settings (
   session_timeout  text not null default '30',
   require_password boolean not null default false,
   admin_password   text not null default '',
-  allow_public_menu boolean not null default true
+  allow_public_menu boolean not null default true,
+  session_floor    text not null default ''
 );
 
 -- Insert default row
@@ -267,3 +268,10 @@ exception when duplicate_object then null; end $$;
 do $$ begin
   create policy "uploads_service_delete" on storage.objects for delete using ( bucket_id = 'uploads' );
 exception when duplicate_object then null; end $$;
+
+-- ============================================================
+-- Incremental migrations (safe to re-run)
+-- ============================================================
+
+-- Add session_floor column to settings (session invalidation)
+alter table settings add column if not exists session_floor text not null default '';
