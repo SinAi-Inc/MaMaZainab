@@ -2,12 +2,12 @@
 
 import { useTransition, useRef } from "react";
 import { toast } from "sonner";
-import { Settings, Globe, Bell, Lock, User, Save, Plug, Shield, Share2, Cpu } from "lucide-react";
+import { Settings, Globe, Bell, Lock, Shield, User, Save, Plug, Share2, Cpu, LogOut } from "lucide-react";
 import { Card, CardBody } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import type { Settings as SettingsType } from "@/lib/settings/schema";
-import { saveSettings } from "@/lib/settings/actions";
+import { saveSettings, terminateOtherSessions } from "@/lib/settings/actions";
 
 function SectionHeader({
   icon: Icon,
@@ -62,6 +62,7 @@ function Toggle({
 
 export function SettingsForm({ settings }: { settings: SettingsType }) {
   const [pending, startTransition] = useTransition();
+  const [terminating, startTerminate] = useTransition();
   const formRef = useRef<HTMLFormElement>(null);
 
   function handleSubmit(e: React.FormEvent) {
@@ -70,6 +71,17 @@ export function SettingsForm({ settings }: { settings: SettingsType }) {
     startTransition(async () => {
       await saveSettings(fd);
       toast.success("Settings saved");
+    });
+  }
+
+  function handleTerminateSessions() {
+    startTerminate(async () => {
+      const result = await terminateOtherSessions();
+      if (result.ok) {
+        toast.success("All other sessions have been ended");
+      } else {
+        toast.error(result.error ?? "Failed to end sessions");
+      }
     });
   }
 
@@ -274,6 +286,29 @@ export function SettingsForm({ settings }: { settings: SettingsType }) {
           <FieldRow label="Public Menu Access">
             <Toggle name="allowPublicMenu" defaultChecked={settings.allowPublicMenu} />
           </FieldRow>
+
+          {/* End other sessions */}
+          <div className="pt-4 mt-3 border-t border-border">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm font-medium">End All Other Sessions</p>
+                <p className="text-xs text-muted mt-0.5">
+                  Sign out every device &amp; browser except this one.
+                </p>
+              </div>
+              <Button
+                type="button"
+                variant="danger"
+                size="sm"
+                disabled={terminating}
+                onClick={handleTerminateSessions}
+                className="flex items-center gap-1.5 shrink-0"
+              >
+                <LogOut className="size-3.5" />
+                {terminating ? "Ending…" : "End Sessions"}
+              </Button>
+            </div>
+          </div>
         </CardBody>
       </Card>
 

@@ -34,6 +34,8 @@ export const SettingsSchema = z.object({
   requirePassword: z.boolean().default(false),
   adminPassword: z.string().default(""),
   allowPublicMenu: z.boolean().default(true),
+  /** ISO timestamp — JWTs issued before this are rejected ("end all sessions"). */
+  sessionFloor: z.string().default(""),
 });
 
 export type Settings = z.infer<typeof SettingsSchema>;
