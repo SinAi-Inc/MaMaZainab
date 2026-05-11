@@ -12,7 +12,22 @@
 
 import { readSettings } from "@/lib/settings/store";
 
-const BASE_URL = "https://ai.api.nvidia.com/v1/genai";
+const CLOUD_BASE_URL = "https://ai.api.nvidia.com/v1/genai";
+
+/**
+ * Base URL for NVIDIA API requests.
+ * Set NVIDIA_NIM_BASE_URL to point at a local or cloud NIM container,
+ * e.g. "http://localhost:8000/v1/genai" or "https://my-runpod-xxx.runpod.net/v1/genai".
+ * When unset, defaults to the NVIDIA API Catalog (requires NVIDIA_API_KEY).
+ */
+function getBaseUrl(): string {
+  return process.env.NVIDIA_NIM_BASE_URL?.replace(/\/$/, "") ?? CLOUD_BASE_URL;
+}
+
+/** Whether a custom NIM endpoint is configured (local or cloud GPU host). */
+export function nimAvailable(): boolean {
+  return !!process.env.NVIDIA_NIM_BASE_URL;
+}
 
 async function getApiKey(): Promise<string> {
   // 1. Check settings store (user-entered key via UI)
@@ -24,7 +39,12 @@ async function getApiKey(): Promise<string> {
   }
   // 2. Fall back to environment variable
   const key = process.env.NVIDIA_API_KEY;
-  if (!key) throw new Error("NVIDIA_API_KEY is not set — add it in Settings → AI Model Keys");
+  // When using a local NIM container, no API key is required.
+  // Return a placeholder so the Authorization header is present but harmless.
+  if (!key) {
+    if (nimAvailable()) return "no-key-required";
+    throw new Error("NVIDIA_API_KEY is not set — add it in Settings → AI Model Keys");
+  }
   return key;
 }
 
@@ -35,11 +55,20 @@ export const NVIDIA_IMAGE_MODELS = [
     id: "black-forest-labs/flux.1-dev",
     label: "Flux.1 Dev",
     vendor: "Black Forest Labs",
+    nimOnly: false,
   },
   {
     id: "black-forest-labs/flux.1-schnell",
     label: "Flux.1 Schnell",
     vendor: "Black Forest Labs",
+    nimOnly: false,
+  },
+  {
+    id: "black-forest-labs/flux.2-klein-4b",
+    label: "Flux.2 Klein",
+    vendor: "Black Forest Labs",
+    /** Requires a local or cloud NVIDIA NIM container (NVIDIA_NIM_BASE_URL). */
+    nimOnly: true,
   },
 ] as const;
 
@@ -103,7 +132,7 @@ export async function generateImage(params: ImageGenParams): Promise<ImageGenRes
 
   let res: Response;
   try {
-    res = await fetch(`${BASE_URL}/${model}`, {
+    res = await fetch(`${getBaseUrl()}/${model}`, {
       method: "POST",
       headers: {
         Authorization: `Bearer ${await getApiKey()}`,
@@ -210,7 +239,7 @@ export async function submitVideoJob(params: VideoGenParams): Promise<VideoJobRe
     motion_bucket_id: 127,
   };
 
-  const res = await fetch(`${BASE_URL}/stabilityai/stable-video-diffusion`, {
+  const res = await fetch(`${getBaseUrl()}/stabilityai/stable-video-diffusion`, {
     method: "POST",
     headers: {
       Authorization: `Bearer ${await getApiKey()}`,

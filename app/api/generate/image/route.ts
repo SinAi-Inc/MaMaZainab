@@ -1,12 +1,15 @@
 import { NextRequest, NextResponse } from "next/server";
-import { generateImage, NVIDIA_IMAGE_MODELS, type NvidiaImageModelId } from "@/lib/nvidia/client";
+import { generateImage, NVIDIA_IMAGE_MODELS, nimAvailable, type NvidiaImageModelId } from "@/lib/nvidia/client";
 import { requireAdmin } from "@/lib/api-guard";
 import { recordGeneration } from "@/lib/generations/actions";
 
 // Vercel Hobby: 60s max. Vercel Pro: up to 300s. Set 90s to match client timeout.
 export const maxDuration = 90;
 
-const VALID_MODELS = new Set(NVIDIA_IMAGE_MODELS.map((m) => m.id));
+// NIM-only models are only valid when NVIDIA_NIM_BASE_URL is configured.
+const VALID_MODELS = new Set(
+  NVIDIA_IMAGE_MODELS.filter((m) => !m.nimOnly || nimAvailable()).map((m) => m.id)
+);
 
 // NVIDIA FLUX.1 practical prompt limit — beyond ~2000 chars quality degrades
 const MAX_PROMPT_CHARS = 2000;

@@ -1,4 +1,5 @@
 import { readCharacters } from "@/lib/characters/store";
+import { nimAvailable } from "@/lib/nvidia/client";
 import { StudioTabs } from "./_components/studio-tabs";
 
 export const dynamic = "force-dynamic";
@@ -6,6 +7,7 @@ export const dynamic = "force-dynamic";
 export default async function StudioPage() {
   const { characters } = await readCharacters();
   const nvidiaKeySet = !!(process.env.NVIDIA_API_KEY && process.env.NVIDIA_API_KEY.length > 0);
+  const hasNim = nimAvailable();
 
-  return <StudioTabs characters={characters} nvidiaKeySet={nvidiaKeySet} />;
+  return <StudioTabs characters={characters} nvidiaKeySet={nvidiaKeySet} nimAvailable={hasNim} />;
 }
