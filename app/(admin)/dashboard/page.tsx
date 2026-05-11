@@ -21,6 +21,7 @@ import { readContacts } from "@/lib/contacts/store";
 import { Card, CardBody } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 import { SyncMenuButton } from "./_components/sync-menu-button";
+import { HitlReviewQueue, type ReadyTake } from "./_components/hitl-review-queue";
 
 export const dynamic = "force-dynamic";
 
@@ -155,6 +156,17 @@ export default async function DashboardPage() {
   // Contact stats
   const totalContacts = contacts.contacts.length;
 
+  // HITL — takes registered and awaiting human approval
+  const readyTakes: ReadyTake[] = studio.takes
+    .filter((t) => t.status === "ready")
+    .map((take) => {
+      const shot = studio.shots.find((s) => s.id === take.shotId);
+      const project = studio.projects.find((p) => p.id === take.projectId);
+      return shot && project ? { take, shot, project } : null;
+    })
+    .filter((x): x is ReadyTake => x !== null)
+    .slice(0, 10);
+
   return (
     <div className="space-y-8 max-w-6xl">
       {/* Page header */}
@@ -277,6 +289,15 @@ export default async function DashboardPage() {
             </Link>
           </Card>
         </div>
+      </div>
+
+      {/* ── HITL Review Queue ───────────────────────────────────── */}
+      <div>
+        <p className="text-xs uppercase tracking-[0.2em] text-muted mb-1">Human in the Loop</p>
+        <p className="text-sm text-muted mb-4">
+          AI-generated takes waiting for your review before they enter the cut.
+        </p>
+        <HitlReviewQueue items={readyTakes} />
       </div>
 
       {/* Two-column: status + quick actions */}
