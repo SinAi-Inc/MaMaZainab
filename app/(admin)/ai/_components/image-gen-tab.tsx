@@ -60,7 +60,6 @@ export function ImageGenTab({ characters, nimAvailable }: { characters: Characte
   }, []);
 
   function handleReset() {
-    setPrompt("");
     setAnchorValues([]);
     setSceneValue("");
     setAspect("1:1");
@@ -69,7 +68,7 @@ export function ImageGenTab({ characters, nimAvailable }: { characters: Characte
     setResultImage(null);
     setError(null);
     setElapsedMs(0);
-    toast.success("Prompt cleared");
+    toast.success("Assembled prompt reset");
   }
 
   async function handleValidateModels() {
