@@ -59,7 +59,7 @@ export function ImageGenTab({ characters, nimAvailable }: { characters: Characte
 
   const selectedScene = getSceneByValue(sceneValue);
 
-  const MAX_PROMPT = 2000;
+  const MAX_PROMPT = 3000;
 
   function toggleAnchor(value: string) {
     setAnchorValues((prev) =>
