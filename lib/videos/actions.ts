@@ -150,7 +150,11 @@ export async function reparseProjectScript(projectId: string, script: string) {
 export async function loadScriptFromRepo(projectId: string, relPath: string) {
   // Repo root = workspace root, two levels up from /11_AdminUI
   const repoRoot = path.resolve(process.cwd(), "..");
-  const full = path.join(repoRoot, relPath);
+  const full = path.resolve(repoRoot, relPath);
+  const relative = path.relative(repoRoot, full);
+  if (relative.startsWith("..") || path.isAbsolute(relative)) {
+    throw new Error("Invalid script path");
+  }
   const md = await fs.readFile(full, "utf8");
   return reparseProjectScript(projectId, md);
 }
