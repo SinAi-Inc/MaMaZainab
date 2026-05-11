@@ -361,7 +361,7 @@ function GenerateTakeForm({
   const [model, setModel] = useState<VideoModel>(
     (MODELS as string[]).includes(defaultModel)
       ? (defaultModel as VideoModel)
-      : "stabilityai/stable-video-diffusion",
+      : "runway/gen4",
   );
   const [prompt, setPrompt] = useState(
     defaultPrompt
@@ -391,9 +391,7 @@ function GenerateTakeForm({
           durationSec: 0,
           notes: "",
         });
-        toast.success(
-          videoUrl ? "Take registered" : "Take dispatched to NVIDIA — check status to poll for result",
-        );
+        toast.success("Take registered");
         onCreated();
       } catch (e: unknown) {
         toast.error(e instanceof Error ? e.message : "Failed");
@@ -491,15 +489,20 @@ function GenerateTakeForm({
             }}
           />
         </label>
+        {!videoUrl && (
+          <p className="mt-2 text-[10px] text-amber-700 bg-amber-50 border border-amber-200 rounded-md px-3 py-2">
+            NVIDIA Stable Video Diffusion is deprecated. Generate your video in the Studio&nbsp;→&nbsp;Video tab (Runway, Kling, or Google Flow), then paste the URL or upload the file above.
+          </p>
+        )}
       </div>
 
       <div className="flex justify-end gap-2 pt-1">
         <Button variant="ghost" onClick={onCancel} type="button">
           Cancel
         </Button>
-        <Button onClick={submit} disabled={pending || uploading} type="button">
+        <Button onClick={submit} disabled={pending || uploading || !videoUrl} type="button">
           <Wand2 className="size-4" />
-          {pending ? "Saving…" : videoUrl ? "Register take" : "Queue take"}
+          {pending ? "Saving…" : "Register take"}
         </Button>
       </div>
     </div>
