@@ -105,8 +105,7 @@ export function ImageGenTab({ characters, nimAvailable }: { characters: Characte
   }
 
   async function handleGenerate() {
-    const full = buildFullPrompt();
-    if (!full.trim()) { toast.error("Write a prompt first"); return; }
+    if (!sendablePrompt.trim()) { toast.error("Write a prompt first"); return; }
     setGenerating(true);
     setResultImage(null);
     setError(null);
@@ -119,7 +118,7 @@ export function ImageGenTab({ characters, nimAvailable }: { characters: Characte
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           model,
-          prompt: full,
+          prompt: sendablePrompt,
           aspect,
           characterAnchor: anchorValues.join(","),
           sceneContext: sceneValue,
