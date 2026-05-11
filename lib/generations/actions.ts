@@ -9,6 +9,11 @@ import type { GenerationEntry, GenerationState } from "./schema";
 
 const UPLOAD_DIR = path.join(process.cwd(), "public", "uploads", "generations");
 
+function sanitizeExtension(ext: string): string {
+  const normalized = ext.trim().replace(/^\.+/, "").toLowerCase();
+  return /^[a-z0-9]{1,10}$/.test(normalized) ? normalized : "jpg";
+}
+
 /** Save a base64 image to uploads/generations/ and return the public path. */
 export async function saveGeneratedImage(
   base64: string,
@@ -16,7 +21,8 @@ export async function saveGeneratedImage(
 ): Promise<string> {
   await fs.mkdir(UPLOAD_DIR, { recursive: true });
   const slug = randomBytes(8).toString("hex");
-  const filename = `${slug}.${ext}`;
+  const safeExt = sanitizeExtension(ext);
+  const filename = `${slug}.${safeExt}`;
   const filePath = path.join(UPLOAD_DIR, filename);
   const buffer = Buffer.from(base64, "base64");
   await fs.writeFile(filePath, buffer);
