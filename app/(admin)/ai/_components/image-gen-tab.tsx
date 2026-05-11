@@ -29,8 +29,8 @@ export function ImageGenTab({ characters, nimAvailable }: { characters: Characte
     () => buildAnchorsFromCharacters(characters),
     [characters],
   );
-  const availableModels = IMAGE_MODELS.filter((m) => !m.nimOnly || nimAvailable);
-  const [model, setModel] = useState<string>(availableModels[0].id);
+  const availableModels = IMAGE_MODELS;
+  const [model, setModel] = useState<string>(IMAGE_MODELS[0].id);
   const [aspect, setAspect] = useState("1:1");
   const [prompt, setPrompt] = useState("");
   const [anchorValues, setAnchorValues] = useState<string[]>([]);
@@ -64,7 +64,7 @@ export function ImageGenTab({ characters, nimAvailable }: { characters: Characte
     setAnchorValues([]);
     setSceneValue("");
     setAspect("1:1");
-    setModel(availableModels[0].id);
+    setModel(IMAGE_MODELS[0].id);
     setIncludeBrand(false);
     setResultImage(null);
     setError(null);
@@ -118,6 +118,7 @@ export function ImageGenTab({ characters, nimAvailable }: { characters: Characte
   function clientClean(raw: string): string {
     return raw
       .replace(/\[REF:[^\]]*\]/gi, "")
+      .replace(/\[[A-Z][A-Z _]*(?::[^\]]*)?\]/gi, "")
       .replace(/\n{3,}/g, "\n\n")
       .trim();
   }
@@ -228,7 +229,7 @@ export function ImageGenTab({ characters, nimAvailable }: { characters: Characte
             >
               {availableModels.map((m) => (
                 <option key={m.id} value={m.id}>
-                  {m.label} — {m.vendor}{m.nimOnly ? " [NIM]" : ""}
+                  {m.label} — {m.vendor}{m.nimOnly ? (nimAvailable ? " [NIM]" : " [NIM — offline]") : ""}
                 </option>
               ))}
             </select>

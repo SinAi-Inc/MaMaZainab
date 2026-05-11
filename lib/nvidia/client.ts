@@ -108,6 +108,9 @@ function cleanPrompt(raw: string): string {
   return raw
     // Remove [REF: ...] image reference tags (FLUX is text-only)
     .replace(/\[REF:[^\]]*\]/gi, "")
+    // Strip any remaining [TAG: ...] or [TAG] bracket markers — FLUX treats
+    // these as literal text garbage and produces black / 3D-looking output.
+    .replace(/\[[A-Z][A-Z _]*(?::[^\]]*)?\]/gi, "")
     // Collapse multiple blank lines left by removals
     .replace(/\n{3,}/g, "\n\n")
     .trim();
