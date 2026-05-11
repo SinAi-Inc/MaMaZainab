@@ -73,6 +73,7 @@ export const NVIDIA_IMAGE_MODELS = [
 ] as const;
 
 export type NvidiaImageModelId = (typeof NVIDIA_IMAGE_MODELS)[number]["id"];
+const ALLOWED_IMAGE_MODEL_IDS = new Set<string>(NVIDIA_IMAGE_MODELS.map((m) => m.id));
 
 /* ---- Video Models (NVIDIA API Catalog) ---- */
 
@@ -118,6 +119,9 @@ function cleanPrompt(raw: string): string {
 
 export async function generateImage(params: ImageGenParams): Promise<ImageGenResult> {
   const { model, prompt: rawPrompt, width = 1024, height = 1024, seed = 0, steps, cfgScale } = params;
+  if (!ALLOWED_IMAGE_MODEL_IDS.has(model)) {
+    throw new Error("Invalid model");
+  }
   const prompt = cleanPrompt(rawPrompt);
 
   // ── Request format ────────────────────────────────────────────────────────
@@ -157,7 +161,7 @@ export async function generateImage(params: ImageGenParams): Promise<ImageGenRes
     };
   } else {
     // NVIDIA API Catalog: path includes model ID
-    url = `${CLOUD_BASE_URL}/${model}`;
+    url = `${CLOUD_BASE_URL}/${encodeURIComponent(model)}`;
     body = {
       prompt,
       width,

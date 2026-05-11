@@ -12,13 +12,19 @@ const UPLOAD_DIR = path.join(process.cwd(), "public", "uploads", "generations");
 const BUCKET = "uploads";
 const STORAGE_SUBDIR = "generations";
 
+function sanitizeExtension(ext: string): string {
+  const normalized = ext.trim().replace(/^\.+/, "").toLowerCase();
+  return /^[a-z0-9]{1,10}$/.test(normalized) ? normalized : "jpg";
+}
+
 /** Save a base64 image to persistent storage (Supabase on prod, local disk on dev). */
 export async function saveGeneratedImage(
   base64: string,
   ext: string = "jpg",
 ): Promise<string> {
   const slug = randomBytes(8).toString("hex");
-  const filename = `${slug}.${ext}`;
+  const safeExt = sanitizeExtension(ext);
+  const filename = `${slug}.${safeExt}`;
   const buffer = Buffer.from(base64, "base64");
 
   if (isSupabaseConfigured()) {
@@ -28,7 +34,7 @@ export async function saveGeneratedImage(
     const { error } = await sb.storage
       .from(BUCKET)
       .upload(storagePath, buffer, {
-        contentType: ext === "mp4" ? "video/mp4" : `image/${ext}`,
+        contentType: safeExt === "mp4" ? "video/mp4" : `image/${safeExt}`,
         upsert: false,
       });
     if (error) throw new Error(`Upload failed: ${error.message}`);
