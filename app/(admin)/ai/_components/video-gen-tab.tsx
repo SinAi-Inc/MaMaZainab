@@ -139,7 +139,7 @@ export function VideoGenTab({ characters }: { characters: Character[] }) {
     setAspect("16:9");
     setDuration(5);
     setStylePreset("");
-    setIncludeBrand(true);
+    setIncludeBrand(false);
     setCopied(null);
     toast.success("All fields reset");
   }
@@ -337,8 +337,8 @@ export function VideoGenTab({ characters }: { characters: Character[] }) {
 
         {/* Copy-only action */}
         <div className="flex gap-3">
-          <Button onClick={handleReset} variant="ghost" className="shrink-0 text-muted" title="Reset all fields" aria-label="Reset">
-            <RotateCcw className="size-4" />
+          <Button onClick={handleReset} variant="outline" className="shrink-0" title="Reset all fields">
+            <RotateCcw className="size-4" /> Reset
           </Button>
           <Button onClick={() => handleCopy()} variant="outline" className="flex-1">
             {copied === "generic" ? <><Check className="size-4" /> Copied!</> : <><Copy className="size-4" /> Copy Full Prompt</>}

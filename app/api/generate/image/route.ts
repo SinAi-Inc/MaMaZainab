@@ -3,8 +3,9 @@ import { generateImage, NVIDIA_IMAGE_MODELS, nimAvailable, type NvidiaImageModel
 import { requireAdmin } from "@/lib/api-guard";
 import { recordGeneration } from "@/lib/generations/actions";
 
-// Vercel Hobby: 60s max. Vercel Pro: up to 300s. Set 90s to match client timeout.
-export const maxDuration = 90;
+// Vercel Hobby: 60s max. Vercel Pro: up to 300s.
+// Flux.1 Dev regularly needs 90-120s; match the 180s client-side hard timeout.
+export const maxDuration = 180;
 
 // NIM-only models are only valid when NVIDIA_NIM_BASE_URL is configured.
 const VALID_MODELS = new Set(
