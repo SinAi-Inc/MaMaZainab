@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useRef, useCallback, useMemo } from "react";
-import { Copy, Check, Sparkles, ImageIcon, Loader2, Users } from "lucide-react";
+import { Copy, Check, Sparkles, ImageIcon, Loader2, Users, RotateCcw, ShieldCheck, CheckCircle2, XCircle } from "lucide-react";
 import { toast } from "sonner";
 import { Card, CardBody } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -41,6 +41,13 @@ export function ImageGenTab({ characters, nimAvailable }: { characters: Characte
   const [resultImage, setResultImage] = useState<string | null>(null);
   const [elapsedMs, setElapsedMs] = useState(0);
   const [error, setError] = useState<string | null>(null);
+
+  // Model validation state
+  type ModelStatus = "idle" | "testing" | "ok" | "failed";
+  type ModelValidation = { status: ModelStatus; elapsedMs?: number; error?: string };
+  const [showValidation, setShowValidation] = useState(false);
+  const [validations, setValidations] = useState<Record<string, ModelValidation>>({});
+  const [validating, setValidating] = useState(false);
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   const startTimer = useCallback(() => {
@@ -51,6 +58,46 @@ export function ImageGenTab({ characters, nimAvailable }: { characters: Characte
   const stopTimer = useCallback(() => {
     if (timerRef.current) { clearInterval(timerRef.current); timerRef.current = null; }
   }, []);
+
+  function handleReset() {
+    setPrompt("");
+    setAnchorValues([]);
+    setSceneValue("");
+    setAspect("1:1");
+    setModel(availableModels[0].id);
+    setIncludeBrand(true);
+    setResultImage(null);
+    setError(null);
+    setElapsedMs(0);
+    toast.success("Prompt cleared");
+  }
+
+  async function handleValidateModels() {
+    setValidating(true);
+    const initial: Record<string, ModelValidation> = {};
+    for (const m of availableModels) initial[m.id] = { status: "idle" };
+    setValidations(initial);
+
+    for (const m of availableModels) {
+      setValidations((prev) => ({ ...prev, [m.id]: { status: "testing" } }));
+      try {
+        const res = await fetch(`/api/validate-models?model=${encodeURIComponent(m.id)}`);
+        const data = await res.json();
+        setValidations((prev) => ({
+          ...prev,
+          [m.id]: data.ok
+            ? { status: "ok", elapsedMs: data.elapsedMs }
+            : { status: "failed", error: data.error, elapsedMs: data.elapsedMs },
+        }));
+      } catch (err) {
+        setValidations((prev) => ({
+          ...prev,
+          [m.id]: { status: "failed", error: err instanceof Error ? err.message : "Request failed" },
+        }));
+      }
+    }
+    setValidating(false);
+  }
 
   const selectedAnchors = useMemo(
     () => anchorValues.map((v) => getAnchorByValue(v, characterAnchors)).filter(Boolean) as ReturnType<typeof getAnchorByValue>[],
@@ -160,9 +207,19 @@ export function ImageGenTab({ characters, nimAvailable }: { characters: Characte
         {/* Model + Aspect row */}
         <div className="grid grid-cols-2 gap-3">
           <div>
-            <label className="text-xs font-medium text-muted uppercase tracking-wider block mb-1.5">
-              Model
-            </label>
+            <div className="flex items-center justify-between mb-1.5">
+              <label className="text-xs font-medium text-muted uppercase tracking-wider">
+                Model
+              </label>
+              <button
+                type="button"
+                onClick={() => setShowValidation((v) => !v)}
+                className="text-[10px] text-brand-green hover:underline flex items-center gap-1"
+              >
+                <ShieldCheck className="size-3" />
+                {showValidation ? "Hide validator" : "Validate models"}
+              </button>
+            </div>
             <select
               value={model}
               onChange={(e) => setModel(e.target.value)}
@@ -197,6 +254,66 @@ export function ImageGenTab({ characters, nimAvailable }: { characters: Characte
             </div>
           </div>
         </div>
+
+        {/* Model Validation Panel */}
+        {showValidation && (
+          <div className="border border-border rounded-lg p-4 space-y-3 bg-surface">
+            <div className="flex items-center justify-between">
+              <h4 className="text-xs font-semibold uppercase tracking-wider text-muted flex items-center gap-1.5">
+                <ShieldCheck className="size-3.5" /> Model Validation
+              </h4>
+              <div className="flex gap-2">
+                <Button
+                  size="sm"
+                  variant="outline"
+                  onClick={handleValidateModels}
+                  disabled={validating}
+                  className="text-xs h-7 px-2.5"
+                >
+                  {validating ? <Loader2 className="size-3 animate-spin mr-1" /> : <Sparkles className="size-3 mr-1" />}
+                  {validating ? "Testing…" : "Run Tests"}
+                </Button>
+                <button
+                  type="button"
+                  onClick={() => setShowValidation(false)}
+                  className="text-xs text-muted hover:text-brand-ink px-1.5"
+                  aria-label="Close"
+                >✕</button>
+              </div>
+            </div>
+            <div className="space-y-2">
+              {availableModels.map((m) => {
+                const v = validations[m.id];
+                return (
+                  <div key={m.id} className="flex items-center gap-3 text-sm">
+                    {!v || v.status === "idle" ? (
+                      <span className="size-4 text-[10px] text-muted flex items-center justify-center">○</span>
+                    ) : v.status === "testing" ? (
+                      <Loader2 className="size-4 animate-spin text-amber-500 shrink-0" />
+                    ) : v.status === "ok" ? (
+                      <CheckCircle2 className="size-4 text-green-500 shrink-0" />
+                    ) : (
+                      <XCircle className="size-4 text-red-500 shrink-0" />
+                    )}
+                    <span className="flex-1 text-xs">{m.label}{m.nimOnly ? " [NIM]" : ""}</span>
+                    {v?.status === "ok" && (
+                      <span className="text-[10px] text-green-700 font-medium">{((v.elapsedMs ?? 0) / 1000).toFixed(1)}s ✓</span>
+                    )}
+                    {v?.status === "failed" && (
+                      <span className="text-[10px] text-red-600 truncate max-w-[200px]" title={v.error}>{v.error}</span>
+                    )}
+                    {v?.status === "testing" && (
+                      <span className="text-[10px] text-amber-600">testing…</span>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+            <p className="text-[10px] text-muted border-t border-border pt-2">
+              Each test generates a 512×512 image. Schnell is fastest (~5–15s). Dev may take up to 60s. Tests run sequentially.
+            </p>
+          </div>
+        )}
 
         {/* Scene Context */}
         <div>
@@ -312,6 +429,9 @@ export function ImageGenTab({ characters, nimAvailable }: { characters: Characte
 
         {/* Actions */}
         <div className="flex gap-3">
+          <Button onClick={handleReset} variant="ghost" className="shrink-0 text-muted" title="Reset all fields" aria-label="Reset">
+            <RotateCcw className="size-4" />
+          </Button>
           <Button onClick={handleCopy} className="flex-1" variant="outline">
             {copied ? <Check className="size-4" /> : <Copy className="size-4" />}
             {copied ? "Copied!" : "Copy Full Prompt"}
