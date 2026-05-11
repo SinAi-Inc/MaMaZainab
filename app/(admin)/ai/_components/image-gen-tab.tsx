@@ -17,18 +17,20 @@ import {
 import { PresetPicker } from "./preset-picker";
 
 const IMAGE_MODELS = [
-  { id: "black-forest-labs/flux.1-dev", label: "Flux.1 Dev", vendor: "Black Forest Labs" },
-  { id: "black-forest-labs/flux.1-schnell", label: "Flux.1 Schnell", vendor: "Black Forest Labs" },
+  { id: "black-forest-labs/flux.1-dev",      label: "Flux.1 Dev",    vendor: "Black Forest Labs", nimOnly: false },
+  { id: "black-forest-labs/flux.1-schnell",  label: "Flux.1 Schnell", vendor: "Black Forest Labs", nimOnly: false },
+  { id: "black-forest-labs/flux.2-klein-4b", label: "Flux.2 Klein",  vendor: "Black Forest Labs", nimOnly: true  },
 ] as const;
 
 const ASPECT_RATIOS = ["1:1", "16:9", "9:16", "4:3", "3:2", "2.39:1"];
 
-export function ImageGenTab({ characters }: { characters: Character[] }) {
+export function ImageGenTab({ characters, nimAvailable }: { characters: Character[]; nimAvailable: boolean }) {
   const characterAnchors = useMemo(
     () => buildAnchorsFromCharacters(characters),
     [characters],
   );
-  const [model, setModel] = useState<string>(IMAGE_MODELS[0].id);
+  const availableModels = IMAGE_MODELS.filter((m) => !m.nimOnly || nimAvailable);
+  const [model, setModel] = useState<string>(availableModels[0].id);
   const [aspect, setAspect] = useState("1:1");
   const [prompt, setPrompt] = useState("");
   const [anchorValues, setAnchorValues] = useState<string[]>([]);
@@ -168,8 +170,10 @@ export function ImageGenTab({ characters }: { characters: Character[] }) {
               aria-label="Image model"
               className="w-full text-sm border border-border-strong rounded-md px-2.5 py-2 bg-white"
             >
-              {IMAGE_MODELS.map((m) => (
-                <option key={m.id} value={m.id}>{m.label} — {m.vendor}</option>
+              {availableModels.map((m) => (
+                <option key={m.id} value={m.id}>
+                  {m.label} — {m.vendor}{m.nimOnly ? " [NIM]" : ""}
+                </option>
               ))}
             </select>
           </div>
