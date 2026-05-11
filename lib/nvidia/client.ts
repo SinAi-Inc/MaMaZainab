@@ -13,6 +13,7 @@
 import { readSettings } from "@/lib/settings/store";
 
 const CLOUD_BASE_URL = "https://ai.api.nvidia.com/v1/genai";
+const ALLOWED_IMAGE_MODEL_IDS = new Set<string>(NVIDIA_IMAGE_MODELS.map((m) => m.id));
 
 /**
  * Base URL for NVIDIA API requests.
@@ -115,6 +116,9 @@ function cleanPrompt(raw: string): string {
 
 export async function generateImage(params: ImageGenParams): Promise<ImageGenResult> {
   const { model, prompt: rawPrompt, width = 1024, height = 1024, seed = 0, steps, cfgScale } = params;
+  if (!ALLOWED_IMAGE_MODEL_IDS.has(model)) {
+    throw new Error("Invalid model");
+  }
   const prompt = cleanPrompt(rawPrompt);
 
   // ── Request format ────────────────────────────────────────────────────────
@@ -147,7 +151,7 @@ export async function generateImage(params: ImageGenParams): Promise<ImageGenRes
     };
   } else {
     // NVIDIA API Catalog: path includes model ID
-    url = `${baseUrl}/${model}`;
+    url = `${baseUrl}/${encodeURIComponent(model)}`;
     body = {
       prompt,
       width,
