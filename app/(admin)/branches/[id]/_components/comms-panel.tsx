@@ -51,6 +51,35 @@ export function CommsPanel({ branch }: { branch: Branch }) {
   const [embedUrl, setEmbedUrl] = useState("");
   const [activeEmbed, setActiveEmbed] = useState<string | null>(null);
 
+  const getSafeEmbedUrl = (value: string): string | null => {
+    const trimmed = value.trim();
+    if (!trimmed) return null;
+
+    try {
+      const parsed = new URL(trimmed);
+
+      // Only allow secure embeds.
+      if (parsed.protocol !== "https:") return null;
+
+      // Restrict to known messaging/embed hosts.
+      const allowedHosts = [
+        "slack.com",
+        "app.slack.com",
+        "rocket.chat",
+        "mattermost.com",
+      ];
+      const host = parsed.hostname.toLowerCase();
+      const isAllowed = allowedHosts.some(
+        (allowed) => host === allowed || host.endsWith(`.${allowed}`)
+      );
+      if (!isAllowed) return null;
+
+      return parsed.toString();
+    } catch {
+      return null;
+    }
+  };
+
   return (
     <div className="space-y-4">
       {/* Status bar */}
@@ -120,8 +149,8 @@ export function CommsPanel({ branch }: { branch: Branch }) {
             />
             <Button
               size="sm"
-              onClick={() => setActiveEmbed(embedUrl.trim() || null)}
-              disabled={!embedUrl.trim()}
+              onClick={() => setActiveEmbed(getSafeEmbedUrl(embedUrl))}
+              disabled={!getSafeEmbedUrl(embedUrl)}
             >
               Connect
             </Button>
