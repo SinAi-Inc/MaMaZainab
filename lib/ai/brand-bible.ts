@@ -82,7 +82,7 @@ function buildModeAnchor(
   ]
     .filter(Boolean)
     .join(". ");
-  return `${base}\n[MODE: ${mode.label}] ${modeDetails}`;
+  return `${base}\nMode ${mode.label}: ${modeDetails}`;
 }
 
 /** Fallback anchor from structured identity fields when anchorBlock is empty */
@@ -189,23 +189,25 @@ export const SCENE_CONTEXTS: SceneContextOption[] = [
 /* ---- Prompt Blocks ---- */
 
 export const PALETTE_BLOCK =
-  "[BRAND PALETTE] Mahshi Green #1B9B00 | Brand Yellow #EFD200 | Brand Red #E60000 | Ink #2C292A | Cream #FFF8E7";
+  "Brand color palette: Mahshi Green #1B9B00, Brand Yellow #EFD200, Brand Red #E60000, Ink #2C292A, Cream #FFF8E7";
 
 export const PLAID_BLOCK =
   "Plaid v2: green-on-cream diamond weave with thin yellow cross-threads, rustic village-handwoven textile aesthetic";
 
 export const CAST_RULES =
-  "[CAST RULES] Mama Zainab always largest/centered. ZuZu supporting, lower-third. Wong separate from food. Ghost only in video. FORBIDDEN: ZuZu + Wong in same frame.";
+  "Cast rules: Mama Zainab always largest and centered. ZuZu supporting, lower-third. Wong separate from food. Ghost only in video. FORBIDDEN: ZuZu and Wong in same frame.";
 
 /**
  * Injected first in every assembled prompt.
- * FLUX.1 has no negative_prompt field — style must be enforced in the positive prompt.
- * Without this, FLUX defaults to 3D CGI/cartoon when mascot characters are present.
+ * FLUX.1 has no negative_prompt field — style must be enforced via strong
+ * positive direction only. Negative phrasing ("NOT ...") confuses FLUX
+ * and can trigger NVIDIA's safety filter, producing black images.
  */
 export const RENDER_STYLE_BLOCK =
-  "Photorealistic photography and cinematography. Real subjects, natural materials, authentic lighting. " +
-  "Cinematic film still quality, high detail. " +
-  "NOT 3D CGI. NOT Pixar animation. NOT cartoon. NOT anime. NOT digital illustration. NOT concept art. NOT video game render.";
+  "Shot on 35 mm film, natural available light, editorial photography on location. " +
+  "Photorealistic, real human subject with visible skin pores, fabric weave, and natural imperfections. " +
+  "Cinematic color grading, shallow depth of field, film grain. " +
+  "Real-world physics, gravity, and proportions.";
 
 /* ---- 6-Step Prompt Assembly ---- */
 
@@ -235,16 +237,16 @@ export function assemblePrompt(opts: {
   // Step 1: Scene Context (mood + palette_focus)
   if (sceneContext) {
     parts.push(
-      `[SCENE: ${sceneContext.label}] Mood: ${sceneContext.mood}. Palette focus: ${sceneContext.paletteFocus.join(", ")}. Pattern: ${sceneContext.patternUsage}.`
+      `Scene: ${sceneContext.label}. Mood: ${sceneContext.mood}. Key colors: ${sceneContext.paletteFocus.join(", ")}. Pattern usage: ${sceneContext.patternUsage}.`
     );
   }
 
   // Step 2: Character Anchors (one block per character)
   if (anchors.length === 1) {
-    parts.push(`[CHARACTER ANCHOR] ${anchors[0].promptAnchor}`);
+    parts.push(`Subject: ${anchors[0].promptAnchor}`);
   } else if (anchors.length > 1) {
     for (const a of anchors) {
-      parts.push(`[CHARACTER: ${a.label}] ${a.promptAnchor}`);
+      parts.push(`Character ${a.label}: ${a.promptAnchor}`);
     }
     // Multi-character cast rules always apply
     parts.push(CAST_RULES);
@@ -266,14 +268,14 @@ export function assemblePrompt(opts: {
     sceneContext?.value === "packaging_shot" ||
     (sceneContext?.patternUsage && sceneContext.patternUsage !== "none");
   if (includePalette && needsPlaid) {
-    parts.push(`[PATTERN] ${PLAID_BLOCK}`);
+    parts.push(`Pattern detail: ${PLAID_BLOCK}`);
   }
 
   // Step 6: Negative Prompt (merge do_not rules from all anchors)
   // FLUX.1 has no negative_prompt API field — embed avoidances inline
   const allDoNots = [...new Set(anchors.flatMap((a) => a.doNots))];
   if (allDoNots.length > 0) {
-    parts.push(`[AVOID] ${allDoNots.join(". ")}`);
+    parts.push(`Avoid: ${allDoNots.join(". ")}`);
   }
 
   // Cast rules for scene with multiple characters (single-anchor path)
