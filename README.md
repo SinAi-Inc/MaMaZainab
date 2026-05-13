@@ -39,7 +39,7 @@ npm run dev        # http://localhost:3333
 | `/coming-soon` | Launch page — countdown, notify form, social links |
 | `/menu/preview` | Brand-accurate menu preview |
 | `/menu/print` | Print-optimised menu layout |
-| `/cn` | Chinese corporate ownership page (王盛恒餐饮投资集团有限公司) |
+| `/cn` | Corporate ownership page (王盛恒餐饮投资集团有限公司) |
 
 ### Admin routes (route group `(admin)` — no URL prefix)
 
