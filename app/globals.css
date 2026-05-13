@@ -92,6 +92,30 @@ body {
   pointer-events: none;
 }
 
+.menu-preview-hero-overlay {
+  background: linear-gradient(to bottom, rgba(30, 26, 20, 0.55) 0%, rgba(30, 26, 20, 0.7) 100%);
+}
+
+.menu-preview-print-header {
+  padding: 10mm 12mm 5mm;
+  border-bottom: 3px solid var(--brand-green);
+}
+
+.menu-preview-print-title {
+  color: var(--brand-ink);
+  font-family: var(--font-brand), serif;
+  font-size: 26pt;
+  line-height: 1;
+}
+
+.menu-preview-print-subtitle {
+  margin-top: 3mm;
+  color: var(--brand-green-deep);
+  font-size: 8pt;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+}
+
 /* Focus ring - accessible & on-brand */
 *:focus-visible {
   outline: 2px solid var(--brand-green);

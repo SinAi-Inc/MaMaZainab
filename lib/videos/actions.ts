@@ -152,7 +152,8 @@ export async function loadScriptFromRepo(projectId: string, relPath: string) {
   const repoRoot = path.resolve(process.cwd(), "..");
   const full = path.resolve(repoRoot, relPath);
   const relative = path.relative(repoRoot, full);
-  if (relative.startsWith("..") || path.isAbsolute(relative)) {
+  // Block path traversal: reject if normalized path escapes repo root (handles both / and \ on Windows)
+  if (relative.startsWith("..") || path.isAbsolute(relative) || /[\\\/]\.\./.test(relative) || relative.includes("..")) {
     throw new Error("Invalid script path");
   }
   const md = await fs.readFile(full, "utf8");

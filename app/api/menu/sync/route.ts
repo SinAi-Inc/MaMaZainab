@@ -3,6 +3,7 @@ import { isSupabaseConfigured, getSupabase } from "@/lib/supabase";
 import { toSnake } from "@/lib/case";
 import { MenuStateSchema } from "@/lib/menu/schema";
 import { verifySessionToken, COOKIE_NAME } from "@/lib/auth";
+import { menuSyncLimiter } from "@/lib/rate-limit";
 import menuData from "@/data/menu.json";
 
 /**
@@ -18,6 +19,9 @@ export async function POST(req: NextRequest) {
   if (!token || !(await verifySessionToken(token))) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
+
+  const limited = menuSyncLimiter(req);
+  if (limited) return limited;
 
   if (!isSupabaseConfigured()) {
     return NextResponse.json(

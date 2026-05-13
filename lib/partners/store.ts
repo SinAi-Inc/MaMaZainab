@@ -19,14 +19,24 @@ async function readJson(): Promise<PartnerSettings> {
 }
 
 async function writeJson(settings: PartnerSettings): Promise<void> {
+  const { passcodeConfigured: _passcodeConfigured, ...stored } = settings;
   await fs.mkdir(DATA_DIR, { recursive: true });
-  await fs.writeFile(FILE, JSON.stringify(settings, null, 2), "utf8");
+  await fs.writeFile(FILE, JSON.stringify(stored, null, 2), "utf8");
 }
 
 
 
+function withPublicPasscodeState(settings: PartnerSettings): PartnerSettings {
+  return {
+    ...settings,
+    passcode: "",
+    passcodeConfigured: Boolean(settings.passcode),
+  };
+}
+
 function settingsToRow(s: PartnerSettings): Record<string, unknown> {
-  return { id: "singleton", ...toSnake(s as unknown as Record<string, unknown>) };
+  const { passcodeConfigured: _passcodeConfigured, ...stored } = s;
+  return { id: "singleton", ...toSnake(stored as unknown as Record<string, unknown>) };
 }
 
 function rowToSettings(row: Record<string, unknown>): PartnerSettings {
@@ -37,7 +47,7 @@ function rowToSettings(row: Record<string, unknown>): PartnerSettings {
 
 
 
-export async function readPartnerSettings(): Promise<PartnerSettings> {
+export async function readStoredPartnerSettings(): Promise<PartnerSettings> {
   if (!isSupabaseConfigured()) return readJson();
 
   const { data, error } = await getSupabase()
@@ -50,13 +60,18 @@ export async function readPartnerSettings(): Promise<PartnerSettings> {
   return rowToSettings(data as unknown as Record<string, unknown>);
 }
 
-export async function writePartnerSettings(settings: PartnerSettings): Promise<void> {
+export async function readPartnerSettings(): Promise<PartnerSettings> {
+  const settings = await readStoredPartnerSettings();
+  return withPublicPasscodeState(settings);
+}
+
+export async function writeStoredPartnerSettings(settings: PartnerSettings): Promise<void> {
   if (!isSupabaseConfigured()) {
     try {
       return await writeJson(settings);
     } catch {
       throw new Error(
-        "Supabase is not configured. Add NEXT_PUBLIC_SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY to your Vercel environment variables, then redeploy.",
+        "Supabase is not configured. Set NEXT_PUBLIC_SUPABASE_URL and a server Supabase key (SUPABASE_SECRET_KEY or SUPABASE_SERVICE_ROLE_KEY) in .env.local or your hosting environment, then restart local dev or redeploy.",
       );
     }
   }
@@ -67,6 +82,15 @@ export async function writePartnerSettings(settings: PartnerSettings): Promise<v
     .upsert(row, { onConflict: "id" });
   if (error) {
     console.error("[partner_settings upsert]", JSON.stringify(error));
-    throw new Error(`Supabase ${error.code}: ${error.message}`);
+    if (
+      error.code === "42P01" ||
+      /relation .*partner_settings.* does not exist/i.test(error.message)
+    ) {
+      throw new Error(
+        "Supabase table partner_settings is missing. Run the partner_settings migration in the Supabase SQL Editor, then try saving again.",
+      );
+    }
+
+    throw new Error(`Supabase ${error.code ?? "error"}: ${error.message}`);
   }
 }

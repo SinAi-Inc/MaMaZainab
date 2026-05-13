@@ -2,7 +2,7 @@
 
 import { useTransition, useRef } from "react";
 import { toast } from "sonner";
-import { Settings, Globe, Bell, Lock, Shield, User, Save, Plug, Share2, Cpu, LogOut } from "lucide-react";
+import { Settings, Globe, Bell, Lock, Shield, User, Save, Plug, Share2, LogOut } from "lucide-react";
 import { Card, CardBody } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -52,6 +52,7 @@ function Toggle({
       <input
         type="checkbox"
         name={name}
+        aria-label={name}
         defaultChecked={defaultChecked}
         className="sr-only peer"
       />
@@ -110,6 +111,7 @@ export function SettingsForm({ settings }: { settings: SettingsType }) {
           <FieldRow label="Primary Language">
             <select
               name="primaryLanguage"
+              title="Primary Language"
               defaultValue={settings.primaryLanguage}
               className="w-full text-sm border border-border rounded-md px-2 py-1.5 bg-white"
             >
@@ -120,6 +122,7 @@ export function SettingsForm({ settings }: { settings: SettingsType }) {
           <FieldRow label="Secondary Language">
             <select
               name="secondaryLanguage"
+              title="Secondary Language"
               defaultValue={settings.secondaryLanguage}
               className="w-full text-sm border border-border rounded-md px-2 py-1.5 bg-white"
             >
@@ -130,6 +133,7 @@ export function SettingsForm({ settings }: { settings: SettingsType }) {
           <FieldRow label="Currency">
             <select
               name="currency"
+              title="Currency"
               defaultValue={settings.currency}
               className="w-full text-sm border border-border rounded-md px-2 py-1.5 bg-white"
             >
@@ -141,6 +145,7 @@ export function SettingsForm({ settings }: { settings: SettingsType }) {
           <FieldRow label="Timezone">
             <select
               name="timezone"
+              title="Timezone"
               defaultValue={settings.timezone}
               className="w-full text-sm border border-border rounded-md px-2 py-1.5 bg-white"
             >
@@ -232,26 +237,18 @@ export function SettingsForm({ settings }: { settings: SettingsType }) {
         </CardBody>
       </Card>
 
-      {/* AI Model Keys */}
+      {/* Runtime Secrets */}
       <Card>
         <CardBody>
-          <SectionHeader icon={Cpu} title="AI Model Keys" description="API keys for image and video generation models" />
-          <FieldRow label="NVIDIA API Key">
-            <Input
-              name="nvidiaApiKey"
-              type="password"
-              defaultValue={settings.nvidiaApiKey}
-              placeholder="nvapi-..."
-              className="text-sm font-mono"
-            />
-          </FieldRow>
-          <p className="text-[11px] text-muted mt-2">
-            Get your key from{" "}
-            <a href="https://build.nvidia.com" target="_blank" rel="noreferrer" className="underline text-brand-green-deep hover:text-brand-green">
-              build.nvidia.com
-            </a>
-            . Used for Cosmos, Wan-AI, Flux, and Stable Diffusion models. Falls back to <code className="text-[10px] bg-surface-2 px-1 rounded">NVIDIA_API_KEY</code> env var if empty.
-          </p>
+          <SectionHeader icon={Plug} title="Runtime Secrets" description="Server-only credentials are managed through environment variables" />
+          <div className="rounded-xl border border-border bg-surface-2 px-4 py-4 text-sm text-muted space-y-2">
+            <p>
+              NVIDIA generation now reads only from the server environment variable <code className="text-[10px] bg-white px-1 rounded">NVIDIA_API_KEY</code>.
+            </p>
+            <p>
+              This key is intentionally not stored in app settings or local JSON files anymore. Configure it in <a href="https://build.nvidia.com" target="_blank" rel="noreferrer noopener" className="underline text-brand-green-deep hover:text-brand-green">build.nvidia.com</a>, then set it in your local or hosting environment.
+            </p>
+          </div>
         </CardBody>
       </Card>
 
@@ -262,6 +259,7 @@ export function SettingsForm({ settings }: { settings: SettingsType }) {
           <FieldRow label="Session Timeout">
             <select
               name="sessionTimeout"
+              title="Session Timeout"
               defaultValue={settings.sessionTimeout}
               className="w-full text-sm border border-border rounded-md px-2 py-1.5 bg-white"
             >
