@@ -32,8 +32,13 @@ create table if not exists menu_items (
   category_id    text not null references menu_categories(id) on delete cascade,
   sku            text not null default '',
   name_en        text not null,
+  name_ar        text not null default '',
   description_en text not null default '',
+  description_ar text not null default '',
   price_egp      numeric not null default 0,
+  calories_label text not null default '',
+  serving_info   text not null default '',
+  highlights     jsonb not null default '[]',
   image_url      text not null default '',
   badges         jsonb not null default '[]',
   available      boolean not null default true,
@@ -41,6 +46,12 @@ create table if not exists menu_items (
   created_at     text not null,
   updated_at     text not null
 );
+
+alter table menu_items add column if not exists name_ar text not null default '';
+alter table menu_items add column if not exists description_ar text not null default '';
+alter table menu_items add column if not exists calories_label text not null default '';
+alter table menu_items add column if not exists serving_info text not null default '';
+alter table menu_items add column if not exists highlights jsonb not null default '[]';
 
 -- ============================================================
 -- 4. Settings (singleton)

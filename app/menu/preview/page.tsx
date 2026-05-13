@@ -105,44 +105,95 @@ export default async function MenuPreviewPage({
               </div>
 
               <div className="menu-preview-items grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                {items.map((item) => (
-                  <article key={item.id} className="group flex h-full min-h-28 flex-col overflow-hidden rounded-lg border border-border/60 bg-white shadow-sm transition-shadow hover:shadow-md">
-                    {item.imageUrl && (
-                      <div className="relative w-full aspect-[16/10] overflow-hidden bg-[#f8f8f2]">
-                        {/* eslint-disable-next-line @next/next/no-img-element */}
-                        <img
-                          src={item.imageUrl}
-                          alt={item.nameEn}
-                          className="absolute inset-0 h-full w-full object-contain p-2 transition-transform duration-300 group-hover:scale-[1.02]"
-                        />
-                      </div>
-                    )}
-                    <div className="flex flex-1 flex-col p-4">
-                      <div className="flex items-baseline justify-between gap-2">
-                        <h3 className="font-semibold text-base leading-tight text-brand-ink">
-                          {item.nameEn}
-                        </h3>
-                        {!hidePrices && (
-                          <span className="font-bold text-brand-green-deep tabular-nums shrink-0 text-sm">
-                            {formatEGP(item.priceEgp)}
-                          </span>
-                        )}
-                      </div>
-                      {item.descriptionEn && (
-                        <p className="text-xs text-muted mt-1.5 line-clamp-2">
-                          {item.descriptionEn}
-                        </p>
-                      )}
-                      {item.badges.length > 0 && (
-                        <div className="menu-preview-badges mt-auto flex flex-wrap gap-1.5 pt-3">
-                          {item.badges.map((b) => (
-                            <Badge key={b} kind={b} />
-                          ))}
+                {items.map((item) => {
+                  const meta = [item.caloriesLabel, item.servingInfo].filter(Boolean);
+
+                  return (
+                    <article key={item.id} className="group flex h-full min-h-28 flex-col overflow-hidden rounded-2xl border border-border/60 bg-white shadow-sm transition-shadow hover:shadow-md">
+                      <div className="h-1 w-full bg-gradient-to-r from-brand-green via-brand-yellow to-brand-red opacity-70" />
+                      {item.imageUrl && (
+                        <div className="relative w-full aspect-[16/10] overflow-hidden bg-[#f8f8f2]">
+                          {/* eslint-disable-next-line @next/next/no-img-element */}
+                          <img
+                            src={item.imageUrl}
+                            alt={item.nameEn}
+                            className="absolute inset-0 h-full w-full object-contain p-2 transition-transform duration-300 group-hover:scale-[1.02]"
+                          />
                         </div>
                       )}
-                    </div>
-                  </article>
-                ))}
+                      <div className="flex flex-1 flex-col p-4">
+                        <div className="flex items-start justify-between gap-3">
+                          <div className="min-w-0">
+                            <h3 className="font-semibold text-base leading-tight text-brand-ink">
+                              {item.nameEn}
+                            </h3>
+                            {item.nameAr && (
+                              <p dir="rtl" className="mt-1 text-sm font-semibold text-brand-green-deep">
+                                {item.nameAr}
+                              </p>
+                            )}
+                          </div>
+                          {!hidePrices && (
+                            <span className="shrink-0 text-sm font-bold tabular-nums text-brand-green-deep">
+                              {formatEGP(item.priceEgp)}
+                            </span>
+                          )}
+                        </div>
+
+                        {meta.length > 0 && (
+                          <div className="mt-3 flex flex-wrap gap-2">
+                            {meta.map((entry) => (
+                              <span
+                                key={entry}
+                                className="inline-flex items-center gap-2 rounded-full bg-brand-yellow/10 px-2.5 py-1 text-[11px] font-semibold text-brand-ink"
+                              >
+                                <span className="size-2 rotate-45 rounded-[2px] bg-brand-yellow" />
+                                {entry}
+                              </span>
+                            ))}
+                          </div>
+                        )}
+
+                        {(item.descriptionEn || item.descriptionAr) && (
+                          <div className="mt-2 space-y-1.5">
+                            {item.descriptionEn && (
+                              <p className="line-clamp-2 text-xs text-muted">
+                                {item.descriptionEn}
+                              </p>
+                            )}
+                            {item.descriptionAr && (
+                              <p dir="rtl" className="line-clamp-2 text-[11px] text-brand-ink/70">
+                                {item.descriptionAr}
+                              </p>
+                            )}
+                          </div>
+                        )}
+
+                        {item.highlights.length > 0 && (
+                          <ul className="mt-3 flex flex-wrap gap-2">
+                            {item.highlights.map((highlight) => (
+                              <li
+                                key={highlight}
+                                className="inline-flex items-center gap-2 rounded-full border border-brand-green/20 bg-brand-green/5 px-2.5 py-1 text-[11px] text-brand-ink/80"
+                              >
+                                <span className="size-1.5 rotate-45 rounded-[1px] bg-brand-green" />
+                                {highlight}
+                              </li>
+                            ))}
+                          </ul>
+                        )}
+
+                        {item.badges.length > 0 && (
+                          <div className="menu-preview-badges mt-auto flex flex-wrap gap-1.5 pt-3">
+                            {item.badges.map((b) => (
+                              <Badge key={b} kind={b} />
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    </article>
+                  );
+                })}
               </div>
             </section>
           );
