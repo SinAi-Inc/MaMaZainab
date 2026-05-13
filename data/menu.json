@@ -61,7 +61,7 @@
       "id": "itm_bKy6kP9n",
       "sku": "MZ-ESS-0001",
       "createdAt": "2026-05-07T05:04:34.288Z",
-      "updatedAt": "2026-05-10T13:49:03.968Z",
+      "updatedAt": "2026-05-13T04:07:28.845Z",
       "categoryId": "cat_TZRflJUU",
       "nameEn": "Beef Balls",
       "nameAr": "",
@@ -73,7 +73,8 @@
       "highlights": [],
       "imageUrl": "/uploads/menu/QeYydk8s9L.jpg",
       "badges": [
-        "bestseller"
+        "bestseller",
+        "chefs_pick"
       ],
       "available": true,
       "sort": 1
@@ -414,7 +415,7 @@
       "id": "itm_1XDtkoPk",
       "sku": "MZ-STU-0003",
       "createdAt": "2026-05-05T03:05:33.495Z",
-      "updatedAt": "2026-05-13T03:57:39.044Z",
+      "updatedAt": "2026-05-13T04:05:16.005Z",
       "categoryId": "cat_stuffy",
       "nameEn": "Purple Hose!..",
       "nameAr": "",
