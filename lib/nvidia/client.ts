@@ -3,15 +3,12 @@
  * Endpoint: ai.api.nvidia.com — hosts models from Stability AI,
  * Black Forest Labs, and other partners under one API key.
  *
- * Reads NVIDIA key from: settings store first, then NVIDIA_API_KEY env var.
+ * Reads NVIDIA key from the server environment only.
  *
  * Video generation is a two-step pipeline:
  *   1. Generate a still frame from a text prompt (Flux / SD)
  *   2. Animate the frame via Stable Video Diffusion (image-to-video)
  */
-
-import { readSettings } from "@/lib/settings/store";
-
 const CLOUD_BASE_URL = "https://ai.api.nvidia.com/v1/genai";
 
 /**
@@ -30,14 +27,6 @@ export function nimAvailable(): boolean {
 }
 
 async function getApiKey(): Promise<string> {
-  // 1. Check settings store (user-entered key via UI)
-  try {
-    const settings = await readSettings();
-    if (settings.nvidiaApiKey) return settings.nvidiaApiKey;
-  } catch {
-    // settings file may not exist yet
-  }
-  // 2. Fall back to environment variable
   const key = process.env.NVIDIA_API_KEY;
   // When using a local NIM container, no API key is required.
   // Return a placeholder so the Authorization header is present but harmless.

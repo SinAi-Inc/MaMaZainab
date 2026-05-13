@@ -1,8 +1,9 @@
 "use client";
 
 import { useState, useTransition, Suspense } from "react";
+import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import { Eye, EyeOff, LogIn } from "lucide-react";
+import { ArrowLeft, Eye, EyeOff, LogIn } from "lucide-react";
 
 function LoginForm() {
   const router = useRouter();
@@ -43,10 +44,14 @@ function LoginForm() {
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
       <div>
-        <label className="block text-[11px] uppercase tracking-[0.18em] text-white/60 mb-1.5">
+        <label
+          htmlFor="admin-email"
+          className="block text-[11px] uppercase tracking-[0.18em] text-white/60 mb-1.5"
+        >
           Email
         </label>
         <input
+          id="admin-email"
           type="email"
           autoComplete="email"
           value={email}
@@ -57,11 +62,15 @@ function LoginForm() {
       </div>
 
       <div>
-        <label className="block text-[11px] uppercase tracking-[0.18em] text-white/60 mb-1.5">
+        <label
+          htmlFor="admin-password"
+          className="block text-[11px] uppercase tracking-[0.18em] text-white/60 mb-1.5"
+        >
           Password
         </label>
         <div className="relative">
           <input
+            id="admin-password"
             type={showPw ? "text" : "password"}
             autoComplete="current-password"
             value={password}
@@ -111,8 +120,16 @@ export default function LoginPage() {
       {/* Card */}
       <div className="relative z-10 w-full max-w-sm mx-4">
         <div className="bg-brand-ink/90 backdrop-blur-md rounded-2xl p-8 shadow-2xl border border-white/10">
+          <Link
+            href="/coming-soon"
+            className="inline-flex items-center gap-1.5 text-xs text-brand-yellow hover:text-yellow-300 transition"
+          >
+            <ArrowLeft className="size-3" />
+            Back to MaMa Zainab
+          </Link>
+
           {/* Logo */}
-          <div className="flex flex-col items-center mb-8">
+          <div className="flex flex-col items-center mb-8 mt-6">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src="/brand/logo-wordmark-transparent.png"

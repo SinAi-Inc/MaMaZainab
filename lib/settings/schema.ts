@@ -27,8 +27,6 @@ export const SettingsSchema = z.object({
   socialTwitter: z.string().default(""),
   socialYoutube: z.string().default(""),
   socialWhatsapp: z.string().default(""),
-  // AI Model API Keys
-  nvidiaApiKey: z.string().default(""),
   // Security
   sessionTimeout: z.string().default("30"),
   requirePassword: z.boolean().default(false),

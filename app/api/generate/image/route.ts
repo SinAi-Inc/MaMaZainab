@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { generateImage, NVIDIA_IMAGE_MODELS, nimAvailable, type NvidiaImageModelId } from "@/lib/nvidia/client";
 import { requireAdmin } from "@/lib/api-guard";
+import { generateImageLimiter } from "@/lib/rate-limit";
 import { recordGeneration } from "@/lib/generations/actions";
 
 // Vercel Hobby: 60s max. Vercel Pro: up to 300s.
@@ -29,6 +30,9 @@ function aspectToSize(aspect: string): { width: number; height: number } {
 export async function POST(req: NextRequest) {
   const denied = await requireAdmin(req);
   if (denied) return denied;
+
+  const limited = generateImageLimiter(req);
+  if (limited) return limited;
 
   const startTime = Date.now();
 
@@ -84,7 +88,8 @@ export async function POST(req: NextRequest) {
       });
     } catch (saveErr) {
       // Non-fatal — still return the image even if history save fails
-      console.error("[/api/generate/image] history save failed:", saveErr);
+      const saveMsg = saveErr instanceof Error ? saveErr.message : "unknown";
+      console.error("[/api/generate/image] history save failed:", String(saveMsg).slice(0, 500).replace(/[\r\n]/g, " "));
     }
 
     return NextResponse.json({
@@ -95,7 +100,7 @@ export async function POST(req: NextRequest) {
     });
   } catch (err) {
     const message = err instanceof Error ? err.message : "Generation failed";
-    console.error("[/api/generate/image]", message);
+    console.error("[/api/generate/image]", String(message).slice(0, 500).replace(/[\r\n]/g, " "));
 
     // Record failure in history too (best-effort)
     recordGeneration({

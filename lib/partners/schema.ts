@@ -3,6 +3,8 @@ import { z } from "zod";
 export const PartnerSettingsSchema = z.object({
   /** Gate passcode for the /partners portal */
   passcode: z.string().default(""),
+  /** Public UI hint — true when a passcode already exists server-side. */
+  passcodeConfigured: z.boolean().default(false),
   /** Master toggle — is the portal accessible? */
   portalEnabled: z.boolean().default(false),
   /** Section toggles — what the partner sees */

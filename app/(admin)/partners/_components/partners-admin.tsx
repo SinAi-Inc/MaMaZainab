@@ -7,12 +7,25 @@ import { getPartnerSettings, updatePartnerSettings } from "@/lib/partners/action
 import type { PartnerSettings } from "@/lib/partners/schema";
 import type { Branch } from "@/lib/branches/schema";
 
+function getPartnerSaveHelp(error: string): string | null {
+  if (/partner_settings/i.test(error) && /(migration|missing|does not exist|42P01)/i.test(error)) {
+    return "Run the partner_settings migration in your Supabase SQL Editor if this is the first time saving.";
+  }
+
+  if (/NEXT_PUBLIC_SUPABASE_URL|SUPABASE_SECRET_KEY|SUPABASE_SERVICE_ROLE_KEY|Supabase is not configured/i.test(error)) {
+    return "Set NEXT_PUBLIC_SUPABASE_URL and your server Supabase key in .env.local or your hosting environment, then restart local dev or redeploy.";
+  }
+
+  return null;
+}
+
 export function PartnersAdmin({ branches }: { branches: Branch[] }) {
   const [settings, setSettings] = useState<PartnerSettings | null>(null);
   const [showPasscode, setShowPasscode] = useState(false);
   const [isPending, startTransition] = useTransition();
   const [saved, setSaved] = useState(false);
   const [saveError, setSaveError] = useState<string | null>(null);
+  const saveHelp = saveError ? getPartnerSaveHelp(saveError) : null;
 
   useEffect(() => {
     getPartnerSettings().then(setSettings);
@@ -97,9 +110,15 @@ export function PartnersAdmin({ branches }: { branches: Branch[] }) {
               </button>
             </div>
           </div>
-          <p className="text-[11px] text-muted">
-            Partners enter this passcode on the portal login screen. Leave empty to block all access.
-          </p>
+          {settings.passcodeConfigured ? (
+            <p className="text-[11px] text-muted">
+              A passcode is already configured. Leave this field empty to keep it unchanged, or enter a new one to rotate it.
+            </p>
+          ) : (
+            <p className="text-[11px] text-muted">
+              Partners enter this passcode on the portal login screen. Leave empty to block all access.
+            </p>
+          )}
         </div>
 
         {/* Section toggles */}
@@ -191,9 +210,7 @@ export function PartnersAdmin({ branches }: { branches: Branch[] }) {
         {saveError && (
           <div className="rounded-lg bg-red-50 border border-red-200 px-4 py-3 text-sm text-red-700">
             <strong>Save failed:</strong> {saveError}
-            <p className="mt-1 text-xs text-red-500">
-              Run the <code className="bg-red-100 px-1 rounded">partner_settings</code> migration in your Supabase SQL Editor if this is the first time saving.
-            </p>
+            {saveHelp && <p className="mt-1 text-xs text-red-500">{saveHelp}</p>}
           </div>
         )}
       </div>
@@ -215,8 +232,6 @@ function ToggleSwitch({
   return (
     <button
       type="button"
-      role="switch"
-      aria-checked={checked}
       aria-label={label}
       onClick={onChange}
       className={cn(

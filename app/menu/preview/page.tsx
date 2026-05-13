@@ -46,21 +46,15 @@ export default async function MenuPreviewPage({
       )}
 
       {/* Print-only compact title — replaces the hero when printing */}
-      <div className="print-only" style={{ padding: "10mm 12mm 5mm", borderBottom: "3px solid #1B9B00" }}>
-        <div style={{ fontFamily: "var(--font-brand, serif)", fontSize: "26pt", color: "#2C292A", lineHeight: 1 }}>MaMa Zainab</div>
-        <div style={{ fontSize: "8pt", letterSpacing: "0.3em", textTransform: "uppercase", color: "#169216", marginTop: "3mm" }}>Menu · Alexandria · Est. 2026</div>
+      <div className="print-only menu-preview-print-header">
+        <div className="menu-preview-print-title">MaMa Zainab</div>
+        <div className="menu-preview-print-subtitle">Menu · Alexandria · Est. 2026</div>
       </div>
 
       {/* Hero */}
       <header className="menu-preview-hero relative plaid overflow-hidden">
         {/* Dark vignette overlay — fades the plaid so text is readable */}
-        <div
-          className="absolute inset-0 pointer-events-none"
-          style={{
-            background:
-              "linear-gradient(to bottom, rgba(30,26,20,0.55) 0%, rgba(30,26,20,0.70) 100%)",
-          }}
-        />
+        <div className="menu-preview-hero-overlay absolute inset-0 pointer-events-none" />
         <div className="relative z-10 max-w-5xl mx-auto px-6 py-14 text-center text-white">
           <Link href={logoHref} aria-label={hitlPreview ? "Back to HITL menu" : "Back to MaMa Zainab landing page"}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -166,14 +160,6 @@ export default async function MenuPreviewPage({
         <div className="relative z-10">
           <div className="font-display text-xl tracking-wide">MaMa Zainab</div>
           <div className="opacity-70 mt-1">Alexandria · EST. 2026</div>
-          <div className="mt-3">
-            <Link
-              href="/menu/print"
-              className="inline-block px-4 py-1.5 rounded bg-brand-yellow text-brand-ink font-semibold text-xs hover:bg-yellow-300"
-            >
-              Print / Save as PDF
-            </Link>
-          </div>
         </div>
       </footer>
     </div>

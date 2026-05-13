@@ -2,12 +2,14 @@
 
 import { useState, useTransition } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { Lock, MapPin, Utensils, Presentation, ChevronRight, ArrowLeft } from "lucide-react";
-import { verifyPartnerPasscode } from "@/lib/partners/actions";
+import { authenticatePartnerPortal } from "@/lib/partners/actions";
 import type { Branch } from "@/lib/branches/schema";
 import { STATUS_META } from "@/lib/branches/schema";
 
 interface PartnerPortalProps {
+  authenticated: boolean;
   portalEnabled: boolean;
   showPresentation: boolean;
   showLocations: boolean;
@@ -17,6 +19,7 @@ interface PartnerPortalProps {
 }
 
 export function PartnerPortal({
+  authenticated,
   portalEnabled,
   showPresentation,
   showLocations,
@@ -24,7 +27,7 @@ export function PartnerPortal({
   showMenu,
   locations,
 }: PartnerPortalProps) {
-  const [authenticated, setAuthenticated] = useState(false);
+  const router = useRouter();
   const [passcode, setPasscode] = useState("");
   const [error, setError] = useState("");
   const [isPending, startTransition] = useTransition();
@@ -60,9 +63,10 @@ export function PartnerPortal({
       e.preventDefault();
       setError("");
       startTransition(async () => {
-        const ok = await verifyPartnerPasscode(passcode);
+        const ok = await authenticatePartnerPortal(passcode);
         if (ok) {
-          setAuthenticated(true);
+          setPasscode("");
+          router.refresh();
         } else {
           setError("Invalid passcode. Please contact your MaMa Zainab representative.");
           setPasscode("");
@@ -146,8 +150,7 @@ export function PartnerPortal({
             <img
               src="/brand/logo-primary.png"
               alt="MaMa Zainab"
-              className="max-w-xs mx-auto"
-              style={{ filter: "drop-shadow(0 2px 8px rgba(0,0,0,0.08))" }}
+              className="max-w-xs mx-auto drop-shadow-[0_2px_8px_rgba(0,0,0,0.08)]"
               draggable={false}
             />
             <p className="mt-6 text-lg text-brand-ink/80 font-light max-w-lg mx-auto">

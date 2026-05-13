@@ -1,10 +1,14 @@
 import { type NextRequest, NextResponse } from "next/server";
 import { timingSafeEqual } from "crypto";
 import { createSessionToken, COOKIE_NAME, MAX_AGE_SECONDS } from "@/lib/auth";
+import { loginLimiter } from "@/lib/rate-limit";
 
 const ADMIN_EMAIL = "admin@mamazainab.com";
 
 export async function POST(req: NextRequest) {
+  const limited = loginLimiter(req);
+  if (limited) return limited;
+
   let body: { email?: string; password?: string };
   try {
     body = await req.json();

@@ -26,6 +26,11 @@ export async function uploadFile(
   const filename = `${nanoid(10)}.${ext}`;
   const buf = Buffer.from(await file.arrayBuffer());
 
+  // Prevent path traversal via subdir
+  if (/[\\\/]\.\./.test(subdir) || subdir.includes("..") || path.isAbsolute(subdir)) {
+    throw new Error("Invalid upload directory");
+  }
+
   if (!isSupabaseConfigured()) {
     const dir = path.join(process.cwd(), "public", "uploads", subdir);
     await fs.mkdir(dir, { recursive: true });
