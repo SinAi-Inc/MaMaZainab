@@ -43,7 +43,12 @@ export async function saveGeneratedImage(
 
   // Local dev fallback
   await fs.mkdir(UPLOAD_DIR, { recursive: true });
-  const filePath = path.join(UPLOAD_DIR, filename);
+  const resolvedUploadDir = path.resolve(UPLOAD_DIR);
+  const filePath = path.resolve(resolvedUploadDir, filename);
+  const relativePath = path.relative(resolvedUploadDir, filePath);
+  if (relativePath.startsWith("..") || path.isAbsolute(relativePath)) {
+    throw new Error("Invalid output path");
+  }
   await fs.writeFile(filePath, buffer);
   return `/uploads/${STORAGE_SUBDIR}/${filename}`;
 }
