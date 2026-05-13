@@ -23,20 +23,39 @@ export const BADGE_META: Record<Badge, { label: string; emoji: string }> = {
   limited:    { label: "Limited",     emoji: "⏳" },
 };
 
-export const MenuItemSchema = z.object({
-  id: z.string(),
+const HighlightLineSchema = z.string().trim().min(1).max(40);
+const HighlightListSchema = z.array(HighlightLineSchema).max(4).default([]);
+
+function normalizeHighlightLines(value: string) {
+  return value
+    .split(/\r?\n/)
+    .map((line) => line.trim())
+    .filter(Boolean)
+    .slice(0, 4);
+}
+
+const MenuItemContentSchema = z.object({
   categoryId: z.string(),
-  sku: z.string().default(""),
   nameEn: z.string().min(1, "Required"),
+  nameAr: z.string().default(""),
   descriptionEn: z.string().default(""),
+  descriptionAr: z.string().default(""),
   priceEgp: z.coerce.number().min(0, "Must be ≥ 0"),
+  caloriesLabel: z.string().default(""),
+  servingInfo: z.string().default(""),
+  highlights: HighlightListSchema,
   imageUrl: z.string().default(""),
   badges: z.array(BadgeSchema).default([]),
   available: z.boolean().default(true),
   sort: z.coerce.number().int().default(0),
+});
+
+export const MenuItemSchema = z.object({
+  id: z.string(),
+  sku: z.string().default(""),
   createdAt: z.string(),
   updatedAt: z.string(),
-});
+}).merge(MenuItemContentSchema);
 export type MenuItem = z.infer<typeof MenuItemSchema>;
 
 export const MenuCategorySchema = z.object({
@@ -70,12 +89,23 @@ export type CategoryInputRaw = z.input<typeof CategoryInputSchema>;
 export const ItemInputSchema = z.object({
   categoryId: z.string().min(1, "Required"),
   nameEn: z.string().min(1, "Required"),
+  nameAr: z.string().default(""),
   descriptionEn: z.string(),
+  descriptionAr: z.string().default(""),
   priceEgp: z.coerce.number().min(0, "Must be ≥ 0"),
+  caloriesLabel: z.string().default(""),
+  servingInfo: z.string().default(""),
+  highlightsText: z.string().default(""),
   imageUrl: z.string(),
   badges: z.array(BadgeSchema),
   available: z.boolean(),
   sort: z.coerce.number().int(),
-});
+})
+  .transform(({ highlightsText, ...data }) =>
+    MenuItemContentSchema.parse({
+      ...data,
+      highlights: normalizeHighlightLines(highlightsText),
+    })
+  );
 export type ItemInput = z.output<typeof ItemInputSchema>;
 export type ItemInputRaw = z.input<typeof ItemInputSchema>;

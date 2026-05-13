@@ -58,6 +58,9 @@ export async function POST(req: NextRequest) {
       if (Array.isArray(row.badges)) {
         row.badges = JSON.stringify(row.badges);
       }
+      if (Array.isArray(row.highlights)) {
+        row.highlights = JSON.stringify(row.highlights);
+      }
       return row;
     });
     const { error } = await sb.from("menu_items").insert(itemRows);

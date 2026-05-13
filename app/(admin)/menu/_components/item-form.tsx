@@ -54,8 +54,13 @@ export function ItemForm({
       ? {
           categoryId: existing.categoryId,
           nameEn: existing.nameEn,
+          nameAr: existing.nameAr,
           descriptionEn: existing.descriptionEn,
+          descriptionAr: existing.descriptionAr,
           priceEgp: existing.priceEgp,
+          caloriesLabel: existing.caloriesLabel,
+          servingInfo: existing.servingInfo,
+          highlightsText: existing.highlights.join("\n"),
           imageUrl: existing.imageUrl,
           badges: existing.badges,
           available: existing.available,
@@ -64,8 +69,13 @@ export function ItemForm({
       : {
           categoryId: defaultCategoryId || categories[0]?.id || "",
           nameEn: "",
+          nameAr: "",
           descriptionEn: "",
+          descriptionAr: "",
           priceEgp: 0,
+          caloriesLabel: "",
+          servingInfo: "",
+          highlightsText: "",
           imageUrl: "",
           badges: [],
           available: true,
@@ -127,20 +137,70 @@ export function ItemForm({
             <FieldError>{errors.categoryId?.message}</FieldError>
           </div>
 
-          {/* Name */}
-          <div>
-            <Label required>Name</Label>
-            <Input {...register("nameEn")} placeholder="e.g. Grape Leaf Rolls" />
-            <FieldError>{errors.nameEn?.message}</FieldError>
+          {/* Names */}
+          <div className="grid gap-4 md:grid-cols-2">
+            <div>
+              <Label required>Name</Label>
+              <Input {...register("nameEn")} placeholder="e.g. Grape Leaf Rolls" />
+              <FieldError>{errors.nameEn?.message}</FieldError>
+            </div>
+            <div>
+              <Label hint="optional">Arabic name</Label>
+              <Input
+                dir="rtl"
+                {...register("nameAr")}
+                placeholder="e.g. ورق عنب"
+              />
+            </div>
           </div>
 
-          {/* Description */}
+          {/* Descriptions */}
+          <div className="grid gap-4 md:grid-cols-2">
+            <div>
+              <Label>Description</Label>
+              <Textarea
+                {...register("descriptionEn")}
+                placeholder="Short and appetizing - what makes this dish great."
+              />
+            </div>
+            <div>
+              <Label hint="optional">Arabic description</Label>
+              <Textarea
+                dir="rtl"
+                {...register("descriptionAr")}
+                placeholder="سطر عربي قصير يعرض تحت الاسم أو الوصف."
+              />
+            </div>
+          </div>
+
+          {/* Quick facts */}
+          <div className="grid gap-4 md:grid-cols-2">
+            <div>
+              <Label hint="optional">Calories</Label>
+              <Input
+                {...register("caloriesLabel")}
+                placeholder="e.g. 180 kcal or 35-40 per piece"
+              />
+            </div>
+            <div>
+              <Label hint="optional">Serving note</Label>
+              <Input
+                {...register("servingInfo")}
+                placeholder="e.g. Great for sharing"
+              />
+            </div>
+          </div>
+
           <div>
-            <Label>Description</Label>
+            <Label hint="one per line · max 4">Highlights</Label>
             <Textarea
-              {...register("descriptionEn")}
-              placeholder="Short and appetizing - what makes this dish great."
+              {...register("highlightsText")}
+              placeholder={"Fresh herbs\nSlow-cooked filling\nBright lemon finish"}
+              rows={4}
             />
+            <p className="mt-1 text-xs text-muted">
+              These show as compact fact chips on the preview and admin menu cards.
+            </p>
           </div>
 
           {/* Price + sort */}

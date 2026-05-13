@@ -39,6 +39,7 @@ function buildSku(categoryId: string, catName: string, existingSkus: string[]): 
 function revalidateMenu() {
   revalidatePath("/menu");
   revalidatePath("/menu/preview");
+  revalidatePath("/menu/print");
 }
 
 /* ---------------- Categories ---------------- */

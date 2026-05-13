@@ -90,24 +90,48 @@ export default async function MenuPrintPage() {
               )}
               <div className="h-px bg-brand-green/40 mb-3" />
               <ul className="space-y-2.5">
-                {items.map((item) => (
-                  <li key={item.id} className="text-sm break-inside-avoid">
-                    <div className="flex items-baseline gap-2">
-                      <span className="font-semibold text-brand-ink">
-                        {item.nameEn}
-                      </span>
-                      <span className="flex-1 border-b border-dotted border-brand-ink/25 translate-y-[-3px]" />
-                      <span className="font-bold text-brand-green-deep tabular-nums">
-                        {formatEGP(item.priceEgp)}
-                      </span>
-                    </div>
-                    {item.descriptionEn && (
-                      <p className="text-[11px] text-brand-ink/60 mt-0.5 leading-snug">
-                        {item.descriptionEn}
-                      </p>
-                    )}
-                  </li>
-                ))}
+                {items.map((item) => {
+                  const meta = [item.caloriesLabel, item.servingInfo].filter(Boolean);
+
+                  return (
+                    <li key={item.id} className="text-sm break-inside-avoid">
+                      <div className="flex items-baseline gap-2">
+                        <span className="font-semibold text-brand-ink">
+                          {item.nameEn}
+                        </span>
+                        <span className="flex-1 border-b border-dotted border-brand-ink/25 translate-y-[-3px]" />
+                        <span className="font-bold text-brand-green-deep tabular-nums">
+                          {formatEGP(item.priceEgp)}
+                        </span>
+                      </div>
+                      {item.nameAr && (
+                        <p dir="rtl" className="mt-0.5 text-[11px] font-semibold text-brand-green-deep/90">
+                          {item.nameAr}
+                        </p>
+                      )}
+                      {item.descriptionEn && (
+                        <p className="mt-0.5 text-[11px] leading-snug text-brand-ink/60">
+                          {item.descriptionEn}
+                        </p>
+                      )}
+                      {item.descriptionAr && (
+                        <p dir="rtl" className="mt-0.5 text-[10px] leading-snug text-brand-ink/55">
+                          {item.descriptionAr}
+                        </p>
+                      )}
+                      {meta.length > 0 && (
+                        <p className="mt-1 text-[10px] font-semibold uppercase tracking-[0.08em] text-brand-green-deep/85">
+                          {meta.join(" · ")}
+                        </p>
+                      )}
+                      {item.highlights.length > 0 && (
+                        <p className="mt-0.5 text-[10px] text-brand-ink/55">
+                          {item.highlights.join(" · ")}
+                        </p>
+                      )}
+                    </li>
+                  );
+                })}
               </ul>
             </section>
           ))}
