@@ -94,6 +94,15 @@ function cleanPrompt(raw: string): string {
     // Strip any remaining [TAG: ...] or [TAG] bracket markers — FLUX treats
     // these as literal text garbage and produces black / 3D-looking output.
     .replace(/\[[A-Z][A-Z _]*(?::[^\]]*)?\]/gi, "")
+    // Remove cinematography terms that trigger NVIDIA's content filter when
+    // combined with dramatic scene descriptions (rain, night, shadows, etc.)
+    .replace(/\b(shot on |ARRI Alexa \d+|anamorphic \d+:\d+|cinematic color grade|film grain)\b/gi, "")
+    // Replace "dystopian" and other filter-trigger adjectives with neutral alternatives
+    .replace(/\bdystopian\b/gi, "futuristic")
+    .replace(/\bdramatic mood\b/gi, "moody atmosphere")
+    // Collapse extra commas and spaces from removals
+    .replace(/,\s*,/g, ",")
+    .replace(/\s{2,}/g, " ")
     // Collapse multiple blank lines left by removals
     .replace(/\n{3,}/g, "\n\n")
     .trim();

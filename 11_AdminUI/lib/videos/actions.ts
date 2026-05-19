@@ -8,7 +8,9 @@ import { readStudio, writeStudio } from "./store";
 import { uploadFile } from "@/lib/upload";
 import { isSupabaseConfigured, getSupabase } from "@/lib/supabase";
 import { parseScript } from "./parse-script";
-import { submitVideoJob, aspectToSize } from "@/lib/nvidia/client";
+import { aspectToSize } from "@/lib/nvidia/client";
+import { pickProvider } from "@/lib/video/provider";
+import type { VideoJob } from "@/lib/video/schema";
 import { buildReferenceContext } from "@/lib/ai/brand-reference";
 import { readCharacters } from "@/lib/characters/store";
 import {
@@ -303,19 +305,48 @@ export async function generateTake(input: unknown) {
   let externalId = data.externalId || "";
   let status: "queued" | "ready" | "generating" = data.videoUrl ? "ready" : "queued";
 
-  // Dispatch to NVIDIA API if no video URL provided and API key is configured
-  if (!data.videoUrl && process.env.NVIDIA_API_KEY && !process.env.NVIDIA_API_KEY.includes("YOUR_KEY")) {
+  // Dispatch to video provider if no video URL already provided
+  if (!data.videoUrl) {
     try {
-      const result = await submitVideoJob({
-        model: data.model as Parameters<typeof submitVideoJob>[0]["model"],
-        prompt: enrichedPrompt,
-        seed: data.seed ? Number(data.seed) : undefined,
+      const provider = await pickProvider({
+        providerId: undefined,
+        tier: "hero",
+        durationSec: shot.durationSec ?? 5,
+        aspectRatio: "16:9",
       });
-      externalId = result.reqId;
-      status = result.status === "completed" ? "ready" : "generating";
+      if (provider) {
+        const videoJob: VideoJob = {
+          id: `vjob_${nanoid(8)}`,
+          providerId: provider.id,
+          providerJobId: "",
+          tier: "hero",
+          projectId: data.projectId,
+          shotId: data.shotId,
+          takeId: "",
+          prompt: enrichedPrompt,
+          negativePrompt: "",
+          characterAnchors: [],
+          referenceImageUrls: [],
+          imageUrl: shot.keyframeUrl ?? "",
+          aspectRatio: "16:9",
+          durationSec: shot.durationSec ?? 5,
+          seed: data.seed ? Number(data.seed) : 0,
+          status: "queued",
+          outputUrl: "",
+          posterUrl: "",
+          estimatedCostUsd: 0,
+          actualCostUsd: 0,
+          error: "",
+          providerMeta: {},
+          createdAt: now(),
+          updatedAt: now(),
+        };
+        const result = await provider.submit(videoJob);
+        externalId = result.providerJobId;
+        status = result.status === "completed" ? "ready" : "generating";
+      }
     } catch (err) {
-      // Log error but still create the take as queued
-      console.error("[generateTake] NVIDIA API error:", err);
+      console.error("[generateTake] video provider error:", err);
       status = "queued";
     }
   }
@@ -343,35 +374,41 @@ export async function generateTake(input: unknown) {
 }
 
 /**
- * Poll a generating take's status from NVIDIA API.
+ * Poll a generating take's status from the video provider.
  * Updates the take record if completed or failed.
  */
 export async function pollTake(takeId: string) {
-  const { pollVideoJob } = await import("@/lib/nvidia/client");
+  const { getProvider } = await import("@/lib/video/provider");
   const state = await readStudio();
   const take = state.takes.find((t) => t.id === takeId);
   if (!take) throw new Error("Take not found");
   if (take.status !== "generating" || !take.externalId) return take;
 
-  const result = await pollVideoJob(take.externalId);
+  // Detect provider from externalId format
+  let providerId: string;
+  if (take.externalId.includes("arn:aws:bedrock")) {
+    providerId = "bedrock";
+  } else {
+    providerId = take.model?.split("/")[0] ?? "runway";
+  }
 
-  if (result.status === "completed" && result.video) {
-    const filename = `${nanoid(10)}.mp4`;
-    const buf = Buffer.from(result.video, "base64");
+  const provider = await getProvider(providerId);
+  if (!provider) {
+    take.status = "failed";
+    take.notes = `Provider ${providerId} not available`;
+    take.updatedAt = now();
+    await writeStudio(state);
+    revalidateAll(take.projectId);
+    return take;
+  }
 
-    if (!isSupabaseConfigured()) {
-      const dir = path.join(process.cwd(), "public", "uploads", "takes");
-      await fs.mkdir(dir, { recursive: true });
-      await fs.writeFile(path.join(dir, filename), buf);
-      take.videoUrl = `/uploads/takes/${filename}`;
-    } else {
-      const { error: upErr } = await getSupabase().storage
-        .from("uploads")
-        .upload(`takes/${filename}`, buf, { contentType: "video/mp4" });
-      if (upErr) throw upErr;
-      const { data: urlData } = getSupabase().storage.from("uploads").getPublicUrl(`takes/${filename}`);
-      take.videoUrl = urlData.publicUrl;
-    }
+  const result = await provider.poll(take.externalId);
+
+  if (result.status === "completed" && result.outputUrl) {
+    take.videoUrl = result.outputUrl;
+    take.status = "ready";
+  } else if (result.status === "completed" && !result.outputUrl) {
+    // Some providers return inline video — not common with Runway
     take.status = "ready";
   } else if (result.status === "failed") {
     take.status = "failed";
@@ -809,7 +846,7 @@ export async function generateShotKeyframe(
   const { recordGeneration } = await import("@/lib/generations/actions");
 
   const seed = options.seed ?? Math.floor(Math.random() * 2_000_000_000);
-  const model = options.model ?? "black-forest-labs/flux.1-dev";
+  const model = options.model ?? "black-forest-labs/flux.1-schnell";
 
   // FLUX cloud only accepts width/height from {768,832,896,960,1024,1088,
   // 1152,1216,1280,1344}. 1344x768 is the closest valid widescreen frame
