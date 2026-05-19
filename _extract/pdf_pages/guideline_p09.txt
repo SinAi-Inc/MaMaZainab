@@ -1,0 +1,32 @@
+Brand Guideline
+Page//9
+Green represents vine leaves, natural 
+ingredients, and the heart of our signa-
+ture dish.
+Yellow symbolizes warmth, generosity, 
+and the welcoming spirit of homemade 
+cooking.
+Black adds strength and clarity, ensuring 
+balance and visual contrast.
+White maintains simplicity, cleanliness, 
+and modern presentation.
+Together, these colors create a brand 
+identity that feels fresh, comforting, and 
+rooted in tradition.
+CMYK : 75, 68, 67, 90
+HEX : # 000000
+RGB : 00, 00, 00
+CMYK : 00, 00, 00, 00
+HEX : # ffffff
+RGB : 255, 255, 255
+CMYK : 83, 13, 100, 02
+HEX : # 1b9b00
+RGB : 27, 155, 00
+CMYK : 08, 12, 100, 00
+HEX : # efd200
+RGB : 239, 210, 00
+The Mama Zainab 
+color system reflects 
+freshness, warmth, 
+and authenticity.
+Brand Color

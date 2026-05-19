@@ -1,0 +1,152 @@
+{
+  "$schema": "mama-zainab-brand-awareness-roadmap/v1",
+  "meta": {
+    "created": "2026-05-08",
+    "project": "Mama Zainab — Brand Awareness System",
+    "status": "Phase 1 Complete — Bible & Schema Delivered"
+  },
+
+  "architecture_overview": {
+    "layers": [
+      "L0: Brand Bible (brand-bible.json) — Single Source of Truth",
+      "L1: Studio Integration Schema (studio-integration-schema.json) — UI Contract",
+      "L2: Generation Pipeline — Prompt assembly + model dispatch",
+      "L3: Validation Pipeline — Post-gen quality gates",
+      "L4: Media Hub DAM — Asset management + versioning",
+      "L5: Distribution — Social, print, video, in-store"
+    ],
+    "data_flow": "Bible → Studio UI → Prompt Assembly → Model (Flux/SDXL/Video) → Validation → Approved Asset → Media Hub → Distribution Channels"
+  },
+
+  "phases": {
+    "phase_1": {
+      "name": "Brand Bible & Schema Foundation",
+      "status": "COMPLETE",
+      "deliverables": [
+        "brand-bible.json — Full character definitions, palette, pattern, typography, packaging, scene mapping, prompt anchors, generation rules",
+        "studio-integration-schema.json — UI binding contract, prompt assembly pipeline, validation pipeline, video extensions, asset registry"
+      ],
+      "what_this_solves": "The exact problem shown in the Studio screenshot — wrong character look due to missing structured brand data feeding the prompt pipeline"
+    },
+
+    "phase_2": {
+      "name": "Studio UI Integration",
+      "status": "NEXT",
+      "tasks": [
+        {
+          "id": "2.1",
+          "task": "Wire CHARACTER ANCHOR dropdown to brand-bible.json character entries",
+          "detail": "Each selection auto-injects visual_prompt_anchor + do_not rules as negative prompt"
+        },
+        {
+          "id": "2.2",
+          "task": "Add SCENE CONTEXT dropdown per studio-integration-schema",
+          "detail": "Auto-configures palette focus, available characters, mood, and pattern usage"
+        },
+        {
+          "id": "2.3",
+          "task": "Implement prompt assembly pipeline",
+          "detail": "Follows the 6-step order: scene → character → user prompt → palette → plaid → negatives"
+        },
+        {
+          "id": "2.4",
+          "task": "Add character reference image preview panel",
+          "detail": "Shows the asset_ref images alongside the generated image for quick visual comparison"
+        },
+        {
+          "id": "2.5",
+          "task": "Implement 'Append brand palette & plaid context' checkbox logic",
+          "detail": "Auto-detects if selected character needs plaid injection (Mama Zainab, ZuZu)"
+        }
+      ]
+    },
+
+    "phase_3": {
+      "name": "Post-Generation Validation",
+      "status": "PLANNED",
+      "tasks": [
+        {
+          "id": "3.1",
+          "task": "Color compliance checker",
+          "detail": "Extract dominant colors from generated image, compare to brand palette, flag off-brand"
+        },
+        {
+          "id": "3.2",
+          "task": "Character face consistency check",
+          "detail": "Use face embedding model to compare generated faces against reference assets"
+        },
+        {
+          "id": "3.3",
+          "task": "Brand element detection",
+          "detail": "Object detection for: plaid apron, ZuZu ribbon, packaging pattern, logo presence"
+        },
+        {
+          "id": "3.4",
+          "task": "Pattern classifier",
+          "detail": "Distinguish diamond weave from tartan/gingham/checkered — reject wrong patterns"
+        }
+      ]
+    },
+
+    "phase_4": {
+      "name": "Video Generation Pipeline",
+      "status": "PLANNED",
+      "tasks": [
+        {
+          "id": "4.1",
+          "task": "Scene-to-video generation workflow",
+          "detail": "Take script scenes + brand bible → generate storyboard frames → animate to video"
+        },
+        {
+          "id": "4.2",
+          "task": "Character consistency across frames",
+          "detail": "IP-Adapter or ControlNet-based character locking using reference assets"
+        },
+        {
+          "id": "4.3",
+          "task": "Lower thirds & title cards",
+          "detail": "Auto-generate branded overlays using plaid_v2 pattern + Bebas Neue typography"
+        },
+        {
+          "id": "4.4",
+          "task": "Scene transition templates",
+          "detail": "Pre-built transitions per studio-integration-schema.video_generation_extensions"
+        }
+      ]
+    },
+
+    "phase_5": {
+      "name": "Media Hub & Distribution",
+      "status": "PLANNED",
+      "tasks": [
+        {
+          "id": "5.1",
+          "task": "Digital Asset Management (DAM) integration",
+          "detail": "All approved generated assets auto-cataloged with character tags, scene tags, brand compliance score"
+        },
+        {
+          "id": "5.2",
+          "task": "Social media template system",
+          "detail": "Pre-sized templates (Instagram 1:1, Story 9:16, FB 16:9, Twitter 2:1) with brand frame overlays"
+        },
+        {
+          "id": "5.3",
+          "task": "Print-ready export pipeline",
+          "detail": "CMYK conversion + bleed guides for packaging, menus, car wraps, kiosk panels"
+        },
+        {
+          "id": "5.4",
+          "task": "Brand consistency dashboard",
+          "detail": "Track brand compliance scores across all generated content over time"
+        }
+      ]
+    }
+  },
+
+  "immediate_next_steps": [
+    "1. Feed brand-bible.json into the Studio backend as the /brand/* API endpoint",
+    "2. Update Studio UI CHARACTER ANCHOR dropdown to consume character entries with asset previews",
+    "3. Implement prompt assembly pipeline (Phase 2.3) — this alone would have prevented the screenshot failure",
+    "4. Add the reference image preview panel so operators can visually verify before distributing"
+  ]
+}
