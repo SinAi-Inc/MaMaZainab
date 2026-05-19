@@ -177,7 +177,9 @@ export const bedrockProvider: VideoProvider = {
     if (res.status === "Completed") {
       try {
         const bucket = getBucket();
-        const s3Key = `${s3Folder}/output.mp4`;
+        // Nova Reel appends the invocation short ID as a subfolder
+        const invocationShortId = invocationArn.split("/").pop() ?? "";
+        const s3Key = `${s3Folder}/${invocationShortId}/output.mp4`;
 
         const s3 = makeS3Client();
         const obj = await s3.send(new GetObjectCommand({ Bucket: bucket, Key: s3Key }));
