@@ -1,0 +1,44 @@
+[
+  {
+    "id": "build-1",
+    "kioskNumber": 1,
+    "name": "Carrefour Downtown",
+    "city": "Alexandria",
+    "district": "",
+    "address": "",
+    "phone": "",
+    "manager": "",
+    "status": "construction",
+    "openHours": "09:00–23:00",
+    "seating": 0,
+    "notes": ""
+  },
+  {
+    "id": "build-2",
+    "kioskNumber": 3,
+    "name": "Grand Plaza - San Stefano",
+    "city": "Alexandria",
+    "district": "San Stefano",
+    "address": "",
+    "phone": "",
+    "manager": "",
+    "status": "construction",
+    "openHours": "09:00–23:00",
+    "seating": 0,
+    "notes": ""
+  },
+  {
+    "id": "kiosk-1778126322891",
+    "kioskNumber": 2,
+    "name": "Green Plaza",
+    "city": "Alexandria",
+    "district": "",
+    "address": "",
+    "phone": "",
+    "manager": "",
+    "status": "construction",
+    "openHours": "09:00–23:00",
+    "seating": 0,
+    "notes": ""
+  }
+]

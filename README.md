@@ -1,100 +1,98 @@
-# MaMa Zainab — Admin UI (`11_AdminUI`)
+# MaMa Zainab — Brand Workspace
 
-Brand management dashboard and public-facing pages for the **MaMa Zainab** oriental fast-food chain. Built with Next.js 16 App Router.
+Single source of truth for the **MaMa Zainab** oriental fast-food chain — brand, video campaign, packaging, web, app, and store rollout.
 
-> **Owned & Operated by Sheng Heng Wang · Technology by [SinAI Inc.](https://sinai-inc.com)**
-
----
-
-## Stack
-
-| Layer | Technology |
-|-------|-----------|
-| Framework | Next.js 16 (App Router, Turbopack) |
-| UI | React 19 + TypeScript (strict) |
-| Styling | Tailwind CSS v4 — brand tokens via CSS vars |
-| Validation | Zod |
-| Fonts | Chinese Monoline (brand) via `next/font/local` |
-| Persistence | Supabase in production, JSON fallback locally |
-| Icons | Lucide React |
+> **Owned & Operated by Sheng Heng Wang (王盛恒) · 王盛恒餐饮投资集团有限公司**  
+> Technology by [SinAI Inc.](https://sinai-inc.com)
 
 ---
 
-## Local development
+## Workspace structure
 
-```bash
-cd 11_AdminUI
-npm install
-npm run dev        # http://localhost:3333
-```
-
-For admin writes and production-like local testing, set server env vars in `.env.local`:
-
-- `NEXT_PUBLIC_SUPABASE_URL`
-- `SUPABASE_SECRET_KEY` (preferred) or `SUPABASE_SERVICE_ROLE_KEY` (legacy fallback)
-- `ADMIN_PASSWORD`
-- `ADMIN_JWT_SECRET`
-- `PARTNER_JWT_SECRET` (optional; falls back to `ADMIN_JWT_SECRET`)
-- `NVIDIA_API_KEY` for AI generation
-
----
-
-## Route map
-
-### Public routes
-
-| Route | Description |
-|-------|-------------|
-| `/coming-soon` | Launch page — countdown, notify form, social links |
-| `/menu/preview` | Brand-accurate menu preview |
-| `/menu/print` | Print-optimised menu layout |
-| `/cn` | Corporate ownership page (王盛恒餐饮投资集团有限公司) |
-
-### Admin routes (route group `(admin)` — no URL prefix)
-
-| Route | Description |
-|-------|-------------|
-| `/menu` | Menu management — categories + items CRUD |
-| `/website` | Website preview |
-| `/videos` | Video campaign studio |
-| `/contacts` | Contact list — subscribers from notify form |
-
-### API
-
-| Route | Description |
-|-------|-------------|
-| `POST /api/notify` | Coming-soon email subscription → writes to `data/contacts.json` |
+| # | Folder | Contents | Status |
+|---|--------|----------|--------|
+| 01 | [01_Brand/](01_Brand/) | Locked tokens, guidelines, gingham plaid v2, logo finals | ✅ v2026.05 locked |
+| 02 | [02_Characters/](02_Characters/) | Mama Zainab, Wong, ZuZu Goose, Ghost — refs + bible | 🔄 in progress |
+| 03 | [03_Packaging/](03_Packaging/) | Box, holder, takeaway pillar, kiosk sauce packets | 🔄 awaiting redesign |
+| 04 | [04_Scripts/](04_Scripts/) | Cinematic launch script (Scene 1–6) + ad scripts | ✅ master script complete |
+| 05 | [05_VideoCampaign/](05_VideoCampaign/) | Storyboard, AI prompt pack, veo renders | ✅ STORYBOARD.md ready |
+| 06 | [06_Website/](06_Website/) | Public brand website | ⏭️ not started |
+| 07 | [07_OrderingApp/](07_OrderingApp/) | Expo / React Native ordering app | ⏭️ not started |
+| 08 | [08_Locations/](08_Locations/) | Kiosk renders, store maps, signage specs | ⏭️ not started |
+| 09 | [09_Marketing/](09_Marketing/) | Social cuts, posters, "STOP" series | ⏭️ not started |
+| 10 | [10_AI_Assets/](10_AI_Assets/) | LoRAs, character image refs, prompt library | ⏭️ not started |
+| 11 | [11_AdminUI/](11_AdminUI/) | Next.js admin dashboard + all public pages | ✅ deployed |
+| — | [_source/](_source/) | Read-only mirrors of F:\ master assets | ✅ selective mirror |
+| — | [_extract/](_extract/) | PDF pages, video frames, brand audit | ✅ |
+| — | [fonts/](fonts/) | Chinese Monoline, Lucida Handwriting, Kozuka | ✅ |
+| — | [Profile/](Profile/) | Founder / company profile assets | 🔄 in progress |
 
 ---
 
-## Data directory
+## Identity (locked)
 
-```text
-data/
-  menu.json        ← menu categories & items  (tracked — publicly visible on /menu/preview)
-  contacts.json    ← subscriber emails         (gitignored — never committed)
-  videos.json      ← video project state       (gitignored — business IP)
-```
+| Property | Value |
+|----------|-------|
+| Brand name | **MaMa Zainab** · ماما زينب |
+| Owner | Sheng Heng Wang · 王盛恒先生 |
+| Company | 王盛恒餐饮投资集团有限公司 |
+| Nationality | China · 中华人民共和国 |
+| Launch market | Alexandria, Egypt · 埃及·亚历山大 |
+| Year | 2026 — present |
+| Promise | Authentic Mahshi. Homemade Taste. Fast-Food Speed. |
+| Y1 target | 100 branches |
+
+### Brand colours
+
+| Role | Hex |
+|------|-----|
+| Green (primary) | `#1B9B00` |
+| Yellow (accent) | `#EFD200` |
+| Ink | `#1E1A14` |
+| Paper | `#FAFAF5` |
+
+### Typography
+
+| Role | Typeface |
+|------|---------|
+| Display / logo | Chinese Monoline |
+| Headline | Bebas Neue |
+| Body (Latin) | Poppins |
+| Body (Arabic) | Cairo |
 
 ---
 
-## Security
+## Admin UI (`11_AdminUI`)
 
-- `data/contacts.json` and `data/videos.json` are **gitignored** — never committed.
-- No hardcoded secrets, API keys, or credentials in source.
-- Server secrets live in environment variables and are not persisted in tracked settings files.
-- Supabase server access supports `SUPABASE_SECRET_KEY` and the legacy `SUPABASE_SERVICE_ROLE_KEY` fallback during migration.
-- PostCSS XSS (GHSA-qx2v-qp2m-jg93) fixed via `overrides: { postcss: ">=8.5.10" }`.
-- `npm audit` → **0 vulnerabilities**.
+Next.js 15 app — admin dashboard and public brand pages.  
+**Dev:** `cd 11_AdminUI && npm run dev` → `http://localhost:3333`
+
+| Public page | URL |
+|-------------|-----|
+| Coming Soon | `/coming-soon` |
+| Menu preview | `/menu/preview` |
+| Corporate (Chinese) | `/cn` |
+
+| Admin page | URL |
+|------------|-----|
+| Menu management | `/menu` |
+| Video studio | `/videos` |
+| Contact list | `/contacts` |
 
 ---
 
-## Deployment (Vercel)
+## Security & IP protection
 
-1. Import repo at [vercel.com/new](https://vercel.com/new)
-2. Set **Root Directory** → `11_AdminUI`
-3. Set required env vars for Supabase, admin auth, partner auth, and AI generation
-4. Deploy
+- `11_AdminUI/data/contacts.json` — gitignored (subscriber emails)
+- `11_AdminUI/data/videos.json` — gitignored (brand scripts, business IP)
+- `04_Scripts/` — local only, not committed (cinematic scripts + strategy)
+- No credentials or API keys anywhere in this repo
+- Git history rewritten (`git filter-repo`) — no accidental prior commits of the above
 
-> Public pages (`/coming-soon`, `/menu/preview`, `/cn`) work fully on serverless.  
-> Admin writes and partner/admin auth require the server env vars above. Supabase-backed persistence is the intended production path.
+---
+
+## Conventions
+
+- All paths relative to workspace root.
+- Spelling: only **MaMa Zainab** (camelCase M and Z) — see [01_Brand/BRAND.md](01_Brand/BRAND.md).
+- Files in `_source/` are **read-only** mirrors — re-sync from `F:\H.Q\SinAI Inc\R&D Docs\Mama Zainab` master if needed.

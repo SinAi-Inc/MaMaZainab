@@ -1,0 +1,433 @@
+{
+  "$schema": "mama-zainab-brand-bible/v1",
+  "meta": {
+    "version": "1.0.0",
+    "updated": "2026-05-08",
+    "project": "Mama Zainab",
+    "owner": "SinAI Inc",
+    "purpose": "Single source of truth for Studio, Media Hub, and all generative pipelines"
+  },
+
+  "brand_identity": {
+    "name": "MaMa Zainab",
+    "name_arabic": "ماما زينب",
+    "tagline": "The Village Way, or Not at All",
+    "origin_story": "Named after the archetype from the legendary Egyptian play 'El Eyal Kebret' — in the Egyptian subconscious, if Mama Zainab cooked it, it is undeniably delicious.",
+    "brand_personality": ["authentic", "warm", "village-rooted", "nostalgic", "premium-casual"],
+    "market_position": "Fast-food Mahshi & Oriental home-food — village authenticity at scale",
+    "founding_city": "Alexandria, Egypt"
+  },
+
+  "color_palette": {
+    "primary": {
+      "mahshi_green": {
+        "hex": "#1B9B00",
+        "rgb": [27, 155, 0],
+        "role": "Primary brand color — represents fresh grape leaves, village fields, and the core Mahshi product",
+        "usage": ["logo", "apron", "packaging_accent", "kiosk_header", "plaid_pattern"]
+      },
+      "brand_yellow": {
+        "hex": "#EFD200",
+        "rgb": [239, 210, 0],
+        "role": "Secondary warmth — represents golden rice, sunlight, Egyptian heritage",
+        "usage": ["apron_plaid_cross", "highlight_accents", "menu_headers", "zuzu_ribbon"]
+      }
+    },
+    "secondary": {
+      "brand_red": {
+        "hex": "#E60000",
+        "rgb": [230, 0, 0],
+        "role": "Accent & alert — represents spice, tomato sauce, energy",
+        "usage": ["sale_badges", "hot_items", "wong_accent", "emergency_phone"]
+      },
+      "ink": {
+        "hex": "#2C292A",
+        "rgb": [44, 41, 42],
+        "role": "Primary text & deep contrast",
+        "usage": ["body_text", "logo_outline", "wong_silhouette"]
+      },
+      "cream": {
+        "hex": "#FFF8E7",
+        "rgb": [255, 248, 231],
+        "role": "Background warmth — represents dough, village walls, comfort",
+        "usage": ["backgrounds", "packaging_base", "plaid_base", "menu_canvas"]
+      }
+    },
+    "extended": {
+      "vine_dark": {
+        "hex": "#0D5E00",
+        "role": "Deep green for shadows, stuffed grape leaf interiors"
+      },
+      "lemon_zest": {
+        "hex": "#FFF44F",
+        "role": "Highlight sparkle for food photography overlays"
+      },
+      "garlic_white": {
+        "hex": "#FAFAFA",
+        "role": "Clean UI surfaces, kiosk screens"
+      }
+    }
+  },
+
+  "pattern": {
+    "plaid_v2": {
+      "id": "plaid_v2",
+      "name": "Mama Zainab Plaid",
+      "description": "Green-on-cream diamond weave — the signature textile pattern across all brand touchpoints",
+      "structure": "Diamond/argyle weave with primary green lines on cream base, yellow cross-threads",
+      "colors": ["#1B9B00", "#FFF8E7", "#EFD200"],
+      "line_weight": "medium (3-5px at 300dpi)",
+      "diamond_size": "~40px repeat tile",
+      "usage": ["apron_fabric", "packaging_wraps", "napkins", "kiosk_trim", "social_borders", "video_lower_thirds"],
+      "prompt_anchor": "plaid pattern: green-on-cream diamond weave with thin yellow cross-threads, rustic textile feel, not tartan — softer, village-handwoven aesthetic",
+      "do_not": ["Use Scottish tartan", "Use checkered gingham", "Make lines too thick or neon"]
+    }
+  },
+
+  "typography": {
+    "primary_display": {
+      "family": "Bebas Neue",
+      "weight": "Regular",
+      "usage": "Headlines, scene titles, kiosk headers",
+      "fallback": "Impact, sans-serif"
+    },
+    "body": {
+      "family": "Poppins",
+      "weights": ["Light", "Regular", "Medium", "SemiBold", "Bold"],
+      "usage": "Body copy, menu descriptions, UI text",
+      "fallback": "Montserrat, sans-serif"
+    },
+    "secondary_body": {
+      "family": "Montserrat",
+      "weights": ["Light", "Regular", "Bold"],
+      "usage": "Subtitle text, secondary copy",
+      "fallback": "Poppins, sans-serif"
+    },
+    "brand_script": {
+      "family": "Lucida Handwriting",
+      "weight": "Italic",
+      "usage": "Mama Zainab's personal quotes, handwritten feel accents",
+      "fallback": "cursive"
+    },
+    "cultural_accent": {
+      "chinese_monoline": {
+        "family": "Chinese Monoline",
+        "weight": "Regular",
+        "usage": "Wong's dialogue cards, East-meets-Egypt fusion elements"
+      },
+      "kozgo": {
+        "family": "KozGoPr6N",
+        "weight": "Regular",
+        "usage": "Japanese/Chinese subtitle overlays in cinematic scenes"
+      }
+    }
+  },
+
+  "characters": {
+    "mama_zainab": {
+      "id": "char_mama_zainab",
+      "name": "Mama Zainab",
+      "name_arabic": "ماما زينب",
+      "role": "protagonist",
+      "description_short": "The heart of the brand — an authentic Egyptian Falaha who won Wong's competition",
+      "visual_prompt_anchor": "Egyptian village woman (Falaha), late 50s-early 60s, kind warm face with deep smile lines, round cheeks, olive-brown skin, wearing a cream/beige hijab headscarf wrapped village-style, signature GREEN AND YELLOW PLAID APRON (diamond weave pattern, primary green #1B9B00 on cream #FFF8E7 with yellow #EFD200 cross-threads) over a simple dark green or cream dress. Hands are flour-dusted, strong working hands. Expression: warm, confident, motherly authority. NO modern makeup. NO fashion hijab styling. Village-authentic.",
+      "physical_traits": {
+        "age_range": "55-65",
+        "build": "Medium, sturdy — a working woman",
+        "skin": "Olive-brown, sun-touched, Egyptian",
+        "face": "Round cheeks, deep smile lines, kind dark brown eyes, warm expression",
+        "hair_covering": "Cream/beige hijab wrapped in traditional village (Falaha) style — NOT modern fashion hijab",
+        "hands": "Strong, flour-dusted, the hands of someone who has rolled thousands of grape leaves"
+      },
+      "wardrobe": {
+        "signature_apron": {
+          "description": "Plaid v2 pattern apron — the single most recognizable brand element",
+          "colors": "Green #1B9B00 on cream #FFF8E7 base with yellow #EFD200 cross-threads",
+          "pattern": "Diamond weave plaid",
+          "asset_ref": "Brand/Apron.png"
+        },
+        "under_dress": "Simple, modest — dark green, cream, or earth-tone galabiya/dress",
+        "headscarf": "Cream or beige, village-wrapped, slightly loose"
+      },
+      "personality_keywords": ["warm", "stubborn-about-quality", "village-proud", "no-nonsense", "motherly"],
+      "signature_line": "In this kitchen, we do it the village way, or not at all.",
+      "do_not": [
+        "Make her look modern or urban",
+        "Use fashion-forward hijab styling",
+        "Show her without the plaid apron in brand contexts",
+        "Make her skinny or model-like",
+        "Give her Western features",
+        "Show heavy makeup"
+      ],
+      "asset_refs": {
+        "final_character": "Charcters/MaMaZainabFinal.png",
+        "portrait": "Charcters/MaMa.jpeg",
+        "logo_integrated": "Charcters/MaMaZainab.png",
+        "logo_jpg": "Charcters/MaMaZainab.jpg"
+      }
+    },
+
+    "shang_hong_wong": {
+      "id": "char_wong",
+      "name": "Shang Hong Wong",
+      "role": "founder_investor",
+      "description_short": "The mysterious Chinese warrior-turned-food-empire-investor",
+      "visual_prompt_anchor": "Chinese man, early-to-mid 60s, battle-scarred but dignified, lean athletic build, sharp intelligent eyes, short grey-white hair, clean-shaven or light stubble. TWO MODES: (1) WARRIOR MODE — dark silken traditional Chinese warrior robes, black/charcoal, standing dramatically on rooftops or pyramids; (2) BUSINESS MODE — premium minimalist linen suit, cream or light grey, understated luxury. Face shows a lifetime of combat but eyes show peace. Silhouette-heavy — often shown against windows or skylines.",
+      "physical_traits": {
+        "age_range": "60-65",
+        "ethnicity": "Chinese",
+        "build": "Lean, athletic, the body of a retired fighter",
+        "face": "Sharp features, battle scars (subtle), intelligent piercing eyes, short grey-white hair",
+        "expression": "Calm authority, dangerous calm, the rare small smile"
+      },
+      "wardrobe": {
+        "warrior_mode": {
+          "description": "Dark silken Chinese warrior robes — traditional, flowing",
+          "colors": "Black, charcoal, deep midnight",
+          "context": "Flashbacks, Scene 1 (rooftop), Scene 2 (pyramids)"
+        },
+        "business_mode": {
+          "description": "Premium minimalist linen suit",
+          "colors": "Cream, light grey, natural linen",
+          "context": "Scene 3 onwards — the investor persona"
+        },
+        "silhouette_mode": {
+          "description": "Shown only as a dark silhouette against bright windows",
+          "context": "Scene 6 — the mysterious 'Banker' on the phone"
+        }
+      },
+      "personality_keywords": ["tactical", "mysterious", "respectful", "warrior-philosopher", "silent-power"],
+      "signature_line": "The war is finally over.",
+      "do_not": [
+        "Make him look comedic or cartoonish",
+        "Show him cooking — he judges, he does not cook",
+        "Remove the battle-worn gravitas",
+        "Make him look young or pretty-boy",
+        "Show him in casual/sloppy clothing"
+      ],
+      "asset_refs": {
+        "isolated": "Charcters/IsolatedWong.png",
+        "portrait": "Charcters/Wong.png",
+        "warrior": "Charcters/WongWarrior.jpg",
+        "before_after": "Charcters/WongBeforeAfter.jpg",
+        "collage": "Charcters/WongCollage.png",
+        "hong_full": "Charcters/WongHong.png"
+      }
+    },
+
+    "zuzu_the_goose": {
+      "id": "char_zuzu",
+      "name": "ZuZu",
+      "name_arabic": "زوزو",
+      "role": "mascot_sidekick",
+      "description_short": "Mama Zainab's loyal white goose mascot — comedic, protective, brand icon",
+      "visual_prompt_anchor": "Pure white domestic goose, plump and proud, wearing a small plaid ribbon (matching Mama Zainab's apron — green-on-cream diamond weave with yellow threads) around neck or as a tiny bow. Expressive orange beak, bright eyes, slightly mischievous posture. Often shown waddling beside Mama Zainab or giving a thumbs-up wing gesture. Comedic but lovable.",
+      "physical_traits": {
+        "species": "White domestic goose (Embden-type)",
+        "color": "Pure white feathers",
+        "beak": "Orange",
+        "feet": "Orange webbed",
+        "size": "Medium-large goose, plump",
+        "accessory": "Small plaid ribbon matching apron pattern"
+      },
+      "personality_keywords": ["mischievous", "protective", "comedic", "loyal", "scene-stealer"],
+      "actions": ["trips rivals", "flaps flour clouds", "honks warnings", "thumbs-up wing", "waddles beside Zainab"],
+      "do_not": [
+        "Make it a duck or White Goose",
+        "Make it look aggressive or scary",
+        "Forget the plaid ribbon",
+        "Make it too small — it's a full-size goose"
+      ],
+      "asset_refs": {
+        "thumbsup": "Charcters/ZuZuThumbsUp.PNG",
+        "portrait": "Charcters/ZuZu.PNG"
+      }
+    },
+
+    "ghost_of_mama_zainab": {
+      "id": "char_ghost",
+      "name": "Ghost of Mama Zainab",
+      "name_arabic": "روح ماما زينب",
+      "role": "supernatural_guide",
+      "description_short": "An ethereal, younger version of Mama Zainab — visible only to her and ZuZu",
+      "visual_prompt_anchor": "Ethereal translucent figure of a younger Egyptian woman (30s), same facial features as Mama Zainab but younger and glowing. Semi-transparent with a soft greenish-golden luminescence. Wears a flowing white galabiya. Appears as a shimmer in the air. Serene, knowing expression. Visible only to Mama Zainab and ZuZu the Goose.",
+      "physical_traits": {
+        "age_appearance": "30s (younger version of Mama Zainab)",
+        "transparency": "Semi-transparent, ethereal glow",
+        "glow_color": "Soft green-gold luminescence (#1B9B00 + #EFD200 blended light)",
+        "dress": "Flowing white galabiya"
+      },
+      "do_not": [
+        "Make her look scary or horror-ghost",
+        "Show her as a completely different person from Mama Zainab",
+        "Make the glow blue or purple — it must be brand green-gold"
+      ],
+      "asset_refs": {
+        "soul_portrait": "Charcters/ZainabSoul.png",
+        "soul_jpg": "Charcters/ZainabSoul.jpg"
+      }
+    }
+  },
+
+  "packaging_design": {
+    "system_note": "All packaging uses cream #FFF8E7 as base, plaid_v2 pattern accents, and mahshi_green #1B9B00 as the dominant color",
+    "items": {
+      "food_box": {
+        "description": "Main takeaway box — cream base with green plaid band wrapping, logo on lid",
+        "asset_ref": "Charcters/box.jpeg"
+      },
+      "can_holder": {
+        "description": "Beverage can holder/sleeve — plaid pattern wrap with logo stamp",
+        "asset_ref": "Charcters/canholder.jpeg"
+      },
+      "takeaway_column": {
+        "description": "Vertical takeaway pillar/column — tall branded container for stacked mahshi portions",
+        "asset_ref": "Charcters/3amoudtakeaway.jpeg"
+      },
+      "sauce_station": {
+        "description": "Kiosk sauce dispensing area — branded panel with sauce labels",
+        "asset_ref": "Charcters/kiosksauces.jpeg"
+      }
+    },
+    "rules": [
+      "Cream base, never pure white",
+      "Plaid pattern always present as accent band or wrap — never full-cover",
+      "Logo placement: top-center or lid-center",
+      "Green #1B9B00 is the dominant packaging color",
+      "No gradients on packaging — flat brand colors only",
+      "ZuZu mascot may appear as a small stamp/icon on packaging"
+    ]
+  },
+
+  "brand_touchpoints": {
+    "kiosk": {
+      "description": "Street-food kiosk with branded fascia, plaid trim, and digital menu board",
+      "style": "Clean, premium-casual — think Apple-store meets village kitchen",
+      "asset_ref": "Brand/Kiosk.png"
+    },
+    "apron": {
+      "description": "The signature plaid apron — the most iconic single brand element",
+      "asset_ref": "Brand/Apron.png"
+    },
+    "vehicle_wrap": {
+      "description": "Delivery/brand vehicle wrap — car sticker with logo and plaid accents",
+      "asset_ref": "Phase 01-Legacy/Car-sticker2.jpg"
+    },
+    "brand_guideline_source": {
+      "ai_file": "Phase 01-Legacy/Mama Zainab Brand_guideline.ai",
+      "pdf_file": "Phase 01-Legacy/Mama Zainab Brand_guideline.pdf"
+    }
+  },
+
+  "menu_categories": {
+    "core": ["Stuffy Fingers (Mahshi)", "Grape Leaves", "Stuffed Zucchini", "Stuffed Eggplant", "Stuffed Onions", "Stuffed Cabbage", "Mombar"],
+    "sides": ["Macaroni Béchamel"],
+    "sauces": ["Zaktata", "House Sauces"],
+    "proteins": ["Beef Meatballs", "Chicken Meatballs", "Sausage Mix", "Liver's Mix"],
+    "drinks": ["Karkadeh", "Breeze"],
+    "snacks": ["MumbaPops", "Crazy Nuts"],
+    "menu_ref": "Menu/MaMa Zainab - SimpleMenu.pdf"
+  },
+
+  "scene_to_brand_mapping": {
+    "note": "Maps each script scene to the required brand elements for Studio/video generation",
+    "scenes": {
+      "scene_1_rooftop": {
+        "characters": ["shang_hong_wong"],
+        "wong_mode": "warrior",
+        "palette_focus": ["ink", "brand_red"],
+        "pattern_usage": "none",
+        "mood": "dark, neon, rain, high-action",
+        "brand_elements": ["glass-morphic_phone"]
+      },
+      "scene_2_pyramids": {
+        "characters": ["shang_hong_wong"],
+        "wong_mode": "warrior",
+        "palette_focus": ["cream", "mahshi_green", "brand_yellow"],
+        "pattern_usage": "none",
+        "mood": "epic, golden, vast, meditative",
+        "brand_elements": ["glass-morphic_phone", "pyramid_location"]
+      },
+      "scene_3_competition": {
+        "characters": ["shang_hong_wong", "mama_zainab"],
+        "wong_mode": "business",
+        "palette_focus": ["mahshi_green", "brand_yellow", "cream"],
+        "pattern_usage": "aprons, stage_banners",
+        "mood": "bright, Mediterranean, festive, competitive",
+        "brand_elements": ["golden_bell", "judging_table", "stoves"]
+      },
+      "scene_4_cooking": {
+        "characters": ["mama_zainab", "zuzu_the_goose", "ghost_of_mama_zainab"],
+        "palette_focus": ["mahshi_green", "brand_yellow", "cream"],
+        "pattern_usage": "apron, zuzu_ribbon",
+        "mood": "comedic, chaotic, warm",
+        "brand_elements": ["plaid_apron", "plaid_ribbon", "cooking_station"]
+      },
+      "scene_5_judging": {
+        "characters": ["shang_hong_wong", "mama_zainab"],
+        "wong_mode": "business",
+        "palette_focus": ["mahshi_green", "brand_yellow"],
+        "pattern_usage": "apron",
+        "mood": "dramatic, emotional, triumphant",
+        "brand_elements": ["golden_bell", "single_mahshi_finger", "flavor_explosion_vfx"]
+      },
+      "scene_6_command_center": {
+        "characters": ["mama_zainab", "zuzu_the_goose", "ghost_of_mama_zainab", "shang_hong_wong"],
+        "wong_mode": "silhouette",
+        "palette_focus": ["garlic_white", "mahshi_green", "cream"],
+        "pattern_usage": "apron, subtle_office_accents",
+        "mood": "clean, futuristic, peaceful, Apple-store aesthetic",
+        "brand_elements": ["holographic_menus", "red_phone", "harbor_view", "brand_packaging_on_shelves"]
+      }
+    }
+  },
+
+  "prompt_anchors": {
+    "description": "Pre-built prompt fragments the Studio should auto-inject when generating brand content",
+    "palette_block": "[BRAND PALETTE] Mahshi Green #1B9B00 | Brand Yellow #EFD200 | Brand Red #E60000 | Ink #2C292A | Cream #FFF8E7",
+    "plaid_block": "Plaid v2: green-on-cream diamond weave with thin yellow cross-threads, rustic village-handwoven textile aesthetic",
+    "character_anchors": {
+      "mama_zainab": "Egyptian Falaha village woman, late 50s-60s, warm kind round face, olive-brown skin, cream hijab village-wrapped, signature green-and-yellow plaid diamond-weave apron over dark green dress, flour-dusted strong hands, no makeup, motherly authority",
+      "wong_warrior": "Chinese man early 60s, lean battle-scarred, sharp eyes, grey-white hair, dark flowing silken warrior robes, dangerous calm, standing dramatically",
+      "wong_business": "Chinese man early 60s, lean dignified, sharp eyes, grey-white hair, premium cream linen suit, minimalist, understated luxury, calm authority",
+      "wong_silhouette": "Dark male silhouette against bright window, mysterious, only outline visible, backlit",
+      "zuzu": "Pure white plump domestic goose, orange beak, wearing small green-cream-yellow plaid ribbon, mischievous but lovable, waddling",
+      "ghost": "Semi-transparent ethereal young Egyptian woman 30s, glowing green-gold luminescence, flowing white galabiya, serene knowing expression"
+    }
+  },
+
+  "generation_rules": {
+    "mandatory": [
+      "ALWAYS inject palette_block when 'Append brand palette' is enabled",
+      "ALWAYS inject the correct character_anchor when a CHARACTER ANCHOR is selected",
+      "ALWAYS inject plaid_block when character wears apron or packaging is shown",
+      "NEVER generate Mama Zainab without the plaid apron in brand/marketing contexts",
+      "NEVER generate Wong cooking — he is the investor, not the cook",
+      "NEVER use blue, purple, or pink as dominant colors — they are off-brand",
+      "ALWAYS match Wong's wardrobe mode to the scene context",
+      "ZuZu must always have the plaid ribbon accessory"
+    ],
+    "quality_gates": {
+      "character_consistency": "Compare generated face against asset_refs — reject if features don't match reference",
+      "palette_compliance": "Dominant colors must be within brand palette — flag if >20% off-palette color",
+      "pattern_accuracy": "Plaid must be diamond weave, not tartan/gingham/checkered",
+      "hijab_style": "Must be village-wrapped, not modern fashion hijab"
+    }
+  },
+
+  "api_endpoint_spec": {
+    "note": "Schema for how Studio and Media Hub should consume this bible",
+    "endpoints": {
+      "GET /brand/palette": "Returns color_palette object",
+      "GET /brand/characters": "Returns all character definitions with prompt_anchors",
+      "GET /brand/characters/{id}": "Returns single character with full visual_prompt_anchor",
+      "GET /brand/pattern": "Returns plaid pattern definition and prompt_anchor",
+      "GET /brand/prompt-anchors": "Returns all pre-built prompt fragments",
+      "GET /brand/scene/{scene_id}": "Returns scene-specific brand requirements from scene_to_brand_mapping",
+      "GET /brand/packaging": "Returns packaging design rules and asset refs",
+      "GET /brand/rules": "Returns generation_rules for validation pipeline",
+      "GET /brand/typography": "Returns typography system",
+      "GET /brand/full": "Returns complete bible"
+    }
+  }
+}
