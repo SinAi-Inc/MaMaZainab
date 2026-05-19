@@ -1,0 +1,205 @@
+{
+  "$schema": "mama-zainab-studio-integration/v1",
+  "description": "Contract between Brand Bible and Studio/Media Hub UI — defines how the UI must consume and enforce brand elements",
+
+  "ui_binding": {
+    "character_anchor_dropdown": {
+      "source": "brand-bible.json → characters",
+      "behavior": "When user selects a character, auto-inject the character's visual_prompt_anchor into the prompt field",
+      "options": [
+        {
+          "label": "MaMa Zainab",
+          "value": "char_mama_zainab",
+          "injects": "prompt_anchors.character_anchors.mama_zainab",
+          "also_injects": ["prompt_anchors.plaid_block"],
+          "asset_preview": "Charcters/MaMaZainabFinal.png"
+        },
+        {
+          "label": "Shang Hong Wong — Warrior",
+          "value": "char_wong_warrior",
+          "injects": "prompt_anchors.character_anchors.wong_warrior",
+          "also_injects": [],
+          "asset_preview": "Charcters/WongWarrior.jpg"
+        },
+        {
+          "label": "Shang Hong Wong — Business",
+          "value": "char_wong_business",
+          "injects": "prompt_anchors.character_anchors.wong_business",
+          "also_injects": [],
+          "asset_preview": "Charcters/IsolatedWong.png"
+        },
+        {
+          "label": "Shang Hong Wong — Silhouette",
+          "value": "char_wong_silhouette",
+          "injects": "prompt_anchors.character_anchors.wong_silhouette",
+          "also_injects": [],
+          "asset_preview": "Charcters/WongHong.png"
+        },
+        {
+          "label": "ZuZu the Goose",
+          "value": "char_zuzu",
+          "injects": "prompt_anchors.character_anchors.zuzu",
+          "also_injects": ["prompt_anchors.plaid_block"],
+          "asset_preview": "Charcters/ZuZuThumbsUp.PNG"
+        },
+        {
+          "label": "Ghost of Mama Zainab",
+          "value": "char_ghost",
+          "injects": "prompt_anchors.character_anchors.ghost",
+          "also_injects": [],
+          "asset_preview": "Charcters/ZainabSoul.png"
+        }
+      ]
+    },
+
+    "palette_checkbox": {
+      "label": "Append brand palette & plaid context",
+      "source": "brand-bible.json → prompt_anchors",
+      "when_checked": {
+        "prepend_to_prompt": "prompt_anchors.palette_block",
+        "append_plaid_if_character_has_apron": true
+      }
+    },
+
+    "scene_mode_dropdown": {
+      "label": "Scene Context (Optional)",
+      "source": "brand-bible.json → scene_to_brand_mapping.scenes",
+      "behavior": "When a scene is selected, auto-configure: character options, palette focus, pattern usage, mood keywords",
+      "options": [
+        { "label": "Scene 1 — Neon Rooftop", "value": "scene_1_rooftop" },
+        { "label": "Scene 2 — Pyramids", "value": "scene_2_pyramids" },
+        { "label": "Scene 3 — Competition", "value": "scene_3_competition" },
+        { "label": "Scene 4 — Cooking", "value": "scene_4_cooking" },
+        { "label": "Scene 5 — Judging", "value": "scene_5_judging" },
+        { "label": "Scene 6 — Command Center", "value": "scene_6_command_center" },
+        { "label": "Marketing — General", "value": "marketing_general" },
+        { "label": "Packaging Shot", "value": "packaging_shot" },
+        { "label": "Menu Item Hero", "value": "menu_hero" }
+      ]
+    }
+  },
+
+  "prompt_assembly_pipeline": {
+    "order": [
+      "1. scene_context (mood + palette_focus) — if scene selected",
+      "2. character_anchor — from dropdown selection",
+      "3. user_prompt — the free-text creative prompt",
+      "4. palette_block — if checkbox enabled",
+      "5. plaid_block — if character has apron/ribbon OR packaging shown",
+      "6. negative_prompt — auto-injected do_not rules from selected character"
+    ],
+    "assembled_template": "[SCENE: {mood}] {character_anchor}. {user_prompt}. [BRAND PALETTE] {palette_block}. [PATTERN] {plaid_block}. --no {negative_prompt_list}"
+  },
+
+  "validation_pipeline": {
+    "pre_generation": [
+      {
+        "check": "character_selected_matches_scene",
+        "action": "warn if Wong is set to 'warrior' but scene is 3-6"
+      },
+      {
+        "check": "palette_enabled_for_brand_content",
+        "action": "warn if palette checkbox is off for marketing/packaging context"
+      }
+    ],
+    "post_generation": [
+      {
+        "check": "dominant_color_compliance",
+        "method": "Extract top-5 colors from generated image → compare against brand palette",
+        "threshold": "80% of image area must use brand-palette colors for marketing content",
+        "action": "flag as 'Off-Brand' if fails"
+      },
+      {
+        "check": "character_face_consistency",
+        "method": "Compare generated face embedding against reference asset_refs",
+        "threshold": "cosine_similarity > 0.75",
+        "action": "flag as 'Character Mismatch' if fails"
+      },
+      {
+        "check": "apron_presence",
+        "method": "Object detection for plaid apron when mama_zainab is the selected character",
+        "action": "flag as 'Missing Brand Element' if apron not detected"
+      },
+      {
+        "check": "pattern_type",
+        "method": "Texture classification on detected plaid regions",
+        "valid": "diamond_weave",
+        "invalid": ["tartan", "gingham", "checkered", "stripes"],
+        "action": "flag as 'Wrong Pattern' if invalid pattern detected"
+      }
+    ]
+  },
+
+  "video_generation_extensions": {
+    "scene_transitions": {
+      "scene_1_to_2": "Hard cut to white → fade in on pyramids (match script: 'screen fades to white')",
+      "scene_2_to_3": "Cut to black → title card 'MONTHS LATER' → wide shot Alexandria",
+      "scene_5_to_6": "Golden bell sound → dissolve to command center"
+    },
+    "lower_third_style": {
+      "font": "Bebas Neue",
+      "background": "plaid_v2 pattern strip",
+      "text_color": "#2C292A",
+      "accent": "#1B9B00"
+    },
+    "character_voice_notes": {
+      "wong_scene_1_2": "Chinese language with Arabic subtitles",
+      "wong_scene_3_plus": "Broken Egyptian accent in Arabic",
+      "mama_zainab": "Authentic Egyptian village dialect",
+      "chatgpt_vo": "Crisp, analytical AI voice — English or Arabic dub"
+    }
+  },
+
+  "media_hub_asset_registry": {
+    "description": "Maps all physical assets for the Media Hub DAM (Digital Asset Management) layer",
+    "categories": {
+      "characters": {
+        "path": "Charcters/",
+        "assets": [
+          { "file": "MaMaZainabFinal.png", "type": "character_sheet", "character": "mama_zainab", "usage": ["reference", "prompt_preview"] },
+          { "file": "MaMa.jpeg", "type": "portrait", "character": "mama_zainab", "usage": ["social", "reference"] },
+          { "file": "IsolatedWong.png", "type": "isolated_cutout", "character": "wong", "usage": ["compositing", "reference"] },
+          { "file": "WongWarrior.jpg", "type": "scene_reference", "character": "wong", "mode": "warrior", "usage": ["reference"] },
+          { "file": "WongHong.png", "type": "character_sheet", "character": "wong", "usage": ["reference", "prompt_preview"] },
+          { "file": "WongCollage.png", "type": "mood_board", "character": "wong", "usage": ["reference"] },
+          { "file": "ZuZuThumbsUp.PNG", "type": "mascot_pose", "character": "zuzu", "usage": ["social", "sticker", "reference"] },
+          { "file": "ZuZu.PNG", "type": "portrait", "character": "zuzu", "usage": ["reference"] },
+          { "file": "ZainabSoul.png", "type": "character_sheet", "character": "ghost", "usage": ["reference", "vfx_base"] },
+          { "file": "SceneOne.png", "type": "scene_reference", "scene": "scene_1", "usage": ["storyboard", "reference"] }
+        ]
+      },
+      "brand_design": {
+        "path": "Brand/",
+        "assets": [
+          { "file": "Apron.png", "type": "product_mockup", "element": "apron", "usage": ["reference", "pattern_source"] },
+          { "file": "Kiosk.png", "type": "environment_mockup", "element": "kiosk", "usage": ["reference", "location_guide"] }
+        ]
+      },
+      "packaging": {
+        "path": "Charcters/",
+        "assets": [
+          { "file": "box.jpeg", "type": "packaging_mockup", "element": "food_box", "usage": ["reference", "product_shot"] },
+          { "file": "canholder.jpeg", "type": "packaging_mockup", "element": "can_holder", "usage": ["reference", "product_shot"] },
+          { "file": "3amoudtakeaway.jpeg", "type": "packaging_mockup", "element": "takeaway_column", "usage": ["reference", "product_shot"] },
+          { "file": "kiosksauces.jpeg", "type": "packaging_mockup", "element": "sauce_station", "usage": ["reference"] }
+        ]
+      },
+      "legacy_guidelines": {
+        "path": "Phase 01-Legacy/",
+        "assets": [
+          { "file": "Mama Zainab Brand_guideline.ai", "type": "source_vector", "usage": ["print", "design"] },
+          { "file": "Mama Zainab Brand_guideline.pdf", "type": "guideline_doc", "usage": ["reference"] },
+          { "file": "Mama Zainab Final version.ai", "type": "source_vector", "usage": ["print", "design"] }
+        ]
+      },
+      "fonts": {
+        "path": "fonts/",
+        "assets": [
+          { "file": "Chinese Monoline.ttf", "type": "font", "usage": ["wong_dialogue", "cultural_accent"] },
+          { "file": "KozGoPr6N-Regular.otf", "type": "font", "usage": ["subtitle_overlay", "cultural_accent"] },
+          { "file": "LHANDW.TTF", "type": "font", "usage": ["handwritten_quotes", "mama_voice"] }
+        ]
+      }
+    }
+  }
+}
