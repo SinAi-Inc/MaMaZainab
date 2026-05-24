@@ -31,8 +31,8 @@ export async function readContacts(): Promise<ContactsState> {
     .from("contacts")
     .select("*")
     .order("subscribed_at", { ascending: false });
-  if (error) throw error;
-  const contacts = (data ?? []).map((r) => toCamel(r) as unknown as Contact);
+  if (error || !data) return { version: 1, contacts: [] };
+  const contacts = data.map((r) => toCamel(r) as unknown as Contact);
   return { version: 1, contacts };
 }
 
