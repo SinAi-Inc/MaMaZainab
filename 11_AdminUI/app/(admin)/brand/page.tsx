@@ -19,6 +19,8 @@ import {
   BRAND_ICON_PATTERN,
   PACKAGING,
   LOGO_ASSETS,
+  SCENES,
+  GENERATION_RULES,
   type ColorToken,
 } from "@/lib/brand-bible-data";
 import { readCharacters } from "@/lib/characters/store";
@@ -155,7 +157,7 @@ export default async function BrandBiblePage() {
           pattern: <PlaidPatternPanel />,
           logos: <LogosPanel />,
           characters: <CharactersPanel characters={liveCharacters} />,
-          scenes: <ScenesRulesPanel />,
+          scenes: <ScenesRulesPanel scenes={SCENES} generationRules={GENERATION_RULES} />,
         }}
       </BrandTabs>
     </div>
