@@ -96,44 +96,49 @@ function rowToShot(row: Record<string, unknown>): Shot {
 export async function readStudio(): Promise<StudioState> {
   if (!isSupabaseConfigured()) return readJson();
 
-  const sb = getSupabase();
-  const { data: projects } = await sb.from("projects").select("*").order("created_at");
-  if (!projects || projects.length === 0) {
-    // Supabase has no projects — check local JSON first (may have data from before Supabase was configured)
-    const local = await readJson();
-    if (local.projects.length > 0) return local;
-    try {
-      await sb.from("projects").upsert(projectToRow(SEED_PROJECT));
-    } catch {
-      // Seed failed — return empty state rather than crashing the page
+  try {
+    const sb = getSupabase();
+    const { data: projects } = await sb.from("projects").select("*").order("created_at");
+    if (!projects || projects.length === 0) {
+      // Supabase has no projects — check local JSON first (may have data from before Supabase was configured)
+      const local = await readJson();
+      if (local.projects.length > 0) return local;
+      try {
+        await sb.from("projects").upsert(projectToRow(SEED_PROJECT));
+      } catch {
+        // Seed failed — return empty state rather than crashing the page
+      }
+      return SEED;
     }
+
+    const { data: scenes } = await sb.from("scenes").select("*").order("sort");
+    const { data: shots } = await sb.from("shots").select("*").order("sort");
+    const { data: takes } = await sb.from("takes").select("*").order("index");
+
+    const state: StudioState = {
+      version: 2,
+      projects: projects.map((r) => rowToProject(r as unknown as Record<string, unknown>)),
+      scenes: (scenes ?? []).map((r) => toCamel(r as unknown as Record<string, unknown>) as unknown as Scene),
+      shots: (shots ?? []).map((r) => rowToShot(r as unknown as Record<string, unknown>)),
+      takes: (takes ?? []).map((r) => toCamel(r as unknown as Record<string, unknown>) as unknown as Take),
+    };
+
+    // Fallback: if Supabase is missing shots, use local JSON for scenes+shots+takes together
+    // (must keep referential integrity — shot.sceneId references scene.id from the same source)
+    if (state.shots.length === 0) {
+      const local = await readJson();
+      if (local.shots.length > 0) {
+        state.scenes = local.scenes;
+        state.shots = local.shots;
+        state.takes = local.takes;
+      }
+    }
+
+    return state;
+  } catch {
+    // Supabase read/mapping failed — return empty state rather than crashing the page
     return SEED;
   }
-
-  const { data: scenes } = await sb.from("scenes").select("*").order("sort");
-  const { data: shots } = await sb.from("shots").select("*").order("sort");
-  const { data: takes } = await sb.from("takes").select("*").order("index");
-
-  const state: StudioState = {
-    version: 2,
-    projects: projects.map((r) => rowToProject(r as unknown as Record<string, unknown>)),
-    scenes: (scenes ?? []).map((r) => toCamel(r as unknown as Record<string, unknown>) as unknown as Scene),
-    shots: (shots ?? []).map((r) => rowToShot(r as unknown as Record<string, unknown>)),
-    takes: (takes ?? []).map((r) => toCamel(r as unknown as Record<string, unknown>) as unknown as Take),
-  };
-
-  // Fallback: if Supabase is missing shots, use local JSON for scenes+shots+takes together
-  // (must keep referential integrity — shot.sceneId references scene.id from the same source)
-  if (state.shots.length === 0) {
-    const local = await readJson();
-    if (local.shots.length > 0) {
-      state.scenes = local.scenes;
-      state.shots = local.shots;
-      state.takes = local.takes;
-    }
-  }
-
-  return state;
 }
 
 export async function writeStudio(state: StudioState): Promise<void> {
