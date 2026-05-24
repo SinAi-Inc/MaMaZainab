@@ -1,14 +1,17 @@
 import { type NextRequest, NextResponse } from "next/server";
 import { verifySessionToken, COOKIE_NAME } from "@/lib/auth";
+import { readCharacters } from "@/lib/characters/store";
+import { readSettings } from "@/lib/settings/store";
+import { readMenu } from "@/lib/menu/store";
+import { readContacts } from "@/lib/contacts/store";
+import { readStudio } from "@/lib/videos/store";
 
 /**
  * GET /api/debug/env-check
- * Returns which auth env vars are set (not their values).
- * Requires a valid admin session (or allow-all for initial diagnosis).
- * DELETE THIS ROUTE after diagnosing Vercel env var issues.
+ * Returns env var presence + store health check.
+ * DELETE THIS ROUTE after diagnosing issues.
  */
 export async function GET(req: NextRequest) {
-  // Attempt to verify session — report result regardless
   const token = req.cookies.get(COOKIE_NAME)?.value;
   let sessionValid = false;
   let sessionError: string | null = null;
@@ -17,6 +20,20 @@ export async function GET(req: NextRequest) {
   } catch (e) {
     sessionError = String(e);
   }
+
+  // Test each store independently
+  async function probe(name: string, fn: () => Promise<unknown>) {
+    try { await fn(); return { ok: true }; }
+    catch (e) { return { ok: false, error: String(e) }; }
+  }
+
+  const [chars, settings, menu, contacts, studio] = await Promise.all([
+    probe("characters", () => readCharacters()),
+    probe("settings",   () => readSettings()),
+    probe("menu",       () => readMenu()),
+    probe("contacts",   () => readContacts()),
+    probe("studio",     () => readStudio()),
+  ]);
 
   return NextResponse.json({
     env: {
@@ -27,11 +44,8 @@ export async function GET(req: NextRequest) {
       SUPABASE_SECRET_KEY: !!process.env.SUPABASE_SECRET_KEY,
       BRAND_PRIVATE_DATA: !!process.env.BRAND_PRIVATE_DATA,
     },
-    session: {
-      hasCookie: !!token,
-      valid: sessionValid,
-      error: sessionError,
-    },
+    session: { hasCookie: !!token, valid: sessionValid, error: sessionError },
+    stores: { chars, settings, menu, contacts, studio },
     node_env: process.env.NODE_ENV,
   });
 }

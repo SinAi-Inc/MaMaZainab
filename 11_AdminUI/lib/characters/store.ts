@@ -56,7 +56,7 @@ export async function readCharacters(): Promise<CharacterState> {
     .select("*")
     .order("sort");
 
-  if (error) throw error;
+  if (error || !data) return { version: 1, characters: [] };
   if (!data || data.length === 0) {
     return { version: 1, characters: [] };
   }

@@ -234,7 +234,7 @@ export async function readMenu(): Promise<MenuState> {
     .order("sort");
 
   if (!cats || cats.length === 0) {
-    await seed(fileState);
+    try { await seed(fileState); } catch { /* seed failed — return file state */ }
     return fileState;
   }
 
