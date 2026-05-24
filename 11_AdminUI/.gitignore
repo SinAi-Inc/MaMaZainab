@@ -37,6 +37,10 @@ data/videos.json          # brand script, Falaha strategy, cinematic screenplay 
 # runtime-generated uploads (too large / ephemeral for git)
 public/uploads/menu-source/
 public/uploads/generations/
+public/uploads/keyframes/
+
+# AI model weights — too large for git (164MB each)
+../10_AI_Assets/
 
 # env files
 .env*
