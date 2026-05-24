@@ -38,7 +38,8 @@ export async function readSettings(): Promise<Settings> {
   if (error || !data) return DEFAULTS;
   const camel = toCamel(data) as Record<string, unknown>;
   delete camel.id;
-  return SettingsSchema.parse(camel);
+  const result = SettingsSchema.safeParse(camel);
+  return result.success ? result.data : DEFAULTS;
 }
 
 export async function writeSettings(settings: Settings): Promise<void> {
