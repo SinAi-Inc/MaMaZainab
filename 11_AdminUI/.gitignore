@@ -32,6 +32,13 @@ yarn-error.log*
 # private data — never commit to public repo
 data/contacts.json        # real subscriber emails
 data/videos.json          # brand script, Falaha strategy, cinematic screenplay (business IP)
+data/characters.json      # character IP — anchor blocks, AI prompts, reference image paths
+data/prompt-pack.json     # full video campaign screenplay + style guide
+data/generations.json     # AI generation history (ephemeral, large)
+data/settings.json        # admin email, social handles
+data/menu.json            # menu pricing and items
+data/branches.json        # location strategy
+data/partners.json        # partner portal config
 .pnpm-debug.log*
 
 # runtime-generated uploads (too large / ephemeral for git)
