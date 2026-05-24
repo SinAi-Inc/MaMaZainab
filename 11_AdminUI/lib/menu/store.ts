@@ -227,42 +227,49 @@ export async function readMenu(): Promise<MenuState> {
   const fileState = await readJson();
   if (!isSupabaseConfigured()) return fileState;
 
-  const sb = getSupabase();
-  const { data: cats } = await sb
-    .from("menu_categories")
-    .select("*")
-    .order("sort");
+  try {
+    const sb = getSupabase();
+    const { data: cats } = await sb
+      .from("menu_categories")
+      .select("*")
+      .order("sort");
 
-  if (!cats || cats.length === 0) {
-    try { await seed(fileState); } catch { /* seed failed — return file state */ }
+    if (!cats || cats.length === 0) {
+      try { await seed(fileState); } catch { /* seed failed — return file state */ }
+      return fileState;
+    }
+
+    const { data: items } = await sb
+      .from("menu_items")
+      .select("*")
+      .order("sort");
+
+    const supabaseCategories = (cats ?? []).flatMap((r) => {
+      const result = MenuCategorySchema.safeParse(toCamel(r) as unknown as Record<string, unknown>);
+      return result.success ? [result.data] : [];
+    });
+
+    const supabaseItems = (items ?? []).flatMap((r) => {
+      const parsed = { ...(r as Record<string, unknown>) };
+      if (typeof parsed.badges === "string") {
+        try { parsed.badges = JSON.parse(parsed.badges); } catch { parsed.badges = []; }
+      }
+      if (typeof parsed.highlights === "string") {
+        try { parsed.highlights = JSON.parse(parsed.highlights); } catch { parsed.highlights = []; }
+      }
+      const result = MenuItemSchema.safeParse(toCamel(parsed) as unknown as Record<string, unknown>);
+      return result.success ? [result.data] : [];
+    });
+
+    return {
+      version: 1,
+      categories: mergeRecords(fileState.categories, supabaseCategories, mergeCategoryRecord),
+      items: mergeRecords(fileState.items, supabaseItems, mergeItemRecord),
+    };
+  } catch {
+    // Supabase read/parse failed — fall back to file state
     return fileState;
   }
-
-  const { data: items } = await sb
-    .from("menu_items")
-    .select("*")
-    .order("sort");
-
-  const supabaseCategories = (cats ?? []).map((r) =>
-    MenuCategorySchema.parse(toCamel(r) as unknown as Record<string, unknown>)
-  );
-
-  const supabaseItems = (items ?? []).map((r) => {
-    const parsed = { ...(r as Record<string, unknown>) };
-    if (typeof parsed.badges === "string") {
-      try { parsed.badges = JSON.parse(parsed.badges); } catch { parsed.badges = []; }
-    }
-    if (typeof parsed.highlights === "string") {
-      try { parsed.highlights = JSON.parse(parsed.highlights); } catch { parsed.highlights = []; }
-    }
-    return MenuItemSchema.parse(toCamel(parsed) as unknown as Record<string, unknown>);
-  });
-
-  return {
-    version: 1,
-    categories: mergeRecords(fileState.categories, supabaseCategories, mergeCategoryRecord),
-    items: mergeRecords(fileState.items, supabaseItems, mergeItemRecord),
-  };
 }
 
 export async function writeMenu(state: MenuState): Promise<void> {
