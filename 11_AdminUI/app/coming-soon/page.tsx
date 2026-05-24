@@ -2,6 +2,7 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import { CountdownClient } from "../_countdown";
 import { NotifyForm } from "./_components/notify-form";
+import { readSettings } from "@/lib/settings/store";
 
 export const metadata: Metadata = {
   title: "MaMa Zainab - Coming Soon",
@@ -11,7 +12,11 @@ export const metadata: Metadata = {
 
 const LAUNCH_ISO = "2026-09-01T12:00:00+02:00";
 
-export default function ComingSoonPage() {
+export default async function ComingSoonPage() {
+  const settings = await readSettings();
+  const igUrl = settings.socialInstagram || "https://instagram.com/";
+  const ttUrl = settings.socialTiktok || "https://tiktok.com/";
+  const fbUrl = settings.socialFacebook || "https://facebook.com/";
   return (
     <main className="min-h-screen bg-brand-green text-white relative overflow-hidden flex flex-col">
       {/* Background plaid — full brightness, matching brand apron */}
@@ -105,7 +110,7 @@ export default function ComingSoonPage() {
         {/* Social links */}
         <div className="mt-6 flex items-center justify-center gap-3 sm:gap-5 flex-wrap text-[10px] text-white/60">
           <a
-            href="https://instagram.com/"
+            href={igUrl}
             target="_blank"
             rel="noopener noreferrer"
             className="hover:text-brand-yellow transition uppercase tracking-[0.2em]"
@@ -114,7 +119,7 @@ export default function ComingSoonPage() {
           </a>
           <span className="text-white/30">·</span>
           <a
-            href="https://tiktok.com/"
+            href={ttUrl}
             target="_blank"
             rel="noopener noreferrer"
             className="hover:text-brand-yellow transition uppercase tracking-[0.2em]"
@@ -123,7 +128,7 @@ export default function ComingSoonPage() {
           </a>
           <span className="text-white/30">·</span>
           <a
-            href="https://facebook.com/"
+            href={fbUrl}
             target="_blank"
             rel="noopener noreferrer"
             className="hover:text-brand-yellow transition uppercase tracking-[0.2em]"
