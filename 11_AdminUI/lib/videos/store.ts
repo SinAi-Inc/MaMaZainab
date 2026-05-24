@@ -102,8 +102,11 @@ export async function readStudio(): Promise<StudioState> {
     // Supabase has no projects — check local JSON first (may have data from before Supabase was configured)
     const local = await readJson();
     if (local.projects.length > 0) return local;
-    const { error } = await sb.from("projects").upsert(projectToRow(SEED_PROJECT));
-    if (error) throw error;
+    try {
+      await sb.from("projects").upsert(projectToRow(SEED_PROJECT));
+    } catch {
+      // Seed failed — return empty state rather than crashing the page
+    }
     return SEED;
   }
 
