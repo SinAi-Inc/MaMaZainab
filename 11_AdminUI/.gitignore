@@ -33,10 +33,8 @@ yarn-error.log*
 data/contacts.json        # real subscriber emails
 data/videos.json          # brand script, Falaha strategy, cinematic screenplay (business IP)
 data/characters.json      # character IP — anchor blocks, AI prompts, reference image paths
-data/prompt-pack.json     # full video campaign screenplay + style guide
 data/generations.json     # AI generation history (ephemeral, large)
 data/settings.json        # admin email, social handles
-data/menu.json            # menu pricing and items
 data/branches.json        # location strategy
 data/partners.json        # partner portal config
 data/brand-private.json   # sensitive brand prose: char anchors, AI prompt templates, origin story
