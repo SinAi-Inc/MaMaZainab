@@ -39,6 +39,7 @@ data/settings.json        # admin email, social handles
 data/menu.json            # menu pricing and items
 data/branches.json        # location strategy
 data/partners.json        # partner portal config
+data/brand-private.json   # sensitive brand prose: char anchors, AI prompt templates, origin story
 .pnpm-debug.log*
 
 # runtime-generated uploads (too large / ephemeral for git)

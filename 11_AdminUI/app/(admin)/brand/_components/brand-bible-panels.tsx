@@ -18,8 +18,12 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import type { BrandCharacter, SceneMapping } from "@/lib/brand-bible-data";
-import { CHARACTERS, SCENES, GENERATION_RULES } from "@/lib/brand-bible-data";
 import type { Character } from "@/lib/characters/schema";
+
+type GenerationRules = {
+  mandatory: string[];
+  qualityGates: { check: string; rule: string }[];
+};
 
 
 
@@ -431,7 +435,13 @@ function SceneRow({ scene }: { scene: SceneMapping }) {
   );
 }
 
-export function ScenesRulesPanel() {
+export function ScenesRulesPanel({
+  scenes,
+  generationRules,
+}: {
+  scenes: SceneMapping[];
+  generationRules: GenerationRules;
+}) {
   const [showRules, setShowRules] = useState(true);
 
   return (
@@ -448,7 +458,7 @@ export function ScenesRulesPanel() {
           pattern usage, and mood — auto-applied when selecting a scene in Studio.
         </p>
         <div className="space-y-2">
-          {SCENES.map((s) => (
+          {scenes.map((s) => (
             <SceneRow key={s.id} scene={s} />
           ))}
         </div>
@@ -476,7 +486,7 @@ export function ScenesRulesPanel() {
                   Mandatory Rules
                 </p>
                 <ul className="space-y-1.5">
-                  {GENERATION_RULES.mandatory.map((r) => {
+                  {generationRules.mandatory.map((r) => {
                     const isNever = r.startsWith("NEVER");
                     return (
                       <li
@@ -499,7 +509,7 @@ export function ScenesRulesPanel() {
                   Quality Gates
                 </p>
                 <div className="grid gap-2 sm:grid-cols-2">
-                  {GENERATION_RULES.qualityGates.map((g) => (
+                  {generationRules.qualityGates.map((g) => (
                     <div
                       key={g.check}
                       className="bg-white border border-border rounded-md p-2.5"
