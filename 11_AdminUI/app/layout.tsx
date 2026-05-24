@@ -27,8 +27,22 @@ const brandFont = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "MaMa Zainab - Brand Admin",
-  description: "HITL command center for menus, video, website & content.",
+  title: "MaMa Zainab",
+  description: "Homemade taste. Fast-food style. Opening late 2026 · Alexandria, Egypt.",
+  icons: {
+    icon: [
+      { url: "/favicon-16x16.png", sizes: "16x16", type: "image/png" },
+      { url: "/favicon-32x32.png", sizes: "32x32", type: "image/png" },
+      { url: "/favicon-192x192.png", sizes: "192x192", type: "image/png" },
+    ],
+    apple: { url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" },
+    shortcut: "/favicon-32x32.png",
+  },
+  openGraph: {
+    title: "MaMa Zainab",
+    description: "Homemade taste. Fast-food style. Opening late 2026 · Alexandria, Egypt.",
+    images: [{ url: "/favicon-512x512.png", width: 512, height: 512 }],
+  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
