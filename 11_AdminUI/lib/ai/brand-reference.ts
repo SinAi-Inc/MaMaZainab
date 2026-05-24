@@ -3,58 +3,27 @@
  * outputs on-brand. Detects character mentions, appends anchor blocks,
  * DO/DON'T rules, reference media paths, and brand material descriptors.
  *
+ * Sensitive prose (descriptors, character aliases, anchor blocks) is loaded
+ * at runtime from the gitignored data/brand-private.json (local dev) or the
+ * BRAND_PRIVATE_DATA environment variable (Vercel / production).
+ *
  * Used by both image-gen-tab and video-gen-tab.
  */
 
 import type { Character } from "@/lib/characters/schema";
+import { loadBrandPrivate } from "@/lib/private-brand-loader";
 
-/* ---- Brand Materials (static) ---- */
+/* ---- Non-sensitive keyword triggers (no brand strategy here) ---- */
 
-export const BRAND_MATERIALS = {
-  plaid: {
-    keywords: ["plaid", "apron", "pattern", "tartan", "fabric", "textile"],
-    descriptor: `[BRAND MATERIAL: Plaid v2]
-Green-base diamond plaid — warp: Brand Green #1B9B00 on cream #FFF8E7, weft: Brand Yellow #EFD200 at 30% opacity, white intersection highlights. Pattern repeat: 2cm diamond. Used on aprons, ribbons, packaging bands, tablecloths.
-DO NOT use: yellow-base plaid (legacy), random tartans, buffalo check.
-[REF: /brand/plaid.png]`,
-  },
-  packaging: {
-    keywords: ["packaging", "box", "bag", "wrapper", "container", "label", "pack"],
-    descriptor: `[BRAND MATERIAL: Packaging]
-Kraft brown base, plaid v2 band wrapping the package, MaMa Zainab wordmark in Brand Green on cream label, hand-stamped "Village Kitchen" in Ink #2C292A. Ribbon closure with plaid v2 fabric strip.
-DO NOT use: plastic laminate, metallic foil, neon colors, generic stock packaging.
-[REF: /brand/logo-primary.png]`,
-  },
-  logo: {
-    keywords: ["logo", "wordmark", "brand mark", "lockup"],
-    descriptor: `[BRAND MATERIAL: Logo / Wordmark]
-"MaMa Zainab" wordmark in custom Arabic-inspired script, Brand Green #1B9B00 primary, cream #FFF8E7 background acceptable. Minimum clear space: 1× height on all sides. Always paired with Mama Zainab character or standalone — never with Wong.
-[REF: /brand/logo-primary.png]`,
-  },
-  kitchen: {
-    keywords: ["kitchen", "cook", "cooking", "stove", "counter", "pot", "pan"],
-    descriptor: `[BRAND MATERIAL: Kitchen Setting]
-Rustic Mediterranean-Egyptian village kitchen: warm terracotta tiles, cream plastered walls, wooden shelves with copper pots, natural sunlight from a window, hanging dried herbs, flour-dusted wooden work surface. Brand Green accents in textiles (towels, apron). Warm tungsten fill light.
-DO NOT use: modern stainless steel, industrial kitchen, neon/LED lighting, minimalist design.`,
-  },
-  food: {
-    keywords: ["food", "dish", "plate", "meal", "mahshi", "vine leaves", "rice"],
-    descriptor: `[BRAND MATERIAL: Food Presentation]
-Authentic Egyptian/Mediterranean home-style plating: rustic ceramic bowls in cream/terracotta, fresh herbs as garnish, natural overhead or 45° angle photography, shallow depth of field, warm color temperature. Portions generous, steam visible on hot dishes.
-DO NOT use: molecular gastronomy, fine-dining micro-portions, black plates, cold blue lighting.`,
-  },
-} as const;
-
-export type BrandMaterialKey = keyof typeof BRAND_MATERIALS;
-
-/* ---- Character keyword map for auto-detection ---- */
-
-const CHARACTER_ALIASES: Record<string, string[]> = {
-  chr_mama_zainab: ["mama zainab", "mama", "zainab", "matriarch", "mother"],
-  chr_zuzu: ["zuzu", "goose", "mascot", "duck", "bird"],
-  chr_wong: ["wong", "shang hong", "banker", "founder", "investor"],
-  chr_ghost_zainab: ["ghost", "phantom", "ethereal", "spirit", "apparition"],
+const BRAND_MATERIAL_KEYWORDS: Record<string, string[]> = {
+  plaid:     ["plaid", "apron", "pattern", "tartan", "fabric", "textile"],
+  packaging: ["packaging", "box", "bag", "wrapper", "container", "label", "pack"],
+  logo:      ["logo", "wordmark", "brand mark", "lockup"],
+  kitchen:   ["kitchen", "cook", "cooking", "stove", "counter", "pot", "pan"],
+  food:      ["food", "dish", "plate", "meal", "mahshi", "vine leaves", "rice"],
 };
+
+export type BrandMaterialKey = keyof typeof BRAND_MATERIAL_KEYWORDS;
 
 /* ---- Core function: build validated reference context ---- */
 
@@ -70,6 +39,10 @@ export function buildReferenceContext(
   const { includeBrand = true, isVideo = false } = options ?? {};
   const promptLower = userPrompt.toLowerCase();
   const sections: string[] = [];
+
+  const priv = loadBrandPrivate();
+  const CHARACTER_ALIASES = priv.characterAliases;
+  const brandMaterials    = priv.brandMaterials;
 
   // 1. Collect all characters that should be referenced
   const referencedCharIds = new Set<string>();
@@ -140,8 +113,8 @@ export function buildReferenceContext(
   // 3. Auto-detect brand material mentions and inject descriptors
   if (includeBrand) {
     const usedMaterials = new Set<BrandMaterialKey>();
-    for (const [key, material] of Object.entries(BRAND_MATERIALS)) {
-      if (material.keywords.some((kw) => promptLower.includes(kw))) {
+    for (const [key, keywords] of Object.entries(BRAND_MATERIAL_KEYWORDS)) {
+      if (keywords.some((kw) => promptLower.includes(kw))) {
         usedMaterials.add(key as BrandMaterialKey);
       }
     }
@@ -155,7 +128,8 @@ export function buildReferenceContext(
     }
 
     for (const matKey of usedMaterials) {
-      sections.push(BRAND_MATERIALS[matKey].descriptor);
+      const descriptor = brandMaterials[matKey as keyof typeof brandMaterials]?.descriptor;
+      if (descriptor) sections.push(descriptor);
     }
 
     // Global brand palette (always append when brand mode is on)
