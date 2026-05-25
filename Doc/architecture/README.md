@@ -1,7 +1,7 @@
 # Architecture — MaMa Zainab Platform
 
 > Auto-generated — do not edit by hand. Run `python Doc/scripts/generate_docs.py --section architecture` to refresh.
-> Last generated: 2026-05-10
+> Last generated: 2026-05-25
 
 ---
 
@@ -33,13 +33,16 @@
 
 | Package | Version |
 |---------|---------|
+| `@aws-sdk/client-bedrock-runtime` | `^3.1048.0` |
+| `@aws-sdk/client-s3` | `^3.1048.0` |
 | `@hookform/resolvers` | `^5.2.2` |
 | `@supabase/supabase-js` | `^2.105.4` |
+| `@vercel/analytics` | `^2.0.1` |
 | `clsx` | `^2.1.1` |
 | `jose` | `^6.2.3` |
 | `lucide-react` | `^1.14.0` |
 | `nanoid` | `^5.1.11` |
-| `next` | `16.2.4` |
+| `next` | `16.2.6` |
 | `react` | `19.2.4` |
 | `react-barcode` | `^1.6.1` |
 | `react-dom` | `19.2.4` |
@@ -50,4 +53,4 @@
 
 ---
 
-_Auto-generated 2026-05-10_
+_Auto-generated 2026-05-25_
