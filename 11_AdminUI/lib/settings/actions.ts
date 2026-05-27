@@ -5,8 +5,10 @@ import { revalidatePath } from "next/cache";
 import { SettingsSchema } from "./schema";
 import { readSettings, writeSettings } from "./store";
 import { createSessionToken, COOKIE_NAME, MAX_AGE_SECONDS } from "@/lib/auth";
+import { requireAdminAction } from "@/lib/server-action-auth";
 
 export async function saveSettings(formData: FormData) {
+  await requireAdminAction();
   // Read existing first so system-managed fields (sessionFloor) are preserved
   // and so checkbox "off" states (absent from FormData) don't silently revert booleans.
   const existing = await readSettings();
@@ -43,7 +45,7 @@ export async function saveSettings(formData: FormData) {
     requirePassword: formData.get("requirePassword") === "on",
     adminPassword: formData.get("adminPassword") ?? existing.adminPassword,
     allowPublicMenu: formData.get("allowPublicMenu") === "on",
-    // System-managed — never overwritten by a form save
+    // System-managed - never overwritten by a form save
     sessionFloor: existing.sessionFloor,
   };
 
@@ -60,6 +62,7 @@ export async function saveSettings(formData: FormData) {
  */
 export async function terminateOtherSessions(): Promise<{ ok: boolean; error?: string }> {
   try {
+    await requireAdminAction();
     const settings = await readSettings();
     settings.sessionFloor = new Date().toISOString();
     await writeSettings(settings);

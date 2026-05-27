@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 import { nanoid } from "nanoid";
 import { readMenu, writeMenu } from "./store";
 import { uploadFile } from "@/lib/upload";
+import { requireAdminAction } from "@/lib/server-action-auth";
 import {
   CategoryInputSchema,
   ItemInputSchema,
@@ -45,6 +46,7 @@ function revalidateMenu() {
 /* ---------------- Categories ---------------- */
 
 export async function createCategory(input: unknown) {
+  await requireAdminAction();
   const data = CategoryInputSchema.parse(input);
   const state = await readMenu();
   const cat: MenuCategory = {
@@ -61,6 +63,7 @@ export async function createCategory(input: unknown) {
 }
 
 export async function updateCategory(id: string, input: unknown) {
+  await requireAdminAction();
   const data = CategoryInputSchema.parse(input);
   const state = await readMenu();
   const idx = state.categories.findIndex((c) => c.id === id);
@@ -76,6 +79,7 @@ export async function updateCategory(id: string, input: unknown) {
 }
 
 export async function deleteCategory(id: string) {
+  await requireAdminAction();
   const state = await readMenu();
   state.categories = state.categories.filter((c) => c.id !== id);
   state.items = state.items.filter((i) => i.categoryId !== id);
@@ -84,6 +88,7 @@ export async function deleteCategory(id: string) {
 }
 
 export async function reorderCategories(orderedIds: string[]) {
+  await requireAdminAction();
   const state = await readMenu();
   state.categories = state.categories
     .map((c) => ({ ...c, sort: orderedIds.indexOf(c.id) + 1, updatedAt: now() }))
@@ -95,6 +100,7 @@ export async function reorderCategories(orderedIds: string[]) {
 /* ---------------- Items ---------------- */
 
 export async function createItem(input: unknown) {
+  await requireAdminAction();
   const data = ItemInputSchema.parse(input);
   const state = await readMenu();
   const cat = state.categories.find((c) => c.id === data.categoryId);
@@ -117,6 +123,7 @@ export async function createItem(input: unknown) {
 }
 
 export async function updateItem(id: string, input: unknown) {
+  await requireAdminAction();
   const data = ItemInputSchema.parse(input);
   const state = await readMenu();
   const idx = state.items.findIndex((i) => i.id === id);
@@ -128,6 +135,7 @@ export async function updateItem(id: string, input: unknown) {
 }
 
 export async function deleteItem(id: string) {
+  await requireAdminAction();
   const state = await readMenu();
   state.items = state.items.filter((i) => i.id !== id);
   await writeMenu(state);
@@ -135,6 +143,7 @@ export async function deleteItem(id: string) {
 }
 
 export async function toggleItemAvailable(id: string) {
+  await requireAdminAction();
   const state = await readMenu();
   const idx = state.items.findIndex((i) => i.id === id);
   if (idx < 0) throw new Error("Item not found");
@@ -147,6 +156,7 @@ export async function toggleItemAvailable(id: string) {
 
 /** Assign a new auto-generated SKU to an existing item that has none. */
 export async function assignItemSku(id: string) {
+  await requireAdminAction();
   const state = await readMenu();
   const idx = state.items.findIndex((i) => i.id === id);
   if (idx < 0) throw new Error("Item not found");
@@ -163,6 +173,7 @@ export async function assignItemSku(id: string) {
 /* ---------------- Image upload (Server Action) ---------------- */
 
 export async function uploadItemImage(formData: FormData): Promise<string> {
+  await requireAdminAction();
   const file = formData.get("file");
   if (!(file instanceof File)) throw new Error("No file provided");
   if (!file.type.startsWith("image/")) throw new Error("Must be an image");

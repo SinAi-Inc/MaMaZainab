@@ -2,6 +2,7 @@
 
 import { useTransition, useRef, useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { Plus, Pencil, Trash2, MapPin, Phone, Clock, User, ChevronRight } from "lucide-react";
 import { Card, CardBody } from "@/components/ui/card";
@@ -30,11 +31,13 @@ function StatusBadge({ status }: { status: BranchStatus }) {
 
 function BranchCard({ branch, onEdit }: { branch: Branch; onEdit: (b: Branch) => void }) {
   const [pending, startTransition] = useTransition();
+  const router = useRouter();
 
   function handleDelete() {
     if (!confirm(`Delete "${branch.name}"?`)) return;
     startTransition(async () => {
       await deleteBranch(branch.id);
+      router.refresh();
       toast.success(`${branch.name} deleted`);
     });
   }
@@ -114,11 +117,12 @@ function BranchForm({
 }) {
   const [pending, startTransition] = useTransition();
   const formRef = useRef<HTMLFormElement>(null);
+  const router = useRouter();
 
   const isNew = !branch;
   const defaults: Branch = branch ?? {
     id: `kiosk-${Date.now()}`,
-    kioskNumber: 0,
+    kioskNumber: 1,
     name: "",
     city: "Alexandria",
     district: "",
@@ -129,6 +133,14 @@ function BranchForm({
     openHours: "09:00–23:00",
     seating: 0,
     notes: "",
+    lat: "",
+    lng: "",
+    partnerType: "",
+    priority: "prospect",
+    footfallEstimate: "",
+    recommendedFormat: "",
+    commercialModel: "",
+    showInPartnerPortal: true,
   };
 
   function handleSubmit(e: React.FormEvent) {
@@ -136,6 +148,7 @@ function BranchForm({
     const fd = new FormData(formRef.current!);
     startTransition(async () => {
       await saveBranch(fd);
+      router.refresh();
       toast.success(isNew ? "Branch added" : "Branch updated");
       onClose();
     });
@@ -201,6 +214,89 @@ function BranchForm({
             <label className="text-xs font-medium text-muted">Notes</label>
             <Input name="notes" defaultValue={defaults.notes} className="text-sm" />
           </div>
+          <div className="col-span-2 border-t border-border pt-3">
+            <p className="text-xs font-semibold uppercase tracking-wider text-muted">
+              Partner Portal Map Pin
+            </p>
+          </div>
+          <div>
+            <label className="text-xs font-medium text-muted">Latitude</label>
+            <Input name="lat" type="number" step="any" defaultValue={defaults.lat} className="text-sm" />
+          </div>
+          <div>
+            <label className="text-xs font-medium text-muted">Longitude</label>
+            <Input name="lng" type="number" step="any" defaultValue={defaults.lng} className="text-sm" />
+          </div>
+          <div>
+            <label className="text-xs font-medium text-muted">Partner Type</label>
+            <select
+              name="partnerType"
+              defaultValue={defaults.partnerType}
+              className="w-full text-sm border border-border rounded-md px-2 py-1.5 bg-white"
+            >
+              <option value="">Unset</option>
+              <option value="mall">Mall</option>
+              <option value="club">Club</option>
+              <option value="hypermarket">Hypermarket</option>
+              <option value="cinema">Cinema</option>
+              <option value="university">University</option>
+              <option value="petrol_station">Petrol Station</option>
+              <option value="compound">Compound</option>
+            </select>
+          </div>
+          <div>
+            <label className="text-xs font-medium text-muted">Priority</label>
+            <select
+              name="priority"
+              defaultValue={defaults.priority}
+              className="w-full text-sm border border-border rounded-md px-2 py-1.5 bg-white"
+            >
+              <option value="confirmed">Confirmed</option>
+              <option value="target">Target</option>
+              <option value="prospect">Prospect</option>
+            </select>
+          </div>
+          <div>
+            <label className="text-xs font-medium text-muted">Recommended Format</label>
+            <select
+              name="recommendedFormat"
+              defaultValue={defaults.recommendedFormat}
+              className="w-full text-sm border border-border rounded-md px-2 py-1.5 bg-white"
+            >
+              <option value="">Unset</option>
+              <option value="kiosk">Kiosk</option>
+              <option value="corner">Corner</option>
+              <option value="cart">Cart</option>
+              <option value="inline">Inline</option>
+            </select>
+          </div>
+          <div>
+            <label className="text-xs font-medium text-muted">Commercial Model</label>
+            <select
+              name="commercialModel"
+              defaultValue={defaults.commercialModel}
+              className="w-full text-sm border border-border rounded-md px-2 py-1.5 bg-white"
+            >
+              <option value="">Unset</option>
+              <option value="fixed_rent">Fixed Rent</option>
+              <option value="revenue_share">Revenue Share</option>
+              <option value="minimum_guarantee">Minimum Guarantee</option>
+              <option value="pilot">Pilot</option>
+            </select>
+          </div>
+          <div className="col-span-2">
+            <label className="text-xs font-medium text-muted">Footfall Estimate</label>
+            <Input name="footfallEstimate" defaultValue={defaults.footfallEstimate} className="text-sm" />
+          </div>
+          <label className="col-span-2 flex items-center gap-2 text-xs font-medium text-muted">
+            <input
+              type="checkbox"
+              name="showInPartnerPortal"
+              defaultChecked={defaults.showInPartnerPortal}
+              className="accent-brand-green"
+            />
+            Show in partner portal map and location list
+          </label>
           <div className="col-span-2 flex gap-2 justify-end pt-2">
             <Button type="button" variant="ghost" onClick={onClose}>
               Cancel
