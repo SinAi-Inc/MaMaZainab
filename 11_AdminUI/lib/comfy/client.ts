@@ -3,7 +3,7 @@
  *
  * Set:
  *   COMFYUI_BASE_URL          e.g. http://127.0.0.1:8188
- *   COMFYUI_WORKFLOW          "flux" (default) | "sdxl" | absolute path to a workflow JSON
+ *   COMFYUI_WORKFLOW          "flux" (default) | "sdxl"
  *   COMFYUI_SDXL_CKPT         checkpoint filename for the SDXL workflow (default: sd_xl_base_1.0.safetensors)
  *   COMFYUI_FLUX_CKPT         checkpoint filename for the FLUX workflow (default: flux1-dev-fp8.safetensors)
  *   COMFYUI_API_KEY           optional Bearer token
@@ -11,12 +11,12 @@
  * The workflow JSON uses the placeholders:
  *   __PROMPT__ __NEGATIVE__ __WIDTH__ __HEIGHT__ __SEED__ __CKPT__
  */
-import { promises as fs } from "node:fs";
-import path from "node:path";
 import { randomUUID } from "node:crypto";
+import fluxWorkflow from "./workflows/flux_txt2img.json";
+import sdxlWorkflow from "./workflows/sdxl_txt2img.json";
 
 const POLL_INTERVAL_MS = 2000;
-const POLL_TIMEOUT_MS = 10 * 60_000; // 10 minutes — CPU renders can take 7m+
+const POLL_TIMEOUT_MS = 10 * 60_000; // 10 minutes - CPU renders can take 7m+
 
 export function isComfyConfigured(): boolean {
   return !!process.env.COMFYUI_BASE_URL?.trim();
@@ -55,7 +55,7 @@ export type ComfyImageResult = {
  * SD1.5 CLIP only sees ~77 tokens (front-weighted attention).
  * This function restructures the assembled prompt so the SCENE/ACTION comes
  * first (what to draw), followed by a SHORT character identity tag (who),
- * and finally style keywords — all within ~77 tokens.
+ * and finally style keywords - all within ~77 tokens.
  *
  * If no character anchor is present (e.g. aerial/establishing shots), the
  * full budget goes to the scene description.
@@ -85,7 +85,7 @@ export function condenseForSD15(fullPrompt: string): { positive: string; negativ
   }
 
   // --- 1. Extract SHOT description (user's actual scene direction) ---
-  // assemblePrompt tags this as "[SHOT] ..." — may span multiple lines
+  // assemblePrompt tags this as "[SHOT] ..." - may span multiple lines
   let shotDescription = "";
   const shotMatch = fullPrompt.match(/\[SHOT\]\s*([\s\S]*?)(?=\n\n(?:Subject:|Character |Avoid:|Pattern |Brand color|Cast rules|Scene:|⚠️)|$)/m);
   if (shotMatch) {
@@ -95,7 +95,7 @@ export function condenseForSD15(fullPrompt: string): { positive: string; negativ
   // --- 2. Extract character anchor block ---
   let characterBlock = "";
   // Method A: "Subject: ..." block (current assemblePrompt format)
-  // Note: do NOT use $ in lookahead — with /m flag it matches end-of-line, not end-of-string
+  // Note: do NOT use $ in lookahead - with /m flag it matches end-of-line, not end-of-string
   const subjectRegex = /^Subject:\s*([\s\S]*?)(?=\n\n|\n\[SHOT\])/m;
   const subjectMatch = fullPrompt.match(subjectRegex);
   if (subjectMatch) {
@@ -165,10 +165,10 @@ export function condenseForSD15(fullPrompt: string): { positive: string; negativ
 
   // --- 5. Assemble: charTag + shot description + scene mood + style ---
   // SD1.5 CLIP: 77 tokens ≈ 310 chars. Priority order:
-  //   1. Character identity (WHO) — ~60-90 chars
-  //   2. Shot description (WHAT is happening) — full user prompt
-  //   3. Scene mood (WHERE/atmosphere) — ~30 chars
-  //   4. Style anchor — "cinematic, 35mm film, shallow DOF"
+  //   1. Character identity (WHO) - ~60-90 chars
+  //   2. Shot description (WHAT is happening) - full user prompt
+  //   3. Scene mood (WHERE/atmosphere) - ~30 chars
+  //   4. Style anchor - "cinematic, 35mm film, shallow DOF"
   const positiveSegments: string[] = [];
   if (charTag) positiveSegments.push(charTag);
   if (shotDescription) positiveSegments.push(shotDescription);
@@ -195,17 +195,13 @@ type WorkflowChoice = "flux" | "sdxl";
 
 async function loadWorkflow(): Promise<{ template: string; choice: WorkflowChoice | "custom" }> {
   const setting = process.env.COMFYUI_WORKFLOW?.trim() || "flux";
-  let filePath: string;
-  let choice: WorkflowChoice | "custom";
-  if (setting === "flux" || setting === "sdxl") {
-    filePath = path.join(process.cwd(), "lib", "comfy", "workflows", `${setting}_txt2img.json`);
-    choice = setting;
-  } else {
-    filePath = setting;
-    choice = "custom";
+  if (setting === "flux") {
+    return { template: JSON.stringify(fluxWorkflow), choice: "flux" };
   }
-  const template = await fs.readFile(filePath, "utf8");
-  return { template, choice };
+  if (setting === "sdxl") {
+    return { template: JSON.stringify(sdxlWorkflow), choice: "sdxl" };
+  }
+  throw new Error('Unsupported COMFYUI_WORKFLOW. Use "flux" or "sdxl".');
 }
 
 function substitute(template: string, params: ComfyImageParams, choice: WorkflowChoice | "custom"): unknown {
@@ -258,7 +254,7 @@ export async function generateImageComfy(params: ComfyImageParams): Promise<Comf
   // 1. Load + fill workflow
   const { template, choice } = await loadWorkflow();
 
-  // Allow env-level override of dims — useful when the local model can't handle
+  // Allow env-level override of dims - useful when the local model can't handle
   // the FLUX-cloud frame (e.g. SD1.5 chokes at 1344x768; native is 768x432 for 16:9).
   // skipEnvOverride: used by character portrait renders that need specific aspect ratios.
   const widthOverride = params.skipEnvOverride ? NaN : parseInt(process.env.COMFYUI_WIDTH ?? "", 10);
