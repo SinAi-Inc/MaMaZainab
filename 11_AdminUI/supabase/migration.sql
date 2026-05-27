@@ -59,7 +59,7 @@ alter table menu_items add column if not exists highlights jsonb not null defaul
 create table if not exists settings (
   id               integer primary key default 1 check (id = 1),
   user_name        text not null default 'HITL Admin',
-  email            text not null default 'hello@mamazainab.com',
+  email            text not null default 'admin@mamazainab.com',
   primary_language text not null default 'English',
   secondary_language text not null default 'Arabic (Egyptian)',
   currency         text not null default 'EGP',
@@ -260,6 +260,16 @@ create table if not exists partner_settings (
   show_menu              boolean not null default false,
   featured_location_ids  jsonb not null default '[]'
 );
+
+alter table partner_settings add column if not exists presentation_title text not null default 'MaMa Zainab Partner Presentation';
+alter table partner_settings add column if not exists presentation_subtitle text not null default 'Authentic Mahshi. Homemade Taste. Fast-Food Speed.';
+alter table partner_settings add column if not exists presentation_file_url text not null default '/Mama-Zainab-Partners-Presentation.pdf';
+alter table partner_settings add column if not exists presentation_version text not null default 'v0.1';
+alter table partner_settings add column if not exists presentation_updated_at text not null default '';
+alter table partner_settings add column if not exists contact_email text not null default 'hello@mamazainab.com';
+alter table partner_settings add column if not exists contact_phone text not null default '';
+alter table partner_settings add column if not exists booking_url text not null default '';
+alter table partner_settings add column if not exists assessment_url text not null default '';
 
 -- Insert default row
 insert into partner_settings (id) values ('singleton') on conflict do nothing;
