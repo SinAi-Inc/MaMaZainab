@@ -43,7 +43,6 @@ const PUBLIC_PREFIXES = [
   "/cn",
   "/api/auth/",
   "/api/notify",
-  "/api/dev/",
 ];
 
 function isPublic(pathname: string): boolean {
@@ -67,7 +66,7 @@ export async function proxy(req: NextRequest) {
       // Reject tokens issued before session floor ("end all sessions")
       const floor = await getSessionFloor();
       if (floor && (payload.iat ?? 0) < floor) {
-        // Token is pre-floor — treat as expired
+        // Token is pre-floor - treat as expired
         const loginUrl = new URL("/login", req.url);
         loginUrl.searchParams.set("next", pathname);
         const res = NextResponse.redirect(loginUrl);
@@ -77,7 +76,7 @@ export async function proxy(req: NextRequest) {
 
       return NextResponse.next();
     } catch {
-      // Token invalid or expired — fall through to redirect
+      // Token invalid or expired - fall through to redirect
     }
   }
 

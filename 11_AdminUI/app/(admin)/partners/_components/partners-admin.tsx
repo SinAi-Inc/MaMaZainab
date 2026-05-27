@@ -11,6 +11,9 @@ import {
   MapPin,
   Phone,
   Presentation,
+  Image as ImageIcon,
+  Trash2,
+  Upload,
   Save,
   Utensils,
   BookOpen,
@@ -18,7 +21,19 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { getPartnerSettings, updatePartnerSettings } from "@/lib/partners/actions";
+import {
+  getBrandMedia,
+  removeBrandMediaAsset,
+  saveBrandMediaAsset,
+  uploadBrandMediaFile,
+} from "@/lib/brand-media/actions";
 import type { PartnerSettings } from "@/lib/partners/schema";
+import {
+  BRAND_MEDIA_CATEGORIES,
+  BRAND_MEDIA_PARTNER_TYPES,
+  BRAND_MEDIA_USAGES,
+  type BrandMediaAsset,
+} from "@/lib/brand-media/schema";
 import type { Branch } from "@/lib/branches/schema";
 
 type BooleanSettingKey =
@@ -40,6 +55,35 @@ type TextSettingKey =
   | "bookingUrl"
   | "assessmentUrl";
 
+const slideOptions = [
+  ["cover", "Cover"],
+  ["brand", "Brand Promise"],
+  ["format", "Kiosk Format"],
+  ["benefits", "Benefits"],
+  ["rollout", "Rollout Map"],
+  ["cta", "CTA / Download"],
+] as const;
+
+function newBrandMediaAsset(): BrandMediaAsset {
+  const timestamp = new Date().toISOString();
+  return {
+    id: "",
+    title: "",
+    description: "",
+    url: "",
+    thumbnailUrl: "",
+    alt: "",
+    category: "partner_presentation",
+    usage: "slide_visual",
+    partnerType: "",
+    slideId: "cover",
+    isActive: true,
+    sortOrder: 100,
+    createdAt: timestamp,
+    updatedAt: timestamp,
+  };
+}
+
 function getPartnerSaveHelp(error: string): string | null {
   if (/partner_settings/i.test(error) && /(migration|missing|does not exist|42P01)/i.test(error)) {
     return "Run the partner_settings migration in your Supabase SQL Editor if this is the first time saving.";
@@ -58,10 +102,15 @@ export function PartnersAdmin({ branches }: { branches: Branch[] }) {
   const [isPending, startTransition] = useTransition();
   const [saved, setSaved] = useState(false);
   const [saveError, setSaveError] = useState<string | null>(null);
+  const [mediaAssets, setMediaAssets] = useState<BrandMediaAsset[]>([]);
+  const [editingAsset, setEditingAsset] = useState<BrandMediaAsset>(() => newBrandMediaAsset());
+  const [mediaPending, startMediaTransition] = useTransition();
+  const [mediaError, setMediaError] = useState<string | null>(null);
   const saveHelp = saveError ? getPartnerSaveHelp(saveError) : null;
 
   useEffect(() => {
     getPartnerSettings().then(setSettings);
+    getBrandMedia().then((state) => setMediaAssets(state.assets));
   }, []);
 
   if (!settings) {
@@ -97,11 +146,112 @@ export function PartnersAdmin({ branches }: { branches: Branch[] }) {
       if (result.error) {
         setSaveError(result.error);
       } else {
+        if (result.data) setSettings(result.data);
         setSaved(true);
         setTimeout(() => setSaved(false), 3000);
       }
     });
   }
+
+  function updateAsset<K extends keyof BrandMediaAsset>(key: K, value: BrandMediaAsset[K]) {
+    setEditingAsset((prev) => ({ ...prev, [key]: value }));
+  }
+
+  function handleAssetFile(file: File | null) {
+    if (!file) return;
+    setMediaError(null);
+    startMediaTransition(async () => {
+      try {
+        const fd = new FormData();
+        fd.set("file", file);
+        const url = await uploadBrandMediaFile(fd);
+        setEditingAsset((prev) => ({
+          ...prev,
+          url,
+          thumbnailUrl: prev.thumbnailUrl || url,
+          title: prev.title || file.name.replace(/\.[^.]+$/, ""),
+          alt: prev.alt || file.name.replace(/\.[^.]+$/, "").replace(/[-_]/g, " "),
+        }));
+      } catch (err) {
+        setMediaError(err instanceof Error ? err.message : String(err));
+      }
+    });
+  }
+
+  function saveAsset() {
+    setMediaError(null);
+    startMediaTransition(async () => {
+      const result = await saveBrandMediaAsset(editingAsset);
+      if (result.error) {
+        setMediaError(result.error);
+        return;
+      }
+
+      const state = await getBrandMedia();
+      setMediaAssets(state.assets);
+      setEditingAsset(newBrandMediaAsset());
+    });
+  }
+
+  function deleteAsset(id: string) {
+    if (!confirm("Remove this brand media asset?")) return;
+    setMediaError(null);
+    startMediaTransition(async () => {
+      const result = await removeBrandMediaAsset(id);
+      if (result.error) {
+        setMediaError(result.error);
+        return;
+      }
+
+      const state = await getBrandMedia();
+      setMediaAssets(state.assets);
+    });
+  }
+
+  const readinessItems = [
+    {
+      label: "Cover kiosk hero uploaded",
+      done: mediaAssets.some((asset) => asset.isActive && asset.slideId === "cover"),
+    },
+    {
+      label: "Kiosk dimensions infographic uploaded",
+      done: mediaAssets.some((asset) => asset.isActive && asset.slideId === "format" && asset.category === "infographic"),
+    },
+    {
+      label: "Partner-type kiosk mockups uploaded",
+      done: BRAND_MEDIA_PARTNER_TYPES.every((type) =>
+        mediaAssets.some((asset) => asset.isActive && asset.partnerType === type),
+      ),
+    },
+    {
+      label: "Alexandria rollout map uploaded",
+      done: mediaAssets.some((asset) => asset.isActive && asset.slideId === "rollout"),
+    },
+    {
+      label: "Packaging proof photos uploaded",
+      done: mediaAssets.some((asset) => asset.isActive && asset.category === "packaging"),
+    },
+    {
+      label: "Staff/customer operation photos uploaded",
+      done: mediaAssets.some((asset) => asset.isActive && asset.category === "operations"),
+    },
+    {
+      label: "Downloadable PDF linked",
+      done: Boolean(settings.presentationFileUrl || mediaAssets.some((asset) => asset.isActive && asset.usage === "deck_download")),
+    },
+    {
+      label: "CTA email configured",
+      done: Boolean(settings.contactEmail),
+    },
+    {
+      label: "Featured locations selected",
+      done: settings.featuredLocationIds.length > 0,
+    },
+    {
+      label: "Map pins configured",
+      done: branches.some((branch) => typeof branch.lat === "number" && typeof branch.lng === "number"),
+    },
+  ];
 
   return (
     <div className="space-y-8">
@@ -279,6 +429,201 @@ export function PartnersAdmin({ branches }: { branches: Branch[] }) {
           </div>
         </div>
 
+        {/* Presentation media */}
+        <div className="bg-card rounded-xl border border-border p-5 space-y-5">
+          <div className="flex items-start justify-between gap-4">
+            <div>
+              <h4 className="text-xs uppercase tracking-wider font-medium text-muted">Presentation Media</h4>
+              <p className="text-[11px] text-muted mt-1">
+                Upload generated or approved brand media and assign it to slides without code changes.
+              </p>
+            </div>
+            <label className="inline-flex cursor-pointer items-center gap-2 rounded-lg bg-brand-yellow px-3 py-2 text-xs font-semibold text-brand-ink transition hover:bg-yellow-300">
+              <Upload className="size-4" />
+              Upload image
+              <input
+                type="file"
+                accept="image/png,image/jpeg,image/webp"
+                className="hidden"
+                onChange={(event) => handleAssetFile(event.target.files?.[0] ?? null)}
+              />
+            </label>
+          </div>
+
+          {mediaError && (
+            <div className="rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+              {mediaError}
+            </div>
+          )}
+
+          <div className="grid gap-4 lg:grid-cols-[0.95fr_1.05fr]">
+            <div className="space-y-3 rounded-xl border border-border bg-background p-4">
+              <div className="overflow-hidden rounded-lg bg-surface-muted">
+                {editingAsset.url ? (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img src={editingAsset.url} alt={editingAsset.alt || ""} className="h-44 w-full object-cover" />
+                ) : (
+                  <div className="flex h-44 items-center justify-center text-muted">
+                    <ImageIcon className="size-8" />
+                  </div>
+                )}
+              </div>
+              <TextField
+                icon={Presentation}
+                label="Title"
+                value={editingAsset.title}
+                onChange={(value) => updateAsset("title", value)}
+                placeholder="Main hero kiosk in mall corridor"
+              />
+              <TextField
+                icon={BookOpen}
+                label="Alt text"
+                value={editingAsset.alt}
+                onChange={(value) => updateAsset("alt", value)}
+                placeholder="MaMa Zainab kiosk in modern mall corridor"
+              />
+              <TextField
+                icon={LinkIcon}
+                label="Asset URL"
+                value={editingAsset.url}
+                onChange={(value) => updateAsset("url", value)}
+                placeholder="/uploads/brand-media/..."
+              />
+              <div className="grid gap-3 sm:grid-cols-2">
+                <SelectField
+                  label="Category"
+                  value={editingAsset.category}
+                  options={BRAND_MEDIA_CATEGORIES}
+                  onChange={(value) => updateAsset("category", value as BrandMediaAsset["category"])}
+                />
+                <SelectField
+                  label="Usage"
+                  value={editingAsset.usage}
+                  options={BRAND_MEDIA_USAGES}
+                  onChange={(value) => updateAsset("usage", value as BrandMediaAsset["usage"])}
+                />
+                <SelectField
+                  label="Partner Type"
+                  value={editingAsset.partnerType || ""}
+                  options={["", ...BRAND_MEDIA_PARTNER_TYPES]}
+                  onChange={(value) => updateAsset("partnerType", value as BrandMediaAsset["partnerType"])}
+                />
+                <SelectField
+                  label="Slide"
+                  value={editingAsset.slideId}
+                  options={slideOptions.map(([id]) => id)}
+                  labels={Object.fromEntries(slideOptions)}
+                  onChange={(value) => updateAsset("slideId", value)}
+                />
+              </div>
+              <div className="grid gap-3 sm:grid-cols-2">
+                <TextField
+                  icon={FileText}
+                  label="Sort order"
+                  value={String(editingAsset.sortOrder)}
+                  onChange={(value) => updateAsset("sortOrder", Number(value) || 0)}
+                />
+                <label className="flex items-end gap-2 pb-2 text-xs font-medium text-muted">
+                  <input
+                    type="checkbox"
+                    checked={editingAsset.isActive}
+                    onChange={(event) => updateAsset("isActive", event.target.checked)}
+                    className="accent-brand-green"
+                  />
+                  Active
+                </label>
+              </div>
+              <div className="flex gap-2">
+                <button
+                  type="button"
+                  onClick={saveAsset}
+                  disabled={mediaPending}
+                  className="inline-flex items-center gap-2 rounded-lg bg-brand-green px-4 py-2 text-sm font-medium text-white transition hover:bg-brand-green-deep disabled:opacity-50"
+                >
+                  <Save className="size-4" />
+                  {mediaPending ? "Saving..." : "Save Asset"}
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setEditingAsset(newBrandMediaAsset())}
+                  className="rounded-lg border border-border px-4 py-2 text-sm font-medium"
+                >
+                  New
+                </button>
+              </div>
+            </div>
+
+            <div className="space-y-3">
+              {mediaAssets.map((asset) => (
+                <div key={asset.id} className="flex gap-3 rounded-xl border border-border bg-background p-3">
+                  <div className="h-20 w-28 shrink-0 overflow-hidden rounded-lg bg-surface-muted">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src={asset.thumbnailUrl || asset.url} alt={asset.alt} className="h-full w-full object-cover" />
+                  </div>
+                  <div className="min-w-0 flex-1">
+                    <div className="flex items-start justify-between gap-2">
+                      <div>
+                        <p className="truncate text-sm font-semibold">{asset.title}</p>
+                        <p className="mt-0.5 text-[11px] text-muted">
+                          {asset.category} / {asset.usage}
+                          {asset.slideId ? ` / ${asset.slideId}` : ""}
+                          {asset.partnerType ? ` / ${asset.partnerType}` : ""}
+                        </p>
+                      </div>
+                      <span className={cn("rounded-full px-2 py-0.5 text-[10px] font-semibold", asset.isActive ? "bg-brand-green/10 text-brand-green" : "bg-gray-100 text-muted")}>
+                        {asset.isActive ? "Active" : "Off"}
+                      </span>
+                    </div>
+                    <div className="mt-3 flex gap-2">
+                      <button
+                        type="button"
+                        onClick={() => setEditingAsset(asset)}
+                        className="text-xs font-semibold text-brand-green hover:underline"
+                      >
+                        Edit
+                      </button>
+                      {!asset.id.startsWith("asset_partner_") && (
+                        <button
+                          type="button"
+                          onClick={() => deleteAsset(asset.id)}
+                          className="inline-flex items-center gap-1 text-xs font-semibold text-brand-red hover:underline"
+                        >
+                          <Trash2 className="size-3" />
+                          Delete
+                        </button>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* Readiness checklist */}
+        <div className="bg-card rounded-xl border border-border p-5 space-y-4">
+          <div>
+            <h4 className="text-xs uppercase tracking-wider font-medium text-muted">Presentation Media Readiness</h4>
+            <p className="text-[11px] text-muted mt-1">
+              Use this checklist before sharing the portal with property owners.
+            </p>
+          </div>
+          <div className="grid gap-2 md:grid-cols-2">
+            {readinessItems.map((item) => (
+              <div
+                key={item.label}
+                className={cn(
+                  "flex items-center gap-3 rounded-lg border px-3 py-2 text-sm",
+                  item.done ? "border-brand-green/20 bg-brand-green/5 text-brand-ink" : "border-border bg-background text-muted",
+                )}
+              >
+                <span className={cn("size-2.5 rounded-full", item.done ? "bg-brand-green" : "bg-gray-300")} />
+                {item.label}
+              </div>
+            ))}
+          </div>
+        </div>
+
         {/* Featured locations */}
         <div className="bg-card rounded-xl border border-border p-5 space-y-4">
           <h4 className="text-xs uppercase tracking-wider font-medium text-muted">Featured Locations</h4>
@@ -373,6 +718,39 @@ function TextField({
           className="w-full rounded-lg border border-border bg-background py-2 pl-10 pr-3 text-sm outline-none transition focus:border-brand-green"
         />
       </div>
+    </label>
+  );
+}
+
+function SelectField({
+  label,
+  value,
+  options,
+  labels,
+  onChange,
+}: {
+  label: string;
+  value: string;
+  options: readonly string[];
+  labels?: Record<string, string>;
+  onChange: (value: string) => void;
+}) {
+  return (
+    <label className="block space-y-1.5">
+      <span className="text-[11px] font-medium uppercase tracking-wider text-muted">
+        {label}
+      </span>
+      <select
+        value={value}
+        onChange={(event) => onChange(event.target.value)}
+        className="h-10 w-full rounded-lg border border-border bg-background px-3 text-sm outline-none transition focus:border-brand-green"
+      >
+        {options.map((option) => (
+          <option key={option || "none"} value={option}>
+            {labels?.[option] ?? (option ? option.replace(/_/g, " ") : "Any")}
+          </option>
+        ))}
+      </select>
     </label>
   );
 }

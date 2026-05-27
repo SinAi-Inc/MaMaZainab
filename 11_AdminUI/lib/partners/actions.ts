@@ -7,6 +7,8 @@ import {
   setPartnerSessionCookie,
   verifyPartnerPasscodeValue,
 } from "./auth";
+import { checkServerActionRateLimit } from "@/lib/rate-limit";
+import { requireAdminAction } from "@/lib/server-action-auth";
 import {
   readPartnerSettings,
   readStoredPartnerSettings,
@@ -15,6 +17,7 @@ import {
 import type { PartnerSettings } from "./schema";
 
 export async function getPartnerSettings() {
+  await requireAdminAction();
   return readPartnerSettings();
 }
 
@@ -22,6 +25,7 @@ export async function updatePartnerSettings(
   settings: PartnerSettings,
 ): Promise<{ data?: PartnerSettings; error?: string }> {
   try {
+    await requireAdminAction();
     const current = await readStoredPartnerSettings();
     const trimmedPasscode = settings.passcode.trim();
 
@@ -55,6 +59,12 @@ export async function updatePartnerSettings(
 }
 
 export async function authenticatePartnerPortal(code: string): Promise<boolean> {
+  const limit = await checkServerActionRateLimit("partner-auth", {
+    windowMs: 60_000,
+    maxHits: 5,
+  });
+  if (limit.limited) return false;
+
   const settings = await readStoredPartnerSettings();
   if (!settings.portalEnabled) return false;
   if (!settings.passcode) return false;

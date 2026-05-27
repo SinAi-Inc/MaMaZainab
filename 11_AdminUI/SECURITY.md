@@ -1,21 +1,26 @@
 # Security Policy
 
-## Supported Versions
+## Supported Version
 
-Use this section to tell people about which versions of your project are
-currently being supported with security updates.
+Security fixes are applied to the deployed MaMa Zainab Admin UI on the `main`
+branch. Older local snapshots and experimental branches are not supported.
 
-| Version | Supported          |
-| ------- | ------------------ |
-| 5.1.x   | :white_check_mark: |
-| 5.0.x   | :x:                |
-| 4.0.x   | :white_check_mark: |
-| < 4.0   | :x:                |
+## Reporting A Vulnerability
 
-## Reporting a Vulnerability
+Report suspected vulnerabilities privately to the SinAI Inc. maintainer team.
+Do not open a public GitHub issue for security-sensitive reports.
 
-Use this section to tell people how to report a vulnerability.
+Include:
 
-Tell them where to go, how often they can expect to get an update on a
-reported vulnerability, what to expect if the vulnerability is accepted or
-declined, etc.
+- Affected route, feature, or file path.
+- Reproduction steps and expected impact.
+- Whether credentials, customer data, partner data, or generated media are exposed.
+- Any logs or screenshots with secrets redacted.
+
+## Handling Rules
+
+- Never commit `.env*` files with real values.
+- Never commit private `data/*.json` files.
+- Rotate exposed API keys, Supabase keys, admin secrets, and partner secrets immediately.
+- Keep mutating API routes and Server Actions protected by explicit admin verification.
+- Keep public partner access behind the partner session gate and rate-limit passcode attempts.
