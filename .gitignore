@@ -21,8 +21,9 @@ desktop.ini
 *.swp
 *.code-workspace
 
-# Large source assets — external storage for originals
+# Large source assets - external storage for originals
 _source/
+10_AI_Assets/
 *.ai
 *.pdf
 *.psd
