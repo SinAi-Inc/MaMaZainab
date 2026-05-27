@@ -3,7 +3,14 @@ import { Poppins, Cairo } from "next/font/google";
 import localFont from "next/font/local";
 import { Toaster } from "sonner";
 import { Analytics } from "@vercel/analytics/next";
+import Script from "next/script";
 import "./globals.css";
+
+const siteUrl =
+  process.env.NEXT_PUBLIC_SITE_URL?.startsWith("http")
+    ? process.env.NEXT_PUBLIC_SITE_URL
+    : "https://mamazainab.com";
+const googleTagId = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID ?? "G-GF2D04RLP9";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -18,7 +25,7 @@ const cairo = Cairo({
   display: "swap",
 });
 
-/** Chinese Monoline — the MaMa Zainab brand display typeface */
+/** Chinese Monoline - the MaMa Zainab brand display typeface */
 const brandFont = localFont({
   src: "./fonts/ChineseMonoline.ttf",
   variable: "--font-brand",
@@ -27,6 +34,7 @@ const brandFont = localFont({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(siteUrl),
   title: "MaMa Zainab",
   description: "Homemade taste. Fast-food style. Opening late 2026 · Alexandria, Egypt.",
   icons: {
@@ -49,6 +57,23 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" className={`${poppins.variable} ${cairo.variable} ${brandFont.variable}`}>
       <body>
+        <Script
+          src={`https://www.googletagmanager.com/gtag/js?id=${googleTagId}`}
+          strategy="afterInteractive"
+        />
+        <Script
+          id="gtag-init"
+          strategy="afterInteractive"
+          dangerouslySetInnerHTML={{
+            __html: `
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);} 
+              gtag('js', new Date());
+
+              gtag('config', '${googleTagId}');
+            `,
+          }}
+        />
         {children}
         <Toaster position="top-right" richColors closeButton />
         <Analytics />
