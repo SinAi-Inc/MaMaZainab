@@ -1,22 +1,152 @@
 "use client";
 
-import { useState, useTransition } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { Lock, MapPin, Utensils, Presentation, ChevronRight, ArrowLeft } from "lucide-react";
+import { useMemo, useState, useTransition } from "react";
+import {
+  ArrowLeft,
+  CalendarCheck,
+  ChevronRight,
+  CheckCircle2,
+  Download,
+  Handshake,
+  Lock,
+  Mail,
+  MessageCircle,
+  Presentation,
+  Store,
+  TrendingUp,
+  Utensils,
+  Users,
+} from "lucide-react";
 import { authenticatePartnerPortal } from "@/lib/partners/actions";
-import type { Branch } from "@/lib/branches/schema";
-import { STATUS_META } from "@/lib/branches/schema";
 
-interface PartnerPortalProps {
+type PartnerLocation = {
+  id: string;
+  name?: string;
+  title?: string;
+  area?: string;
+  city?: string;
+  type?: string;
+  status?: string;
+  address?: string;
+};
+
+type PartnerPortalProps = {
   authenticated: boolean;
   portalEnabled: boolean;
   showPresentation: boolean;
   showLocations: boolean;
   showBrandOverview: boolean;
   showMenu: boolean;
-  locations: Branch[];
-}
+  locations: PartnerLocation[];
+  presentationTitle?: string;
+  presentationSubtitle?: string;
+  presentationFileUrl?: string;
+  presentationVersion?: string;
+  presentationUpdatedAt?: string;
+  contactEmail?: string;
+  contactPhone?: string;
+  bookingUrl?: string;
+  assessmentUrl?: string;
+};
+
+const partnerTypes = [
+  "Malls",
+  "Clubs",
+  "Hypermarkets",
+  "Cinemas",
+  "Universities",
+  "Petrol Stations",
+  "Compounds",
+];
+
+const slides = [
+  {
+    id: "cover",
+    eyebrow: "Partner Opportunity",
+    title: "Bring MaMa Zainab to Your Location",
+    body:
+      "A compact, high-visibility Egyptian comfort-food kiosk built for premium footfall destinations.",
+    visual: "Kiosk hero + Alexandria rollout map",
+  },
+  {
+    id: "brand",
+    eyebrow: "Brand Promise",
+    title: "The Village Way, or Not at All",
+    body:
+      "Authentic Mahshi and oriental home-food, served with homemade warmth and fast-food speed.",
+    visual: "Logo, palette, MaMa Zainab character, pattern system",
+  },
+  {
+    id: "format",
+    eyebrow: "Kiosk Format",
+    title: "Small Footprint. Big Brand Presence.",
+    body:
+      "A modular kiosk format designed for food courts, entrances, club zones, cinema lobbies, and retail corridors.",
+    visual: "3m x 2m x 2.5m kiosk diagram",
+  },
+  {
+    id: "benefits",
+    eyebrow: "Location Owner Benefits",
+    title: "A Ready-Made Food Attraction",
+    body:
+      "Adds a strong local food category, activates unused space, increases dwell time, and creates a photo-friendly tenant.",
+    visual: "Partner benefit cards",
+  },
+  {
+    id: "rollout",
+    eyebrow: "Expansion Plan",
+    title: "Alexandria First. Egypt Next.",
+    body:
+      "The rollout starts with dense Alexandria coverage, then expands into clubs, malls, campuses, hypermarkets, and compounds.",
+    visual: "Interactive location map",
+  },
+  {
+    id: "cta",
+    eyebrow: "Next Step",
+    title: "Download the Partner Presentation",
+    body:
+      "Share the model, request a tasting session, or submit your location for assessment.",
+    visual: "Downloadable PDF / PPTX holder",
+  },
+];
+
+const partnerFitCopy: Record<string, string> = {
+  Malls:
+    "A high-visibility food court or corridor kiosk that adds local flavor, strong visual identity, and repeat comfort-food demand.",
+  Clubs:
+    "A family-friendly comfort-food stop for members, kids, and weekend gatherings.",
+  Hypermarkets:
+    "A ready-to-eat and takeaway food concept that complements grocery missions and exit-path cravings.",
+  Cinemas:
+    "A compact local-food counter for lobby dwell time, pre-show meals, and after-movie takeaway.",
+  Universities:
+    "A fast, affordable, nostalgic meal stop for students, faculty, and campus events.",
+  "Petrol Stations":
+    "A road-stop comfort-food kiosk for quick meals, family bundles, and premium takeaway.",
+  Compounds:
+    "A neighborhood food amenity for residents, families, gatherings, and delivery within the community.",
+};
+
+const partnerBenefits = [
+  "Activates unused space",
+  "Adds local comfort-food category",
+  "Increases dwell time",
+  "Photo-friendly visual identity",
+  "Family-friendly food concept",
+  "Supports tasting campaigns",
+  "Works as pilot or permanent tenant",
+  "Flexible commercial model",
+];
+
+const commercialModels = [
+  "Fixed Rent",
+  "Revenue Share",
+  "Minimum Guarantee + Revenue Share",
+  "Seasonal Activation",
+  "90-Day Pilot Kiosk",
+];
 
 export function PartnerPortal({
   authenticated,
@@ -26,251 +156,732 @@ export function PartnerPortal({
   showBrandOverview,
   showMenu,
   locations,
+  presentationTitle = "MaMa Zainab Partner Presentation",
+  presentationSubtitle = "Authentic Mahshi. Homemade Taste. Fast-Food Speed.",
+  presentationFileUrl = "/Mama-Zainab-Partners-Presentation.pdf",
+  presentationVersion = "v0.1",
+  presentationUpdatedAt = "",
+  contactEmail = "hello@mamazainab.com",
+  contactPhone = "",
+  bookingUrl = "",
+  assessmentUrl = "",
 }: PartnerPortalProps) {
-  const router = useRouter();
+  const [activeSlide, setActiveSlide] = useState(0);
+  const [partnerType, setPartnerType] = useState("Malls");
   const [passcode, setPasscode] = useState("");
   const [error, setError] = useState("");
   const [isPending, startTransition] = useTransition();
+  const router = useRouter();
 
-  
+  const slide = slides[activeSlide];
+  const featuredLocations = useMemo(() => locations.slice(0, 6), [locations]);
+  const deckUrl = presentationFileUrl || "/Mama-Zainab-Partners-Presentation.pdf";
+  const emailHref = `mailto:${contactEmail || "hello@mamazainab.com"}?subject=MaMa%20Zainab%20Partnership`;
+  const phoneHref = contactPhone ? `tel:${contactPhone.replace(/[^\d+]/g, "")}` : "";
+  const selectedFit = partnerFitCopy[partnerType] ?? partnerFitCopy.Malls;
+  const assessmentHref =
+    assessmentUrl || `${emailHref}&body=I%20would%20like%20to%20request%20a%20location%20assessment.`;
+  const bookingHref =
+    bookingUrl || `${emailHref}&body=I%20would%20like%20to%20book%20a%20tasting%20session.`;
+  const contactHref = phoneHref || emailHref;
+
+  function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    setError("");
+
+    startTransition(async () => {
+      const ok = await authenticatePartnerPortal(passcode);
+      if (ok) {
+        setPasscode("");
+        router.refresh();
+        return;
+      }
+
+      setPasscode("");
+      setError("Invalid passcode. Please contact your MaMa Zainab representative.");
+    });
+  }
+
   if (!portalEnabled) {
     return (
-      <main className="min-h-screen bg-brand-green text-white flex flex-col items-center justify-center px-5">
-        <div className="absolute inset-0 plaid pointer-events-none opacity-30" />
-        <div className="relative z-10 bg-brand-ink/80 backdrop-blur-sm rounded-2xl px-8 py-12 max-w-md w-full text-center shadow-2xl">
+      <main className="relative flex min-h-screen items-center justify-center overflow-hidden bg-brand-green px-5 py-16 text-white">
+        <div className="absolute inset-0 plaid opacity-80" />
+        <section className="relative z-10 w-full max-w-md rounded-2xl bg-brand-ink/85 px-8 py-12 text-center shadow-2xl backdrop-blur-sm">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/brand/mark.png" alt="" className="size-12 mx-auto mb-4" draggable={false} />
-          <h1 className="text-xl font-semibold">Partner Portal</h1>
-          <p className="mt-3 text-sm text-white/70">
-            The partner portal is not yet available. Please check back soon or contact us for
-            partnership inquiries.
+          <img src="/brand/mark.png" alt="" className="mx-auto mb-4 size-12" draggable={false} />
+          <p className="text-[10px] font-semibold uppercase tracking-[0.3em] text-brand-yellow">
+            MaMa Zainab
           </p>
-          <Link
-            href="/coming-soon"
-            className="inline-flex items-center gap-1.5 mt-6 text-xs text-brand-yellow hover:text-yellow-300 transition"
-          >
-            <ArrowLeft className="size-3" />
-            Back to MaMa Zainab
-          </Link>
-        </div>
+          <h1 className="mt-3 font-[family-name:var(--font-brand)] text-3xl tracking-[0.14em]">
+            Partner Portal Coming Soon
+          </h1>
+          <p className="mt-4 text-sm leading-6 text-white/70">
+            Partner access is currently disabled from admin settings.
+          </p>
+          <BackLink />
+        </section>
       </main>
     );
   }
 
-  
   if (!authenticated) {
-    function handleSubmit(e: React.FormEvent) {
-      e.preventDefault();
-      setError("");
-      startTransition(async () => {
-        const ok = await authenticatePartnerPortal(passcode);
-        if (ok) {
-          setPasscode("");
-          router.refresh();
-        } else {
-          setError("Invalid passcode. Please contact your MaMa Zainab representative.");
-          setPasscode("");
-        }
-      });
-    }
-
     return (
-      <main className="min-h-screen bg-brand-green text-white flex flex-col items-center justify-center px-5">
-        <div className="absolute inset-0 plaid pointer-events-none opacity-30" />
-        <div className="relative z-10 bg-brand-ink/80 backdrop-blur-sm rounded-2xl px-8 py-12 max-w-md w-full text-center shadow-2xl">
+      <main className="relative flex min-h-screen items-center justify-center overflow-hidden bg-brand-green px-5 py-16 text-white">
+        <div className="absolute inset-0 plaid opacity-80" />
+        <section className="relative z-10 w-full max-w-md rounded-2xl bg-brand-ink/85 px-8 py-12 text-center shadow-2xl backdrop-blur-sm">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/brand/mark.png" alt="" className="size-12 mx-auto mb-4" draggable={false} />
-          <h1 className="text-xl font-semibold">Partner Access</h1>
-          <p className="mt-2 text-sm text-white/60">
-            Enter the passcode provided by your MaMa Zainab representative.
+          <img src="/brand/logo-wordmark-transparent.png" alt="MaMa Zainab" className="mx-auto w-full max-w-xs" draggable={false} />
+          <p className="mt-5 text-[10px] font-semibold uppercase tracking-[0.3em] text-brand-yellow">
+            Private Partner Access
+          </p>
+          <p className="mt-3 text-sm leading-6 text-white/65">
+            Exclusive access for malls, landmarks, retail locations, clubs, and strategic property partners.
+            Authentication is required to view the full presentation.
           </p>
 
           <form onSubmit={handleSubmit} className="mt-8 space-y-3">
-            <div className="relative">
-              <Lock className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-white/40" />
+            <label className="relative block">
+              <span className="sr-only">Partner passcode</span>
+              <Lock className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-white/40" />
               <input
                 type="password"
                 value={passcode}
-                onChange={(e) => setPasscode(e.target.value)}
+                onChange={(event) => setPasscode(event.target.value)}
                 placeholder="Passcode"
                 required
                 autoFocus
-                className="w-full pl-10 pr-4 py-3 rounded-lg bg-white/10 border border-white/20 text-white placeholder-white/40 text-sm outline-none focus:border-brand-yellow focus:bg-white/15 transition"
+                className="w-full rounded-lg border border-white/20 bg-white/10 py-3 pl-10 pr-4 text-sm text-white outline-none transition placeholder:text-white/40 focus:border-brand-yellow focus:bg-white/15"
               />
-            </div>
-            {error && (
-              <p className="text-xs text-brand-red">{error}</p>
-            )}
+            </label>
+            {error && <p className="text-xs font-medium text-brand-red">{error}</p>}
             <button
               type="submit"
               disabled={isPending}
-              className="w-full py-3 rounded-lg bg-brand-yellow text-brand-ink font-semibold text-sm uppercase tracking-wider hover:bg-yellow-300 transition disabled:opacity-50"
+              className="inline-flex w-full items-center justify-center rounded-lg bg-brand-yellow px-5 py-3 text-xs font-bold uppercase tracking-[0.2em] text-brand-ink transition hover:bg-yellow-300 disabled:opacity-50"
             >
-              {isPending ? "Verifying…" : "Enter Portal"}
+              {isPending ? "Verifying" : "Enter Portal"}
             </button>
           </form>
-
-          <Link
-            href="/coming-soon"
-            className="inline-flex items-center gap-1.5 mt-6 text-xs text-white/50 hover:text-brand-yellow transition"
-          >
-            <ArrowLeft className="size-3" />
-            Back to MaMa Zainab
-          </Link>
-        </div>
+          <BackLink />
+        </section>
       </main>
     );
   }
 
-  
   return (
-    <main className="min-h-screen bg-[#FAFAF5] text-brand-ink">
-      {/* Top bar */}
-      <header className="sticky top-0 z-50 bg-brand-ink text-white px-6 py-3 flex items-center justify-between">
-        <div className="flex items-center gap-3">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/brand/mark.png" alt="" className="size-7" draggable={false} />
-          <span className="font-[family-name:var(--font-brand)] text-xs tracking-[0.18em]">
-            MaMa Zainab · Partner Portal
-          </span>
+    <main className="min-h-screen bg-brand-cream text-brand-ink">
+      <header className="sticky top-0 z-50 border-b border-white/10 bg-brand-ink/95 px-6 py-3 text-white backdrop-blur-sm">
+        <div className="mx-auto flex max-w-7xl items-center justify-between gap-4">
+          <Link href="/coming-soon" className="flex items-center gap-3">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/brand/mark.png" alt="" className="size-8" draggable={false} />
+            <span className="font-[family-name:var(--font-brand)] text-xs tracking-[0.18em]">
+              MaMa Zainab
+            </span>
+          </Link>
+          <div className="flex items-center gap-2">
+            <a
+              href={deckUrl}
+              className="hidden items-center gap-2 rounded-lg bg-brand-yellow px-4 py-2 text-[10px] font-bold uppercase tracking-[0.18em] text-brand-ink transition hover:bg-yellow-300 sm:inline-flex"
+            >
+              <Download className="size-3.5" />
+              Deck
+            </a>
+            <a
+              href={emailHref}
+              className="inline-flex items-center gap-2 rounded-lg border border-white/20 px-4 py-2 text-[10px] font-bold uppercase tracking-[0.18em] text-white/75 transition hover:border-brand-yellow hover:text-brand-yellow"
+            >
+              <Mail className="size-3.5" />
+              Contact
+            </a>
+          </div>
         </div>
-        <Link
-          href="/coming-soon"
-          className="text-[10px] uppercase tracking-[0.2em] text-white/60 hover:text-brand-yellow transition"
-        >
-          Exit
-        </Link>
       </header>
 
-      <div className="max-w-5xl mx-auto px-5 py-10 space-y-12">
-        {}
-        {showBrandOverview && (
-          <section className="text-center">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src="/brand/logo-primary.png"
-              alt="MaMa Zainab"
-              className="max-w-xs mx-auto drop-shadow-[0_2px_8px_rgba(0,0,0,0.08)]"
-              draggable={false}
-            />
-            <p className="mt-6 text-lg text-brand-ink/80 font-light max-w-lg mx-auto">
-              <span className="font-[family-name:var(--font-brand)] text-brand-green text-xl block mb-1">
-                Homemade taste. Fast-food style.
-              </span>
-              Hand-rolled, slow-cooked Egyptian comfort food — served fast. A branded kiosk
-              concept launching in Alexandria, Egypt.
-            </p>
-            <div className="mt-8 flex items-center justify-center gap-8">
-              <Stat label="Launch" value="Late 2026" />
-              <Stat label="Format" value="Branded Kiosk" />
-              <Stat label="Market" value="Alexandria, Egypt" />
+      <section className="relative overflow-hidden bg-brand-green text-white">
+        <div className="absolute inset-0 plaid opacity-35" />
+        <div className="relative mx-auto grid max-w-7xl gap-8 px-6 py-10 lg:grid-cols-[1.1fr_0.9fr] lg:py-14">
+          <div className="flex min-h-[420px] flex-col justify-between rounded-2xl bg-brand-ink/80 p-7 shadow-2xl backdrop-blur-sm md:p-9">
+            <div>
+              <p className="mb-5 inline-flex rounded-lg bg-brand-yellow px-4 py-2 text-[10px] font-bold uppercase tracking-[0.24em] text-brand-ink">
+                {presentationVersion || "Partner Presentation"}
+              </p>
+              <h1 className="max-w-3xl font-[family-name:var(--font-brand)] text-5xl leading-none tracking-[0.08em] md:text-7xl">
+                {presentationTitle}
+              </h1>
+              <p className="mt-6 max-w-2xl text-base leading-7 text-white/75 md:text-lg">
+                {presentationSubtitle}
+              </p>
+              {presentationUpdatedAt && (
+                <p className="mt-3 text-xs font-semibold uppercase tracking-[0.18em] text-white/45">
+                  Updated {presentationUpdatedAt}
+                </p>
+              )}
             </div>
-          </section>
-        )}
 
-        {}
-        {showPresentation && (
-          <section className="bg-white rounded-2xl border border-brand-ink/10 overflow-hidden shadow-sm">
-            <div className="bg-brand-green/5 px-6 py-4 border-b border-brand-ink/5 flex items-center gap-2">
-              <Presentation className="size-5 text-brand-green" />
-              <h2 className="text-sm font-semibold uppercase tracking-wider">
-                Brand Presentation
-              </h2>
+            <div className="mt-8 flex flex-wrap gap-2">
+              {partnerTypes.map((type) => (
+                <button
+                  key={type}
+                  type="button"
+                  onClick={() => setPartnerType(type)}
+                  className={`rounded-lg px-3 py-2 text-xs font-semibold transition ${
+                    partnerType === type
+                      ? "bg-brand-yellow text-brand-ink"
+                      : "bg-white/10 text-white hover:bg-white/20"
+                  }`}
+                >
+                  {type}
+                </button>
+              ))}
             </div>
-            <div className="px-6 py-16 text-center">
-              <div className="inline-flex items-center justify-center size-16 rounded-full bg-brand-green/10 mb-4">
-                <Presentation className="size-8 text-brand-green" />
+          </div>
+
+          <aside className="rounded-2xl border border-white/15 bg-white p-5 text-brand-ink shadow-2xl">
+            <div className="relative flex aspect-[16/10] overflow-hidden rounded-xl bg-brand-ink p-6">
+              <div className="absolute inset-0 plaid opacity-25" />
+              <div className="relative m-auto w-full max-w-sm rounded-xl bg-white/95 p-6 text-center shadow-2xl">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src="/brand/logo-primary.png" alt="MaMa Zainab" className="mx-auto mb-4 w-44" draggable={false} />
+                <p className="text-[10px] font-bold uppercase tracking-[0.24em] text-brand-green">
+                  Live Deck Preview
+                </p>
+                <h2 className="mt-3 text-2xl font-semibold">{partnerType} Model</h2>
+                <p className="mt-2 text-sm leading-6 text-muted-fg">
+                  {selectedFit}
+                </p>
               </div>
-              <h3 className="text-lg font-semibold">Presentation Coming Soon</h3>
-              <p className="mt-2 text-sm text-muted max-w-md mx-auto">
-                The full brand presentation deck is being prepared. It will include brand story,
-                kiosk design renders, menu overview, and partnership terms.
+            </div>
+
+            <div className="mt-4 grid grid-cols-3 gap-3 text-center">
+              <Metric label="Kiosk" value="3x2m" />
+              <Metric label="Height" value="2.5m" />
+              <Metric label="City" value="Alex" />
+            </div>
+          </aside>
+        </div>
+      </section>
+
+      {showPresentation && (
+        <section className="mx-auto grid max-w-7xl gap-6 px-6 py-10 lg:grid-cols-[280px_1fr]">
+          <nav className="rounded-2xl border border-border-default bg-white p-4 shadow-sm">
+            <p className="mb-4 px-3 text-[10px] font-bold uppercase tracking-[0.24em] text-brand-green">
+              Presentation
+            </p>
+            <div className="space-y-2">
+              {slides.map((item, index) => (
+                <button
+                  key={item.id}
+                  type="button"
+                  onClick={() => setActiveSlide(index)}
+                  className={`w-full rounded-lg p-4 text-left transition ${
+                    activeSlide === index
+                      ? "bg-brand-green text-white"
+                      : "bg-surface-muted text-brand-ink hover:bg-brand-yellow/30"
+                  }`}
+                >
+                  <p className="text-[10px] font-bold uppercase tracking-[0.16em] opacity-70">
+                    {String(index + 1).padStart(2, "0")} / {item.eyebrow}
+                  </p>
+                  <p className="mt-1 text-sm font-semibold leading-tight">{item.title}</p>
+                </button>
+              ))}
+            </div>
+          </nav>
+
+          <article className="overflow-hidden rounded-2xl border border-border-default bg-white shadow-xl">
+            <div className="grid min-h-[520px] lg:grid-cols-[1.1fr_0.9fr]">
+              <div className="flex flex-col justify-between p-7 md:p-10">
+                <div>
+                  <p className="mb-4 inline-flex rounded-lg bg-brand-yellow px-4 py-2 text-[10px] font-bold uppercase tracking-[0.24em] text-brand-ink">
+                    {slide.eyebrow}
+                  </p>
+                  <h2 className="font-[family-name:var(--font-brand)] text-4xl leading-none tracking-[0.08em] md:text-6xl">
+                    {slide.title}
+                  </h2>
+                  <p className="mt-6 max-w-2xl text-base leading-7 text-muted-fg md:text-lg">
+                    {slide.body}
+                  </p>
+                </div>
+
+                <div className="mt-10 grid gap-4 md:grid-cols-3">
+                  <InfoCard title="Partner Type" value={partnerType} />
+                  <InfoCard title="Format" value="Kiosk / Corner" />
+                  <InfoCard title="Action" value="Download / Share" />
+                </div>
+              </div>
+
+              <div className="relative overflow-hidden bg-brand-green p-7">
+                <div className="absolute inset-0 plaid opacity-20" />
+                <div className="relative flex h-full min-h-[360px] flex-col justify-between rounded-xl bg-brand-cream p-7 shadow-2xl">
+                  <SlideVisual
+                    slideId={slide.id}
+                    visual={slide.visual}
+                    partnerType={partnerType}
+                    deckUrl={deckUrl}
+                    locationsCount={locations.length}
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div className="flex items-center justify-between border-t border-border-default bg-surface-muted px-5 py-4 md:px-8">
+              <button
+                type="button"
+                onClick={() => setActiveSlide(Math.max(0, activeSlide - 1))}
+                className="rounded-lg border border-brand-green px-4 py-2 text-xs font-bold uppercase tracking-[0.16em] text-brand-green disabled:opacity-40"
+                disabled={activeSlide === 0}
+              >
+                Previous
+              </button>
+              <p className="text-xs font-semibold text-muted-fg">
+                Slide {activeSlide + 1} of {slides.length}
+              </p>
+              <button
+                type="button"
+                onClick={() => setActiveSlide(Math.min(slides.length - 1, activeSlide + 1))}
+                className="rounded-lg bg-brand-green px-4 py-2 text-xs font-bold uppercase tracking-[0.16em] text-white disabled:opacity-40"
+                disabled={activeSlide === slides.length - 1}
+              >
+                Next
+              </button>
+            </div>
+          </article>
+        </section>
+      )}
+
+      <section className="mx-auto max-w-7xl space-y-5 px-6 pb-12">
+        <div className="grid gap-5 lg:grid-cols-3">
+          {showBrandOverview && (
+            <PortalCard
+              icon={<Presentation className="size-5" />}
+              eyebrow="Brand Overview"
+              title="Fast-food Mahshi & oriental home-food"
+              body="MaMa Zainab is village authenticity at scale: warm, nostalgic, premium-casual Egyptian comfort food founded in Alexandria."
+            />
+          )}
+          {showMenu && (
+            <PortalCard
+              icon={<Utensils className="size-5" />}
+              eyebrow="Menu System"
+              title="Focused comfort-food category"
+              body="Stuffed grape leaves, stuffed vegetables, mombar, macaroni bechamel, sauces, drinks, and bundles."
+              actionHref="/menu/preview?peek=1"
+              actionLabel="View Menu"
+            />
+          )}
+          <PortalCard
+            icon={<Download className="size-5" />}
+            eyebrow="Download"
+            title="Partner Presentation"
+            body="Download the latest approved partner deck, then request a tasting, meeting, or location assessment."
+            actionHref={deckUrl}
+            actionLabel="Download Deck"
+          />
+        </div>
+
+        {showBrandOverview && (
+          <div className="grid gap-5 lg:grid-cols-[1.1fr_0.9fr]">
+            <section className="rounded-2xl border border-border-default bg-white p-6 shadow-sm">
+              <div className="mb-5 flex items-center gap-3">
+                <div className="rounded-lg bg-brand-green/10 p-3 text-brand-green">
+                  <TrendingUp className="size-5" />
+                </div>
+                <div>
+                  <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-brand-green">
+                    Property Partner Benefits
+                  </p>
+                  <h2 className="text-xl font-semibold">Why the kiosk earns its space</h2>
+                </div>
+              </div>
+              <div className="grid gap-3 sm:grid-cols-2">
+                {partnerBenefits.map((benefit) => (
+                  <div key={benefit} className="flex items-center gap-3 rounded-lg bg-surface-muted p-3">
+                    <CheckCircle2 className="size-4 shrink-0 text-brand-green" />
+                    <span className="text-sm font-medium">{benefit}</span>
+                  </div>
+                ))}
+              </div>
+            </section>
+
+            <section className="rounded-2xl border border-border-default bg-white p-6 shadow-sm">
+              <div className="mb-5 flex items-center gap-3">
+                <div className="rounded-lg bg-brand-yellow/50 p-3 text-brand-ink">
+                  <Handshake className="size-5" />
+                </div>
+                <div>
+                  <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-brand-green">
+                    Commercial Models
+                  </p>
+                  <h2 className="text-xl font-semibold">Flexible model paths</h2>
+                </div>
+              </div>
+              <div className="space-y-2">
+                {commercialModels.map((model) => (
+                  <div key={model} className="rounded-lg border border-border-default px-4 py-3 text-sm font-semibold">
+                    {model}
+                  </div>
+                ))}
+              </div>
+            </section>
+          </div>
+        )}
+      </section>
+
+      {showLocations && (
+        <section className="mx-auto max-w-7xl px-6 pb-16">
+          <div className="rounded-2xl bg-white p-6 shadow-sm">
+            <div className="mb-6 flex flex-col gap-2 md:flex-row md:items-end md:justify-between">
+              <div>
+                <p className="text-[10px] font-bold uppercase tracking-[0.24em] text-brand-green">
+                  Featured Locations
+                </p>
+                <h2 className="mt-2 font-[family-name:var(--font-brand)] text-4xl tracking-[0.08em]">
+                  Partner-ready rollout points
+                </h2>
+              </div>
+              <p className="text-sm font-semibold text-muted-fg">
+                {locations.length} location{locations.length === 1 ? "" : "s"} available
               </p>
             </div>
-          </section>
-        )}
 
-        {}
-        {showLocations && locations.length > 0 && (
-          <section className="bg-white rounded-2xl border border-brand-ink/10 overflow-hidden shadow-sm">
-            <div className="bg-brand-green/5 px-6 py-4 border-b border-brand-ink/5 flex items-center gap-2">
-              <MapPin className="size-5 text-brand-green" />
-              <h2 className="text-sm font-semibold uppercase tracking-wider">
-                Kiosk Locations
-              </h2>
-            </div>
-            <div className="divide-y divide-brand-ink/5">
-              {locations.map((loc) => {
-                const meta = STATUS_META[loc.status];
-                return (
-                  <div key={loc.id} className="px-6 py-4 flex items-center gap-4">
-                    <div className="flex-1">
-                      <div className="flex items-center gap-2">
-                        <span className="text-sm font-medium">{loc.name}</span>
-                        <span
-                          className={`text-[10px] px-2 py-0.5 rounded-full font-medium ${
-                            meta.tone === "success"
-                              ? "bg-green-100 text-green-700"
-                              : meta.tone === "warning"
-                                ? "bg-amber-100 text-amber-700"
-                                : "bg-gray-100 text-gray-600"
-                          }`}
-                        >
-                          {meta.label}
-                        </span>
-                      </div>
-                      <p className="text-xs text-muted mt-0.5">
-                        {[loc.district, loc.city].filter(Boolean).join(", ")}
-                        {loc.address ? ` — ${loc.address}` : ""}
+            {featuredLocations.length > 0 ? (
+              <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+                {featuredLocations.map((location) => (
+                  <div
+                    key={location.id}
+                    className="rounded-lg border border-border-default bg-surface-muted p-5"
+                  >
+                    <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-brand-green">
+                      {location.type || "Location"}
+                    </p>
+                    <h3 className="mt-2 text-lg font-semibold">
+                      {location.name || location.title || "Unnamed Location"}
+                    </h3>
+                    <p className="mt-2 text-sm font-medium text-muted-fg">
+                      {[location.area, location.city].filter(Boolean).join(", ") ||
+                        location.address ||
+                        "Alexandria"}
+                    </p>
+                    {location.status && (
+                      <p className="mt-4 inline-flex rounded-lg bg-white px-3 py-1 text-[10px] font-bold uppercase tracking-[0.16em] text-brand-green">
+                        {location.status}
                       </p>
-                    </div>
-                    <span className="text-[10px] text-muted uppercase tracking-wider">
-                      Kiosk #{loc.kioskNumber}
-                    </span>
+                    )}
                   </div>
-                );
-              })}
-            </div>
-          </section>
-        )}
+                ))}
+              </div>
+            ) : (
+              <div className="rounded-lg bg-surface-muted p-6 text-sm font-medium text-muted-fg">
+                No featured locations are configured yet.
+              </div>
+            )}
+          </div>
+        </section>
+      )}
 
-        {}
-        {showMenu && (
-          <section className="bg-white rounded-2xl border border-brand-ink/10 overflow-hidden shadow-sm">
-            <div className="bg-brand-green/5 px-6 py-4 border-b border-brand-ink/5 flex items-center gap-2">
-              <Utensils className="size-5 text-brand-green" />
-              <h2 className="text-sm font-semibold uppercase tracking-wider">
-                Menu Preview
+      <section className="mx-auto max-w-7xl px-6 pb-16">
+        <div className="relative overflow-hidden rounded-2xl bg-brand-ink p-6 text-white shadow-xl md:p-8">
+          <div className="absolute inset-0 plaid opacity-10" />
+          <div className="relative grid gap-6 lg:grid-cols-[1fr_auto] lg:items-center">
+            <div>
+              <p className="text-[10px] font-bold uppercase tracking-[0.24em] text-brand-yellow">
+                Next Step
+              </p>
+              <h2 className="mt-3 font-[family-name:var(--font-brand)] text-4xl tracking-[0.08em]">
+                Bring MaMa Zainab to Your Location
               </h2>
+              <p className="mt-3 max-w-2xl text-sm leading-6 text-white/70">
+                Request a location assessment, book a tasting session, or contact partnerships to discuss the right commercial model.
+              </p>
             </div>
-            <div className="px-6 py-8 text-center">
-              <Link
-                href="/menu/preview?peek=1"
-                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-brand-green text-white text-sm font-medium hover:bg-brand-green-deep transition"
+            <div className="flex flex-wrap gap-3">
+              <a
+                href={assessmentHref}
+                className="inline-flex items-center gap-2 rounded-lg bg-brand-yellow px-4 py-3 text-xs font-bold uppercase tracking-[0.16em] text-brand-ink transition hover:bg-yellow-300"
               >
-                View Menu
-                <ChevronRight className="size-4" />
-              </Link>
+                <Store className="size-4" />
+                Request Location Assessment
+              </a>
+              <a
+                href={bookingHref}
+                className="inline-flex items-center gap-2 rounded-lg border border-white/20 px-4 py-3 text-xs font-bold uppercase tracking-[0.16em] text-white transition hover:border-brand-yellow hover:text-brand-yellow"
+              >
+                <CalendarCheck className="size-4" />
+                Book Tasting Session
+              </a>
+              <a
+                href={contactHref}
+                className="inline-flex items-center gap-2 rounded-lg border border-white/20 px-4 py-3 text-xs font-bold uppercase tracking-[0.16em] text-white transition hover:border-brand-yellow hover:text-brand-yellow"
+              >
+                <MessageCircle className="size-4" />
+                Contact Partnerships
+              </a>
             </div>
-          </section>
-        )}
-      </div>
+          </div>
+        </div>
+      </section>
 
-      {/* Footer */}
-      <footer className="bg-brand-ink text-white/50 text-center py-6 text-[10px] uppercase tracking-[0.2em]">
-        © 2026 MaMa Zainab · Confidential — For Authorized Partners Only
+      <footer className="bg-brand-ink px-6 py-6 text-center text-[10px] uppercase tracking-[0.2em] text-white/50">
+        (c) 2026 MaMa Zainab - Confidential - For Authorized Partners Only
       </footer>
     </main>
   );
 }
 
+function SlideVisual({
+  slideId,
+  visual,
+  partnerType,
+  deckUrl,
+  locationsCount,
+}: {
+  slideId: string;
+  visual: string;
+  partnerType: string;
+  deckUrl: string;
+  locationsCount: number;
+}) {
+  if (slideId === "cover") {
+    return (
+      <>
+        <div>
+          <p className="text-[10px] font-bold uppercase tracking-[0.24em] text-brand-green">
+            Kiosk Hero
+          </p>
+          <h3 className="mt-3 text-2xl font-semibold leading-tight">{visual}</h3>
+        </div>
+        <div className="overflow-hidden rounded-xl bg-white shadow-lg">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/brand/partners/kiosk.png"
+            alt="MaMa Zainab kiosk render"
+            className="h-56 w-full object-contain p-3"
+            draggable={false}
+          />
+        </div>
+      </>
+    );
+  }
 
+  if (slideId === "brand") {
+    return (
+      <>
+        <div>
+          <p className="text-[10px] font-bold uppercase tracking-[0.24em] text-brand-green">
+            Brand System
+          </p>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/brand/logo-primary.png" alt="MaMa Zainab" className="mt-5 w-56" draggable={false} />
+        </div>
+        <div className="grid grid-cols-4 gap-2">
+          {[
+            ["Green", "bg-brand-green"],
+            ["Yellow", "bg-brand-yellow"],
+            ["Red", "bg-brand-red"],
+            ["Ink", "bg-brand-ink"],
+          ].map(([label, color]) => (
+            <div key={label} className="space-y-2">
+              <div className={`h-14 rounded-lg ${color}`} />
+              <p className="text-[10px] font-bold uppercase tracking-[0.12em] text-muted-fg">
+                {label}
+              </p>
+            </div>
+          ))}
+        </div>
+        <div className="grid grid-cols-3 gap-2">
+          {[
+            ["/brand/partners/packaging-box.jpeg", "Packaging box"],
+            ["/brand/partners/packaging-takeaway.jpeg", "Takeaway pack"],
+            ["/brand/partners/packaging-canholder.jpeg", "Can holder"],
+          ].map(([src, alt]) => (
+            <div key={src} className="overflow-hidden rounded-lg bg-white">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={src} alt={alt} className="h-24 w-full object-cover" draggable={false} />
+            </div>
+          ))}
+        </div>
+      </>
+    );
+  }
 
-function Stat({ label, value }: { label: string; value: string }) {
+  if (slideId === "format") {
+    return (
+      <>
+        <div>
+          <p className="text-[10px] font-bold uppercase tracking-[0.24em] text-brand-green">
+            Kiosk Format
+          </p>
+          <div className="mt-6 rounded-xl border-4 border-brand-green bg-white p-5 shadow-lg">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/brand/partners/kiosk.png"
+              alt="MaMa Zainab modular kiosk"
+              className="h-40 w-full rounded-lg object-contain"
+              draggable={false}
+            />
+          </div>
+        </div>
+        <div className="grid grid-cols-3 gap-3">
+          <Metric label="Footprint" value="3x2m" />
+          <Metric label="Height" value="2.5m" />
+          <Metric label="Format" value="Modular" />
+        </div>
+      </>
+    );
+  }
+
+  if (slideId === "benefits") {
+    return (
+      <>
+        <div>
+          <p className="text-[10px] font-bold uppercase tracking-[0.24em] text-brand-green">
+            Partner Benefits
+          </p>
+          <h3 className="mt-3 text-2xl font-semibold leading-tight">{visual}</h3>
+        </div>
+        <div className="grid gap-2">
+          {partnerBenefits.slice(0, 5).map((benefit) => (
+            <div key={benefit} className="flex items-center gap-3 rounded-lg bg-white p-3 text-sm font-semibold">
+              <CheckCircle2 className="size-4 shrink-0 text-brand-green" />
+              {benefit}
+            </div>
+          ))}
+        </div>
+      </>
+    );
+  }
+
+  if (slideId === "rollout") {
+    return (
+      <>
+        <div>
+          <p className="text-[10px] font-bold uppercase tracking-[0.24em] text-brand-green">
+            Alexandria Rollout
+          </p>
+          <h3 className="mt-3 text-2xl font-semibold leading-tight">
+            {locationsCount > 0 ? `${locationsCount} configured rollout point${locationsCount === 1 ? "" : "s"}` : "Rollout map ready for branch data"}
+          </h3>
+        </div>
+        <div className="relative h-44 overflow-hidden rounded-xl bg-white">
+          <div className="absolute inset-0 plaid opacity-20" />
+          <div className="absolute left-[18%] top-[35%] size-4 rounded-full bg-brand-red ring-4 ring-brand-red/20" />
+          <div className="absolute left-[45%] top-[48%] size-4 rounded-full bg-brand-green ring-4 ring-brand-green/20" />
+          <div className="absolute left-[70%] top-[30%] size-4 rounded-full bg-brand-yellow ring-4 ring-brand-yellow/30" />
+          <p className="absolute bottom-4 left-4 text-xs font-bold uppercase tracking-[0.18em] text-brand-ink/60">
+            Alexandria first
+          </p>
+        </div>
+      </>
+    );
+  }
+
+  if (slideId === "cta") {
+    return (
+      <>
+        <div>
+          <p className="text-[10px] font-bold uppercase tracking-[0.24em] text-brand-green">
+            Downloadable Deck
+          </p>
+          <h3 className="mt-3 text-2xl font-semibold leading-tight">{visual}</h3>
+        </div>
+        <a
+          href={deckUrl}
+          className="inline-flex w-full items-center justify-center gap-2 rounded-lg bg-brand-green px-4 py-4 text-xs font-bold uppercase tracking-[0.18em] text-white transition hover:bg-brand-green-deep"
+        >
+          <Download className="size-4" />
+          Download Presentation
+        </a>
+      </>
+    );
+  }
+
   return (
-    <div>
-      <div className="text-lg font-semibold text-brand-green">{value}</div>
-      <div className="text-[10px] uppercase tracking-wider text-muted mt-0.5">{label}</div>
+    <>
+      <div>
+        <p className="text-[10px] font-bold uppercase tracking-[0.24em] text-brand-green">
+          Location Fit
+        </p>
+        <h3 className="mt-3 text-2xl font-semibold leading-tight">{visual}</h3>
+      </div>
+      <div className="rounded-xl bg-white p-5">
+        <Users className="mb-4 size-8 text-brand-green" />
+        <p className="text-sm font-semibold leading-6 text-brand-ink">
+          {partnerFitCopy[partnerType]}
+        </p>
+      </div>
+    </>
+  );
+}
+
+function BackLink() {
+  return (
+    <Link
+      href="/coming-soon"
+      className="mt-7 inline-flex items-center gap-1.5 text-xs text-white/50 transition hover:text-brand-yellow"
+    >
+      <ArrowLeft className="size-3" />
+      Back to MaMa Zainab
+    </Link>
+  );
+}
+
+function Metric({ label, value }: { label: string; value: string }) {
+  return (
+    <div className="rounded-lg bg-surface-muted p-4">
+      <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-brand-green">
+        {label}
+      </p>
+      <p className="mt-1 text-xl font-semibold">{value}</p>
+    </div>
+  );
+}
+
+function InfoCard({ title, value }: { title: string; value: string }) {
+  return (
+    <div className="rounded-lg border border-border-default bg-surface-muted p-4">
+      <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-brand-green">
+        {title}
+      </p>
+      <p className="mt-2 text-sm font-semibold">{value}</p>
+    </div>
+  );
+}
+
+function PortalCard({
+  icon,
+  eyebrow,
+  title,
+  body,
+  actionHref,
+  actionLabel,
+}: {
+  icon: React.ReactNode;
+  eyebrow: string;
+  title: string;
+  body: string;
+  actionHref?: string;
+  actionLabel?: string;
+}) {
+  return (
+    <div className="rounded-2xl border border-border-default bg-white p-6 shadow-sm">
+      <div className="mb-4 inline-flex rounded-lg bg-brand-green/10 p-3 text-brand-green">
+        {icon}
+      </div>
+      <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-brand-green">
+        {eyebrow}
+      </p>
+      <h3 className="mt-3 text-xl font-semibold leading-tight">{title}</h3>
+      <p className="mt-3 text-sm font-medium leading-6 text-muted-fg">{body}</p>
+      {actionHref && actionLabel && (
+        <Link
+          href={actionHref}
+          className="mt-6 inline-flex items-center gap-2 rounded-lg bg-brand-yellow px-4 py-2.5 text-xs font-bold uppercase tracking-[0.16em] text-brand-ink transition hover:bg-yellow-300"
+        >
+          {actionLabel}
+          <ChevronRight className="size-3.5" />
+        </Link>
+      )}
     </div>
   );
 }
