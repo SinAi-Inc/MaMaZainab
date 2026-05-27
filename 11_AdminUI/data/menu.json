@@ -61,7 +61,7 @@
       "id": "itm_bKy6kP9n",
       "sku": "MZ-ESS-0001",
       "createdAt": "2026-05-07T05:04:34.288Z",
-      "updatedAt": "2026-05-19T15:06:17.753Z",
+      "updatedAt": "2026-05-27T18:20:40.685Z",
       "categoryId": "cat_TZRflJUU",
       "nameEn": "Beef Balls",
       "nameAr": "",
@@ -71,7 +71,7 @@
       "caloriesLabel": "",
       "servingInfo": "",
       "highlights": [],
-      "imageUrl": "/uploads/menu/zFod8fMWtA.jpg",
+      "imageUrl": "/uploads/menu/x_juzvu8eK.jpg",
       "badges": [
         "bestseller",
         "chefs_pick"
@@ -105,7 +105,7 @@
       "id": "itm_stuffy_grape",
       "sku": "MZ-STU-0001",
       "createdAt": "2026-05-03T20:23:46.882Z",
-      "updatedAt": "2026-05-19T14:45:29.295Z",
+      "updatedAt": "2026-05-27T18:18:48.934Z",
       "categoryId": "cat_stuffy",
       "nameEn": "Green Fingers",
       "nameAr": "",
@@ -115,7 +115,7 @@
       "caloriesLabel": "180 kcal, 35 - 40 Calories",
       "servingInfo": "",
       "highlights": [],
-      "imageUrl": "/uploads/menu/mztJbIeDuE.jpg",
+      "imageUrl": "/uploads/menu/iLtAyeZxB9.jpg",
       "badges": [
         "bestseller",
         "vegan"
@@ -215,7 +215,7 @@
       "id": "itm_ztKN5cP7",
       "sku": "MZ-ESS-0002",
       "createdAt": "2026-05-07T21:22:34.933Z",
-      "updatedAt": "2026-05-19T15:00:10.508Z",
+      "updatedAt": "2026-05-27T18:18:32.963Z",
       "categoryId": "cat_TZRflJUU",
       "nameEn": "Chick Balls",
       "nameAr": "",
@@ -225,7 +225,7 @@
       "caloriesLabel": "",
       "servingInfo": "",
       "highlights": [],
-      "imageUrl": "/uploads/menu/eZCVgUmYEE.jpg",
+      "imageUrl": "/uploads/menu/rbLUbHBqOT.jpg",
       "badges": [
         "chefs_pick",
         "spicy",
@@ -281,7 +281,7 @@
       "id": "itm_stuffy_cabbage",
       "sku": "MZ-STU-0002",
       "createdAt": "2026-05-03T20:23:46.882Z",
-      "updatedAt": "2026-05-19T14:45:41.220Z",
+      "updatedAt": "2026-05-27T18:19:01.340Z",
       "categoryId": "cat_stuffy",
       "nameEn": "Flowers Roll",
       "nameAr": "",
@@ -291,7 +291,7 @@
       "caloriesLabel": "180 kcal, 35 - 40 Calories",
       "servingInfo": "",
       "highlights": [],
-      "imageUrl": "/uploads/menu/3zszLcVYh1.jpeg",
+      "imageUrl": "/uploads/menu/rntnin9wSL.jpeg",
       "badges": [
         "chefs_pick",
         "vegan",
@@ -348,7 +348,7 @@
       "id": "itm_S_vXN0Y-",
       "sku": "MZ-STU-0009",
       "createdAt": "2026-05-05T03:10:20.827Z",
-      "updatedAt": "2026-05-19T14:43:13.498Z",
+      "updatedAt": "2026-05-27T18:19:15.010Z",
       "categoryId": "cat_stuffy",
       "nameEn": "Mumba Bites",
       "nameAr": "",
@@ -358,7 +358,7 @@
       "caloriesLabel": "210 kcal, 45 - 52 Calories",
       "servingInfo": "",
       "highlights": [],
-      "imageUrl": "/uploads/menu/1_PtUKn7hK.jpg",
+      "imageUrl": "/uploads/menu/vXNGcg6uKT.jpg",
       "badges": [
         "limited",
         "chefs_pick",
@@ -415,7 +415,7 @@
       "id": "itm_1XDtkoPk",
       "sku": "MZ-STU-0003",
       "createdAt": "2026-05-05T03:05:33.495Z",
-      "updatedAt": "2026-05-19T14:44:08.129Z",
+      "updatedAt": "2026-05-27T18:19:32.012Z",
       "categoryId": "cat_stuffy",
       "nameEn": "Purple Hose!..",
       "nameAr": "",
@@ -425,7 +425,7 @@
       "caloriesLabel": "190 kcal, 42 - 50 Calories",
       "servingInfo": "",
       "highlights": [],
-      "imageUrl": "/uploads/menu/_Qrp56vcbu.jpg",
+      "imageUrl": "/uploads/menu/_1_1n_-G4s.jpg",
       "badges": [
         "vegan"
       ],
@@ -436,7 +436,7 @@
       "id": "itm_58d_MhQ9",
       "sku": "MZ-STU-0004",
       "createdAt": "2026-05-05T03:06:08.818Z",
-      "updatedAt": "2026-05-19T14:40:28.017Z",
+      "updatedAt": "2026-05-27T18:19:59.626Z",
       "categoryId": "cat_stuffy",
       "nameEn": "Boring Zucchini",
       "nameAr": "",
@@ -446,7 +446,7 @@
       "caloriesLabel": "180 kcal, 35 - 40 Calories",
       "servingInfo": "",
       "highlights": [],
-      "imageUrl": "/uploads/menu/6wbfK1WboZ.jpeg",
+      "imageUrl": "/uploads/menu/fx1mchsl8a.jpeg",
       "badges": [
         "vegan",
         "limited"
@@ -542,7 +542,7 @@
       "id": "itm_K6MVkHOd",
       "sku": "MZ-STU-0005",
       "createdAt": "2026-05-05T03:07:46.209Z",
-      "updatedAt": "2026-05-19T14:41:57.192Z",
+      "updatedAt": "2026-05-27T18:20:18.969Z",
       "categoryId": "cat_stuffy",
       "nameEn": "Onion Bombs",
       "nameAr": "",
@@ -552,10 +552,11 @@
       "caloriesLabel": "185 kcal, 32 - 45 Calories",
       "servingInfo": "",
       "highlights": [],
-      "imageUrl": "/uploads/menu/LmAxzEiwH_.jpg",
+      "imageUrl": "/uploads/menu/kDRXuEeeZO.jpg",
       "badges": [
         "vegan",
-        "new"
+        "new",
+        "limited"
       ],
       "available": true,
       "sort": 9
