@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 import { nanoid } from "nanoid";
 import { readCharacters, writeCharacters } from "./store";
 import { uploadFile } from "@/lib/upload";
+import { requireAdminAction } from "@/lib/server-action-auth";
 import { CharacterInputSchema, type Character } from "./schema";
 
 const now = () => new Date().toISOString();
@@ -15,6 +16,7 @@ function revalidate() {
 /* ---- CRUD --------------------------------------------------- */
 
 export async function createCharacter(input: unknown) {
+  await requireAdminAction();
   const data = CharacterInputSchema.parse(input);
   const state = await readCharacters();
   const character: Character = {
@@ -31,6 +33,7 @@ export async function createCharacter(input: unknown) {
 }
 
 export async function updateCharacter(id: string, input: unknown) {
+  await requireAdminAction();
   const data = CharacterInputSchema.parse(input);
   const state = await readCharacters();
   const idx = state.characters.findIndex((c) => c.id === id);
@@ -42,6 +45,7 @@ export async function updateCharacter(id: string, input: unknown) {
 }
 
 export async function deleteCharacter(id: string) {
+  await requireAdminAction();
   const state = await readCharacters();
   state.characters = state.characters.filter((c) => c.id !== id);
   await writeCharacters(state);
@@ -49,6 +53,7 @@ export async function deleteCharacter(id: string) {
 }
 
 export async function toggleCharacterActive(id: string) {
+  await requireAdminAction();
   const state = await readCharacters();
   const idx = state.characters.findIndex((c) => c.id === id);
   if (idx < 0) throw new Error("Character not found");
@@ -62,6 +67,7 @@ export async function toggleCharacterActive(id: string) {
 /* ---- Reference image upload --------------------------------- */
 
 export async function uploadCharacterImage(formData: FormData): Promise<string> {
+  await requireAdminAction();
   const file = formData.get("file");
   if (!(file instanceof File)) throw new Error("No file provided");
   if (!file.type.startsWith("image/")) throw new Error("Must be an image");
@@ -82,6 +88,7 @@ export async function regenerateCharacterReference(
   characterId: string,
   mode?: string,
 ): Promise<{ url: string }> {
+  await requireAdminAction();
   const state = await readCharacters();
   const character = state.characters.find((c) => c.id === characterId);
   if (!character) throw new Error("Character not found");
@@ -104,7 +111,7 @@ export async function regenerateCharacterReference(
   const anchors = buildAnchorsFromCharacters(state.characters);
   const anchor = getAnchorByValue(anchorValue, anchors);
 
-  // Studio portrait direction — goes into [SHOT]
+  // Studio portrait direction - goes into [SHOT]
   const shotPrompt = "standing pose, neutral background, professional studio lighting, full body portrait, 35mm photography, sharp focus";
 
   const assembled = assemblePrompt({
@@ -118,7 +125,7 @@ export async function regenerateCharacterReference(
   const { saveGeneratedImage } = await import("@/lib/generations/actions");
 
   const seed = Math.floor(Math.random() * 2_000_000_000);
-  // Portrait aspect for character refs — 512x768 is SD1.5-native and fast on CPU
+  // Portrait aspect for character refs - 512x768 is SD1.5-native and fast on CPU
   const width = 512;
   const height = 768;
 
@@ -138,7 +145,7 @@ export async function regenerateCharacterReference(
   const url = await saveGeneratedImage(result.image, ext);
 
   // Append to referenceImages
-  const label = modeLabel ? `Generated — ${modeLabel}` : "Generated reference";
+  const label = modeLabel ? `Generated - ${modeLabel}` : "Generated reference";
   character.referenceImages.push({ url, label, isPrimary: character.referenceImages.length === 0 });
   character.updatedAt = now();
   await writeCharacters(state);
@@ -157,6 +164,7 @@ export async function validateCharacterRender(
   characterId: string,
   mode?: string,
 ): Promise<{ url: string; condensedPrompt: string }> {
+  await requireAdminAction();
   const state = await readCharacters();
   const character = state.characters.find((c) => c.id === characterId);
   if (!character) throw new Error("Character not found");
@@ -178,7 +186,7 @@ export async function validateCharacterRender(
   const anchors = buildAnchorsFromCharacters(state.characters);
   const anchor = getAnchorByValue(anchorValue, anchors);
 
-  // Neutral studio direction — goes into [SHOT]
+  // Neutral studio direction - goes into [SHOT]
   const shotPrompt = "standing in a neutral studio, even lighting, full body, plain grey background";
 
   const assembled = assemblePrompt({
@@ -193,7 +201,7 @@ export async function validateCharacterRender(
   const { saveGeneratedImage } = await import("@/lib/generations/actions");
 
   const seed = Math.floor(Math.random() * 2_000_000_000);
-  // Portrait aspect — SD1.5-native dims for fast CPU renders
+  // Portrait aspect - SD1.5-native dims for fast CPU renders
   const width = 512;
   const height = 768;
 

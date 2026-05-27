@@ -20,6 +20,7 @@ import {
   Users,
 } from "lucide-react";
 import { authenticatePartnerPortal } from "@/lib/partners/actions";
+import type { BrandMediaAsset } from "@/lib/brand-media/schema";
 
 type PartnerLocation = {
   id: string;
@@ -30,6 +31,13 @@ type PartnerLocation = {
   type?: string;
   status?: string;
   address?: string;
+  lat?: number;
+  lng?: number;
+  partnerType?: string;
+  priority?: "confirmed" | "target" | "prospect";
+  footfallEstimate?: string;
+  recommendedFormat?: string;
+  commercialModel?: string;
 };
 
 type PartnerPortalProps = {
@@ -49,6 +57,7 @@ type PartnerPortalProps = {
   contactPhone?: string;
   bookingUrl?: string;
   assessmentUrl?: string;
+  mediaAssets?: BrandMediaAsset[];
 };
 
 const partnerTypes = [
@@ -148,6 +157,43 @@ const commercialModels = [
   "90-Day Pilot Kiosk",
 ];
 
+const partnerTypeToMediaKey: Record<string, string> = {
+  Malls: "mall",
+  Clubs: "club",
+  Hypermarkets: "hypermarket",
+  Cinemas: "cinema",
+  Universities: "university",
+  "Petrol Stations": "petrol_station",
+  Compounds: "compound",
+};
+
+function getSlideVisualAsset({
+  slideId,
+  partnerType,
+  assets,
+}: {
+  slideId: string;
+  partnerType: string;
+  assets: BrandMediaAsset[];
+}) {
+  const mediaPartnerType = partnerTypeToMediaKey[partnerType] ?? "";
+  const activeAssets = assets
+    .filter((asset) => asset.isActive)
+    .sort((a, b) => a.sortOrder - b.sortOrder);
+
+  return (
+    activeAssets.find(
+      (asset) =>
+        asset.slideId === slideId &&
+        Boolean(mediaPartnerType) &&
+        asset.partnerType === mediaPartnerType,
+    ) ||
+    activeAssets.find((asset) => asset.slideId === slideId) ||
+    activeAssets.find((asset) => asset.usage === "slide_visual") ||
+    activeAssets.find((asset) => asset.usage === "partner_cover")
+  );
+}
+
 export function PartnerPortal({
   authenticated,
   portalEnabled,
@@ -165,6 +211,7 @@ export function PartnerPortal({
   contactPhone = "",
   bookingUrl = "",
   assessmentUrl = "",
+  mediaAssets = [],
 }: PartnerPortalProps) {
   const [activeSlide, setActiveSlide] = useState(0);
   const [partnerType, setPartnerType] = useState("Malls");
@@ -176,6 +223,7 @@ export function PartnerPortal({
   const slide = slides[activeSlide];
   const featuredLocations = useMemo(() => locations.slice(0, 6), [locations]);
   const deckUrl = presentationFileUrl || "/Mama-Zainab-Partners-Presentation.pdf";
+  const effectiveDeckUrl = deckUrl;
   const emailHref = `mailto:${contactEmail || "hello@mamazainab.com"}?subject=MaMa%20Zainab%20Partnership`;
   const phoneHref = contactPhone ? `tel:${contactPhone.replace(/[^\d+]/g, "")}` : "";
   const selectedFit = partnerFitCopy[partnerType] ?? partnerFitCopy.Malls;
@@ -183,7 +231,7 @@ export function PartnerPortal({
     assessmentUrl || `${emailHref}&body=I%20would%20like%20to%20request%20a%20location%20assessment.`;
   const bookingHref =
     bookingUrl || `${emailHref}&body=I%20would%20like%20to%20book%20a%20tasting%20session.`;
-  const contactHref = phoneHref || emailHref;
+  const contactHref = emailHref;
 
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -280,13 +328,15 @@ export function PartnerPortal({
             </span>
           </Link>
           <div className="flex items-center gap-2">
-            <a
-              href={deckUrl}
-              className="hidden items-center gap-2 rounded-lg bg-brand-yellow px-4 py-2 text-[10px] font-bold uppercase tracking-[0.18em] text-brand-ink transition hover:bg-yellow-300 sm:inline-flex"
-            >
-              <Download className="size-3.5" />
-              Deck
-            </a>
+            {showPresentation && (
+              <a
+                href={effectiveDeckUrl}
+                className="hidden items-center gap-2 rounded-lg bg-brand-yellow px-4 py-2 text-[10px] font-bold uppercase tracking-[0.18em] text-brand-ink transition hover:bg-yellow-300 sm:inline-flex"
+              >
+                <Download className="size-3.5" />
+                Deck
+              </a>
+            )}
             <a
               href={emailHref}
               className="inline-flex items-center gap-2 rounded-lg border border-white/20 px-4 py-2 text-[10px] font-bold uppercase tracking-[0.18em] text-white/75 transition hover:border-brand-yellow hover:text-brand-yellow"
@@ -306,7 +356,7 @@ export function PartnerPortal({
               <p className="mb-5 inline-flex rounded-lg bg-brand-yellow px-4 py-2 text-[10px] font-bold uppercase tracking-[0.24em] text-brand-ink">
                 {presentationVersion || "Partner Presentation"}
               </p>
-              <h1 className="max-w-3xl font-[family-name:var(--font-brand)] text-5xl leading-none tracking-[0.08em] md:text-7xl">
+              <h1 className="max-w-3xl font-[family-name:var(--font-brand)] text-2xl leading-none tracking-[0.08em] md:text-4xl">
                 {presentationTitle}
               </h1>
               <p className="mt-6 max-w-2xl text-base leading-7 text-white/75 md:text-lg">
@@ -396,7 +446,11 @@ export function PartnerPortal({
                   <p className="mb-4 inline-flex rounded-lg bg-brand-yellow px-4 py-2 text-[10px] font-bold uppercase tracking-[0.24em] text-brand-ink">
                     {slide.eyebrow}
                   </p>
-                  <h2 className="font-[family-name:var(--font-brand)] text-4xl leading-none tracking-[0.08em] md:text-6xl">
+                  <h2
+                    className={`font-[family-name:var(--font-brand)] leading-none tracking-[0.08em] ${
+                      slide.id === "cover" ? "text-2xl md:text-3xl" : "text-4xl md:text-6xl"
+                    }`}
+                  >
                     {slide.title}
                   </h2>
                   <p className="mt-6 max-w-2xl text-base leading-7 text-muted-fg md:text-lg">
@@ -418,8 +472,17 @@ export function PartnerPortal({
                     slideId={slide.id}
                     visual={slide.visual}
                     partnerType={partnerType}
-                    deckUrl={deckUrl}
+                    deckUrl={effectiveDeckUrl}
                     locationsCount={locations.length}
+                    locations={locations}
+                    asset={getSlideVisualAsset({
+                      slideId: slide.id,
+                      partnerType,
+                      assets: mediaAssets,
+                    })}
+                    relatedAssets={mediaAssets.filter(
+                      (asset) => asset.isActive && asset.slideId === slide.id,
+                    )}
                   />
                 </div>
               </div>
@@ -470,14 +533,16 @@ export function PartnerPortal({
               actionLabel="View Menu"
             />
           )}
-          <PortalCard
-            icon={<Download className="size-5" />}
-            eyebrow="Download"
-            title="Partner Presentation"
-            body="Download the latest approved partner deck, then request a tasting, meeting, or location assessment."
-            actionHref={deckUrl}
-            actionLabel="Download Deck"
-          />
+          {showPresentation && (
+            <PortalCard
+              icon={<Download className="size-5" />}
+              eyebrow="Download"
+              title="Partner Presentation"
+              body="Download the latest approved partner deck, then request a tasting, meeting, or location assessment."
+              actionHref={effectiveDeckUrl}
+              actionLabel="Download Deck"
+            />
+          )}
         </div>
 
         {showBrandOverview && (
@@ -588,7 +653,7 @@ export function PartnerPortal({
               <p className="text-[10px] font-bold uppercase tracking-[0.24em] text-brand-yellow">
                 Next Step
               </p>
-              <h2 className="mt-3 font-[family-name:var(--font-brand)] text-4xl tracking-[0.08em]">
+              <h2 className="mt-3 font-[family-name:var(--font-brand)] text-2xl tracking-[0.08em]">
                 Bring MaMa Zainab to Your Location
               </h2>
               <p className="mt-3 max-w-2xl text-sm leading-6 text-white/70">
@@ -617,6 +682,15 @@ export function PartnerPortal({
                 <MessageCircle className="size-4" />
                 Contact Partnerships
               </a>
+              {phoneHref && (
+                <a
+                  href={phoneHref}
+                  className="inline-flex items-center gap-2 rounded-lg border border-white/20 px-4 py-3 text-xs font-bold uppercase tracking-[0.16em] text-white transition hover:border-brand-yellow hover:text-brand-yellow"
+                >
+                  <PhoneIcon />
+                  Phone / WhatsApp
+                </a>
+              )}
             </div>
           </div>
         </div>
@@ -635,13 +709,24 @@ function SlideVisual({
   partnerType,
   deckUrl,
   locationsCount,
+  locations,
+  asset,
+  relatedAssets,
 }: {
   slideId: string;
   visual: string;
   partnerType: string;
   deckUrl: string;
   locationsCount: number;
+  locations: PartnerLocation[];
+  asset?: BrandMediaAsset;
+  relatedAssets: BrandMediaAsset[];
 }) {
+  const activeRelated = relatedAssets
+    .filter((item) => item.isActive)
+    .sort((a, b) => a.sortOrder - b.sortOrder);
+  const galleryAssets = activeRelated.length > 0 ? activeRelated : asset ? [asset] : [];
+
   if (slideId === "cover") {
     return (
       <>
@@ -654,8 +739,8 @@ function SlideVisual({
         <div className="overflow-hidden rounded-xl bg-white shadow-lg">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
-            src="/brand/partners/kiosk.png"
-            alt="MaMa Zainab kiosk render"
+            src={asset?.url || "/brand/partners/kiosk.png"}
+            alt={asset?.alt || "MaMa Zainab kiosk render"}
             className="h-56 w-full object-contain p-3"
             draggable={false}
           />
@@ -690,14 +775,17 @@ function SlideVisual({
           ))}
         </div>
         <div className="grid grid-cols-3 gap-2">
-          {[
-            ["/brand/partners/packaging-box.jpeg", "Packaging box"],
-            ["/brand/partners/packaging-takeaway.jpeg", "Takeaway pack"],
-            ["/brand/partners/packaging-canholder.jpeg", "Can holder"],
-          ].map(([src, alt]) => (
-            <div key={src} className="overflow-hidden rounded-lg bg-white">
+          {(galleryAssets.length > 0
+            ? galleryAssets.slice(0, 3)
+            : [
+                { id: "box", url: "/brand/partners/packaging-box.jpeg", alt: "Packaging box" },
+                { id: "takeaway", url: "/brand/partners/packaging-takeaway.jpeg", alt: "Takeaway pack" },
+                { id: "canholder", url: "/brand/partners/packaging-canholder.jpeg", alt: "Can holder" },
+              ]
+          ).map((item) => (
+            <div key={item.id} className="overflow-hidden rounded-lg bg-white">
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={src} alt={alt} className="h-24 w-full object-cover" draggable={false} />
+              <img src={item.url} alt={item.alt} className="h-24 w-full object-cover" draggable={false} />
             </div>
           ))}
         </div>
@@ -715,8 +803,8 @@ function SlideVisual({
           <div className="mt-6 rounded-xl border-4 border-brand-green bg-white p-5 shadow-lg">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src="/brand/partners/kiosk.png"
-              alt="MaMa Zainab modular kiosk"
+              src={asset?.url || "/brand/partners/kiosk.png"}
+              alt={asset?.alt || "MaMa Zainab modular kiosk"}
               className="h-40 w-full rounded-lg object-contain"
               draggable={false}
             />
@@ -763,15 +851,7 @@ function SlideVisual({
             {locationsCount > 0 ? `${locationsCount} configured rollout point${locationsCount === 1 ? "" : "s"}` : "Rollout map ready for branch data"}
           </h3>
         </div>
-        <div className="relative h-44 overflow-hidden rounded-xl bg-white">
-          <div className="absolute inset-0 plaid opacity-20" />
-          <div className="absolute left-[18%] top-[35%] size-4 rounded-full bg-brand-red ring-4 ring-brand-red/20" />
-          <div className="absolute left-[45%] top-[48%] size-4 rounded-full bg-brand-green ring-4 ring-brand-green/20" />
-          <div className="absolute left-[70%] top-[30%] size-4 rounded-full bg-brand-yellow ring-4 ring-brand-yellow/30" />
-          <p className="absolute bottom-4 left-4 text-xs font-bold uppercase tracking-[0.18em] text-brand-ink/60">
-            Alexandria first
-          </p>
-        </div>
+        <RolloutMap locations={locations} asset={asset} />
       </>
     );
   }
@@ -804,13 +884,156 @@ function SlideVisual({
         </p>
         <h3 className="mt-3 text-2xl font-semibold leading-tight">{visual}</h3>
       </div>
-      <div className="rounded-xl bg-white p-5">
-        <Users className="mb-4 size-8 text-brand-green" />
-        <p className="text-sm font-semibold leading-6 text-brand-ink">
-          {partnerFitCopy[partnerType]}
+      {asset ? (
+        <div className="overflow-hidden rounded-xl bg-white shadow-lg">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src={asset.url} alt={asset.alt} className="h-52 w-full object-cover" draggable={false} />
+        </div>
+      ) : (
+        <div className="rounded-xl bg-white p-5">
+          <Users className="mb-4 size-8 text-brand-green" />
+          <p className="text-sm font-semibold leading-6 text-brand-ink">
+            {partnerFitCopy[partnerType]}
+          </p>
+        </div>
+      )}
+    </>
+  );
+}
+
+function PhoneIcon() {
+  return <MessageCircle className="size-4" />;
+}
+
+const mapFilters = [
+  ["all", "All"],
+  ["mall", "Malls"],
+  ["club", "Clubs"],
+  ["hypermarket", "Hypermarkets"],
+  ["cinema", "Cinemas"],
+  ["university", "Universities"],
+  ["petrol_station", "Petrol Stations"],
+  ["compound", "Compounds"],
+] as const;
+
+function formatLabel(value?: string) {
+  return value ? value.replace(/_/g, " ") : "Unset";
+}
+
+function RolloutMap({
+  locations,
+  asset,
+}: {
+  locations: PartnerLocation[];
+  asset?: BrandMediaAsset;
+}) {
+  const [filter, setFilter] = useState<(typeof mapFilters)[number][0]>("all");
+  const [activeLocationId, setActiveLocationId] = useState<string | null>(null);
+  const filteredLocations =
+    filter === "all"
+      ? locations
+      : locations.filter((location) => location.partnerType === filter);
+  const mappedLocations = filteredLocations.filter(
+    (location) => typeof location.lat === "number" && typeof location.lng === "number",
+  );
+  const visiblePins = mappedLocations.length > 0 ? mappedLocations : filteredLocations.slice(0, 4);
+  const activeLocation =
+    visiblePins.find((location) => location.id === activeLocationId) ?? visiblePins[0];
+
+  return (
+    <div className="space-y-3">
+      <div className="flex gap-1 overflow-x-auto pb-1">
+        {mapFilters.map(([value, label]) => (
+          <button
+            key={value}
+            type="button"
+            onClick={() => {
+              setFilter(value);
+              setActiveLocationId(null);
+            }}
+            className={`shrink-0 rounded-lg px-2.5 py-1.5 text-[10px] font-bold uppercase tracking-[0.12em] transition ${
+              filter === value
+                ? "bg-brand-green text-white"
+                : "bg-white text-brand-ink hover:bg-brand-yellow/40"
+            }`}
+          >
+            {label}
+          </button>
+        ))}
+      </div>
+
+      <div className="relative h-48 overflow-hidden rounded-xl bg-white">
+        {asset ? (
+          <>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={asset.url} alt={asset.alt} className="absolute inset-0 h-full w-full object-cover opacity-80" draggable={false} />
+            <div className="absolute inset-0 bg-brand-cream/55" />
+          </>
+        ) : (
+          <div className="absolute inset-0 plaid opacity-20" />
+        )}
+
+        {visiblePins.map((location, index) => {
+          const left = mappedLocations.length > 0 && location.lng
+            ? Math.min(82, Math.max(12, ((location.lng - 29.75) / 0.35) * 70 + 12))
+            : [18, 42, 66, 78][index % 4];
+          const top = mappedLocations.length > 0 && location.lat
+            ? Math.min(78, Math.max(18, (1 - (location.lat - 31.05) / 0.25) * 60 + 18))
+            : [35, 54, 30, 64][index % 4];
+          const pinClass =
+            location.priority === "confirmed"
+              ? "bg-brand-green ring-brand-green/25"
+              : location.priority === "target"
+                ? "bg-brand-yellow ring-brand-yellow/35"
+                : "bg-brand-cream ring-brand-green/35 border border-brand-green";
+
+          return (
+            <button
+              key={location.id}
+              type="button"
+              title={location.name || location.title || "Location"}
+              onClick={() => setActiveLocationId(location.id)}
+              className={`absolute size-4 rounded-full ring-4 transition hover:scale-110 ${pinClass}`}
+              style={{ left: `${left}%`, top: `${top}%` }}
+            />
+          );
+        })}
+
+        {visiblePins.length === 0 && (
+          <div className="absolute inset-0 flex items-center justify-center px-5 text-center text-sm font-semibold text-muted-fg">
+            No map pins match this filter.
+          </div>
+        )}
+
+        <p className="absolute bottom-4 left-4 text-xs font-bold uppercase tracking-[0.18em] text-brand-ink/60">
+          Alexandria first
         </p>
       </div>
-    </>
+
+      {activeLocation && (
+        <div className="rounded-lg bg-white p-3 text-xs shadow-sm">
+          <div className="flex items-start justify-between gap-3">
+            <div>
+              <p className="font-bold text-brand-ink">
+                {activeLocation.name || activeLocation.title || "Location"}
+              </p>
+              <p className="mt-1 text-muted-fg">
+                {[activeLocation.area, activeLocation.city].filter(Boolean).join(", ") || activeLocation.address || "Alexandria"}
+              </p>
+            </div>
+            <span className="rounded-lg bg-brand-green/10 px-2 py-1 text-[10px] font-bold uppercase tracking-[0.12em] text-brand-green">
+              {activeLocation.priority || "prospect"}
+            </span>
+          </div>
+          <div className="mt-3 grid grid-cols-2 gap-2 text-[11px] font-semibold text-muted-fg">
+            <span>Type: {formatLabel(activeLocation.partnerType)}</span>
+            <span>Format: {formatLabel(activeLocation.recommendedFormat)}</span>
+            <span>Model: {formatLabel(activeLocation.commercialModel)}</span>
+            <span>Footfall: {activeLocation.footfallEstimate || "TBD"}</span>
+          </div>
+        </div>
+      )}
+    </div>
   );
 }
 

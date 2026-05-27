@@ -7,8 +7,12 @@
  * GET /api/dev/char-prompt?id=all
  */
 import { NextRequest, NextResponse } from "next/server";
+import { requireAdmin } from "@/lib/api-guard";
 
 export async function GET(req: NextRequest) {
+  const denied = await requireAdmin(req);
+  if (denied) return denied;
+
   if (process.env.NODE_ENV === "production") {
     return NextResponse.json({ error: "Not available in production" }, { status: 403 });
   }

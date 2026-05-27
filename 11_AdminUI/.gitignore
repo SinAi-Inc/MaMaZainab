@@ -29,15 +29,23 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-# private data — never commit to public repo
-data/contacts.json        # real subscriber emails
-data/videos.json          # brand script, Falaha strategy, cinematic screenplay (business IP)
-data/characters.json      # character IP — anchor blocks, AI prompts, reference image paths
-data/generations.json     # AI generation history (ephemeral, large)
-data/settings.json        # admin email, social handles
-data/branches.json        # location strategy
-data/partners.json        # partner portal config
-data/brand-private.json   # sensitive brand prose: char anchors, AI prompt templates, origin story
+# private data - never commit to public repo
+# real subscriber emails
+data/contacts.json
+# brand script, Falaha strategy, cinematic screenplay (business IP)
+data/videos.json
+# character IP - anchor blocks, AI prompts, reference image paths
+data/characters.json
+# AI generation history (ephemeral, large)
+data/generations.json
+# admin email, social handles
+data/settings.json
+# location strategy
+data/branches.json
+# partner portal config
+data/partners.json
+# sensitive brand prose: char anchors, AI prompt templates, origin story
+data/brand-private.json
 .pnpm-debug.log*
 
 # runtime-generated uploads (too large / ephemeral for git)
@@ -45,7 +53,7 @@ public/uploads/menu-source/
 public/uploads/generations/
 public/uploads/keyframes/
 
-# AI model weights — too large for git (164MB each)
+# AI model weights - too large for git (164MB each)
 ../10_AI_Assets/
 
 # env files

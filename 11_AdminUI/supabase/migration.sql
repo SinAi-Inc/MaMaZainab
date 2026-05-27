@@ -1,4 +1,4 @@
--- MaMa Zainab — Supabase schema migration
+-- MaMa Zainab - Supabase schema migration
 -- Run this in the Supabase SQL Editor to set up all tables.
 
 -- ============================================================
@@ -133,8 +133,17 @@ create table if not exists branches (
   notes        text not null default ''
 );
 
+alter table branches add column if not exists lat numeric;
+alter table branches add column if not exists lng numeric;
+alter table branches add column if not exists partner_type text not null default '';
+alter table branches add column if not exists priority text not null default 'prospect';
+alter table branches add column if not exists footfall_estimate text not null default '';
+alter table branches add column if not exists recommended_format text not null default '';
+alter table branches add column if not exists commercial_model text not null default '';
+alter table branches add column if not exists show_in_partner_portal boolean not null default true;
+
 -- ============================================================
--- 7. Video Studio — Projects
+-- 7. Video Studio - Projects
 -- ============================================================
 create table if not exists projects (
   id                  text primary key,
@@ -156,7 +165,7 @@ create table if not exists projects (
 );
 
 -- ============================================================
--- 8. Generations — Studio generation history
+-- 8. Generations - Studio generation history
 -- ============================================================
 create table if not exists generations (
   id                text primary key,
@@ -180,7 +189,7 @@ create table if not exists generations (
 alter table generations add column if not exists cost_usd numeric(10, 4) not null default 0;
 
 -- ============================================================
--- 8. Video Studio — Scenes
+-- 8. Video Studio - Scenes
 -- ============================================================
 create table if not exists scenes (
   id              text primary key,
@@ -195,7 +204,7 @@ create table if not exists scenes (
 );
 
 -- ============================================================
--- 9. Video Studio — Shots
+-- 9. Video Studio - Shots
 -- ============================================================
 create table if not exists shots (
   id               text primary key,
@@ -227,7 +236,7 @@ alter table shots add column if not exists keyframe_seed        integer not null
 alter table shots add column if not exists audio                jsonb not null default '{"voLine":"","voice":"","sfxCue":"","voUrl":"","sfxUrl":""}'::jsonb;
 
 -- ============================================================
--- 10. Video Studio — Takes
+-- 10. Video Studio - Takes
 -- ============================================================
 create table if not exists takes (
   id            text primary key,
@@ -275,7 +284,27 @@ alter table partner_settings add column if not exists assessment_url text not nu
 insert into partner_settings (id) values ('singleton') on conflict do nothing;
 
 -- ============================================================
--- 12. Storage bucket for uploads
+-- 12. Brand Media Assets
+-- ============================================================
+create table if not exists brand_media_assets (
+  id              text primary key,
+  title           text not null,
+  description     text not null default '',
+  url             text not null,
+  thumbnail_url   text not null default '',
+  alt             text not null,
+  category        text not null default 'other',
+  usage           text not null default 'general',
+  partner_type    text not null default '',
+  slide_id        text not null default '',
+  is_active       boolean not null default true,
+  sort_order      integer not null default 0,
+  created_at      text not null default '',
+  updated_at      text not null default ''
+);
+
+-- ============================================================
+-- 13. Storage bucket for uploads
 -- ============================================================
 -- Creates the public 'uploads' bucket if it does not already exist.
 insert into storage.buckets (id, name, public)
@@ -308,7 +337,7 @@ exception when duplicate_object then null; end $$;
 alter table settings add column if not exists session_floor text not null default '';
 
 -- ============================================================
--- 13. Video Jobs — provider-agnostic video generation queue
+-- 13. Video Jobs - provider-agnostic video generation queue
 -- ============================================================
 create table if not exists video_jobs (
   id                   text primary key,

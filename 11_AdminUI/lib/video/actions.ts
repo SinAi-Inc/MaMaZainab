@@ -10,6 +10,7 @@ import { pickProvider, getProvider } from "./provider";
 import { checkBrandLock, buildNegativePrompt, autoExpandAnchors, checkKeyframeGate } from "./brand-lock";
 import { estimateVideoCost } from "./cost";
 import { recordGeneration } from "@/lib/generations/actions";
+import { requireAdminAction } from "@/lib/server-action-auth";
 
 const now = () => new Date().toISOString();
 
@@ -26,6 +27,7 @@ export type SubmitJobResult =
  * - Stores the job, calls provider.submit(), returns the job record
  */
 export async function submitVideoJob(input: unknown): Promise<SubmitJobResult> {
+  await requireAdminAction();
   let parsed: VideoJobInput;
   try {
     parsed = VideoJobInputSchema.parse(input);
@@ -53,7 +55,7 @@ export async function submitVideoJob(input: unknown): Promise<SubmitJobResult> {
   if (!lock.ok) {
     return {
       ok: false,
-      error: "Brand-Lock violations — fix before submitting.",
+      error: "Brand-Lock violations - fix before submitting.",
       violations: lock.violations.map((v) => ({ type: v.type, message: v.message })),
     };
   }
@@ -72,7 +74,7 @@ export async function submitVideoJob(input: unknown): Promise<SubmitJobResult> {
       if (keyViolations.length > 0) {
         return {
           ok: false,
-          error: "Keyframe gate — generate and approve a keyframe before motion.",
+          error: "Keyframe gate - generate and approve a keyframe before motion.",
           violations: keyViolations.map((v) => ({ type: v.type, message: v.message })),
         };
       }
@@ -80,7 +82,7 @@ export async function submitVideoJob(input: unknown): Promise<SubmitJobResult> {
         resolvedImageUrl = shot.keyframeUrl;
       }
     } catch {
-      // Studio store unavailable — keyframe gate is best-effort
+      // Studio store unavailable - keyframe gate is best-effort
     }
   }
 
@@ -188,10 +190,11 @@ export async function submitVideoJob(input: unknown): Promise<SubmitJobResult> {
 }
 
 /**
- * Poll a job — checks the provider and updates persisted state.
+ * Poll a job - checks the provider and updates persisted state.
  * Called by the UI on a setInterval.
  */
 export async function pollVideoJob(id: string): Promise<VideoJob | null> {
+  await requireAdminAction();
   const job = await getJob(id);
   if (!job) return null;
   if (job.status === "completed" || job.status === "failed" || job.status === "canceled") {
@@ -221,6 +224,7 @@ export async function pollVideoJob(id: string): Promise<VideoJob | null> {
 }
 
 export async function cancelVideoJob(id: string): Promise<VideoJob | null> {
+  await requireAdminAction();
   const job = await getJob(id);
   if (!job) return null;
   const provider = await getProvider(job.providerId);
@@ -239,6 +243,7 @@ export async function cancelVideoJob(id: string): Promise<VideoJob | null> {
 }
 
 export async function deleteVideoJob(id: string): Promise<void> {
+  await requireAdminAction();
   await deleteJob(id);
   revalidatePath("/ai");
 }
@@ -248,9 +253,11 @@ export async function listVideoJobs(filter?: {
   shotId?: string;
   limit?: number;
 }): Promise<VideoJob[]> {
+  await requireAdminAction();
   return listJobs(filter);
 }
 
 export async function getProjectSpend(projectId: string): Promise<number> {
+  await requireAdminAction();
   return sumProjectSpend(projectId);
 }

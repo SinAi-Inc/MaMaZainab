@@ -1,6 +1,7 @@
 "use server";
 
 import { readStudio } from "@/lib/videos/store";
+import { requireAdminAction } from "@/lib/server-action-auth";
 import { buildProjectTimeline, exportEdl, exportFcpxml } from "./edl-export";
 
 export type ExportResult = {
@@ -22,6 +23,7 @@ export async function exportProjectTimeline(
   format: "edl" | "fcpxml" = "edl",
   fps = 24,
 ): Promise<ExportResult> {
+  await requireAdminAction();
   const state = await readStudio();
   const project = state.projects.find((p) => p.id === projectId);
   if (!project) throw new Error("Project not found");

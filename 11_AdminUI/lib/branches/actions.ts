@@ -1,10 +1,12 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
+import { requireAdminAction } from "@/lib/server-action-auth";
 import { BranchSchema } from "./schema";
 import { readBranches, writeBranches } from "./store";
 
 export async function saveBranch(formData: FormData) {
+  await requireAdminAction();
   const raw = {
     id:          formData.get("id"),
     kioskNumber: formData.get("kioskNumber"),
@@ -18,6 +20,14 @@ export async function saveBranch(formData: FormData) {
     openHours:   formData.get("openHours"),
     seating:     formData.get("seating"),
     notes:       formData.get("notes"),
+    lat:          formData.get("lat") || undefined,
+    lng:          formData.get("lng") || undefined,
+    partnerType: formData.get("partnerType") || "",
+    priority:    formData.get("priority") || "prospect",
+    footfallEstimate: formData.get("footfallEstimate"),
+    recommendedFormat: formData.get("recommendedFormat") || "",
+    commercialModel: formData.get("commercialModel") || "",
+    showInPartnerPortal: formData.get("showInPartnerPortal") === "on",
   };
 
   const branch = BranchSchema.parse(raw);
@@ -33,6 +43,7 @@ export async function saveBranch(formData: FormData) {
 }
 
 export async function deleteBranch(id: string) {
+  await requireAdminAction();
   const state = await readBranches();
   state.branches = state.branches.filter((b) => b.id !== id);
   await writeBranches(state);
