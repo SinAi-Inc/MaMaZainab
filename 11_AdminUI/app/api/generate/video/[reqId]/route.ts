@@ -1,27 +1,29 @@
 import { NextRequest, NextResponse } from "next/server";
-import { pollVideoJob } from "@/lib/nvidia/client";
-import { requireAdmin } from "@/lib/api-guard";
+import { requireCreative } from "@/lib/api-guard";
 
 export async function GET(
   req: NextRequest,
   { params }: { params: Promise<{ reqId: string }> }
 ) {
-  const denied = await requireAdmin(req);
+  const denied = await requireCreative(req);
   if (denied) return denied;
 
-  try {
-    const { reqId } = await params;
+  const { reqId } = await params;
 
-    // Validate reqId is a UUID or NVIDIA request ID (alphanumeric + hyphens only)
-    if (!reqId || typeof reqId !== "string" || reqId.length > 200 || !/^[a-zA-Z0-9\-]+$/.test(reqId)) {
-      return NextResponse.json({ error: "Invalid reqId" }, { status: 400 });
-    }
-
-    const result = await pollVideoJob(reqId);
-    return NextResponse.json(result);
-  } catch (err) {
-    const message = err instanceof Error ? err.message : "Poll failed";
-    console.error("[/api/generate/video/poll]", String(message).slice(0, 500).replace(/[\r\n]/g, " "));
-    return NextResponse.json({ error: message }, { status: 500 });
+  if (
+    !reqId ||
+    typeof reqId !== "string" ||
+    reqId.length > 200 ||
+    !/^[a-zA-Z0-9-]+$/.test(reqId)
+  ) {
+    return NextResponse.json({ error: "Invalid reqId" }, { status: 400 });
   }
+
+  return NextResponse.json(
+    {
+      error:
+        "This legacy NVIDIA polling API has been retired. Use the Studio video workflow, which tracks provider-backed jobs through server actions.",
+    },
+    { status: 410 },
+  );
 }

@@ -5,10 +5,10 @@ import {
   nimAvailable,
   type NvidiaImageModelId,
 } from "@/lib/nvidia/client";
-import { requireAdmin } from "@/lib/api-guard";
+import { requireCreative } from "@/lib/api-guard";
 import { validateModelsLimiter } from "@/lib/rate-limit";
 
-// Each test generates a 512×512 image — small enough to be fast.
+// Each test generates a 512×512 image - small enough to be fast.
 export const maxDuration = 90;
 
 const VALID_MODELS = new Set(
@@ -16,7 +16,7 @@ const VALID_MODELS = new Set(
 );
 
 export async function GET(req: NextRequest) {
-  const denied = await requireAdmin(req);
+  const denied = await requireCreative(req);
   if (denied) return denied;
 
   const limited = validateModelsLimiter(req);

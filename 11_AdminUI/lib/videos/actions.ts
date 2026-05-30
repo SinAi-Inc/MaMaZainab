@@ -7,7 +7,7 @@ import path from "node:path";
 import { readStudio, writeStudio } from "./store";
 import { uploadFile } from "@/lib/upload";
 import { isSupabaseConfigured, getSupabase } from "@/lib/supabase";
-import { requireAdminAction } from "@/lib/server-action-auth";
+import { requireCreativeAction } from "@/lib/server-action-auth";
 import { parseScript } from "./parse-script";
 import { aspectToSize } from "@/lib/nvidia/client";
 import { pickProvider } from "@/lib/video/provider";
@@ -35,7 +35,7 @@ function revalidateAll(projectId?: string) {
 /* ---- Projects ----------------------------------------------- */
 
 export async function createProject(input: unknown) {
-  await requireAdminAction();
+  await requireCreativeAction();
   const data = ProjectInputSchema.parse(input);
   const state = await readStudio();
   const project: Project = {
@@ -52,7 +52,7 @@ export async function createProject(input: unknown) {
 }
 
 export async function updateProject(id: string, input: unknown) {
-  await requireAdminAction();
+  await requireCreativeAction();
   const data = ProjectInputSchema.parse(input);
   const state = await readStudio();
   const idx = state.projects.findIndex((p) => p.id === id);
@@ -64,7 +64,7 @@ export async function updateProject(id: string, input: unknown) {
 }
 
 export async function deleteProject(id: string) {
-  await requireAdminAction();
+  await requireCreativeAction();
   const state = await readStudio();
   state.projects = state.projects.filter((p) => p.id !== id);
   state.scenes = state.scenes.filter((s) => s.projectId !== id);
@@ -75,7 +75,7 @@ export async function deleteProject(id: string) {
 }
 
 export async function setProjectStatus(id: string, status: Project["status"]) {
-  await requireAdminAction();
+  await requireCreativeAction();
   const state = await readStudio();
   const p = state.projects.find((x) => x.id === id);
   if (!p) throw new Error("Project not found");
@@ -93,7 +93,7 @@ export async function setProjectStatus(id: string, status: Project["status"]) {
  * parse of the given script Markdown.
  */
 export async function reparseProjectScript(projectId: string, script: string) {
-  await requireAdminAction();
+  await requireCreativeAction();
   const state = await readStudio();
   const project = state.projects.find((p) => p.id === projectId);
   if (!project) throw new Error("Project not found");
@@ -162,7 +162,7 @@ export async function reparseProjectScript(projectId: string, script: string) {
  * Useful for the seed Brand Incorporation project.
  */
 export async function loadScriptFromRepo(projectId: string, relPath: string) {
-  await requireAdminAction();
+  await requireCreativeAction();
   // Repo root = workspace root, two levels up from /11_AdminUI
   const repoRoot = path.resolve(process.cwd(), "..");
   const full = path.resolve(repoRoot, relPath);
@@ -178,7 +178,7 @@ export async function loadScriptFromRepo(projectId: string, relPath: string) {
 /* ---- Scenes ------------------------------------------------- */
 
 export async function updateScene(id: string, input: unknown) {
-  await requireAdminAction();
+  await requireCreativeAction();
   const data = SceneInputSchema.parse(input);
   const state = await readStudio();
   const idx = state.scenes.findIndex((s) => s.id === id);
@@ -190,7 +190,7 @@ export async function updateScene(id: string, input: unknown) {
 }
 
 export async function deleteScene(id: string) {
-  await requireAdminAction();
+  await requireCreativeAction();
   const state = await readStudio();
   const scene = state.scenes.find((s) => s.id === id);
   if (!scene) return;
@@ -206,7 +206,7 @@ export async function deleteScene(id: string) {
 /* ---- Shots -------------------------------------------------- */
 
 export async function createShot(input: unknown) {
-  await requireAdminAction();
+  await requireCreativeAction();
   const data = ShotInputSchema.parse(input);
   const state = await readStudio();
   const shot: Shot = {
@@ -222,7 +222,7 @@ export async function createShot(input: unknown) {
 }
 
 export async function updateShot(id: string, input: unknown) {
-  await requireAdminAction();
+  await requireCreativeAction();
   const data = ShotInputSchema.parse(input);
   const state = await readStudio();
   const idx = state.shots.findIndex((s) => s.id === id);
@@ -234,7 +234,7 @@ export async function updateShot(id: string, input: unknown) {
 }
 
 export async function deleteShot(id: string) {
-  await requireAdminAction();
+  await requireCreativeAction();
   const state = await readStudio();
   const shot = state.shots.find((s) => s.id === id);
   if (!shot) return;
@@ -245,7 +245,7 @@ export async function deleteShot(id: string) {
 }
 
 export async function setShotStatus(id: string, status: Shot["status"]) {
-  await requireAdminAction();
+  await requireCreativeAction();
   const state = await readStudio();
   const s = state.shots.find((x) => x.id === id);
   if (!s) throw new Error("Shot not found");
@@ -264,7 +264,7 @@ export async function updateShotAudio(
   id: string,
   audio: { voLine?: string; voice?: string; sfxCue?: string },
 ) {
-  await requireAdminAction();
+  await requireCreativeAction();
   const state = await readStudio();
   const s = state.shots.find((x) => x.id === id);
   if (!s) throw new Error("Shot not found");
@@ -288,7 +288,7 @@ export async function updateShotAudio(
  * Brand reference context is injected into the prompt automatically.
  */
 export async function generateTake(input: unknown) {
-  await requireAdminAction();
+  await requireCreativeAction();
   const data = TakeInputSchema.parse(input);
   const state = await readStudio();
   const shot = state.shots.find((s) => s.id === data.shotId);
@@ -393,7 +393,7 @@ export async function generateTake(input: unknown) {
  * Updates the take record if completed or failed.
  */
 export async function pollTake(takeId: string) {
-  await requireAdminAction();
+  await requireCreativeAction();
   const { getProvider } = await import("@/lib/video/provider");
   const state = await readStudio();
   const take = state.takes.find((t) => t.id === takeId);
@@ -439,7 +439,7 @@ export async function pollTake(takeId: string) {
 }
 
 export async function updateTake(id: string, input: unknown) {
-  await requireAdminAction();
+  await requireCreativeAction();
   const data = TakeInputSchema.parse(input);
   const state = await readStudio();
   const idx = state.takes.findIndex((t) => t.id === id);
@@ -451,7 +451,7 @@ export async function updateTake(id: string, input: unknown) {
 }
 
 export async function deleteTake(id: string) {
-  await requireAdminAction();
+  await requireCreativeAction();
   const state = await readStudio();
   const take = state.takes.find((t) => t.id === id);
   if (!take) return;
@@ -467,7 +467,7 @@ export async function deleteTake(id: string) {
 }
 
 export async function approveTake(id: string) {
-  await requireAdminAction();
+  await requireCreativeAction();
   const state = await readStudio();
   const take = state.takes.find((t) => t.id === id);
   if (!take) throw new Error("Take not found");
@@ -492,7 +492,7 @@ export async function approveTake(id: string) {
 }
 
 export async function setTakeStatus(id: string, status: Take["status"]) {
-  await requireAdminAction();
+  await requireCreativeAction();
   const state = await readStudio();
   const t = state.takes.find((x) => x.id === id);
   if (!t) throw new Error("Take not found");
@@ -506,28 +506,28 @@ export async function setTakeStatus(id: string, status: Take["status"]) {
 /* ---- Uploads ------------------------------------------------ */
 
 export async function uploadTakeVideo(formData: FormData) {
-  await requireAdminAction();
+  await requireCreativeAction();
   const file = formData.get("file");
   if (!(file instanceof File)) throw new Error("No file provided");
   return uploadFile(file, "takes", ["mp4", "webm", "mov", "m4v"], 300 * 1024 * 1024);
 }
 
 export async function uploadShotReference(formData: FormData) {
-  await requireAdminAction();
+  await requireCreativeAction();
   const file = formData.get("file");
   if (!(file instanceof File)) throw new Error("No file provided");
   return uploadFile(file, "shot-refs", ["png", "jpg", "jpeg", "webp"], 10 * 1024 * 1024);
 }
 
 export async function uploadProjectPoster(formData: FormData) {
-  await requireAdminAction();
+  await requireCreativeAction();
   const file = formData.get("file");
   if (!(file instanceof File)) throw new Error("No file provided");
   return uploadFile(file, "posters", ["png", "jpg", "jpeg", "webp"], 10 * 1024 * 1024);
 }
 
 export async function uploadScriptFile(formData: FormData): Promise<string> {
-  await requireAdminAction();
+  await requireCreativeAction();
   const file = formData.get("file");
   if (!(file instanceof File)) throw new Error("No file provided");
   return file.text();
@@ -561,7 +561,7 @@ export async function generateShotViaProvider(
   shotId: string,
   options: GenerateShotOptions = {},
 ) {
-  await requireAdminAction();
+  await requireCreativeAction();
   const state = await readStudio();
   const project = state.projects.find((p) => p.id === projectId);
   const shot = state.shots.find((s) => s.id === shotId);
@@ -655,7 +655,7 @@ export async function generateShotViaProvider(
  * persist the video URL when ready.
  */
 export async function syncTakeFromProvider(takeId: string) {
-  await requireAdminAction();
+  await requireCreativeAction();
   const state = await readStudio();
   const take = state.takes.find((t) => t.id === takeId);
   if (!take) throw new Error("Take not found");
@@ -687,7 +687,7 @@ export async function generateAllPendingShots(
   projectId: string,
   options: GenerateShotOptions = {},
 ) {
-  await requireAdminAction();
+  await requireCreativeAction();
   const state = await readStudio();
   const project = state.projects.find((p) => p.id === projectId);
   if (!project) throw new Error("Project not found");
@@ -715,7 +715,7 @@ export async function generateAllPendingShots(
  * Used by the project edit UI to refresh take status.
  */
 export async function getProjectJobs(projectId: string) {
-  await requireAdminAction();
+  await requireCreativeAction();
   return listVideoJobs({ projectId, limit: 200 });
 }
 
@@ -771,7 +771,7 @@ export async function buildShotPrompt(
   shotId: string,
   options: { characterAnchors?: string[] } = {},
 ): Promise<ShotPromptBreakdown> {
-  await requireAdminAction();
+  await requireCreativeAction();
   const state = await readStudio();
   const shot = state.shots.find((s) => s.id === shotId);
   if (!shot) throw new Error("Shot not found");
@@ -848,7 +848,7 @@ export async function previewShotPrompt(
   shotId: string,
   characterAnchors?: string[],
 ): Promise<ShotPromptBreakdown> {
-  await requireAdminAction();
+  await requireCreativeAction();
   return buildShotPrompt(shotId, { characterAnchors });
 }
 
@@ -857,7 +857,7 @@ export async function generateShotKeyframe(
   shotId: string,
   options: GenerateKeyframeOptions = {},
 ) {
-  await requireAdminAction();
+  await requireCreativeAction();
   const state = await readStudio();
   const project = state.projects.find((p) => p.id === projectId);
   const shot = state.shots.find((s) => s.id === shotId);
@@ -985,7 +985,7 @@ export type ResolveExportManifest = {
  * plus keyframes, audio cues, and metadata for timeline assembly.
  */
 export async function exportForResolve(projectId: string): Promise<ResolveExportManifest> {
-  await requireAdminAction();
+  await requireCreativeAction();
   const state = await readStudio();
   const project = state.projects.find((p) => p.id === projectId);
   if (!project) throw new Error("Project not found");
@@ -1038,7 +1038,7 @@ export async function exportForResolve(projectId: string): Promise<ResolveExport
  * After approval, hero motion jobs for this shot may proceed.
  */
 export async function approveShotKeyframe(projectId: string, shotId: string) {
-  await requireAdminAction();
+  await requireCreativeAction();
   const state = await readStudio();
   const shot = state.shots.find((s) => s.id === shotId);
   if (!shot) throw new Error("Shot not found");
@@ -1059,7 +1059,7 @@ export async function selectKeyframeFromHistory(
   shotId: string,
   historyIndex: number,
 ) {
-  await requireAdminAction();
+  await requireCreativeAction();
   const state = await readStudio();
   const shot = state.shots.find((s) => s.id === shotId);
   if (!shot) throw new Error("Shot not found");
@@ -1099,7 +1099,7 @@ export async function uploadShotKeyframe(
   shotId: string,
   formData: FormData,
 ): Promise<{ keyframeUrl: string }> {
-  await requireAdminAction();
+  await requireCreativeAction();
   const file = formData.get("file");
   if (!(file instanceof File)) throw new Error("No file provided");
   if (!file.type.startsWith("image/")) throw new Error("Must be an image file");

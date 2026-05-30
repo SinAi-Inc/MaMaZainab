@@ -4,7 +4,7 @@ import { revalidatePath } from "next/cache";
 import { nanoid } from "nanoid";
 import { readCharacters, writeCharacters } from "./store";
 import { uploadFile } from "@/lib/upload";
-import { requireAdminAction } from "@/lib/server-action-auth";
+import { requireCreativeAction } from "@/lib/server-action-auth";
 import { CharacterInputSchema, type Character } from "./schema";
 
 const now = () => new Date().toISOString();
@@ -16,7 +16,7 @@ function revalidate() {
 /* ---- CRUD --------------------------------------------------- */
 
 export async function createCharacter(input: unknown) {
-  await requireAdminAction();
+  await requireCreativeAction();
   const data = CharacterInputSchema.parse(input);
   const state = await readCharacters();
   const character: Character = {
@@ -33,7 +33,7 @@ export async function createCharacter(input: unknown) {
 }
 
 export async function updateCharacter(id: string, input: unknown) {
-  await requireAdminAction();
+  await requireCreativeAction();
   const data = CharacterInputSchema.parse(input);
   const state = await readCharacters();
   const idx = state.characters.findIndex((c) => c.id === id);
@@ -45,7 +45,7 @@ export async function updateCharacter(id: string, input: unknown) {
 }
 
 export async function deleteCharacter(id: string) {
-  await requireAdminAction();
+  await requireCreativeAction();
   const state = await readCharacters();
   state.characters = state.characters.filter((c) => c.id !== id);
   await writeCharacters(state);
@@ -53,7 +53,7 @@ export async function deleteCharacter(id: string) {
 }
 
 export async function toggleCharacterActive(id: string) {
-  await requireAdminAction();
+  await requireCreativeAction();
   const state = await readCharacters();
   const idx = state.characters.findIndex((c) => c.id === id);
   if (idx < 0) throw new Error("Character not found");
@@ -67,7 +67,7 @@ export async function toggleCharacterActive(id: string) {
 /* ---- Reference image upload --------------------------------- */
 
 export async function uploadCharacterImage(formData: FormData): Promise<string> {
-  await requireAdminAction();
+  await requireCreativeAction();
   const file = formData.get("file");
   if (!(file instanceof File)) throw new Error("No file provided");
   if (!file.type.startsWith("image/")) throw new Error("Must be an image");
@@ -88,7 +88,7 @@ export async function regenerateCharacterReference(
   characterId: string,
   mode?: string,
 ): Promise<{ url: string }> {
-  await requireAdminAction();
+  await requireCreativeAction();
   const state = await readCharacters();
   const character = state.characters.find((c) => c.id === characterId);
   if (!character) throw new Error("Character not found");
@@ -164,7 +164,7 @@ export async function validateCharacterRender(
   characterId: string,
   mode?: string,
 ): Promise<{ url: string; condensedPrompt: string }> {
-  await requireAdminAction();
+  await requireCreativeAction();
   const state = await readCharacters();
   const character = state.characters.find((c) => c.id === characterId);
   if (!character) throw new Error("Character not found");
