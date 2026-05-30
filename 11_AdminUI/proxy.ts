@@ -45,9 +45,23 @@ const PUBLIC_PREFIXES = [
   "/api/notify",
 ];
 
+const CREATIVE_PREFIXES = [
+  "/ai",
+  "/videos",
+  "/characters",
+  "/brand",
+  "/api/generate",
+  "/api/validate-models",
+  "/api/dev/char-",
+];
+
 function isPublic(pathname: string): boolean {
   if (pathname === "/") return true;
   return PUBLIC_PREFIXES.some((p) => pathname === p || pathname.startsWith(p));
+}
+
+function isCreative(pathname: string): boolean {
+  return CREATIVE_PREFIXES.some((p) => pathname === p || pathname.startsWith(p));
 }
 
 export async function proxy(req: NextRequest) {
@@ -62,6 +76,7 @@ export async function proxy(req: NextRequest) {
   if (token && rawSecret) {
     try {
       const { payload } = await jwtVerify(token, secret);
+      const role = payload.role;
 
       // Reject tokens issued before session floor ("end all sessions")
       const floor = await getSessionFloor();
@@ -74,7 +89,21 @@ export async function proxy(req: NextRequest) {
         return res;
       }
 
-      return NextResponse.next();
+      if (role === "admin" && !isCreative(pathname)) {
+        return NextResponse.next();
+      }
+
+      if (role === "art_director" && isCreative(pathname)) {
+        return NextResponse.next();
+      }
+
+      if (role === "admin" && isCreative(pathname)) {
+        return NextResponse.redirect(new URL("/dashboard", req.url));
+      }
+
+      if (role === "art_director") {
+        return NextResponse.redirect(new URL("/ai", req.url));
+      }
     } catch {
       // Token invalid or expired - fall through to redirect
     }

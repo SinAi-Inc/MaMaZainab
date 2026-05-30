@@ -8,10 +8,10 @@
  * Only enabled when NODE_ENV !== "production".
  */
 import { NextRequest, NextResponse } from "next/server";
-import { requireAdmin } from "@/lib/api-guard";
+import { requireCreative } from "@/lib/api-guard";
 
 export async function GET(req: NextRequest) {
-  const denied = await requireAdmin(req);
+  const denied = await requireCreative(req);
   if (denied) return denied;
 
   if (process.env.NODE_ENV === "production") {

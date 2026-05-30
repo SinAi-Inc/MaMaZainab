@@ -1,12 +1,9 @@
 import Link from "next/link";
 import {
   UtensilsCrossed,
-  Video,
-  Users,
   Mail,
   ArrowRight,
   TrendingUp,
-  CheckCircle2,
   Clock,
   AlertCircle,
   Tag,
@@ -15,13 +12,10 @@ import {
   LayoutDashboard,
 } from "lucide-react";
 import { readMenu } from "@/lib/menu/store";
-import { readStudio } from "@/lib/videos/store";
-import { readCharacters } from "@/lib/characters/store";
 import { readContacts } from "@/lib/contacts/store";
 import { Card, CardBody } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 import { SyncMenuButton } from "./_components/sync-menu-button";
-import { HitlReviewQueue, type ReadyTake } from "./_components/hitl-review-queue";
 
 export const dynamic = "force-dynamic";
 
@@ -129,10 +123,8 @@ function QuickAction({
 /* Page                                                                 */
 /* ------------------------------------------------------------------ */
 export default async function DashboardPage() {
-  const [menu, studio, chars, contacts] = await Promise.all([
+  const [menu, contacts] = await Promise.all([
     readMenu(),
-    readStudio(),
-    readCharacters(),
     readContacts(),
   ]);
 
@@ -141,31 +133,8 @@ export default async function DashboardPage() {
   const totalCategories = menu.categories.filter((c) => c.visible).length;
   const noSkuCount = menu.items.filter((i) => i.available && !i.sku).length;
 
-  // Video stats
-  const totalProjects = studio.projects.length;
-  const totalShots = studio.shots.length;
-  const approvedShots = studio.shots.filter((s) => s.status === "approved").length;
-  const videoProgress = totalShots
-    ? Math.round((approvedShots / totalShots) * 100)
-    : 0;
-
-  // Character stats
-  const activeChars = chars.characters.filter((c) => c.active).length;
-  const totalChars = chars.characters.length;
-
   // Contact stats
   const totalContacts = contacts.contacts.length;
-
-  // HITL — takes registered and awaiting human approval
-  const readyTakes: ReadyTake[] = studio.takes
-    .filter((t) => t.status === "ready")
-    .map((take) => {
-      const shot = studio.shots.find((s) => s.id === take.shotId);
-      const project = studio.projects.find((p) => p.id === take.projectId);
-      return shot && project ? { take, shot, project } : null;
-    })
-    .filter((x): x is ReadyTake => x !== null)
-    .slice(0, 10);
 
   return (
     <div className="space-y-8 max-w-6xl">
@@ -174,7 +143,7 @@ export default async function DashboardPage() {
         <p className="text-xs uppercase tracking-[0.2em] text-muted">Overview</p>
         <h1 className="text-2xl font-semibold mt-1">Dashboard</h1>
         <p className="text-sm text-muted mt-1">
-          Live snapshot of the MaMa Zainab brand admin system.
+          Live snapshot of the MaMa Zainab admin operating system.
         </p>
       </div>
 
@@ -189,19 +158,11 @@ export default async function DashboardPage() {
           accent="green"
         />
         <StatCard
-          label="Video Projects"
-          value={totalProjects}
-          sub={`${approvedShots}/${totalShots} shots approved`}
-          icon={Video}
-          href="/videos"
-          accent="blue"
-        />
-        <StatCard
-          label="Characters"
-          value={activeChars}
-          sub={`${totalChars} total · ${totalChars - activeChars} draft`}
-          icon={Users}
-          href="/characters"
+          label="Missing SKU"
+          value={noSkuCount}
+          sub={noSkuCount === 0 ? "Catalog ready" : "Needs menu cleanup"}
+          icon={Tag}
+          href="/menu"
           accent="yellow"
         />
         <StatCard
@@ -212,13 +173,21 @@ export default async function DashboardPage() {
           href="/contacts"
           accent="green"
         />
+        <StatCard
+          label="Public Menu"
+          value="Ready"
+          sub="Preview and print available"
+          icon={Eye}
+          href="/menu/preview"
+          accent="blue"
+        />
       </div>
 
       {/* ── Command Center (HITL controls) ──────────────────────────── */}
       <div>
         <p className="text-xs uppercase tracking-[0.2em] text-muted mb-1">Command Center</p>
         <p className="text-sm text-muted mb-4">
-          Owner-controlled actions — you decide, the system executes.
+          Owner-controlled actions - you decide, the system executes.
         </p>
         <div className="grid sm:grid-cols-2 xl:grid-cols-3 gap-4">
           {/* Publish Menu */}
@@ -247,7 +216,7 @@ export default async function DashboardPage() {
               <div className="flex-1 min-w-0">
                 <p className="font-semibold text-sm">Public Preview</p>
                 <p className="text-xs text-muted mt-0.5 leading-snug">
-                  See exactly what customers see — landing page and menu.
+                  See exactly what customers see - landing page and menu.
                 </p>
                 <div className="mt-3 flex flex-wrap gap-2">
                   <Link
@@ -279,7 +248,7 @@ export default async function DashboardPage() {
                 <div className="flex-1 min-w-0">
                   <p className="font-semibold text-sm">Owner's Eye</p>
                   <p className="text-xs text-muted mt-0.5 leading-snug">
-                    5-layer operating system hub — frontline, ops, AI, growth, governance.
+                    5-layer operating system hub - frontline, operations, growth, governance.
                   </p>
                   <div className="mt-3 inline-flex items-center gap-1 text-xs font-semibold text-brand-green-deep">
                     Open <ArrowRight className="size-3" />
@@ -289,15 +258,6 @@ export default async function DashboardPage() {
             </Link>
           </Card>
         </div>
-      </div>
-
-      {/* ── HITL Review Queue ───────────────────────────────────── */}
-      <div>
-        <p className="text-xs uppercase tracking-[0.2em] text-muted mb-1">Human in the Loop</p>
-        <p className="text-sm text-muted mb-4">
-          AI-generated takes waiting for your review before they enter the cut.
-        </p>
-        <HitlReviewQueue items={readyTakes} />
       </div>
 
       {/* Two-column: status + quick actions */}
@@ -323,24 +283,6 @@ export default async function DashboardPage() {
               tone={noSkuCount === 0 ? "green" : "red"}
             />
             <ActivityRow
-              icon={Video}
-              label="Video production progress"
-              value={`${videoProgress}%`}
-              tone={videoProgress >= 80 ? "green" : videoProgress >= 40 ? "yellow" : "red"}
-            />
-            <ActivityRow
-              icon={CheckCircle2}
-              label="Approved shots"
-              value={`${approvedShots} / ${totalShots}`}
-              tone="green"
-            />
-            <ActivityRow
-              icon={Users}
-              label="Active characters"
-              value={`${activeChars} / ${totalChars}`}
-              tone={activeChars > 0 ? "green" : "yellow"}
-            />
-            <ActivityRow
               icon={Clock}
               label="Print menu"
               value="Ready"
@@ -358,8 +300,6 @@ export default async function DashboardPage() {
             </h3>
             <div className="grid gap-2">
               <QuickAction href="/menu/items/new" label="Add menu item" icon={UtensilsCrossed} />
-              <QuickAction href="/videos/new" label="New video project" icon={Video} />
-              <QuickAction href="/characters/new" label="New character" icon={Users} />
               <QuickAction href="/menu/print" label="Print / Save PDF menu" icon={UtensilsCrossed} />
               <QuickAction href="/menu/preview" label="Preview public menu" icon={UtensilsCrossed} />
               <QuickAction href="/contacts" label="View subscriber list" icon={Mail} />
@@ -369,7 +309,7 @@ export default async function DashboardPage() {
       </div>
 
       {/* Content summaries */}
-      <div className="grid xl:grid-cols-3 gap-6">
+      <div className="grid xl:grid-cols-2 gap-6">
         {/* Recent menu items */}
         <Card>
           <CardBody>
@@ -395,91 +335,28 @@ export default async function DashboardPage() {
           </CardBody>
         </Card>
 
-        {/* Video projects */}
         <Card>
           <CardBody>
             <div className="flex items-center justify-between mb-4">
-              <h3 className="font-semibold">Video projects</h3>
-              <Link href="/videos" className="text-xs text-brand-green-deep hover:underline">
+              <h3 className="font-semibold">Subscribers</h3>
+              <Link href="/contacts" className="text-xs text-brand-green-deep hover:underline">
                 View all →
               </Link>
             </div>
-            {studio.projects.length === 0 ? (
-              <p className="text-sm text-muted">No projects yet.</p>
+            {contacts.contacts.length === 0 ? (
+              <p className="text-sm text-muted">No subscribers yet.</p>
             ) : (
-              <ul className="space-y-2.5">
-                {studio.projects.slice(0, 5).map((p) => {
-                  const pShots = studio.shots.filter((s) => s.projectId === p.id);
-                  const pApproved = pShots.filter((s) => s.status === "approved").length;
-                  const pct = pShots.length
-                    ? Math.round((pApproved / pShots.length) * 100)
-                    : 0;
-                  return (
-                    <li key={p.id}>
-                      <Link
-                        href={`/videos/${p.id}`}
-                        className="block hover:text-brand-green-deep transition-colors"
-                      >
-                        <div className="flex items-center justify-between text-sm">
-                          <span className="truncate font-medium">{p.title}</span>
-                          <span className="text-xs text-muted ml-2 shrink-0">{pct}%</span>
-                        </div>
-                        <div className="mt-1 h-1 bg-zinc-200 rounded-full overflow-hidden">
-                          <div
-                            className="h-full bg-brand-green rounded-full transition-all"
-                            style={{ width: `${pct}%` }}
-                          />
-                        </div>
-                      </Link>
-                    </li>
-                  );
-                })}
+              <ul className="space-y-2">
+                {contacts.contacts.slice(0, 6).map((contact) => (
+                  <li key={contact.id} className="flex items-center justify-between text-sm">
+                    <span className="truncate text-brand-ink">{contact.email}</span>
+                    <span className="text-[10px] text-muted ml-2 shrink-0">
+                      {new Date(contact.subscribedAt).toLocaleDateString()}
+                    </span>
+                  </li>
+                ))}
               </ul>
             )}
-          </CardBody>
-        </Card>
-
-        {/* Characters */}
-        <Card>
-          <CardBody>
-            <div className="flex items-center justify-between mb-4">
-              <h3 className="font-semibold">Characters</h3>
-              <Link href="/characters" className="text-xs text-brand-green-deep hover:underline">
-                View all →
-              </Link>
-            </div>
-            <ul className="space-y-3">
-              {chars.characters.slice(0, 5).map((c) => (
-                <li key={c.id} className="flex items-center gap-3">
-                  {c.referenceImages?.[0]?.url ? (
-                    // eslint-disable-next-line @next/next/no-img-element
-                    <img
-                      src={c.referenceImages[0].url}
-                      alt={c.name}
-                      className="size-8 rounded-full object-cover border border-border shrink-0"
-                    />
-                  ) : (
-                    <div className="size-8 rounded-full bg-brand-green/10 flex items-center justify-center shrink-0">
-                      <Users className="size-4 text-brand-green" />
-                    </div>
-                  )}
-                  <div className="flex-1 min-w-0">
-                    <p className="text-sm font-medium truncate">{c.name}</p>
-                    <p className="text-[11px] text-muted">{c.subtitle}</p>
-                  </div>
-                  <span
-                    className={cn(
-                      "text-[10px] px-1.5 py-0.5 rounded-full font-medium",
-                      c.active
-                        ? "bg-brand-green/10 text-brand-green-deep"
-                        : "bg-zinc-200 text-zinc-500"
-                    )}
-                  >
-                    {c.active ? "Active" : "Draft"}
-                  </span>
-                </li>
-              ))}
-            </ul>
           </CardBody>
         </Card>
       </div>
