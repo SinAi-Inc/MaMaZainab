@@ -10,7 +10,7 @@ import { pickProvider, getProvider } from "./provider";
 import { checkBrandLock, buildNegativePrompt, autoExpandAnchors, checkKeyframeGate } from "./brand-lock";
 import { estimateVideoCost } from "./cost";
 import { recordGeneration } from "@/lib/generations/actions";
-import { requireAdminAction } from "@/lib/server-action-auth";
+import { requireCreativeAction } from "@/lib/server-action-auth";
 
 const now = () => new Date().toISOString();
 
@@ -27,7 +27,7 @@ export type SubmitJobResult =
  * - Stores the job, calls provider.submit(), returns the job record
  */
 export async function submitVideoJob(input: unknown): Promise<SubmitJobResult> {
-  await requireAdminAction();
+  await requireCreativeAction();
   let parsed: VideoJobInput;
   try {
     parsed = VideoJobInputSchema.parse(input);
@@ -194,7 +194,7 @@ export async function submitVideoJob(input: unknown): Promise<SubmitJobResult> {
  * Called by the UI on a setInterval.
  */
 export async function pollVideoJob(id: string): Promise<VideoJob | null> {
-  await requireAdminAction();
+  await requireCreativeAction();
   const job = await getJob(id);
   if (!job) return null;
   if (job.status === "completed" || job.status === "failed" || job.status === "canceled") {
@@ -224,7 +224,7 @@ export async function pollVideoJob(id: string): Promise<VideoJob | null> {
 }
 
 export async function cancelVideoJob(id: string): Promise<VideoJob | null> {
-  await requireAdminAction();
+  await requireCreativeAction();
   const job = await getJob(id);
   if (!job) return null;
   const provider = await getProvider(job.providerId);
@@ -243,7 +243,7 @@ export async function cancelVideoJob(id: string): Promise<VideoJob | null> {
 }
 
 export async function deleteVideoJob(id: string): Promise<void> {
-  await requireAdminAction();
+  await requireCreativeAction();
   await deleteJob(id);
   revalidatePath("/ai");
 }
@@ -253,11 +253,11 @@ export async function listVideoJobs(filter?: {
   shotId?: string;
   limit?: number;
 }): Promise<VideoJob[]> {
-  await requireAdminAction();
+  await requireCreativeAction();
   return listJobs(filter);
 }
 
 export async function getProjectSpend(projectId: string): Promise<number> {
-  await requireAdminAction();
+  await requireCreativeAction();
   return sumProjectSpend(projectId);
 }

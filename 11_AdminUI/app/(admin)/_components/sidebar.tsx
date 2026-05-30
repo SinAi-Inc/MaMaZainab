@@ -19,6 +19,7 @@ import {
   ChevronRight,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import type { SessionRole } from "@/lib/auth";
 import { useSidebar } from "./sidebar-context";
 
 type NavItem = {
@@ -44,20 +45,6 @@ const NAV: { section: string; items: NavItem[] }[] = [
     ],
   },
   {
-    section: "Creative",
-    items: [
-      { href: "/ai", label: "Studio", icon: Sparkles, status: "active" },
-      { href: "/videos", label: "Video Projects", icon: Video, status: "active" },
-    ],
-  },
-  {
-    section: "Brand",
-    items: [
-      { href: "/characters", label: "Characters", icon: Users, status: "active" },
-      { href: "/brand", label: "Brand Bible", icon: BookOpen, status: "active" },
-    ],
-  },
-  {
     section: "Business",
     items: [
       { href: "/partners", label: "Investors & Partners", icon: Handshake, status: "active" },
@@ -69,6 +56,23 @@ const NAV: { section: string; items: NavItem[] }[] = [
       { href: "/website", label: "Website", icon: Globe, status: "active" },
       { href: "/contacts", label: "Contacts", icon: Mail, status: "active" },
       { href: "/settings", label: "Settings", icon: Settings, status: "active" },
+    ],
+  },
+];
+
+const MEDIA_HUB_NAV: { section: string; items: NavItem[] }[] = [
+  {
+    section: "Media Hub",
+    items: [
+      { href: "/ai", label: "Studio", icon: Sparkles, status: "active" },
+      { href: "/videos", label: "Video Projects", icon: Video, status: "active" },
+    ],
+  },
+  {
+    section: "Brand Assets",
+    items: [
+      { href: "/characters", label: "Characters", icon: Users, status: "active" },
+      { href: "/brand", label: "Brand Bible", icon: BookOpen, status: "active" },
     ],
   },
 ];
@@ -120,7 +124,7 @@ function NavLink({
           )}
         </Link>
 
-        {/* Floating tooltip — shown only in icon-only mode */}
+        {/* Floating tooltip - shown only in icon-only mode */}
         {collapsed && (
           <div
             className="pointer-events-none absolute left-full top-1/2 -translate-y-1/2 ml-3
@@ -138,13 +142,15 @@ function NavLink({
 }
 
 // ── Sidebar ────────────────────────────────────────────────────────────────
-export function Sidebar() {
+export function Sidebar({ role }: { role: SessionRole }) {
   const pathname = usePathname();
   const { mode, mobileOpen, toggle, toggleMobile, closeMobile } = useSidebar();
+  const nav = role === "art_director" ? MEDIA_HUB_NAV : NAV;
+  const productLabel = role === "art_director" ? "Media Hub" : "Admin OS";
 
   const collapsed = mode === "collapsed";
 
-  // Track viewport size — drives mobile-specific behaviour
+  // Track viewport size - drives mobile-specific behaviour
   const [isMobile, setIsMobile] = useState(false);
   useEffect(() => {
     const check = () => setIsMobile(window.innerWidth < 768);
@@ -167,7 +173,7 @@ export function Sidebar() {
 
   return (
     <>
-      {/* Mobile backdrop — shown only when mobile overlay is open */}
+      {/* Mobile backdrop - shown only when mobile overlay is open */}
       {mobileOpen && isMobile && (
         <div
           className="fixed inset-0 z-40 bg-black/50"
@@ -238,7 +244,7 @@ export function Sidebar() {
               </button>
             </div>
             <div className="mt-2 font-[family-name:var(--font-brand)] text-[11px] tracking-[0.28em] text-sidebar-muted text-center">
-              Brand Admin
+              {productLabel}
             </div>
           </div>
         )}
@@ -250,9 +256,9 @@ export function Sidebar() {
             isIconOnly ? "px-1" : "px-3"
           )}
         >
-          {NAV.map((sec) => (
+          {nav.map((sec) => (
             <div key={sec.section}>
-              {/* Section label — hidden in icon-only mode */}
+              {/* Section label - hidden in icon-only mode */}
               {!isIconOnly && (
                 <div className="px-3 mb-2 text-[10px] uppercase tracking-[0.16em] text-sidebar-muted select-none">
                   {sec.section}

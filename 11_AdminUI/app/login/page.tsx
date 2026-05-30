@@ -10,7 +10,7 @@ function LoginForm() {
   const params = useSearchParams();
   const next = params.get("next") ?? "/dashboard";
 
-  const [email, setEmail] = useState("admin@mamazainab.com");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPw, setShowPw] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -29,14 +29,22 @@ function LoginForm() {
         });
 
         if (res.ok) {
-          router.push(next);
+          const data = await res.json().catch(() => ({}));
+          const creativePrefixes = ["/ai", "/videos", "/characters", "/brand"];
+          const isCreativeNext = creativePrefixes.some(
+            (prefix) => next === prefix || next.startsWith(`${prefix}/`),
+          );
+          const target =
+            data.role === "art_director" && !isCreativeNext ? "/ai" : next;
+
+          router.push(target);
           router.refresh();
         } else {
           const data = await res.json().catch(() => ({}));
           setError(data.error ?? "Login failed");
         }
       } catch {
-        setError("Network error — please try again");
+        setError("Network error - please try again");
       }
     });
   }
@@ -45,13 +53,13 @@ function LoginForm() {
     <form onSubmit={handleSubmit} className="space-y-4">
       <div>
         <label
-          htmlFor="admin-email"
+          htmlFor="access-email"
           className="block text-[11px] uppercase tracking-[0.18em] text-white/60 mb-1.5"
         >
           Email
         </label>
         <input
-          id="admin-email"
+          id="access-email"
           type="email"
           autoComplete="email"
           value={email}
@@ -63,14 +71,14 @@ function LoginForm() {
 
       <div>
         <label
-          htmlFor="admin-password"
+          htmlFor="access-password"
           className="block text-[11px] uppercase tracking-[0.18em] text-white/60 mb-1.5"
         >
           Password
         </label>
         <div className="relative">
           <input
-            id="admin-password"
+            id="access-password"
             type={showPw ? "text" : "password"}
             autoComplete="current-password"
             value={password}
@@ -138,7 +146,7 @@ export default function LoginPage() {
               draggable={false}
             />
             <div className="mt-3 font-[family-name:var(--font-brand)] text-[10px] tracking-[0.3em] text-brand-yellow/80 uppercase">
-              Admin Access
+              Secure Access
             </div>
           </div>
 
@@ -148,7 +156,7 @@ export default function LoginPage() {
 
           {/* Footer */}
           <div className="mt-6 text-center text-[10px] text-white/30 tracking-wider">
-            MaMa Zainab · Brand Admin · 2026
+            MaMa Zainab · Tool Access · 2026
           </div>
         </div>
       </div>

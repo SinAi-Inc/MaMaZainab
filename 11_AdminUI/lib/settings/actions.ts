@@ -68,7 +68,7 @@ export async function terminateOtherSessions(): Promise<{ ok: boolean; error?: s
     await writeSettings(settings);
 
     // Re-issue a fresh token for the current session
-    const token = await createSessionToken();
+    const token = await createSessionToken("admin", settings.email);
     const jar = await cookies();
     jar.set(COOKIE_NAME, token, {
       httpOnly: true,

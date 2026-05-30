@@ -1,12 +1,15 @@
 import { NextRequest, NextResponse } from "next/server";
-import { requireAdmin } from "@/lib/api-guard";
+import { requireCreative } from "@/lib/api-guard";
 
 export async function POST(req: NextRequest) {
-  const denied = await requireAdmin(req);
+  const denied = await requireCreative(req);
   if (denied) return denied;
 
   return NextResponse.json(
-    { error: "Video generation is temporarily unavailable. The NVIDIA Stable Video Diffusion model has been deprecated." },
-    { status: 503 },
+    {
+      error:
+        "This legacy video API has been retired. Use the Studio video workflow, which submits provider-backed jobs through server actions.",
+    },
+    { status: 410 },
   );
 }

@@ -6,7 +6,7 @@ import { randomBytes } from "node:crypto";
 import { readGenerations, addGeneration, deleteGeneration, clearGenerations } from "./store";
 import { estimateCostUsd } from "@/lib/ai/cost";
 import { isSupabaseConfigured, getSupabase } from "@/lib/supabase";
-import { requireAdminAction } from "@/lib/server-action-auth";
+import { requireCreativeAction } from "@/lib/server-action-auth";
 import type { GenerationEntry, GenerationState } from "./schema";
 
 const UPLOAD_DIR = path.join(process.cwd(), "public", "uploads", "generations");
@@ -23,7 +23,7 @@ export async function saveGeneratedImage(
   base64: string,
   ext: string = "jpg",
 ): Promise<string> {
-  await requireAdminAction();
+  await requireCreativeAction();
   const slug = randomBytes(8).toString("hex");
   const safeExt = sanitizeExtension(ext);
   const filename = `${slug}.${safeExt}`;
@@ -61,7 +61,7 @@ type RecordInput = Omit<GenerationEntry, "id" | "createdAt"> & { base64Output?: 
 export async function recordGeneration(
   input: Partial<RecordInput> & Pick<RecordInput, "type" | "model" | "prompt">,
 ): Promise<GenerationEntry> {
-  await requireAdminAction();
+  await requireCreativeAction();
   const entry = {
     characterAnchor: "",
     sceneContext: "",
@@ -104,18 +104,18 @@ export async function recordGeneration(
 
 /** Get all history entries. */
 export async function getHistory(): Promise<GenerationState> {
-  await requireAdminAction();
+  await requireCreativeAction();
   return readGenerations();
 }
 
 /** Delete a single history entry. */
 export async function removeHistoryEntry(id: string): Promise<void> {
-  await requireAdminAction();
+  await requireCreativeAction();
   await deleteGeneration(id);
 }
 
 /** Clear all history. */
 export async function clearHistory(): Promise<void> {
-  await requireAdminAction();
+  await requireCreativeAction();
   await clearGenerations();
 }

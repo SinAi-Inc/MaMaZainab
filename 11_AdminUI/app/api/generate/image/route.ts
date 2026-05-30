@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { generateImage, NVIDIA_IMAGE_MODELS, nimAvailable, type NvidiaImageModelId } from "@/lib/nvidia/client";
-import { requireAdmin } from "@/lib/api-guard";
+import { requireCreative } from "@/lib/api-guard";
 import { generateImageLimiter } from "@/lib/rate-limit";
 import { recordGeneration } from "@/lib/generations/actions";
 
@@ -13,7 +13,7 @@ const VALID_MODELS = new Set(
   NVIDIA_IMAGE_MODELS.filter((m) => !m.nimOnly || nimAvailable()).map((m) => m.id)
 );
 
-// NVIDIA FLUX.1 practical prompt limit — beyond ~2000 chars quality degrades
+// NVIDIA FLUX.1 practical prompt limit - beyond ~2000 chars quality degrades
 const MAX_PROMPT_CHARS = 3000;
 
 function aspectToSize(aspect: string): { width: number; height: number } {
@@ -28,7 +28,7 @@ function aspectToSize(aspect: string): { width: number; height: number } {
 }
 
 export async function POST(req: NextRequest) {
-  const denied = await requireAdmin(req);
+  const denied = await requireCreative(req);
   if (denied) return denied;
 
   const limited = generateImageLimiter(req);
@@ -56,7 +56,7 @@ export async function POST(req: NextRequest) {
 
     if (typeof prompt !== "string" || prompt.length > MAX_PROMPT_CHARS) {
       return NextResponse.json(
-        { error: `Prompt too long (${prompt.length} chars) — keep under ${MAX_PROMPT_CHARS}` },
+        { error: `Prompt too long (${prompt.length} chars) - keep under ${MAX_PROMPT_CHARS}` },
         { status: 400 },
       );
     }
@@ -72,7 +72,7 @@ export async function POST(req: NextRequest) {
 
     const elapsedMs = Date.now() - startTime;
 
-    // Save to generation history server-side — survives browser tab switches/disconnects
+    // Save to generation history server-side - survives browser tab switches/disconnects
     let savedEntry;
     try {
       savedEntry = await recordGeneration({
@@ -87,7 +87,7 @@ export async function POST(req: NextRequest) {
         base64Output: result.image,
       });
     } catch (saveErr) {
-      // Non-fatal — still return the image even if history save fails
+      // Non-fatal - still return the image even if history save fails
       const saveMsg = saveErr instanceof Error ? saveErr.message : "unknown";
       console.error("[/api/generate/image] history save failed:", String(saveMsg).slice(0, 500).replace(/[\r\n]/g, " "));
     }
