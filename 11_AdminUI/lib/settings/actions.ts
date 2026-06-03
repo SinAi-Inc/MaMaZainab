@@ -5,6 +5,7 @@ import { revalidatePath } from "next/cache";
 import { SettingsSchema } from "./schema";
 import { readSettings, writeSettings } from "./store";
 import { createSessionToken, COOKIE_NAME, MAX_AGE_SECONDS } from "@/lib/auth";
+import { SESSION_TIMEOUT_SETTING } from "@/lib/session-limits";
 import { requireAdminAction } from "@/lib/server-action-auth";
 
 export async function saveSettings(formData: FormData) {
@@ -41,7 +42,7 @@ export async function saveSettings(formData: FormData) {
     socialYoutube: formData.get("socialYoutube") ?? existing.socialYoutube,
     socialWhatsapp: formData.get("socialWhatsapp") ?? existing.socialWhatsapp,
     // Security
-    sessionTimeout: formData.get("sessionTimeout") ?? existing.sessionTimeout,
+    sessionTimeout: SESSION_TIMEOUT_SETTING,
     requirePassword: formData.get("requirePassword") === "on",
     adminPassword: formData.get("adminPassword") ?? existing.adminPassword,
     allowPublicMenu: formData.get("allowPublicMenu") === "on",

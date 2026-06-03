@@ -1,8 +1,9 @@
 import { SignJWT, jwtVerify } from "jose";
 import { readSettings } from "@/lib/settings/store";
+import { SESSION_MAX_AGE_SECONDS } from "@/lib/session-limits";
 
 export const COOKIE_NAME = "mz_admin_session";
-export const MAX_AGE_SECONDS = 60 * 60 * 8; // 8 hours
+export const MAX_AGE_SECONDS = SESSION_MAX_AGE_SECONDS;
 export const SESSION_ROLES = ["admin", "art_director"] as const;
 export type SessionRole = (typeof SESSION_ROLES)[number];
 export type SessionUser = {
@@ -21,6 +22,12 @@ function getSecret(): Uint8Array {
 
 function isSessionRole(value: unknown): value is SessionRole {
   return typeof value === "string" && SESSION_ROLES.includes(value as SessionRole);
+}
+
+function isWithinHardSessionLimit(iat: unknown): boolean {
+  if (typeof iat !== "number") return false;
+  const now = Math.floor(Date.now() / 1000);
+  return now - iat <= MAX_AGE_SECONDS;
 }
 
 export async function createSessionToken(
@@ -42,6 +49,7 @@ export async function readSessionToken(
     const { payload } = await jwtVerify(token, getSecret());
     const role = payload.role;
     if (!isSessionRole(role) || !allowedRoles.includes(role)) return null;
+    if (!isWithinHardSessionLimit(payload.iat)) return null;
     const email = typeof payload.email === "string" ? payload.email : undefined;
 
     // Reject tokens issued before the session floor ("end all sessions")
