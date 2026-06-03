@@ -3,7 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { nanoid } from "nanoid";
 import { uploadFile } from "@/lib/upload";
-import { requireCreativeAction } from "@/lib/server-action-auth";
+import { requireAdminOrCreativeAction } from "@/lib/server-action-auth";
 import {
   BrandMediaAssetSchema,
   type BrandMediaAsset,
@@ -15,12 +15,12 @@ import {
 } from "./store";
 
 export async function getBrandMedia() {
-  await requireCreativeAction();
+  await requireAdminOrCreativeAction();
   return readBrandMedia();
 }
 
 export async function uploadBrandMediaFile(formData: FormData): Promise<string> {
-  await requireCreativeAction();
+  await requireAdminOrCreativeAction();
   const file = formData.get("file");
   if (!(file instanceof File) || file.size === 0) {
     throw new Error("No file uploaded");
@@ -33,7 +33,7 @@ export async function saveBrandMediaAsset(
   input: BrandMediaAsset,
 ): Promise<{ data?: BrandMediaAsset; error?: string }> {
   try {
-    await requireCreativeAction();
+    await requireAdminOrCreativeAction();
     const timestamp = new Date().toISOString();
     const asset = BrandMediaAssetSchema.parse({
       ...input,
@@ -55,7 +55,7 @@ export async function saveBrandMediaAsset(
 
 export async function removeBrandMediaAsset(id: string): Promise<{ error?: string }> {
   try {
-    await requireCreativeAction();
+    await requireAdminOrCreativeAction();
     await deleteBrandMediaAsset(id);
     revalidatePath("/partners");
     revalidatePath("/partner-portal");
