@@ -35,7 +35,7 @@ export const ProjectSchema = z.object({
   /** Long-form synopsis */
   synopsis: z.string().default(""),
   status: ProjectStatusSchema.default("concept"),
-  /** Markdown script — source of truth */
+  /** Markdown script - source of truth */
   script: z.string().default(""),
   /** Path to original .md script file under repo (if uploaded) */
   scriptSourcePath: z.string().default(""),
@@ -103,6 +103,7 @@ export const SHOT_TYPE_META: Record<ShotType, { label: string }> = {
 export const ShotStatusSchema = z.enum([
   "pending",
   "prompted",
+  "keyframed",
   "approved",
   "blocked",
 ]);
@@ -114,6 +115,7 @@ export const SHOT_STATUS_META: Record<
 > = {
   pending: { label: "Pending", tone: "neutral" },
   prompted: { label: "Prompted", tone: "info" },
+  keyframed: { label: "Keyframed", tone: "info" },
   approved: { label: "Approved", tone: "success" },
   blocked: { label: "Blocked", tone: "danger" },
 };
@@ -141,7 +143,7 @@ export const ShotSchema = z.object({
   keyframeUrl: z.string().default(""),
   /** ISO timestamp when a human approved the keyframe (gate for motion). */
   keyframeApprovedAt: z.string().default(""),
-  /** Seed used to generate the locked keyframe — for re-rolls. */
+  /** Seed used to generate the locked keyframe - for re-rolls. */
   keyframeSeed: z.coerce.number().int().default(0),
   /** History of previously generated keyframes for this shot (newest first). */
   keyframeHistory: z
@@ -237,7 +239,7 @@ export const TakeSchema = z.object({
   thumbnailUrl: z.string().default(""),
   durationSec: z.coerce.number().int().min(0).default(0),
   notes: z.string().default(""),
-  /** Brand-lock injection audit — which elements were present in the prompt */
+  /** Brand-lock injection audit - which elements were present in the prompt */
   brandLock: BrandLockCheckSchema.optional(),
   createdAt: z.string(),
   updatedAt: z.string(),
