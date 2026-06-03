@@ -30,6 +30,21 @@ export function isSupabaseConfigured(): boolean {
   return getClient() !== null;
 }
 
+/** True when running on Vercel's hosted runtime. */
+export function isVercelRuntime(): boolean {
+  return process.env.VERCEL === "1";
+}
+
+/** Production writes must not silently fall back to local JSON or disk. */
+export function requireSupabaseConfigured(operation: string): void {
+  if (isSupabaseConfigured()) return;
+
+  throw new Error(
+    `${operation} requires NEXT_PUBLIC_SUPABASE_URL and SUPABASE_SECRET_KEY in Vercel. ` +
+      "Set both environment variables and redeploy.",
+  );
+}
+
 /** Server-side Supabase client (service role - full access). Lazy-init. Throws if not configured. */
 export function getSupabase(): SupabaseClient {
   const c = getClient();

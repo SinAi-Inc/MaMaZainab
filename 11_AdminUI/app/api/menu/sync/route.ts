@@ -1,7 +1,7 @@
 import { type NextRequest, NextResponse } from "next/server";
-import { isSupabaseConfigured, getSupabase } from "@/lib/supabase";
-import { toSnake } from "@/lib/case";
+import { isSupabaseConfigured } from "@/lib/supabase";
 import { MenuStateSchema } from "@/lib/menu/schema";
+import { writeMenu } from "@/lib/menu/store";
 import { verifySessionToken, COOKIE_NAME } from "@/lib/auth";
 import { menuSyncLimiter } from "@/lib/rate-limit";
 import menuData from "@/data/menu.json";
@@ -33,43 +33,17 @@ export async function POST(req: NextRequest) {
   // Parse the bundled menu.json (included at build time)
   const state = MenuStateSchema.parse(menuData);
 
-  const sb = getSupabase();
-
-  // Clear and re-insert (matching writeMenu pattern)
-  await sb.from("menu_items").delete().neq("id", "");
-  await sb.from("menu_categories").delete().neq("id", "");
-
-  let catCount = 0;
-  let itemCount = 0;
-
-  if (state.categories.length > 0) {
-    const catRows = state.categories.map((c) =>
-      toSnake(c as unknown as Record<string, unknown>),
+  try {
+    await writeMenu(state);
+  } catch (error) {
+    return NextResponse.json(
+      { error: error instanceof Error ? error.message : "Menu sync failed" },
+      { status: 500 },
     );
-    const { error } = await sb.from("menu_categories").insert(catRows);
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
-    catCount = catRows.length;
-  }
-
-  if (state.items.length > 0) {
-    const itemRows = state.items.map((i) => {
-      const row = toSnake(i as unknown as Record<string, unknown>);
-      // Supabase stores badges as JSONB text - ensure array is serialized
-      if (Array.isArray(row.badges)) {
-        row.badges = JSON.stringify(row.badges);
-      }
-      if (Array.isArray(row.highlights)) {
-        row.highlights = JSON.stringify(row.highlights);
-      }
-      return row;
-    });
-    const { error } = await sb.from("menu_items").insert(itemRows);
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
-    itemCount = itemRows.length;
   }
 
   return NextResponse.json({
     ok: true,
-    synced: { categories: catCount, items: itemCount },
+    synced: { categories: state.categories.length, items: state.items.length },
   });
 }
