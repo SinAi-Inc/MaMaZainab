@@ -7,6 +7,7 @@ import { Card, CardBody } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import type { Settings as SettingsType } from "@/lib/settings/schema";
+import { SESSION_TIMEOUT_MINUTES, SESSION_TIMEOUT_SETTING } from "@/lib/session-limits";
 import { saveSettings, terminateOtherSessions } from "@/lib/settings/actions";
 
 function SectionHeader({
@@ -257,17 +258,15 @@ export function SettingsForm({ settings }: { settings: SettingsType }) {
         <CardBody>
           <SectionHeader icon={Shield} title="Security" description="Access control, password, and privacy settings" />
           <FieldRow label="Session Timeout">
-            <select
-              name="sessionTimeout"
-              title="Session Timeout"
-              defaultValue={settings.sessionTimeout}
-              className="w-full text-sm border border-border rounded-md px-2 py-1.5 bg-white"
-            >
-              <option value="15">15 minutes</option>
-              <option value="30">30 minutes</option>
-              <option value="60">60 minutes</option>
-              <option value="120">2 hours</option>
-            </select>
+            <div className="rounded-md border border-border bg-surface px-3 py-2 text-sm">
+              <input type="hidden" name="sessionTimeout" value={SESSION_TIMEOUT_SETTING} />
+              <span className="font-medium text-brand-ink">
+                {SESSION_TIMEOUT_MINUTES} minutes
+              </span>
+              <p className="mt-0.5 text-xs text-muted">
+                Hard limit for admin and partner sessions.
+              </p>
+            </div>
           </FieldRow>
           <FieldRow label="Require Password">
             <Toggle name="requirePassword" defaultChecked={settings.requirePassword} />

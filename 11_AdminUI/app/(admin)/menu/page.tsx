@@ -3,11 +3,8 @@ import { Plus, Pencil, GripVertical, Printer, Eye } from "lucide-react";
 import { readMenu } from "@/lib/menu/store";
 import { Button } from "@/components/ui/button";
 import { Card, CardBody, CardHeader } from "@/components/ui/card";
-import { Badge, StatusPill } from "@/components/ui/badge";
-import { formatEGP } from "@/lib/utils";
-import { ItemActions } from "./_components/item-actions";
-import { GenerateSkuButton } from "./_components/generate-sku-button";
 import { SyncButton } from "./_components/sync-button";
+import { MenuItemGallery } from "./_components/menu-item-gallery";
 
 export const dynamic = "force-dynamic";
 
@@ -57,7 +54,7 @@ export default async function MenuPage() {
       {/* Editing tip */}
       <div className="rounded-md bg-brand-yellow/10 border border-brand-yellow/40 px-4 py-2.5 text-sm text-brand-ink/80 flex items-center gap-2">
         <Pencil className="size-4 text-brand-green-deep" />
-        Click any item row to edit it. Use the richer metadata fields to add calories, Arabic copy, and short menu facts.
+        Tap an item card to expand photos and details. Use Edit to update copy, calories, Arabic text, and short menu facts.
       </div>
 
       {/* Sync local → Supabase */}
@@ -131,115 +128,7 @@ export default async function MenuPage() {
                   No items yet in this category.
                 </div>
               ) : (
-                <ul className="divide-y divide-border">
-                  {items.map((item) => {
-                    const meta = [item.caloriesLabel, item.servingInfo, ...item.highlights]
-                      .filter(Boolean)
-                      .slice(0, 4);
-
-                    return (
-                      <li key={item.id} className="px-4 py-4 sm:px-5">
-                        <div className="relative overflow-hidden rounded-2xl border border-border/80 bg-gradient-to-r from-white to-brand-cream/35 transition-all hover:border-brand-yellow/60 hover:shadow-sm">
-                          <div className="absolute inset-y-0 left-0 w-1.5 bg-brand-green/80" />
-                          <div className="flex flex-col gap-4 p-4 lg:flex-row lg:items-center">
-                            <Link
-                              href={`/menu/items/${item.id}/edit`}
-                              className="flex min-w-0 flex-1 flex-col gap-4 lg:flex-row lg:items-center"
-                            >
-                              <div className="flex min-w-0 items-start gap-4">
-                                <div className="flex size-16 shrink-0 items-center justify-center overflow-hidden rounded-xl border border-border bg-surface text-[10px] text-muted sm:size-20">
-                                  {item.imageUrl ? (
-                                    // eslint-disable-next-line @next/next/no-img-element
-                                    <img
-                                      src={item.imageUrl}
-                                      alt={item.nameEn}
-                                      className="size-full object-cover"
-                                    />
-                                  ) : (
-                                    "no img"
-                                  )}
-                                </div>
-
-                                <div className="min-w-0 flex-1">
-                                  <div className="flex flex-wrap items-center gap-2">
-                                    <span className="text-base font-semibold text-brand-ink transition-colors group-hover:text-brand-green-deep">
-                                      {item.nameEn}
-                                    </span>
-                                    {item.nameAr && (
-                                      <span
-                                        dir="rtl"
-                                        className="text-sm font-semibold text-brand-green-deep/90"
-                                      >
-                                        {item.nameAr}
-                                      </span>
-                                    )}
-                                    {item.sku && (
-                                      <span className="rounded border border-zinc-200 bg-zinc-100 px-1.5 py-0.5 font-mono text-[10px] text-zinc-500">
-                                        {item.sku}
-                                      </span>
-                                    )}
-                                  </div>
-
-                                  {(item.descriptionEn || item.descriptionAr) && (
-                                    <div className="mt-1.5 space-y-1">
-                                      {item.descriptionEn && (
-                                        <p className="text-xs text-muted line-clamp-2">
-                                          {item.descriptionEn}
-                                        </p>
-                                      )}
-                                      {item.descriptionAr && (
-                                        <p
-                                          dir="rtl"
-                                          className="text-xs text-brand-ink/65 line-clamp-2"
-                                        >
-                                          {item.descriptionAr}
-                                        </p>
-                                      )}
-                                    </div>
-                                  )}
-
-                                  {meta.length > 0 && (
-                                    <div className="mt-3 flex flex-wrap gap-2">
-                                      {meta.map((entry) => (
-                                        <span
-                                          key={entry}
-                                          className="inline-flex items-center gap-2 rounded-full border border-brand-yellow/40 bg-brand-yellow/10 px-2.5 py-1 text-[11px] font-medium text-brand-ink"
-                                        >
-                                          <span className="size-2 rotate-45 rounded-[2px] bg-brand-yellow" />
-                                          {entry}
-                                        </span>
-                                      ))}
-                                    </div>
-                                  )}
-
-                                  {item.badges.length > 0 && (
-                                    <div className="mt-3 flex flex-wrap gap-1.5">
-                                      {item.badges.map((b) => (
-                                        <Badge key={b} kind={b} />
-                                      ))}
-                                    </div>
-                                  )}
-                                </div>
-                              </div>
-
-                              <div className="flex items-center justify-between gap-3 border-t border-border/70 pt-3 lg:w-40 lg:flex-col lg:items-end lg:border-t-0 lg:border-l lg:pl-4 lg:pt-0">
-                                <div className="font-semibold tabular-nums text-brand-green-deep">
-                                  {formatEGP(item.priceEgp)}
-                                </div>
-                                <StatusPill available={item.available} />
-                              </div>
-                            </Link>
-
-                            <div className="flex items-center justify-end gap-1 shrink-0 lg:pl-2">
-                              {!item.sku && <GenerateSkuButton id={item.id} />}
-                              <ItemActions id={item.id} available={item.available} />
-                            </div>
-                          </div>
-                        </div>
-                      </li>
-                    );
-                  })}
-                </ul>
+                <MenuItemGallery items={items} />
               )}
             </CardBody>
           </Card>

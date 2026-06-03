@@ -19,6 +19,7 @@ import {
 import {
   createItem,
   updateItem,
+  uploadAndSaveItemImage,
   uploadItemImage,
 } from "@/lib/menu/actions";
 import { Button } from "@/components/ui/button";
@@ -90,9 +91,12 @@ export function ItemForm({
     try {
       const fd = new FormData();
       fd.append("file", file);
-      const url = await uploadItemImage(fd);
-      setValue("imageUrl", url, { shouldDirty: true });
-      toast.success("Image uploaded");
+      const url = existing
+        ? await uploadAndSaveItemImage(existing.id, fd)
+        : await uploadItemImage(fd);
+      setValue("imageUrl", url, { shouldDirty: !existing });
+      toast.success(existing ? "Image uploaded and saved" : "Image uploaded");
+      if (existing) router.refresh();
     } catch (e: unknown) {
       toast.error(e instanceof Error ? e.message : "Upload failed");
     } finally {

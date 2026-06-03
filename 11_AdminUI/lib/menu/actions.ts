@@ -182,3 +182,22 @@ export async function uploadItemImage(formData: FormData): Promise<string> {
   revalidateMenu();
   return url;
 }
+
+export async function uploadAndSaveItemImage(id: string, formData: FormData): Promise<string> {
+  await requireAdminAction();
+  const file = formData.get("file");
+  if (!(file instanceof File)) throw new Error("No file provided");
+  if (!file.type.startsWith("image/")) throw new Error("Must be an image");
+
+  const url = await uploadFile(file, "menu", ["png", "jpg", "jpeg", "webp", "gif"], 5 * 1024 * 1024);
+  const state = await readMenu();
+  const idx = state.items.findIndex((i) => i.id === id);
+  if (idx < 0) throw new Error("Item not found");
+
+  state.items[idx].imageUrl = url;
+  state.items[idx].updatedAt = now();
+  await writeMenu(state);
+  revalidateMenu();
+  revalidatePath(`/menu/items/${id}/edit`);
+  return url;
+}

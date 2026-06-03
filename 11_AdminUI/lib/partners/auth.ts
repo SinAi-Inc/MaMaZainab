@@ -1,9 +1,10 @@
 import { randomBytes, scryptSync, timingSafeEqual } from "node:crypto";
 import { cookies } from "next/headers";
 import { SignJWT, jwtVerify } from "jose";
+import { SESSION_MAX_AGE_SECONDS } from "@/lib/session-limits";
 
 export const PARTNER_COOKIE_NAME = "mz_partner_session";
-export const PARTNER_MAX_AGE_SECONDS = 60 * 60 * 8;
+export const PARTNER_MAX_AGE_SECONDS = SESSION_MAX_AGE_SECONDS;
 
 const HASH_PREFIX = "scrypt";
 
@@ -11,6 +12,12 @@ function getPartnerSecret(): Uint8Array {
   const secret = process.env.PARTNER_JWT_SECRET ?? process.env.ADMIN_JWT_SECRET;
   if (!secret) throw new Error("PARTNER_JWT_SECRET or ADMIN_JWT_SECRET env var is not set");
   return new TextEncoder().encode(secret);
+}
+
+function isWithinHardSessionLimit(iat: unknown): boolean {
+  if (typeof iat !== "number") return false;
+  const now = Math.floor(Date.now() / 1000);
+  return now - iat <= PARTNER_MAX_AGE_SECONDS;
 }
 
 export function hashPartnerPasscode(passcode: string): string {
@@ -51,7 +58,7 @@ export async function createPartnerSessionToken(): Promise<string> {
 export async function verifyPartnerSessionToken(token: string): Promise<boolean> {
   try {
     const { payload } = await jwtVerify(token, getPartnerSecret());
-    return payload.role === "partner";
+    return payload.role === "partner" && isWithinHardSessionLimit(payload.iat);
   } catch {
     return false;
   }

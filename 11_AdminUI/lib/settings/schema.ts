@@ -1,4 +1,10 @@
 import { z } from "zod";
+import { SESSION_TIMEOUT_SETTING } from "@/lib/session-limits";
+
+const SessionTimeoutSchema = z.preprocess(
+  () => SESSION_TIMEOUT_SETTING,
+  z.literal(SESSION_TIMEOUT_SETTING),
+);
 
 export const SettingsSchema = z.object({
   // Account
@@ -28,7 +34,7 @@ export const SettingsSchema = z.object({
   socialYoutube: z.string().default(""),
   socialWhatsapp: z.string().default(""),
   // Security
-  sessionTimeout: z.string().default("30"),
+  sessionTimeout: SessionTimeoutSchema.default(SESSION_TIMEOUT_SETTING),
   requirePassword: z.boolean().default(false),
   adminPassword: z.string().default(""),
   allowPublicMenu: z.boolean().default(true),

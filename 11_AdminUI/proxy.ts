@@ -1,5 +1,6 @@
 import { type NextRequest, NextResponse } from "next/server";
 import { jwtVerify } from "jose";
+import { SESSION_MAX_AGE_SECONDS } from "@/lib/session-limits";
 
 const COOKIE = "mz_admin_session";
 
@@ -64,6 +65,12 @@ function isCreative(pathname: string): boolean {
   return CREATIVE_PREFIXES.some((p) => pathname === p || pathname.startsWith(p));
 }
 
+function isWithinHardSessionLimit(iat: unknown): boolean {
+  if (typeof iat !== "number") return false;
+  const now = Math.floor(Date.now() / 1000);
+  return now - iat <= SESSION_MAX_AGE_SECONDS;
+}
+
 export async function proxy(req: NextRequest) {
   const { pathname } = req.nextUrl;
 
@@ -77,6 +84,14 @@ export async function proxy(req: NextRequest) {
     try {
       const { payload } = await jwtVerify(token, secret);
       const role = payload.role;
+
+      if (!isWithinHardSessionLimit(payload.iat)) {
+        const loginUrl = new URL("/login", req.url);
+        loginUrl.searchParams.set("next", pathname);
+        const res = NextResponse.redirect(loginUrl);
+        res.cookies.delete(COOKIE);
+        return res;
+      }
 
       // Reject tokens issued before session floor ("end all sessions")
       const floor = await getSessionFloor();
