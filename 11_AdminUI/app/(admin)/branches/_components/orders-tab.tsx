@@ -5,7 +5,7 @@ import { Card, CardBody } from "@/components/ui/card";
 import type { Branch } from "@/lib/branches/schema";
 
 /**
- * App Orders Tab — Skeleton for order tracking per branch.
+ * App Orders Tab - Skeleton for order tracking per branch.
  * Will integrate with delivery/ordering API once connected.
  */
 export function OrdersTab({ branches }: { branches: Branch[] }) {

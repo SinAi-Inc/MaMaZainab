@@ -2,9 +2,9 @@
  * Loads sensitive brand prose from a gitignored source.
  *
  * Priority:
- *   1. BRAND_PRIVATE_DATA env var (base64-encoded JSON) — used on Vercel
- *   2. data/brand-private.json file — used in local dev
- *   3. Empty-defaults fallback — graceful degradation (no crash)
+ *   1. BRAND_PRIVATE_DATA env var (base64-encoded JSON) - used on Vercel
+ *   2. data/brand-private.json file - used in local dev
+ *   3. Empty-defaults fallback - graceful degradation (no crash)
  *
  * Call loadBrandPrivate() anywhere on the server side; the result is
  * cached in the module singleton so the file is read at most once.
@@ -113,7 +113,7 @@ let _cache: BrandPrivateData | null = null;
 export function loadBrandPrivate(): BrandPrivateData {
   if (_cache) return _cache;
 
-  // 1 — Vercel env var (base64 JSON)
+  // 1 - Vercel env var (base64 JSON)
   if (process.env.BRAND_PRIVATE_DATA) {
     try {
       _cache = JSON.parse(
@@ -121,20 +121,20 @@ export function loadBrandPrivate(): BrandPrivateData {
       ) as BrandPrivateData;
       return _cache;
     } catch {
-      // malformed — fall through
+      // malformed - fall through
     }
   }
 
-  // 2 — Local gitignored file
+  // 2 - Local gitignored file
   try {
     const fp = path.join(process.cwd(), "data", "brand-private.json");
     _cache = JSON.parse(fs.readFileSync(fp, "utf-8")) as BrandPrivateData;
     return _cache;
   } catch {
-    // file absent — fall through
+    // file absent - fall through
   }
 
-  // 3 — Empty-defaults (brand context will be omitted from prompts)
+  // 3 - Empty-defaults (brand context will be omitted from prompts)
   _cache = EMPTY_DEFAULTS;
   return _cache;
 }

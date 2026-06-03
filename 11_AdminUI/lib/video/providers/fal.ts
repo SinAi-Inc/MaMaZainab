@@ -1,5 +1,5 @@
 /**
- * fal.ai unified video provider — accesses Kling, Luma, HunyuanVideo,
+ * fal.ai unified video provider - accesses Kling, Luma, HunyuanVideo,
  * and Wan models through a single backend API.
  *
  * Docs: https://fal.ai/docs
@@ -24,7 +24,7 @@ import type {
 const FAL_QUEUE_BASE = "https://queue.fal.run";
 
 /**
- * Sub-model IDs that fal.ai hosts — each maps to one of our VideoModel values.
+ * Sub-model IDs that fal.ai hosts - each maps to one of our VideoModel values.
  * The caller sets the desired model via `job.providerMeta.falModel`.
  */
 export type FalModel =
@@ -118,7 +118,7 @@ export const falProvider: VideoProvider = {
     const model = resolveFalModel(job);
     const hasImage = !!job.imageUrl && job.imageUrl.startsWith("https://");
 
-    // Build request body — fal.ai schema varies per model but most share:
+    // Build request body - fal.ai schema varies per model but most share:
     const body: Record<string, unknown> = {
       prompt: job.prompt.slice(0, 2000),
       aspect_ratio: mapAspect(job.aspectRatio),

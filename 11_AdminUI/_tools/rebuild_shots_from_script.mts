@@ -95,7 +95,7 @@ const SCENES: SceneDef[] = [
         number: "1.4",
         type: "closeup",
         durationSec: 4,
-        description: "Wong's scarred hands in the rain — combat memory flash.",
+        description: "Wong's scarred hands in the rain - combat memory flash.",
         prompt: `Extreme close-up of scarred male hands turning palm-up in heavy rain, pink and cyan neon reflecting in pooled raindrops on weathered skin, old combat scars, shallow depth of field, emotional pause, ${STYLE_SUFFIX}`,
         dialogue: "",
         cameraNotes: "ECU hands, rack focus from hands to rain",
@@ -107,7 +107,7 @@ const SCENES: SceneDef[] = [
         description: "Memory morph: combat knives dissolve into chef knives, chopping scallions.",
         prompt: `Split-frame cinematic transition: scarred hands holding combat knives in a dark alley visually dissolving and morphing into the same hands delicately chopping scallions and folding dumplings in a warm golden kitchen, split reality effect, ${STYLE_SUFFIX}`,
         dialogue: "",
-        cameraNotes: "VFX morph transition — dark alley left / warm kitchen right",
+        cameraNotes: "VFX morph transition - dark alley left / warm kitchen right",
       },
       {
         number: "1.6",
@@ -122,17 +122,17 @@ const SCENES: SceneDef[] = [
         number: "1.7",
         type: "vfx",
         durationSec: 3,
-        description: "White flash transition — neon dies, shift to warm light.",
+        description: "White flash transition - neon dies, shift to warm light.",
         prompt: `Abstract white flash transition frame, neon lights dying out, pure brilliant white light engulfing dark rain scene, clean cinematic transition, ${STYLE_SUFFIX}`,
         dialogue: "بدون تردد… مصر.",
-        cameraNotes: "Full white flash — hard cut to Scene 2",
+        cameraNotes: "Full white flash - hard cut to Scene 2",
       },
     ],
   },
   {
     number: 2,
     title: "Where Can I Begin Again?",
-    location: "Warm Egyptian Daylight — Dissolve Montage",
+    location: "Warm Egyptian Daylight - Dissolve Montage",
     mood: "Golden, warm, welcoming, magical tonal shift",
     shots: [
       {
@@ -185,14 +185,14 @@ const SCENES: SceneDef[] = [
   {
     number: 3,
     title: "Egypt Wins His Heart",
-    location: "Multiple Locations — Discovery Montage",
+    location: "Multiple Locations - Discovery Montage",
     mood: "Curious, warm, cultural immersion",
     shots: [
       {
         number: "3.1",
         type: "action",
         durationSec: 6,
-        description: "Wong watches a family eating around a low table — molokhia, fattah.",
+        description: "Wong watches a family eating around a low table - molokhia, fattah.",
         prompt: `${CHAR_WONG_WARRIOR}, observing from the edge of a room, an Egyptian family gathered around a low dining table, dishes of molokhia and fattah and roz me'ammar spread across a colorful tablecloth, warm domestic light, Wong's expression curious and respectful, ${STYLE_SUFFIX}`,
         dialogue: "",
         cameraNotes: "Wong in foreground edge of frame, family center",
@@ -201,7 +201,7 @@ const SCENES: SceneDef[] = [
         number: "3.2",
         type: "vfx",
         durationSec: 4,
-        description: "Wonton soup imagined on the table — it literally fades away. Wrong fit.",
+        description: "Wonton soup imagined on the table - it literally fades away. Wrong fit.",
         prompt: `Cinematic VFX shot: a bowl of Chinese wonton soup placed on an Egyptian family dining table, the soup bowl visually fading and dissolving away like a ghost, signifying cultural mismatch, warm domestic lighting, subtle magical realism, ${STYLE_SUFFIX}`,
         dialogue: "",
         cameraNotes: "Close on table, VFX fade of the wonton bowl",
@@ -210,8 +210,8 @@ const SCENES: SceneDef[] = [
         number: "3.3",
         type: "vfx",
         durationSec: 6,
-        description: "Holographic dishes float around Wong — koshari, mahshi glows brightest.",
-        prompt: `${CHAR_WONG_WARRIOR}, standing in contemplation, semi-transparent holographic Egyptian dishes floating around him like magical projections — koshari, mombar, fatta, macaroni bechamel — all dimming one by one until MAHSHI (grape leaf rolls) glows brilliant emerald green, magical food revelation, ${STYLE_SUFFIX}`,
+        description: "Holographic dishes float around Wong - koshari, mahshi glows brightest.",
+        prompt: `${CHAR_WONG_WARRIOR}, standing in contemplation, semi-transparent holographic Egyptian dishes floating around him like magical projections - koshari, mombar, fatta, macaroni bechamel - all dimming one by one until MAHSHI (grape leaf rolls) glows brilliant emerald green, magical food revelation, ${STYLE_SUFFIX}`,
         dialogue: "",
         cameraNotes: "360-degree feeling, dishes orbiting Wong, mahshi illuminated",
       },
@@ -219,8 +219,8 @@ const SCENES: SceneDef[] = [
         number: "3.4",
         type: "closeup",
         durationSec: 4,
-        description: "Glowing mahshi rolls — emerald grape leaves rotating like jewels.",
-        prompt: `Extreme close-up hero shot of perfectly rolled mahshi — emerald-green grape leaf rolls and pale cabbage cylinders, rotating slowly like precious jewels, warm golden backlight creating a halo, steam wisps, food photography excellence, ${STYLE_SUFFIX}`,
+        description: "Glowing mahshi rolls - emerald grape leaves rotating like jewels.",
+        prompt: `Extreme close-up hero shot of perfectly rolled mahshi - emerald-green grape leaf rolls and pale cabbage cylinders, rotating slowly like precious jewels, warm golden backlight creating a halo, steam wisps, food photography excellence, ${STYLE_SUFFIX}`,
         dialogue: "",
         cameraNotes: "Macro lens, rotating food hero shot",
       },
@@ -246,7 +246,7 @@ const SCENES: SceneDef[] = [
         type: "closeup",
         durationSec: 6,
         description: "Village grandmother's hands rolling a grape leaf in one fluid motion.",
-        prompt: `Close-up of aged village grandmother's hands — knotted, sure, experienced — rolling a single grape leaf filled with rice in one fluid practiced motion, wooden cutting board, fresh herbs scattered, warm golden hour light from a window, mastery and tradition, ${STYLE_SUFFIX}`,
+        prompt: `Close-up of aged village grandmother's hands - knotted, sure, experienced - rolling a single grape leaf filled with rice in one fluid practiced motion, wooden cutting board, fresh herbs scattered, warm golden hour light from a window, mastery and tradition, ${STYLE_SUFFIX}`,
         dialogue: "",
         cameraNotes: "ECU hands only, steady, reverent",
       },
@@ -254,8 +254,8 @@ const SCENES: SceneDef[] = [
         number: "4.3",
         type: "insert",
         durationSec: 3,
-        description: "Basket of fresh greens from the field — parsley, dill, mint with dew.",
-        prompt: `A woven basket overflowing with freshly picked greens — flat-leaf parsley, dill fronds, mint leaves — still cool with morning dew droplets, delivered from the field, rustic wooden surface, natural daylight, fresh ingredient beauty, ${STYLE_SUFFIX}`,
+        description: "Basket of fresh greens from the field - parsley, dill, mint with dew.",
+        prompt: `A woven basket overflowing with freshly picked greens - flat-leaf parsley, dill fronds, mint leaves - still cool with morning dew droplets, delivered from the field, rustic wooden surface, natural daylight, fresh ingredient beauty, ${STYLE_SUFFIX}`,
         dialogue: "",
         cameraNotes: "Overhead insert, shallow DOF",
       },
@@ -272,7 +272,7 @@ const SCENES: SceneDef[] = [
         number: "4.5",
         type: "action",
         durationSec: 4,
-        description: "Wong bows his head slightly — a warrior recognizing masters.",
+        description: "Wong bows his head slightly - a warrior recognizing masters.",
         prompt: `${CHAR_WONG_WARRIOR}, standing in a village kitchen doorway, bowing his head slightly with deep respect, backlit by golden hour light, a warrior acknowledging the mastery of village women, humble reverence, ${STYLE_SUFFIX}`,
         dialogue: "",
         cameraNotes: "Medium shot from inside kitchen, Wong in doorway silhouette",
@@ -289,7 +289,7 @@ const SCENES: SceneDef[] = [
         number: "5.1",
         type: "establishing",
         durationSec: 6,
-        description: "Alexandria Corniche — sea breeze, turquoise Mediterranean.",
+        description: "Alexandria Corniche - sea breeze, turquoise Mediterranean.",
         prompt: `Alexandria Corniche wide establishing shot, turquoise Mediterranean Sea stretching to the horizon, white-railed promenade, palm trees swaying in sea breeze, pedestrians strolling, bright sunny day, Egyptian coastal beauty, ${STYLE_SUFFIX}`,
         dialogue: "",
         cameraNotes: "Wide drone-style establishing, gentle movement",
@@ -333,7 +333,7 @@ const SCENES: SceneDef[] = [
         number: "6.1",
         type: "establishing",
         durationSec: 4,
-        description: "Classic Alexandrian café — marble tops, ceiling fans, old TV.",
+        description: "Classic Alexandrian café - marble tops, ceiling fans, old TV.",
         prompt: `Interior of a classic old Alexandrian ahwa (café), marble tabletops, slow wooden ceiling fans, a beat-up CRT TV mounted high in corner, warm yellow tungsten lighting, few local men drinking tea, nostalgic Egyptian atmosphere, evening, ${STYLE_SUFFIX}`,
         dialogue: "",
         cameraNotes: "Wide interior establishing, warm tones",
@@ -351,7 +351,7 @@ const SCENES: SceneDef[] = [
         number: "6.3",
         type: "closeup",
         durationSec: 4,
-        description: "Wong freezes mid-sip — realization. The name arrives from the TV.",
+        description: "Wong freezes mid-sip - realization. The name arrives from the TV.",
         prompt: `${CHAR_WONG_WARRIOR}, close-up face freezing mid-sip of tea, eyes widening with sudden realization, warm café light on his face, the moment of discovery, a name heard from the TV behind him, epiphany, ${STYLE_SUFFIX}`,
         dialogue: "ماما زينب!",
         cameraNotes: "ECU face, shallow DOF, hold on the realization",
@@ -404,7 +404,7 @@ const SCENES: SceneDef[] = [
         number: "7.4",
         type: "montage",
         durationSec: 3,
-        description: "Wong taking selfie at koshari joint — 'Sheng El Masry' energy.",
+        description: "Wong taking selfie at koshari joint - 'Sheng El Masry' energy.",
         prompt: `${CHAR_WONG_BANKER} in tan linen trousers and casual shirt, taking a joyful selfie at a vibrant Cairo koshari restaurant, thumbs up, big smile, Egyptian street food culture around him, neon shop sign, comic joy, ${STYLE_SUFFIX}`,
         dialogue: "",
         cameraNotes: "POV-style from phone angle",
@@ -432,7 +432,7 @@ const SCENES: SceneDef[] = [
         type: "action",
         durationSec: 6,
         description: "Final transformation: Wong in cream linen suit on Corniche at sunset.",
-        prompt: `${CHAR_WONG_BANKER}, standing on the Alexandria Corniche at golden sunset, crisp cream linen suit, Mediterranean Sea behind him, no longer a stranger — a man who belongs, confident calm smile, warm golden light, founder's arrival, ${STYLE_SUFFIX}`,
+        prompt: `${CHAR_WONG_BANKER}, standing on the Alexandria Corniche at golden sunset, crisp cream linen suit, Mediterranean Sea behind him, no longer a stranger - a man who belongs, confident calm smile, warm golden light, founder's arrival, ${STYLE_SUFFIX}`,
         dialogue: "",
         cameraNotes: "Wide then push-in to medium, sunset hero shot",
       },
@@ -466,7 +466,7 @@ const SCENES: SceneDef[] = [
         number: "8.3",
         type: "montage",
         durationSec: 6,
-        description: "Cross-cuts of four matriarchs cooking — calm, focused, formidable.",
+        description: "Cross-cuts of four matriarchs cooking - calm, focused, formidable.",
         prompt: `Split montage of four rural Egyptian matriarchs at their cooking stations, each from a different governorate, calm focused powerful women in their element, steam rising, grape leaves being rolled, lemon squeezed, rice measured, intense skill showcase, Mediterranean breeze, ${STYLE_SUFFIX}`,
         dialogue: "",
         cameraNotes: "Rapid cross-cuts between the four, building rhythm",
@@ -475,7 +475,7 @@ const SCENES: SceneDef[] = [
         number: "8.4",
         type: "action",
         durationSec: 6,
-        description: "MaMa Zainab at her station — warmest face, steadiest hands. ZuZu beside her.",
+        description: "MaMa Zainab at her station - warmest face, steadiest hands. ZuZu beside her.",
         prompt: `${CHAR_MAMA_ZAINAB}, at her cooking station in the competition, the warmest face and steadiest hands of the four competitors, rolling grape leaves with practiced mastery, ${CHAR_ZUZU} waddling quietly beside her station, Mediterranean plaza backdrop, natural skill radiating, ${STYLE_SUFFIX}`,
         dialogue: "",
         cameraNotes: "Medium favoring Mama Zainab, ZuZu in lower frame",
@@ -501,7 +501,7 @@ const SCENES: SceneDef[] = [
         number: "9.2",
         type: "vfx",
         durationSec: 6,
-        description: "Flavor flashback — green fields, village kitchen, grandmother's hands, ghee.",
+        description: "Flavor flashback - green fields, village kitchen, grandmother's hands, ghee.",
         prompt: `Cinematic flavor-memory flashback montage: lush green Egyptian Delta fields dissolving into a warm village kitchen, aged grandmother's hands rolling mahshi, golden baladi ghee dripping, the taste IS the countryside, dreamy warm color grade, memory-sequence feel, ${STYLE_SUFFIX}`,
         dialogue: "",
         cameraNotes: "Dreamy dissolves, soft focus edges, memory texture",
@@ -538,7 +538,7 @@ const SCENES: SceneDef[] = [
   {
     number: 10,
     title: "The Brand Promise (Fairytale Finale)",
-    location: "Alexandria · Golden Hour — Direct Address",
+    location: "Alexandria · Golden Hour - Direct Address",
     mood: "Warm, triumphant, fairy-tale conclusion",
     shots: [
       {
@@ -554,7 +554,7 @@ const SCENES: SceneDef[] = [
         number: "10.2",
         type: "dialogue",
         durationSec: 6,
-        description: "MaMa Zainab addresses camera — the brand promise speech.",
+        description: "MaMa Zainab addresses camera - the brand promise speech.",
         prompt: `${CHAR_MAMA_ZAINAB}, close-up direct address to camera, warm maternal eyes crinkling with a smile, golden sunset light on her olive skin, cream headscarf glowing, speaking with quiet authority and love, the Mediterranean a soft blue bokeh behind her, ${STYLE_SUFFIX}`,
         dialogue: "ومن النهارده، جه الوقت اللي أهل البندر… يدوقوا أحلى أكل فلاحي.",
         cameraNotes: "Close-up, direct-to-camera, golden hour beauty light",
@@ -563,7 +563,7 @@ const SCENES: SceneDef[] = [
         number: "10.3",
         type: "insert",
         durationSec: 4,
-        description: "Young woman receives Mama Zainab branded box — opens it — perfect mahshi.",
+        description: "Young woman receives Mama Zainab branded box - opens it - perfect mahshi.",
         prompt: `A young Alexandrian woman in modern office wear, receiving a neat branded delivery box with "ماما زينب" logo, opening it to reveal perfectly plated steaming mahshi rolls arranged like jewels, her eyes closing in delight at first bite, modern Egyptian lifestyle, ${STYLE_SUFFIX}`,
         dialogue: "أكل شرقي… فاست فود.",
         cameraNotes: "Medium close, food reveal moment",
@@ -572,7 +572,7 @@ const SCENES: SceneDef[] = [
         number: "10.4",
         type: "action",
         durationSec: 4,
-        description: "Back to Mama Zainab — she smiles, pats ZuZu gently.",
+        description: "Back to Mama Zainab - she smiles, pats ZuZu gently.",
         prompt: `${CHAR_MAMA_ZAINAB}, back on the Corniche at sunset, smiling warmly into camera, looking down and gently patting ${CHAR_ZUZU} who nuzzles her hand, warm fairy-tale ending energy, golden light, ${STYLE_SUFFIX}`,
         dialogue: "وتوتة توتة… خلصت الحدوتة.",
         cameraNotes: "Medium, sunset glow, gentle ending",
@@ -648,7 +648,7 @@ async function main() {
   console.log(`   Shots:  ${shots.length}`);
   console.log(`\n   Per scene:`);
   for (const s of SCENES) {
-    console.log(`     Scene ${s.number}: "${s.title}" — ${s.shots.length} shots`);
+    console.log(`     Scene ${s.number}: "${s.title}" - ${s.shots.length} shots`);
   }
 
   // Character usage
@@ -665,7 +665,7 @@ async function main() {
   console.log(`     ZuZu:         ${charCounts.zuzu} shots`);
 
   if (DRY_RUN) {
-    console.log(`\n⏸️  DRY RUN — no changes written.`);
+    console.log(`\n⏸️  DRY RUN - no changes written.`);
     console.log(`   Run without --dry-run to update videos.json`);
     return;
   }

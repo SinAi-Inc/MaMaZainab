@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-MaMa Zainab — Automated Documentation Generator
+MaMa Zainab - Automated Documentation Generator
 ================================================
 Regenerates Doc/ sections from workspace source files.
 
@@ -69,9 +69,9 @@ def generate_api_doc():
     now = datetime.now().strftime("%Y-%m-%d")
 
     lines = [
-        "# API Reference — MaMa Zainab Admin UI",
+        "# API Reference - MaMa Zainab Admin UI",
         "",
-        "> Auto-generated — do not edit by hand. Run `python Doc/scripts/generate_docs.py --section api` to refresh.",
+        "> Auto-generated - do not edit by hand. Run `python Doc/scripts/generate_docs.py --section api` to refresh.",
         f"> Last generated: {now}",
         "",
         f"> Base URL (prod): `https://ma-ma-zainab.vercel.app`  ",
@@ -114,7 +114,7 @@ def generate_api_doc():
 
 FOLDER_DESCRIPTIONS = {
     "01_Brand": "Brand tokens, logo finals, plaid v2, guidelines",
-    "02_Characters": "Character bible — MaMa Zainab, Wong Hong, ZuZu",
+    "02_Characters": "Character bible - MaMa Zainab, Wong Hong, ZuZu",
     "03_Packaging": "Box, holder, kiosk packaging renders",
     "04_Scripts": "Cinematic launch script (Scene 1–6)",
     "05_VideoCampaign": "Storyboard, AI prompt pack, Veo render notes",
@@ -163,9 +163,9 @@ def generate_architecture_doc():
     folders.sort(key=lambda f: f.name)
 
     lines = [
-        "# Architecture — MaMa Zainab Platform",
+        "# Architecture - MaMa Zainab Platform",
         "",
-        "> Auto-generated — do not edit by hand. Run `python Doc/scripts/generate_docs.py --section architecture` to refresh.",
+        "> Auto-generated - do not edit by hand. Run `python Doc/scripts/generate_docs.py --section architecture` to refresh.",
         f"> Last generated: {now}",
         "",
         "---",
@@ -238,9 +238,9 @@ def generate_changelog_doc():
     month_label = now.strftime("%B %Y")
 
     lines = [
-        f"# Changelog — {month_label}",
+        f"# Changelog - {month_label}",
         "",
-        "> Auto-generated — do not edit by hand. Run `python Doc/scripts/generate_docs.py --section changelog` to refresh.",
+        "> Auto-generated - do not edit by hand. Run `python Doc/scripts/generate_docs.py --section changelog` to refresh.",
         f"> Last generated: {now.strftime('%Y-%m-%d')}",
         "",
         f"> Branch: `main` · Repo: `SinAi-Inc/MaMaZainab` (11_AdminUI git repo)",

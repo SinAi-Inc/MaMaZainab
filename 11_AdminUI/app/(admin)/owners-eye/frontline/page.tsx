@@ -10,17 +10,17 @@ import { cn } from "@/lib/utils";
 export const dynamic = "force-dynamic";
 
 /**
- * Layer 1 — Frontline Operations
+ * Layer 1 - Frontline Operations
  *
  * The customer-facing speed layer. Per the inspiration doc:
  * "Every critical task should take 1–2 taps. Optimize for rush-hour."
  *
  * Modules (status tracked in MODULE_GRID):
- *   - POS               — coming
- *   - Self-Order Kiosk  — coming
- *   - Kitchen Display   — coming
- *   - Waiter App        — coming
- *   - Delivery routing  — coming
+ *   - POS               - coming
+ *   - Self-Order Kiosk  - coming
+ *   - Kitchen Display   - coming
+ *   - Waiter App        - coming
+ *   - Delivery routing  - coming
  *
  * Wired live: Branches/Kiosks (already shipped at /branches).
  */
@@ -55,7 +55,7 @@ export default async function FrontlinePage() {
     decisions.push({
       id: `build-${b.id}`,
       severity: "warning",
-      title: `${b.name} — under construction`,
+      title: `${b.name} - under construction`,
       detail: b.address || `Kiosk #${b.kioskNumber} buildout in progress`,
       href: `/branches/${b.id}`,
       cta: "View",

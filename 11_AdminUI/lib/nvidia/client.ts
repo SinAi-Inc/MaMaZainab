@@ -1,6 +1,6 @@
 /**
  * NVIDIA API Catalog client for image and video generation.
- * Endpoint: ai.api.nvidia.com — hosts models from Stability AI,
+ * Endpoint: ai.api.nvidia.com - hosts models from Stability AI,
  * Black Forest Labs, and other partners under one API key.
  *
  * Reads NVIDIA key from the server environment only.
@@ -32,7 +32,7 @@ async function getApiKey(): Promise<string> {
   // Return a placeholder so the Authorization header is present but harmless.
   if (!key) {
     if (nimAvailable()) return "no-key-required";
-    throw new Error("NVIDIA_API_KEY is not set — add it in Settings → AI Model Keys");
+    throw new Error("NVIDIA_API_KEY is not set - add it in Settings → AI Model Keys");
   }
   return key;
 }
@@ -91,7 +91,7 @@ function cleanPrompt(raw: string): string {
   return raw
     // Remove [REF: ...] image reference tags (FLUX is text-only)
     .replace(/\[REF:[^\]]*\]/gi, "")
-    // Strip any remaining [TAG: ...] or [TAG] bracket markers — FLUX treats
+    // Strip any remaining [TAG: ...] or [TAG] bracket markers - FLUX treats
     // these as literal text garbage and produces black / 3D-looking output.
     .replace(/\[[A-Z][A-Z _]*(?::[^\]]*)?\]/gi, "")
     // Remove cinematography terms that trigger NVIDIA's content filter when
@@ -136,7 +136,7 @@ export async function generateImage(params: ImageGenParams): Promise<ImageGenRes
   if (usingNim) {
     if (!nimAvailable()) {
       throw new Error(
-        `${modelDef?.label ?? model} requires a NIM container — set NVIDIA_NIM_BASE_URL or choose a cloud model (Flux.1 Dev / Schnell)`
+        `${modelDef?.label ?? model} requires a NIM container - set NVIDIA_NIM_BASE_URL or choose a cloud model (Flux.1 Dev / Schnell)`
       );
     }
     const nimBase = getBaseUrl().replace(/\/v1\/genai\/?$/, "").replace(/\/$/, "");
@@ -152,7 +152,7 @@ export async function generateImage(params: ImageGenParams): Promise<ImageGenRes
     };
   } else {
     // NVIDIA API Catalog: path includes model ID. Encode each path segment
-    // separately so the `/` between vendor and model is preserved — using
+    // separately so the `/` between vendor and model is preserved - using
     // encodeURIComponent on the whole id turns it into %2F and yields 404.
     const modelPath = model.split("/").map(encodeURIComponent).join("/");
     url = `${CLOUD_BASE_URL}/${modelPath}`;
@@ -164,7 +164,7 @@ export async function generateImage(params: ImageGenParams): Promise<ImageGenRes
     };
   }
 
-  // 180-second hard timeout — Flux.1 Dev regularly needs 90–120 s;
+  // 180-second hard timeout - Flux.1 Dev regularly needs 90–120 s;
   // without a cap the route can hang 370 s+.
   const apiKey = await getApiKey();
   const headers: Record<string, string> = {
@@ -187,25 +187,25 @@ export async function generateImage(params: ImageGenParams): Promise<ImageGenRes
       });
     } catch (err) {
       if ((err as Error).name === "AbortError") {
-        throw new Error("NVIDIA API timed out after 180 s — try Flux.1 Schnell (faster) or retry");
+        throw new Error("NVIDIA API timed out after 180 s - try Flux.1 Schnell (faster) or retry");
       }
       if (usingNim) {
         throw new Error(
-          `Cannot reach NIM container at ${url} — is the container running? (${(err as Error).message})`
+          `Cannot reach NIM container at ${url} - is the container running? (${(err as Error).message})`
         );
       }
       throw new Error(
-        `Cannot reach NVIDIA API — check your internet connection and API key (${(err as Error).message})`
+        `Cannot reach NVIDIA API - check your internet connection and API key (${(err as Error).message})`
       );
     } finally {
       clearTimeout(timeoutId);
     }
   }
 
-  // Retry once on transient 500/502/503 — NVIDIA API has intermittent failures.
+  // Retry once on transient 500/502/503 - NVIDIA API has intermittent failures.
   let res = await attempt();
   if (res.status >= 500 && res.status < 600) {
-    console.warn(`[nvidia] ${res.status} on first attempt — retrying once...`);
+    console.warn(`[nvidia] ${res.status} on first attempt - retrying once...`);
     await new Promise((r) => setTimeout(r, 2000));
     res = await attempt();
   }
@@ -223,7 +223,7 @@ export async function generateImage(params: ImageGenParams): Promise<ImageGenRes
 
   const json = await res.json();
 
-  // Parse response — NIM returns OpenAI shape, Catalog returns artifacts shape
+  // Parse response - NIM returns OpenAI shape, Catalog returns artifacts shape
   let imageData: string;
   let resultSeed = seed;
 
@@ -235,7 +235,7 @@ export async function generateImage(params: ImageGenParams): Promise<ImageGenRes
     const art = json.artifacts[0] as { base64?: string; seed?: number; finishReason?: string };
     if (art.finishReason && art.finishReason !== "SUCCESS") {
       throw new Error(
-        `NVIDIA returned ${art.finishReason} — prompt was rejected by the safety filter. ` +
+        `NVIDIA returned ${art.finishReason} - prompt was rejected by the safety filter. ` +
         `Try simplifying the description or remove dramatic keywords (e.g. "blood", "weapon", "neon", action verbs).`
       );
     }
@@ -252,7 +252,7 @@ export async function generateImage(params: ImageGenParams): Promise<ImageGenRes
   // Sanity check: empty / suspiciously small payload usually means a silent
   // content filter or a model failure. Better to throw than save a black PNG.
   if (!imageData || imageData.length < 1024) {
-    throw new Error("NVIDIA returned an empty image — likely a content filter or model failure. Try a different seed or prompt.");
+    throw new Error("NVIDIA returned an empty image - likely a content filter or model failure. Try a different seed or prompt.");
   }
 
   return {
@@ -266,7 +266,7 @@ export async function generateImage(params: ImageGenParams): Promise<ImageGenRes
 
 export type VideoGenParams = {
   model: NvidiaVideoModelId;
-  /** Text prompt — will be used to generate an initial frame first */
+  /** Text prompt - will be used to generate an initial frame first */
   prompt: string;
   /** Pre-existing base64 image to animate (skips frame generation) */
   image?: string;
@@ -287,7 +287,7 @@ export type VideoGenResult = {
  *   1. If no image is provided, generate a frame from the prompt using Flux
  *   2. Send the frame to SVD for animation
  *
- * NVIDIA video models are async — they return a request ID for polling.
+ * NVIDIA video models are async - they return a request ID for polling.
  */
 export type VideoJobResponse = {
   reqId: string;

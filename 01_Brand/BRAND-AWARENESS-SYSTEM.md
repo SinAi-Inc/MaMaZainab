@@ -1,13 +1,13 @@
-# MaMa Zainab — Brand Awareness System
+# MaMa Zainab - Brand Awareness System
 
 **Project:** Mama Zainab | **Owner:** SinAI Inc | **Date:** May 8, 2026  
-**Status:** Phase 1 Complete — Bible & Schema Delivered
+**Status:** Phase 1 Complete - Bible & Schema Delivered
 
 ---
 
 ## The Problem
 
-The Studio generated a **wrong character** for Mama Zainab — a generic modern woman instead of the authentic village Falaha — because there was **no structured brand data** feeding the prompt pipeline. The CHARACTER ANCHOR dropdown had no visual definitions, no prompt anchors, no guard rails.
+The Studio generated a **wrong character** for Mama Zainab - a generic modern woman instead of the authentic village Falaha - because there was **no structured brand data** feeding the prompt pipeline. The CHARACTER ANCHOR dropdown had no visual definitions, no prompt anchors, no guard rails.
 
 **Root cause:** Zero connection between brand assets (characters, palette, pattern, packaging) and the generative AI pipeline.
 
@@ -19,9 +19,9 @@ The Studio generated a **wrong character** for Mama Zainab — a generic modern 
 
 | File | Purpose |
 |------|---------|
-| `Brand/brand-bible.json` | **The Bible** — single source of truth for all brand elements, characters, palette, patterns, typography, packaging, scene mapping, and prompt anchors |
-| `Brand/studio-integration-schema.json` | **UI Contract** — defines how the Studio and Media Hub consume the Bible: dropdown bindings, prompt assembly pipeline, validation gates, video extensions, asset registry |
-| `Brand/brand-awareness-roadmap.json` | **5-Phase Roadmap** — from foundation through Studio integration, validation, video pipeline, to full Media Hub distribution |
+| `Brand/brand-bible.json` | **The Bible** - single source of truth for all brand elements, characters, palette, patterns, typography, packaging, scene mapping, and prompt anchors |
+| `Brand/studio-integration-schema.json` | **UI Contract** - defines how the Studio and Media Hub consume the Bible: dropdown bindings, prompt assembly pipeline, validation gates, video extensions, asset registry |
+| `Brand/brand-awareness-roadmap.json` | **5-Phase Roadmap** - from foundation through Studio integration, validation, video pipeline, to full Media Hub distribution |
 
 ---
 
@@ -56,7 +56,7 @@ L5: Distribution ─────────────────────
 | **Tagline** | *"The Village Way, or Not at All"* |
 | **Origin** | Named from the legendary Egyptian play "El Eyal Kebret" |
 | **Personality** | Authentic, Warm, Village-Rooted, Nostalgic, Premium-Casual |
-| **Market Position** | Fast-food Mahshi & Oriental home-food — village authenticity at scale |
+| **Market Position** | Fast-food Mahshi & Oriental home-food - village authenticity at scale |
 | **Founding City** | Alexandria, Egypt |
 
 ---
@@ -67,16 +67,16 @@ L5: Distribution ─────────────────────
 
 | Name | Hex | RGB | Role |
 |------|-----|-----|------|
-| **Mahshi Green** | `#1B9B00` | 27, 155, 0 | Primary brand — grape leaves, village fields, core product |
-| **Brand Yellow** | `#EFD200` | 239, 210, 0 | Warmth — golden rice, sunlight, Egyptian heritage |
+| **Mahshi Green** | `#1B9B00` | 27, 155, 0 | Primary brand - grape leaves, village fields, core product |
+| **Brand Yellow** | `#EFD200` | 239, 210, 0 | Warmth - golden rice, sunlight, Egyptian heritage |
 
 #### Secondary Colors
 
 | Name | Hex | RGB | Role |
 |------|-----|-----|------|
-| **Brand Red** | `#E60000` | 230, 0, 0 | Accent — spice, tomato sauce, energy |
+| **Brand Red** | `#E60000` | 230, 0, 0 | Accent - spice, tomato sauce, energy |
 | **Ink** | `#2C292A` | 44, 41, 42 | Primary text, deep contrast |
-| **Cream** | `#FFF8E7` | 255, 248, 231 | Background — dough, village walls, comfort |
+| **Cream** | `#FFF8E7` | 255, 248, 231 | Background - dough, village walls, comfort |
 
 #### Extended Palette
 
@@ -91,19 +91,19 @@ L5: Distribution ─────────────────────
 
 ---
 
-### Signature Pattern — Plaid v2
+### Signature Pattern - Plaid v2
 
 | Field | Value |
 |-------|-------|
 | **Name** | Mama Zainab Plaid |
-| **Structure** | Diamond/argyle weave — green lines on cream base, yellow cross-threads |
+| **Structure** | Diamond/argyle weave - green lines on cream base, yellow cross-threads |
 | **Colors** | `#1B9B00`, `#FFF8E7`, `#EFD200` |
 | **Line Weight** | Medium (3–5px at 300dpi) |
 | **Diamond Size** | ~40px repeat tile |
 | **Usage** | Apron, packaging wraps, napkins, kiosk trim, social borders, video lower thirds |
 
 **Prompt Anchor:**  
-`Plaid v2: green-on-cream diamond weave with thin yellow cross-threads, rustic textile feel, not tartan — softer, village-handwoven aesthetic`
+`Plaid v2: green-on-cream diamond weave with thin yellow cross-threads, rustic textile feel, not tartan - softer, village-handwoven aesthetic`
 
 **Do NOT:** Use Scottish tartan, checkered gingham, or thick/neon lines.
 
@@ -124,9 +124,9 @@ L5: Distribution ─────────────────────
 
 ## Characters
 
-### 1. Mama Zainab — `char_mama_zainab`
+### 1. Mama Zainab - `char_mama_zainab`
 
-**Role:** Protagonist — the heart of the brand
+**Role:** Protagonist - the heart of the brand
 
 | Trait | Detail |
 |-------|--------|
@@ -134,7 +134,7 @@ L5: Distribution ─────────────────────
 | **Build** | Medium, sturdy working woman |
 | **Skin** | Olive-brown, sun-touched, Egyptian |
 | **Face** | Round cheeks, deep smile lines, kind dark brown eyes |
-| **Hijab** | Cream/beige, village-wrapped (Falaha style) — NOT modern fashion |
+| **Hijab** | Cream/beige, village-wrapped (Falaha style) - NOT modern fashion |
 | **Hands** | Strong, flour-dusted |
 | **Apron** | GREEN & YELLOW PLAID diamond weave (the signature brand element) |
 | **Signature Line** | *"In this kitchen, we do it the village way, or not at all."* |
@@ -154,15 +154,15 @@ L5: Distribution ─────────────────────
 
 ---
 
-### 2. Shang Hong Wong — `char_wong`
+### 2. Shang Hong Wong - `char_wong`
 
-**Role:** Founder / Investor — the mysterious warrior-turned-empire-builder
+**Role:** Founder / Investor - the mysterious warrior-turned-empire-builder
 
 | Trait | Detail |
 |-------|--------|
 | **Age** | 60–65 |
 | **Ethnicity** | Chinese |
-| **Build** | Lean, athletic — retired fighter |
+| **Build** | Lean, athletic - retired fighter |
 | **Face** | Sharp features, subtle battle scars, piercing eyes, grey-white hair |
 | **Expression** | Calm authority, dangerous calm |
 
@@ -172,7 +172,7 @@ L5: Distribution ─────────────────────
 |------|----------|---------|
 | **Warrior** | Dark silken Chinese warrior robes (black/charcoal) | Scene 1 (rooftop), Scene 2 (pyramids) |
 | **Business** | Premium minimalist linen suit (cream/light grey) | Scene 3 onwards |
-| **Silhouette** | Dark outline against bright windows, backlit | Scene 6 — the "Banker" |
+| **Silhouette** | Dark outline against bright windows, backlit | Scene 6 - the "Banker" |
 
 **Prompt Anchors:**
 
@@ -191,9 +191,9 @@ L5: Distribution ─────────────────────
 
 ---
 
-### 3. ZuZu the Goose — `char_zuzu`
+### 3. ZuZu the Goose - `char_zuzu`
 
-**Role:** Mascot / Sidekick — comedic, protective brand icon
+**Role:** Mascot / Sidekick - comedic, protective brand icon
 
 | Trait | Detail |
 |-------|--------|
@@ -212,9 +212,9 @@ L5: Distribution ─────────────────────
 
 ---
 
-### 4. Ghost of Mama Zainab — `char_ghost`
+### 4. Ghost of Mama Zainab - `char_ghost`
 
-**Role:** Supernatural guide — visible only to Mama Zainab and ZuZu
+**Role:** Supernatural guide - visible only to Mama Zainab and ZuZu
 
 | Trait | Detail |
 |-------|--------|
@@ -244,11 +244,11 @@ L5: Distribution ─────────────────────
 | **Sauce Station** | Kiosk sauce panel with branded labels | `kiosksauces.jpeg` |
 
 **Packaging Rules:**
-1. Cream base — never pure white
-2. Plaid as accent band/wrap — never full-cover
+1. Cream base - never pure white
+2. Plaid as accent band/wrap - never full-cover
 3. Logo placement: top-center or lid-center
 4. Green `#1B9B00` dominant
-5. No gradients — flat brand colors only
+5. No gradients - flat brand colors only
 6. ZuZu may appear as small stamp/icon
 
 ---
@@ -257,12 +257,12 @@ L5: Distribution ─────────────────────
 
 | Scene | Characters | Wong Mode | Palette Focus | Pattern | Mood |
 |-------|-----------|-----------|---------------|---------|------|
-| **1 — Neon Rooftop** | Wong | Warrior | Ink, Red | None | Dark, neon, rain, high-action |
-| **2 — Pyramids** | Wong | Warrior | Cream, Green, Yellow | None | Epic, golden, vast, meditative |
-| **3 — Competition** | Wong, Mama Zainab | Business | Green, Yellow, Cream | Aprons, banners | Bright, Mediterranean, festive |
-| **4 — Cooking** | Mama Zainab, ZuZu, Ghost | — | Green, Yellow, Cream | Apron, ZuZu ribbon | Comedic, chaotic, warm |
-| **5 — Judging** | Wong, Mama Zainab | Business | Green, Yellow | Apron | Dramatic, emotional, triumphant |
-| **6 — Command Center** | All four | Silhouette | White, Green, Cream | Apron, subtle accents | Clean, futuristic, peaceful |
+| **1 - Neon Rooftop** | Wong | Warrior | Ink, Red | None | Dark, neon, rain, high-action |
+| **2 - Pyramids** | Wong | Warrior | Cream, Green, Yellow | None | Epic, golden, vast, meditative |
+| **3 - Competition** | Wong, Mama Zainab | Business | Green, Yellow, Cream | Aprons, banners | Bright, Mediterranean, festive |
+| **4 - Cooking** | Mama Zainab, ZuZu, Ghost | - | Green, Yellow, Cream | Apron, ZuZu ribbon | Comedic, chaotic, warm |
+| **5 - Judging** | Wong, Mama Zainab | Business | Green, Yellow | Apron | Dramatic, emotional, triumphant |
+| **6 - Command Center** | All four | Silhouette | White, Green, Cream | Apron, subtle accents | Clean, futuristic, peaceful |
 
 ---
 
@@ -270,22 +270,22 @@ L5: Distribution ─────────────────────
 
 ### UI Bindings
 
-**CHARACTER ANCHOR Dropdown** — 6 options, each auto-injects prompt anchor:
+**CHARACTER ANCHOR Dropdown** - 6 options, each auto-injects prompt anchor:
 
 | Option | Injects | Also Injects | Preview Asset |
 |--------|---------|--------------|---------------|
 | MaMa Zainab | mama_zainab anchor | plaid_block | `MaMaZainabFinal.png` |
-| Wong — Warrior | wong_warrior anchor | — | `WongWarrior.jpg` |
-| Wong — Business | wong_business anchor | — | `IsolatedWong.png` |
-| Wong — Silhouette | wong_silhouette anchor | — | `WongHong.png` |
+| Wong - Warrior | wong_warrior anchor | - | `WongWarrior.jpg` |
+| Wong - Business | wong_business anchor | - | `IsolatedWong.png` |
+| Wong - Silhouette | wong_silhouette anchor | - | `WongHong.png` |
 | ZuZu the Goose | zuzu anchor | plaid_block | `ZuZuThumbsUp.PNG` |
-| Ghost of Mama Zainab | ghost anchor | — | `ZainabSoul.png` |
+| Ghost of Mama Zainab | ghost anchor | - | `ZainabSoul.png` |
 
-**SCENE CONTEXT Dropdown** — auto-configures palette, characters, mood, pattern:
+**SCENE CONTEXT Dropdown** - auto-configures palette, characters, mood, pattern:
 
 Scene 1–6 + Marketing General, Packaging Shot, Menu Item Hero
 
-**Palette Checkbox** — "Append brand palette & plaid context": auto-prepends palette block and injects plaid if character wears apron.
+**Palette Checkbox** - "Append brand palette & plaid context": auto-prepends palette block and injects plaid if character wears apron.
 
 ### Prompt Assembly Pipeline (6-Step Order)
 
@@ -402,14 +402,14 @@ Scene 1–6 + Marketing General, Packaging Shot, Menu Item Hero
 
 ---
 
-## Roadmap — 5 Phases
+## Roadmap - 5 Phases
 
-### Phase 1: Brand Bible & Schema Foundation — ✅ COMPLETE
+### Phase 1: Brand Bible & Schema Foundation - ✅ COMPLETE
 
-- `brand-bible.json` — full character definitions, palette, pattern, typography, packaging, scene mapping, prompt anchors, generation rules
-- `studio-integration-schema.json` — UI binding contract, prompt assembly pipeline, validation pipeline, video extensions, asset registry
+- `brand-bible.json` - full character definitions, palette, pattern, typography, packaging, scene mapping, prompt anchors, generation rules
+- `studio-integration-schema.json` - UI binding contract, prompt assembly pipeline, validation pipeline, video extensions, asset registry
 
-### Phase 2: Studio UI Integration — NEXT
+### Phase 2: Studio UI Integration - NEXT
 
 | Task | Detail |
 |------|--------|
@@ -419,7 +419,7 @@ Scene 1–6 + Marketing General, Packaging Shot, Menu Item Hero
 | 2.4 | Add character reference image preview panel |
 | 2.5 | Implement palette & plaid auto-injection checkbox logic |
 
-### Phase 3: Post-Generation Validation — PLANNED
+### Phase 3: Post-Generation Validation - PLANNED
 
 | Task | Detail |
 |------|--------|
@@ -428,7 +428,7 @@ Scene 1–6 + Marketing General, Packaging Shot, Menu Item Hero
 | 3.3 | Brand element detection (apron, ribbon, packaging pattern) |
 | 3.4 | Pattern classifier (diamond weave vs. tartan/gingham) |
 
-### Phase 4: Video Generation Pipeline — PLANNED
+### Phase 4: Video Generation Pipeline - PLANNED
 
 | Task | Detail |
 |------|--------|
@@ -437,14 +437,14 @@ Scene 1–6 + Marketing General, Packaging Shot, Menu Item Hero
 | 4.3 | Auto-generate branded lower thirds & title cards |
 | 4.4 | Pre-built scene transition templates |
 
-### Phase 5: Media Hub & Distribution — PLANNED
+### Phase 5: Media Hub & Distribution - PLANNED
 
 | Task | Detail |
 |------|--------|
-| 5.1 | DAM integration — auto-catalog with tags & compliance scores |
+| 5.1 | DAM integration - auto-catalog with tags & compliance scores |
 | 5.2 | Social media templates (1:1, 9:16, 16:9, 2:1) with brand frames |
 | 5.3 | Print-ready export (CMYK + bleed guides) |
-| 5.4 | Brand consistency dashboard — compliance tracking over time |
+| 5.4 | Brand consistency dashboard - compliance tracking over time |
 
 ---
 
@@ -452,19 +452,19 @@ Scene 1–6 + Marketing General, Packaging Shot, Menu Item Hero
 
 1. **Feed `brand-bible.json` into the Studio backend** as the `/brand/*` API endpoint
 2. **Update CHARACTER ANCHOR dropdown** to consume character entries with asset previews
-3. **Implement prompt assembly pipeline** (Phase 2.3) — this alone would have prevented the failed generation
+3. **Implement prompt assembly pipeline** (Phase 2.3) - this alone would have prevented the failed generation
 4. **Add reference image preview panel** so operators can visually verify before distributing
 
 ---
 
-## Generation Rules — Mandatory
+## Generation Rules - Mandatory
 
 - ALWAYS inject `palette_block` when "Append brand palette" is enabled
 - ALWAYS inject the correct `character_anchor` when a CHARACTER ANCHOR is selected
 - ALWAYS inject `plaid_block` when character wears apron or packaging is shown
 - NEVER generate Mama Zainab without the plaid apron in brand/marketing contexts
-- NEVER generate Wong cooking — he is the investor, not the cook
-- NEVER use blue, purple, or pink as dominant colors — they are off-brand
+- NEVER generate Wong cooking - he is the investor, not the cook
+- NEVER use blue, purple, or pink as dominant colors - they are off-brand
 - ALWAYS match Wong's wardrobe mode to the scene context
 - ZuZu must always have the plaid ribbon accessory
 

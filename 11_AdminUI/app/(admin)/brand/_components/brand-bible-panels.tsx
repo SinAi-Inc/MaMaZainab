@@ -455,7 +455,7 @@ export function ScenesRulesPanel({
         </div>
         <p className="text-sm text-muted mb-4">
           Each scene specifies required characters, Wong's mode, palette focus,
-          pattern usage, and mood — auto-applied when selecting a scene in Studio.
+          pattern usage, and mood - auto-applied when selecting a scene in Studio.
         </p>
         <div className="space-y-2">
           {scenes.map((s) => (

@@ -20,10 +20,10 @@ const SEVERITY_META = {
 } as const;
 
 /**
- * DecisionSurface — "What needs my attention right now?"
+ * DecisionSurface - "What needs my attention right now?"
  *
  * Drop-in widget for each Owner's Eye layer page. Surfaces actionable
- * items rather than passive metrics — the core philosophy from the
+ * items rather than passive metrics - the core philosophy from the
  * Foodics-inspired analysis (decision surfaces, not data pages).
  */
 export function DecisionSurface({

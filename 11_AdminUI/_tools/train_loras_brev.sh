@@ -1,6 +1,6 @@
 #!/bin/bash
 # =============================================================================
-# MaMa Zainab — Character LoRA Training on Brev (GPU Instance)
+# MaMa Zainab - Character LoRA Training on Brev (GPU Instance)
 # =============================================================================
 #
 # This script runs on a Brev A100/L40S instance to train FLUX LoRAs
@@ -37,7 +37,7 @@ DATASET_DIR=~/lora_datasets
 SINGLE_CHAR="${1:-}"
 
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-echo "  MaMa Zainab — LoRA Training Pipeline"
+echo "  MaMa Zainab - LoRA Training Pipeline"
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 echo ""
 

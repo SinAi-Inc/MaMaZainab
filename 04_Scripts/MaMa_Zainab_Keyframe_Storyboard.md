@@ -1,6 +1,6 @@
-# MaMa Zainab — Keyframe Storyboard
+# MaMa Zainab - Keyframe Storyboard
 
-## Brand Incorporation — The Legend of Wong & MaMa Zainab
+## Brand Incorporation - The Legend of Wong & MaMa Zainab
 
 **Basis:** Revised “See, And Say” screenplay  
 **Aspect:** 2.39:1 anamorphic  
@@ -32,7 +32,7 @@
 
 ---
 
-# **SCENE 1 — THE WARRIOR WHO WANTED FOOD**
+# **SCENE 1 - THE WARRIOR WHO WANTED FOOD**
 
 **EXT. NEON CITY ROOFTOP · SHANGHAI · NIGHT · RAIN**
 
@@ -47,7 +47,7 @@
 
 ---
 
-# **SCENE 2 — WHERE CAN I BEGIN AGAIN?**
+# **SCENE 2 - WHERE CAN I BEGIN AGAIN?**
 
 **EXT. EGYPTIAN DAYLIGHT · MAGICAL TONAL SHIFT**
 
@@ -61,7 +61,7 @@
 
 ---
 
-# **SCENE 3 — EGYPT WINS HIS HEART**
+# **SCENE 3 - EGYPT WINS HIS HEART**
 
 **EXT./INT. FOOD DISCOVERY ACROSS EGYPT**
 
@@ -69,13 +69,13 @@
 |---|---|---:|---|
 | 3.1 | Observational Medium | 5s | Older Wong standing respectfully at the edge of a lively Egyptian family meal, watching plates of molokhia, fattah, rice, and bread being shared, warm kitchen light, affectionate crowded table, Wong curious and quiet. |
 | 3.2 | Cultural Mismatch Concept | 4s | Stylized realistic dinner table where a bowl of Chinese soup sits visually out of place among Egyptian home dishes, the soup softly fading into steam while family food remains vivid, cinematic metaphor for cultural fit. |
-| 3.3 | Holographic Food Search | 4s | Wong in a dim calm room with subtle translucent floating food silhouettes around him — koshari, mombar, béchamel, fattah, mahshi — all soft and abstract with no text, tactical contemplation, Egypt-inspired warm shadows. |
+| 3.3 | Holographic Food Search | 4s | Wong in a dim calm room with subtle translucent floating food silhouettes around him - koshari, mombar, béchamel, fattah, mahshi - all soft and abstract with no text, tactical contemplation, Egypt-inspired warm shadows. |
 | 3.4 | Mahshi Chosen | 4s | Hero beauty close-up of grape-leaf mahshi and cabbage rolls glowing with appetizing steam on a rustic brass tray, foreground greens and lemon wedges, every other dish visually softened in the background, decisive revelation. |
 | 3.5 | Wong Understands | 5s | Older Wong in profile, eyes narrowing thoughtfully as he studies a single grape-leaf roll held reverently between fingers, golden side light, the food framed like a strategic discovery, solemn but hopeful. |
 
 ---
 
-# **SCENE 4 — THE MAHSHI REVELATION: RURAL SOURCING**
+# **SCENE 4 - THE MAHSHI REVELATION: RURAL SOURCING**
 
 **EXT. NILE DELTA VILLAGE · GOLDEN HOUR**
 
@@ -88,7 +88,7 @@
 
 ---
 
-# **SCENE 5 — WHY ALEXANDRIA?**
+# **SCENE 5 - WHY ALEXANDRIA?**
 
 **EXT. ALEXANDRIA · CORNICHE · DAY**
 
@@ -102,7 +102,7 @@
 
 ---
 
-# **SCENE 6 — THE NAME**
+# **SCENE 6 - THE NAME**
 
 **INT. OLD ALEXANDRIAN AHWA · EVENING**
 
@@ -115,7 +115,7 @@
 
 ---
 
-# **SCENE 7 — SHENG EL MASRY**
+# **SCENE 7 - SHENG EL MASRY**
 
 **EXT./INT. TRAVEL MONTAGE ACROSS EGYPT · UPBEAT**
 
@@ -126,11 +126,11 @@
 | 7.3 | Cairo Felucca Plate | 5s | Wong seated on a small felucca at golden hour, balancing a plate of grape-leaf rolls on one knee, Cairo river skyline behind him, soft breeze, comic-serene contradiction. |
 | 7.4 | Learning Arabic | 5s | Wong at a café table studying Arabic flashcards with simple blurred glyph-like shapes rather than readable text, intense martial discipline applied to language learning, tea and mahshi beside him. |
 | 7.5 | Selfie Transformation | 5s | Wong taking a cheerful phone selfie in a bustling Egyptian food spot, background friends leaning in, screen turned away or blurred, his clothing now partly linen, transformation underway. |
-| 7.6 | Founder Arrival | 5s | Sunset hero frame on Alexandria Corniche: Wong now fully in a premium minimalist cream linen suit, silver hair tied back, sea wind, no longer a stranger — a calm founder ready for the competition. |
+| 7.6 | Founder Arrival | 5s | Sunset hero frame on Alexandria Corniche: Wong now fully in a premium minimalist cream linen suit, silver hair tied back, sea wind, no longer a stranger - a calm founder ready for the competition. |
 
 ---
 
-# **SCENE 8 — THE FOUR MOTHERS**
+# **SCENE 8 - THE FOUR MOTHERS**
 
 **EXT. ALEXANDRIA SEASIDE PLAZA · DAY**
 
@@ -144,7 +144,7 @@
 
 ---
 
-# **SCENE 9 — THE REVEAL**
+# **SCENE 9 - THE REVEAL**
 
 **EXT. JUDGING TABLE · LATE AFTERNOON**
 
@@ -156,7 +156,7 @@
 
 ---
 
-# **SCENE 10 — THE BRAND PROMISE**
+# **SCENE 10 - THE BRAND PROMISE**
 
 **EXT. ALEXANDRIA CORNICHE · GOLDEN HOUR**
 

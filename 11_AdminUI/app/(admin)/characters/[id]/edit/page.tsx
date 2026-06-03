@@ -17,7 +17,7 @@ export default async function EditCharacterPage({
   return (
     <div className="space-y-5">
       <div>
-        <h1 className="text-2xl font-bold">Edit — {character.name}</h1>
+        <h1 className="text-2xl font-bold">Edit - {character.name}</h1>
         <p className="text-muted text-sm mt-1">Update the character profile in the Brand Bible.</p>
       </div>
       <CharacterForm existing={character} />

@@ -5,7 +5,7 @@ import { Card, CardBody } from "@/components/ui/card";
 import type { Branch } from "@/lib/branches/schema";
 
 /**
- * Cash Tracking Tab — Skeleton for daily cash reconciliation per kiosk.
+ * Cash Tracking Tab - Skeleton for daily cash reconciliation per kiosk.
  * Will integrate with POS/cash management system once connected.
  */
 export function CashTab({ branches }: { branches: Branch[] }) {

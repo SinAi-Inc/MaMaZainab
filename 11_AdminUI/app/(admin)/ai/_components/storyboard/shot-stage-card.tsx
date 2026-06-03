@@ -1,14 +1,14 @@
 "use client";
 
 /**
- * PR 3 — The new Shot Card.
+ * PR 3 - The new Shot Card.
  *
  * Stage-gated production card:
  *   Brief → Prompt → Keyframe → Motion → Audio → Approve
  *
  * Drives the locked-keyframe pipeline shipped in PR 1:
  *   - generateShotKeyframe / approveShotKeyframe
- *   - generateTake (motion takes — start frame is the approved keyframe)
+ *   - generateTake (motion takes - start frame is the approved keyframe)
  *   - approveTake (final approval gate)
  *
  * Audio stage is a placeholder until the audio actions land.
@@ -138,7 +138,7 @@ export function ShotStageCard({
         await generateShotKeyframe(projectId, shot.id, {
           characterAnchors: anchorIds,
         });
-        toast.success("Keyframe ready — review and approve", { id: `kf-${shot.id}` });
+        toast.success("Keyframe ready - review and approve", { id: `kf-${shot.id}` });
         router.refresh();
       } catch (err) {
         toast.error(err instanceof Error ? err.message : "Keyframe generation failed", { id: `kf-${shot.id}` });
@@ -150,7 +150,7 @@ export function ShotStageCard({
     start(async () => {
       try {
         await approveShotKeyframe(projectId, shot.id);
-        toast.success("Keyframe locked — motion stage unlocked");
+        toast.success("Keyframe locked - motion stage unlocked");
         setActive("motion");
         router.refresh();
       } catch (err) {
@@ -216,7 +216,7 @@ export function ShotStageCard({
     start(async () => {
       try {
         await approveTake(takeId);
-        toast.success("Take approved — shot complete");
+        toast.success("Take approved - shot complete");
         setActive("approve");
         router.refresh();
       } catch (err) {
@@ -399,7 +399,7 @@ function PromptStage({
 
   const anchorLabels = anchorIds.map((id) => {
     const { c, modeLabel } = resolveCharacter(id);
-    return c ? `${c.name}${modeLabel ? ` — ${modeLabel}` : ""}` : id;
+    return c ? `${c.name}${modeLabel ? ` - ${modeLabel}` : ""}` : id;
   });
 
   // Build pickable options: include each active character plus any of their modes if defined.
@@ -437,7 +437,7 @@ function PromptStage({
           </button>
         </div>
         {anchorLabels.length === 0 ? (
-          <p className="text-xs text-amber-700">No characters anchored — output will drift.</p>
+          <p className="text-xs text-amber-700">No characters anchored - output will drift.</p>
         ) : (
           <div className="flex flex-wrap gap-1">
             {anchorIds.map((id, i) => (
@@ -566,7 +566,7 @@ function PromptStage({
                   </div>
                 ) : (
                   <p className="text-[11px] text-amber-700">
-                    No scene context auto-detected — only character + palette will be injected.
+                    No scene context auto-detected - only character + palette will be injected.
                   </p>
                 )}
                 {/* Condensed positive (SD1.5 sees this) */}
@@ -730,7 +730,7 @@ function KeyframeStage({
 
       {violationCount > 0 && (
         <p className="text-[11px] text-amber-700">
-          ⚠ {violationCount} brand-lock issue{violationCount === 1 ? "" : "s"} — review the Prompt stage before generating.
+          ⚠ {violationCount} brand-lock issue{violationCount === 1 ? "" : "s"} - review the Prompt stage before generating.
         </p>
       )}
     </div>
@@ -786,7 +786,7 @@ function MotionStage({
           const updated = await pollTake(id);
           if (updated.status !== "generating") anyChanged = true;
         } catch {
-          // Swallow — next tick will retry.
+          // Swallow - next tick will retry.
         }
       }
       if (!cancelled && anyChanged) router.refresh();
@@ -815,7 +815,7 @@ function MotionStage({
             const meta = MODEL_META[rec.model];
             return (
               <option key={rec.model} value={rec.model}>
-                {meta?.label ?? rec.model} — {rec.confidence}
+                {meta?.label ?? rec.model} - {rec.confidence}
               </option>
             );
           })}
@@ -831,7 +831,7 @@ function MotionStage({
 
       <div className="flex items-center justify-between">
         <p className="text-[10px] uppercase tracking-wider text-muted">
-          Takes ({takes.length}) — start frame locked to approved keyframe
+          Takes ({takes.length}) - start frame locked to approved keyframe
         </p>
         <Button variant="primary" onClick={() => onGenerate(selectedModel)} disabled={pending}>
           <Play className="size-3.5" />
@@ -922,12 +922,12 @@ function MotionStage({
 }
 
 const VOICE_OPTIONS = [
-  { id: "", label: "— choose voice —" },
+  { id: "", label: "- choose voice —" },
   { id: "mama_zainab", label: "MaMa Zainab (warm matriarch)" },
   { id: "wong_hong", label: "Wong Hong (calm narrator)" },
   { id: "zuzu", label: "ZuZu (playful kid)" },
   { id: "ghost", label: "Ghost (whispered VO)" },
-  { id: "narrator_neutral", label: "Narrator — neutral" },
+  { id: "narrator_neutral", label: "Narrator - neutral" },
 ];
 
 function AudioStage({ shot }: { shot: Shot }) {
@@ -955,7 +955,7 @@ function AudioStage({ shot }: { shot: Shot }) {
     <div className="space-y-3">
       <div className="rounded-md border border-amber-200 bg-amber-50 px-3 py-2 text-[11px] text-amber-900 flex items-center gap-2">
         <Volume2 className="size-3.5" />
-        Audio plan is captured here. ElevenLabs VO + SFX rendering ships in PR 3c — playback stays in post for now.
+        Audio plan is captured here. ElevenLabs VO + SFX rendering ships in PR 3c - playback stays in post for now.
       </div>
 
       <div>
@@ -1024,7 +1024,7 @@ function ApproveStage({ shot, approvedTake }: { shot: Shot; approvedTake: Take |
     <div className="space-y-2">
       <p className="text-sm">Pick a take in the Motion stage and approve it to mark this shot complete.</p>
       <p className="text-xs text-muted">
-        Approval is reversible — you can re-roll keyframes or generate more takes anytime.
+        Approval is reversible - you can re-roll keyframes or generate more takes anytime.
       </p>
     </div>
   );

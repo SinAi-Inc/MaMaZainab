@@ -35,7 +35,7 @@ DARK   = (
     int(27  * 239 / 255),  # 25
     int(155 * 210 / 255),  # 128
     0,
-)  # ≈ rgb(25, 128, 0) — dark forest green
+)  # ≈ rgb(25, 128, 0) - dark forest green
 WHITE  = (255, 255, 255)
 INK    = (44, 41, 42)     # #2C292A
 
@@ -72,9 +72,9 @@ def make_gingham(tile_size: int, cell: int) -> Image.Image:
 
 VARIANTS = {
     # name: (tile_size, cell)
-    "web":       (512,  32),   # fine — web/UI hero textures
-    "packaging": (768,  48),   # medium — boxes, bags, sleeves
-    "apron":     (1024, 64),   # bold — apron, awning, large print
+    "web":       (512,  32),   # fine - web/UI hero textures
+    "packaging": (768,  48),   # medium - boxes, bags, sleeves
+    "apron":     (1024, 64),   # bold - apron, awning, large print
 }
 
 

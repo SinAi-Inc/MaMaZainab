@@ -79,7 +79,7 @@ export function mapPackCharacterToAnchor(
  * Map a scene number (1..10) to the Studio SCENE_CONTEXTS value.
  * Scenes 1–6 correspond to the original SCENE_CONTEXTS; 7–10 are new
  * from the expanded Keyframe Storyboard and have no preset scene context
- * yet — return empty string so the preset-picker still loads the prompt
+ * yet - return empty string so the preset-picker still loads the prompt
  * without forcing a scene dropdown selection.
  */
 export function mapPackSceneToContext(sceneNumber: number): string {
@@ -90,7 +90,7 @@ export function mapPackSceneToContext(sceneNumber: number): string {
     case 4: return "scene_4_cooking";
     case 5: return "scene_5_judging";
     case 6: return "scene_6_command_center";
-    // Scenes 7–10 from the expanded storyboard — no preset scene context
+    // Scenes 7–10 from the expanded storyboard - no preset scene context
     default: return "";
   }
 }

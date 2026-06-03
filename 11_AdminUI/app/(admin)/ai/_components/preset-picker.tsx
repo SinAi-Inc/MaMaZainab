@@ -106,10 +106,10 @@ export function PresetPicker({ mode, anchors, onLoad }: PresetPickerProps) {
               aria-label="Select campaign scene"
               className="w-full text-sm border border-border-strong rounded-md px-2 py-1.5 bg-white"
             >
-              <option value="">— Pick a scene —</option>
+              <option value="">- Pick a scene —</option>
               {scenes.map((s) => (
                 <option key={s.id} value={s.id}>
-                  Scene {s.number} — {s.heading.replace(/SCENE \d+\s*/i, "").split("\\-")[0].trim()} ({s.totalSec}s)
+                  Scene {s.number} - {s.heading.replace(/SCENE \d+\s*/i, "").split("\\-")[0].trim()} ({s.totalSec}s)
                 </option>
               ))}
             </select>
@@ -127,10 +127,10 @@ export function PresetPicker({ mode, anchors, onLoad }: PresetPickerProps) {
                 aria-label="Select shot"
                 className="w-full text-sm border border-border-strong rounded-md px-2 py-1.5 bg-white"
               >
-                <option value="">— Pick a shot —</option>
+                <option value="">- Pick a shot —</option>
                 {selectedScene.shots.map((s) => (
                   <option key={s.id} value={s.id}>
-                    Shot {s.number} · {s.type} · {s.durationSec}s — {s.description.slice(0, 60)}
+                    Shot {s.number} · {s.type} · {s.durationSec}s - {s.description.slice(0, 60)}
                   </option>
                 ))}
               </select>

@@ -593,7 +593,7 @@ function TakeTile({ take }: { take: Take }) {
           {take.status === "generating" ? (
             <span className="animate-pulse">generating…</span>
           ) : take.status === "queued" ? (
-            "queued — paste URL"
+            "queued - paste URL"
           ) : (
             "no preview"
           )}
@@ -706,7 +706,7 @@ function KeyframeSection({
       try {
         toast.loading("Generating keyframe…", { id: `kf-${shot.id}` });
         await generateShotKeyframe(projectId, shot.id, { characterAnchors: [] });
-        toast.success("Keyframe ready — review and approve", { id: `kf-${shot.id}` });
+        toast.success("Keyframe ready - review and approve", { id: `kf-${shot.id}` });
         router.refresh();
       } catch (err) {
         toast.error(err instanceof Error ? err.message : "Keyframe generation failed", { id: `kf-${shot.id}` });
@@ -740,7 +740,7 @@ function KeyframeSection({
     start(async () => {
       try {
         await approveShotKeyframe(projectId, shot.id);
-        toast.success("Keyframe approved — locked");
+        toast.success("Keyframe approved - locked");
         router.refresh();
       } catch (err) {
         toast.error(err instanceof Error ? err.message : "Approval failed");

@@ -39,7 +39,7 @@ export function SkuBarcode({ sku, itemName, variant = "compact" }: SkuBarcodePro
     );
   }
 
-  // full variant — shown in item detail / form
+  // full variant - shown in item detail / form
   return (
     <div className="flex flex-col items-center gap-3 p-4 border border-border rounded-xl bg-white w-fit">
       {itemName && (

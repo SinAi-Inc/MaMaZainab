@@ -30,7 +30,7 @@ export function isSupabaseConfigured(): boolean {
   return getClient() !== null;
 }
 
-/** Server-side Supabase client (service role — full access). Lazy-init. Throws if not configured. */
+/** Server-side Supabase client (service role - full access). Lazy-init. Throws if not configured. */
 export function getSupabase(): SupabaseClient {
   const c = getClient();
   if (!c) {

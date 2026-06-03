@@ -235,7 +235,7 @@ export async function readMenu(): Promise<MenuState> {
       .order("sort");
 
     if (!cats || cats.length === 0) {
-      try { await seed(fileState); } catch { /* seed failed — return file state */ }
+      try { await seed(fileState); } catch { /* seed failed - return file state */ }
       return fileState;
     }
 
@@ -267,7 +267,7 @@ export async function readMenu(): Promise<MenuState> {
       items: mergeRecords(fileState.items, supabaseItems, mergeItemRecord),
     };
   } catch {
-    // Supabase read/parse failed — fall back to file state
+    // Supabase read/parse failed - fall back to file state
     return fileState;
   }
 }
@@ -276,12 +276,12 @@ export async function writeMenu(state: MenuState): Promise<void> {
   const normalizedState = normalizeState(state);
 
   if (!isSupabaseConfigured()) {
-    // Local dev — persist to JSON only
+    // Local dev - persist to JSON only
     return writeJson(normalizedState);
   }
 
-  // Production (Vercel) — write to Supabase; also try JSON for dev parity but don't fail
-  try { await writeJson(normalizedState); } catch { /* read-only FS on Vercel — expected */ }
+  // Production (Vercel) - write to Supabase; also try JSON for dev parity but don't fail
+  try { await writeJson(normalizedState); } catch { /* read-only FS on Vercel - expected */ }
 
   const sb = getSupabase();
   await sb.from("menu_items").delete().neq("id", "");

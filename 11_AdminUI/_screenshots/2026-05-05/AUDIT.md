@@ -1,4 +1,4 @@
-# Daily Audit — 2026-05-05
+# Daily Audit - 2026-05-05
 
 Commit: `d16cf78` · Branch: `main` · Vercel: https://ma-ma-zainab.vercel.app
 
@@ -23,7 +23,7 @@ Commit: `d16cf78` · Branch: `main` · Vercel: https://ma-ma-zainab.vercel.app
 - **ZuZu fix deployed:** `zuzu-thumb.png` (transparent PNG) now slides up from bottom-right every 33 s.  
   Wrapper handles `translateY` animation; `<img>` holds static `rotate(-15deg)` lean. Transforms are independent.
 - **ZuZu on Vercel:** image confirmed loaded (`naturalWidth: 1254`, `complete: true`). Animation hides it until cycle fires.
-- **Pending UX:** email notify form + FACEBOOK link clip at narrow Playwright viewport (760 px) — no issue on real desktop.
+- **Pending UX:** email notify form + FACEBOOK link clip at narrow Playwright viewport (760 px) - no issue on real desktop.
 
 ## How to re-run this audit
 

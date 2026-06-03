@@ -6,7 +6,7 @@ import { getHistory, removeHistoryEntry, clearHistory } from "@/lib/generations/
 import { formatCost } from "@/lib/ai/cost";
 import type { GenerationEntry } from "@/lib/generations/schema";
 
-/** Cumulative stats snapshot — only computed once from the full history on load.
+/** Cumulative stats snapshot - only computed once from the full history on load.
  *  Deleting individual entries removes them from the grid but never reduces these totals. */
 type CumulativeStats = {
   totalCost: number;
@@ -42,7 +42,7 @@ export function HistoryTab() {
   const [entries, setEntries] = useState<GenerationEntry[]>([]);
   const [loading, setLoading] = useState(true);
   const [isPending, startTransition] = useTransition();
-  // Cumulative stats — frozen at load time so deletes never erase cost/failed counts
+  // Cumulative stats - frozen at load time so deletes never erase cost/failed counts
   const cumulativeStats = useRef<CumulativeStats | null>(null);
 
   useEffect(() => {
@@ -69,7 +69,7 @@ export function HistoryTab() {
     });
   }
 
-  // Stats — use cumulative (frozen at load) so deletes don't erase totals
+  // Stats - use cumulative (frozen at load) so deletes don't erase totals
   const stats = cumulativeStats.current ?? computeStats(entries);
 
   if (loading) {
@@ -185,7 +185,7 @@ function EmptyState() {
       </div>
       <p className="text-sm font-medium text-brand-ink">No generations yet</p>
       <p className="text-xs text-muted mt-1 max-w-xs mx-auto">
-        Run a prompt from the Image or Video tabs — try the Campaign Presets to
+        Run a prompt from the Image or Video tabs - try the Campaign Presets to
         generate a real shot from the storyboard.
       </p>
     </div>
