@@ -1,4 +1,4 @@
-# Prompt Pack — Brand Incorporation — The Legend of Wong & MaMa Zainab
+# Prompt Pack - Brand Incorporation - The Legend of Wong & MaMa Zainab
 **Logline:** An exiled warrior arrives in Egypt, and an AI tells him to build a comfort-food empire named after every Egyptian's mother.
 **Target runtime:** 3:30 · **Aspect ratio:** 2.39:1 · **Primary model:** veo-3.1
 **Shots:** 33 across 6 scenes · **Total cut:** 1:44
@@ -14,14 +14,14 @@ no logos, no readable text, no warped faces, no extra fingers, no duplicated cha
 ```
 
 ## Character References
-- **WONG** `/brand/chars/wong-hong.png` — East-Asian man in his 60s, silver-streaked hair, weathered battle-scarred face, dark silken warrior robes
-- **ZAINAB** `/brand/chars/mama-zainab.jpeg` — Egyptian woman in her 50s, warm kind face, colorful floral headscarf, green-base plaid apron with yellow stripes
-- **ZUZU** `/brand/chars/zuzu.jpeg` — plump white domestic goose, tiny green-yellow plaid ribbon around its neck, curious orange beak, expressive eyes
-- **GHOST** `N/A` — translucent luminous-green younger version of an Egyptian woman, pale #1B9B00 green glow, wind-blown
+- **WONG** `/brand/chars/wong-hong.png` - East-Asian man in his 60s, silver-streaked hair, weathered battle-scarred face, dark silken warrior robes
+- **ZAINAB** `/brand/chars/mama-zainab.jpeg` - Egyptian woman in her 50s, warm kind face, colorful floral headscarf, green-base plaid apron with yellow stripes
+- **ZUZU** `/brand/chars/zuzu.jpeg` - plump white domestic goose, tiny green-yellow plaid ribbon around its neck, curious orange beak, expressive eyes
+- **GHOST** `N/A` - translucent luminous-green younger version of an Egyptian woman, pale #1B9B00 green glow, wind-blown
 
 ---
 
-## Scene 1 — SCENE 1 EXT. NEON CITY ROOFTOP \- NIGHT (CINEMATIC/HIGH ACTION)
+## Scene 1 - SCENE 1 EXT. NEON CITY ROOFTOP \- NIGHT (CINEMATIC/HIGH ACTION)
 *19s total*
 
 ### Shot 1.1 · AERIAL · 4s
@@ -94,16 +94,16 @@ Macro insert, 4 seconds. A weathered hand holds a sleek glass-morphic smartphone
 
 #### Video prompt (Veo 3 / Runway / Kling)
 ```
-Cinematic wide, 3 seconds. Reverse low-angle shot. Rooftop in pouring neon rain. In the background, a steel rooftop door bursts open — a mob of suited men and street fighters floods through. In the foreground, the dark silhouette of a warrior-robed man. Tension, threat, urgency. Anamorphic, high contrast, pink-cyan neon color, photoreal. Audio: door crash, shouting, rain. no logos, no readable text, no warped faces, no extra fingers, no duplicated characters, no plastic skin, no AI artifact shimmer, no cartoon style, no anime, no watermark
+Cinematic wide, 3 seconds. Reverse low-angle shot. Rooftop in pouring neon rain. In the background, a steel rooftop door bursts open - a mob of suited men and street fighters floods through. In the foreground, the dark silhouette of a warrior-robed man. Tension, threat, urgency. Anamorphic, high contrast, pink-cyan neon color, photoreal. Audio: door crash, shouting, rain. no logos, no readable text, no warped faces, no extra fingers, no duplicated characters, no plastic skin, no AI artifact shimmer, no cartoon style, no anime, no watermark
 ```
 
 #### Image prompt (Midjourney / Flux / DALL-E 3)
 ```
-Cinematic wide, 3 seconds. Reverse low-angle shot. Rooftop in pouring neon rain. In the background, a steel rooftop door bursts open — a mob of suited men and street fighters floods through. In the foreground, the dark silhouette of a warrior-robed man. Tension, threat, urgency. Anamorphic, high contrast, pink-cyan neon color, photoreal.
+Cinematic wide, 3 seconds. Reverse low-angle shot. Rooftop in pouring neon rain. In the background, a steel rooftop door bursts open - a mob of suited men and street fighters floods through. In the foreground, the dark silhouette of a warrior-robed man. Tension, threat, urgency. Anamorphic, high contrast, pink-cyan neon color, photoreal.
 ```
 
 ### Shot 1.6 · WIDE · 3s
-**Description:** Wong dives backward off the roof edge into the neon glow — dissolves to white.
+**Description:** Wong dives backward off the roof edge into the neon glow - dissolves to white.
 **Camera:** Match-cut leap. Camera rushes to edge. White dissolve.
 **Characters:** `wong`
 
@@ -119,7 +119,7 @@ Cinematic wide, 3 seconds. A warrior-robed East-Asian man takes one step backwar
 
 ---
 
-## Scene 2 — EXT. ON THE TOP OF THE PYRAMIDS \- DAY (CINEMATIC/DRONE SHOT)
+## Scene 2 - EXT. ON THE TOP OF THE PYRAMIDS \- DAY (CINEMATIC/DRONE SHOT)
 *24s total*
 
 ### Shot 2.1 · AERIAL · 6s
@@ -145,16 +145,16 @@ Cinematic drone orbit, 6 seconds, 360-degree slow circle around the apex of the 
 
 #### Video prompt (Veo 3 / Runway / Kling)
 ```
-Cinematic medium close-up, 4 seconds. East-Asian man in his 60s [REF:WongHong.png] seated cross-legged on the Great Pyramid apex, slowly opens his eyes — calm, tactical. He raises a glass-morphic smartphone toward the blazing noon sky. Desert light rims his weathered face. Shallow DOF, heat haze bokeh behind him. Anamorphic, photoreal. Dialogue (Mandarin accent, calm-commanding English): 'I am in position. Tell me... what is the ultimate strike in this market?' Audio: desert wind, distant hawk, AI UI chime. no logos, no readable text, no warped faces, no extra fingers, no duplicated characters, no plastic skin, no AI artifact shimmer, no cartoon style, no anime, no watermark
+Cinematic medium close-up, 4 seconds. East-Asian man in his 60s [REF:WongHong.png] seated cross-legged on the Great Pyramid apex, slowly opens his eyes - calm, tactical. He raises a glass-morphic smartphone toward the blazing noon sky. Desert light rims his weathered face. Shallow DOF, heat haze bokeh behind him. Anamorphic, photoreal. Dialogue (Mandarin accent, calm-commanding English): 'I am in position. Tell me... what is the ultimate strike in this market?' Audio: desert wind, distant hawk, AI UI chime. no logos, no readable text, no warped faces, no extra fingers, no duplicated characters, no plastic skin, no AI artifact shimmer, no cartoon style, no anime, no watermark
 ```
 
 #### Image prompt (Midjourney / Flux / DALL-E 3)
 ```
-Cinematic medium close-up, 4 seconds. East-Asian man in his 60s seated cross-legged on the Great Pyramid apex, slowly opens his eyes — calm, tactical. He raises a glass-morphic smartphone toward the blazing noon sky. Desert light rims his weathered face. Shallow DOF, heat haze bokeh behind him. Anamorphic, photoreal.
+Cinematic medium close-up, 4 seconds. East-Asian man in his 60s seated cross-legged on the Great Pyramid apex, slowly opens his eyes - calm, tactical. He raises a glass-morphic smartphone toward the blazing noon sky. Desert light rims his weathered face. Shallow DOF, heat haze bokeh behind him. Anamorphic, photoreal.
 ```
 
 ### Shot 2.3 · INSERT · 4s
-**Description:** HUD insert — smartphone above pyramid limestone. Holographic Egyptian market data, Alexandria pulsing dot, dish illustrations.
+**Description:** HUD insert - smartphone above pyramid limestone. Holographic Egyptian market data, Alexandria pulsing dot, dish illustrations.
 **Dialogue:** _CHATGPT (V.O.): Analyzing Egyptian market sentiment... The highest emotional currency in Egypt is Original Home Food._
 **Camera:** Tight OTS. Translucent holographic UI. Sun-drenched, warm rim light.
 **Characters:** —
@@ -202,28 +202,28 @@ Cinematic wide, 3 seconds. From behind: East-Asian warrior in dark robes stands 
 ```
 
 ### Shot 2.6 · AERIAL · 4s
-**Description:** Wong steps to the edge and dives off the pyramid. Camera rushes to follow — he's already gone, swallowed by a dust devil.
+**Description:** Wong steps to the edge and dives off the pyramid. Camera rushes to follow - he's already gone, swallowed by a dust devil.
 **Dialogue:** _Time to find the first Mama Zainab._
 **Camera:** High angle top-down then rush to edge. Dust devil swallows him.
 **Characters:** `wong`, `zainab`
 
 #### Video prompt (Veo 3 / Runway / Kling)
 ```
-Cinematic aerial, 4 seconds. From above: East-Asian warrior stands at the very apex of the Great Pyramid and steps off the edge without hesitation. The camera plunges forward to the edge — he is already gone, vanished into a swirling desert dust devil far below. Only wind and ancient stone. CUT TO BLACK. Anamorphic, photoreal, dramatic. Dialogue (voice-over): 'Time to find the first Mama Zainab.' Audio: orchestral sting, dust rush. no logos, no readable text, no warped faces, no extra fingers, no duplicated characters, no plastic skin, no AI artifact shimmer, no cartoon style, no anime, no watermark
+Cinematic aerial, 4 seconds. From above: East-Asian warrior stands at the very apex of the Great Pyramid and steps off the edge without hesitation. The camera plunges forward to the edge - he is already gone, vanished into a swirling desert dust devil far below. Only wind and ancient stone. CUT TO BLACK. Anamorphic, photoreal, dramatic. Dialogue (voice-over): 'Time to find the first Mama Zainab.' Audio: orchestral sting, dust rush. no logos, no readable text, no warped faces, no extra fingers, no duplicated characters, no plastic skin, no AI artifact shimmer, no cartoon style, no anime, no watermark
 ```
 
 #### Image prompt (Midjourney / Flux / DALL-E 3)
 ```
-Cinematic aerial, 4 seconds. From above: East-Asian warrior stands at the very apex of the Great Pyramid and steps off the edge without hesitation. The camera plunges forward to the edge — he is already gone, vanished into a swirling desert dust devil far below. Only wind and ancient stone. CUT TO BLACK. Anamorphic, photoreal, dramatic.
+Cinematic aerial, 4 seconds. From above: East-Asian warrior stands at the very apex of the Great Pyramid and steps off the edge without hesitation. The camera plunges forward to the edge - he is already gone, vanished into a swirling desert dust devil far below. Only wind and ancient stone. CUT TO BLACK. Anamorphic, photoreal, dramatic.
 ```
 
 ---
 
-## Scene 3 — Months later. The Mediterranean sun sparkles on the water. A massive stage has b
+## Scene 3 - Months later. The Mediterranean sun sparkles on the water. A massive stage has b
 *13s total*
 
 ### Shot 3.1 · AERIAL · 4s
-**Description:** Mediterranean coastline reveal — giant competition stage with hundreds of cooking stations in an Alexandria grand plaza.
+**Description:** Mediterranean coastline reveal - giant competition stage with hundreds of cooking stations in an Alexandria grand plaza.
 **Camera:** Sweeping drone. Coastal reveal. Golden hour. Lens flare.
 **Characters:** —
 
@@ -245,12 +245,12 @@ Sweeping drone shot, 4 seconds. Coastal Alexandria, Egypt at golden hour, the Me
 
 #### Video prompt (Veo 3 / Runway / Kling)
 ```
-Cinematic medium, 3 seconds. The same East-Asian man [REF:WongHong.png] now transformed — clean-shaven, hair tied back, wearing a premium minimalist cream-linen suit, standing behind a long judging table, holding a vintage brass microphone. Background: rows of cooks bokeh'd out. Calm authority. Anamorphic, soft golden-hour key light, photoreal. Dialogue (English with thick Mandarin accent, broken Egyptian Arabic mix): 'I have traveled across the world to find the perfect roll. The one who creates the ultimate Sobah Mahshi wins my life's fortune. You will be... our MaMa Zainab. Begin!' Audio: crowd hush, mic feedback, then silence. no logos, no readable text, no warped faces, no extra fingers, no duplicated characters, no plastic skin, no AI artifact shimmer, no cartoon style, no anime, no watermark
+Cinematic medium, 3 seconds. The same East-Asian man [REF:WongHong.png] now transformed - clean-shaven, hair tied back, wearing a premium minimalist cream-linen suit, standing behind a long judging table, holding a vintage brass microphone. Background: rows of cooks bokeh'd out. Calm authority. Anamorphic, soft golden-hour key light, photoreal. Dialogue (English with thick Mandarin accent, broken Egyptian Arabic mix): 'I have traveled across the world to find the perfect roll. The one who creates the ultimate Sobah Mahshi wins my life's fortune. You will be... our MaMa Zainab. Begin!' Audio: crowd hush, mic feedback, then silence. no logos, no readable text, no warped faces, no extra fingers, no duplicated characters, no plastic skin, no AI artifact shimmer, no cartoon style, no anime, no watermark
 ```
 
 #### Image prompt (Midjourney / Flux / DALL-E 3)
 ```
-Cinematic medium, 3 seconds. The same East-Asian man now transformed — clean-shaven, hair tied back, wearing a premium minimalist cream-linen suit, standing behind a long judging table, holding a vintage brass microphone. Background: rows of cooks bokeh'd out. Calm authority. Anamorphic, soft golden-hour key light, photoreal.
+Cinematic medium, 3 seconds. The same East-Asian man now transformed - clean-shaven, hair tied back, wearing a premium minimalist cream-linen suit, standing behind a long judging table, holding a vintage brass microphone. Background: rows of cooks bokeh'd out. Calm authority. Anamorphic, soft golden-hour key light, photoreal.
 ```
 
 ### Shot 3.3 · TRACKING · 4s
@@ -269,27 +269,27 @@ Cinematic lateral tracking shot, 4 seconds. Camera glides slowly along a row of 
 ```
 
 ### Shot 3.4 · WIDE · 2s
-**Description:** Reaction shot — excited Alexandria crowd in the bleachers, electric anticipation.
+**Description:** Reaction shot - excited Alexandria crowd in the bleachers, electric anticipation.
 **Camera:** Wide crowd shot. Energy, diversity, anticipation.
 **Characters:** —
 
 #### Video prompt (Veo 3 / Runway / Kling)
 ```
-Cinematic wide, 2 seconds. Bleachers filled with an excited Alexandria crowd — diverse ages, men and women, leaning forward in anticipation. Mediterranean sun. Some hold up phones, others shout encouragement. Energy and joy. Anamorphic, warm golden afternoon light, photoreal. Audio: crowd cheer, oud sting. no logos, no readable text, no warped faces, no extra fingers, no duplicated characters, no plastic skin, no AI artifact shimmer, no cartoon style, no anime, no watermark
+Cinematic wide, 2 seconds. Bleachers filled with an excited Alexandria crowd - diverse ages, men and women, leaning forward in anticipation. Mediterranean sun. Some hold up phones, others shout encouragement. Energy and joy. Anamorphic, warm golden afternoon light, photoreal. Audio: crowd cheer, oud sting. no logos, no readable text, no warped faces, no extra fingers, no duplicated characters, no plastic skin, no AI artifact shimmer, no cartoon style, no anime, no watermark
 ```
 
 #### Image prompt (Midjourney / Flux / DALL-E 3)
 ```
-Cinematic wide, 2 seconds. Bleachers filled with an excited Alexandria crowd — diverse ages, men and women, leaning forward in anticipation. Mediterranean sun. Some hold up phones, others shout encouragement. Energy and joy. Anamorphic, warm golden afternoon light, photoreal.
+Cinematic wide, 2 seconds. Bleachers filled with an excited Alexandria crowd - diverse ages, men and women, leaning forward in anticipation. Mediterranean sun. Some hold up phones, others shout encouragement. Energy and joy. Anamorphic, warm golden afternoon light, photoreal.
 ```
 
 ---
 
-## Scene 4 — MAMA ZAINAB (Kind face, plaid green and yellow apron) works with calm precision.
+## Scene 4 - MAMA ZAINAB (Kind face, plaid green and yellow apron) works with calm precision.
 *13s total*
 
 ### Shot 4.1 · MEDIUM · 3s
-**Description:** Mama Zainab and ZuZu the goose at her station — calm precision. The perfect two-shot.
+**Description:** Mama Zainab and ZuZu the goose at her station - calm precision. The perfect two-shot.
 **Camera:** Medium two-shot. Cast lock. Golden hour outdoor stage.
 **Characters:** `zainab`, `zuzu`
 
@@ -304,7 +304,7 @@ Cinematic medium two-shot, 3 seconds. An Egyptian woman in her 50s , warm kind f
 ```
 
 ### Shot 4.2 · MEDIUM · 2s
-**Description:** Ghost of Mama Zainab — translucent luminous-green younger self — shimmers into existence beside her. Only Zainab and ZuZu can see her.
+**Description:** Ghost of Mama Zainab - translucent luminous-green younger self - shimmers into existence beside her. Only Zainab and ZuZu can see her.
 **Camera:** VFX shimmer reveal. Pale green glow #1B9B00 @ 30%. Wind particles.
 **Characters:** `zainab`, `zuzu`
 
@@ -319,7 +319,7 @@ Cinematic medium, 2 seconds. A pale luminous-green translucent younger version o
 ```
 
 ### Shot 4.3 · INSERT · 2s
-**Description:** Comedic sabotage: rival chef reaches for salt — ZuZu trips her — she dumps a whole bag of sugar into the pot.
+**Description:** Comedic sabotage: rival chef reaches for salt - ZuZu trips her - she dumps a whole bag of sugar into the pot.
 **Camera:** Quick comedic insert. Slapstick timing. Cartoon sound effect.
 **Characters:** `zuzu`
 
@@ -334,22 +334,22 @@ Quick comedic insert, 2 seconds. A high-end chef in pristine white reaches acros
 ```
 
 ### Shot 4.4 · INSERT · 2s
-**Description:** Mob saboteur in cook disguise tries to tip Zainab's table — the Ghost blows an ice wind that freezes his hands to his own pot.
+**Description:** Mob saboteur in cook disguise tries to tip Zainab's table - the Ghost blows an ice wind that freezes his hands to his own pot.
 **Camera:** Quick insert. VFX ice wind from Ghost. Frozen hands gag.
 **Characters:** `zainab`, `ghost`
 
 #### Video prompt (Veo 3 / Runway / Kling)
 ```
-Quick comedic insert, 2 seconds. A large man disguised as a cook reaches out to tip a cooking station — the pale green translucent Ghost of Mama Zainab extends a hand and blows a supernatural cold wind. Ice crystals form instantly around the man's hands, freezing them to his own copper pot. His shocked face. Anamorphic, VFX photoreal, comic timing. Audio: ice crack, cartoon freeze SFX. no logos, no readable text, no warped faces, no extra fingers, no duplicated characters, no plastic skin, no AI artifact shimmer, no cartoon style, no anime, no watermark
+Quick comedic insert, 2 seconds. A large man disguised as a cook reaches out to tip a cooking station - the pale green translucent Ghost of Mama Zainab extends a hand and blows a supernatural cold wind. Ice crystals form instantly around the man's hands, freezing them to his own copper pot. His shocked face. Anamorphic, VFX photoreal, comic timing. Audio: ice crack, cartoon freeze SFX. no logos, no readable text, no warped faces, no extra fingers, no duplicated characters, no plastic skin, no AI artifact shimmer, no cartoon style, no anime, no watermark
 ```
 
 #### Image prompt (Midjourney / Flux / DALL-E 3)
 ```
-Quick comedic insert, 2 seconds. A large man disguised as a cook reaches out to tip a cooking station — the pale green translucent Ghost of Mama Zainab extends a hand and blows a supernatural cold wind. Ice crystals form instantly around the man's hands, freezing them to his own copper pot. His shocked face. Anamorphic, VFX photoreal, comic timing.
+Quick comedic insert, 2 seconds. A large man disguised as a cook reaches out to tip a cooking station - the pale green translucent Ghost of Mama Zainab extends a hand and blows a supernatural cold wind. Ice crystals form instantly around the man's hands, freezing them to his own copper pot. His shocked face. Anamorphic, VFX photoreal, comic timing.
 ```
 
 ### Shot 4.5 · INSERT · 2s
-**Description:** ZuZu flaps wings wildly — a flour cloud billows into the faces of three rival cooks mid-plate.
+**Description:** ZuZu flaps wings wildly - a flour cloud billows into the faces of three rival cooks mid-plate.
 **Camera:** Quick insert. ZuZu hero moment. Flour slow-motion.
 **Characters:** `zuzu`
 
@@ -380,7 +380,7 @@ Cinematic close-up, 2 seconds. Chaos in the background (blurred). In the foregro
 
 ---
 
-## Scene 5 — Only one plate sits before Wong: A single, perfectly cylindrical, emerald-green 
+## Scene 5 - Only one plate sits before Wong: A single, perfectly cylindrical, emerald-green
 *15s total*
 
 ### Shot 5.1 · MACRO · 2s
@@ -414,18 +414,18 @@ Cinematic close-up sequence, 3 seconds. First: weathered East-Asian hands pick u
 ```
 
 ### Shot 5.3 · WIDE · 4s
-**Description:** VFX flavor explosion — rapid dream flashes: sunlit green fields, stone oven, mother's flour-dusted hands, copper pot steam, blue door.
+**Description:** VFX flavor explosion - rapid dream flashes: sunlit green fields, stone oven, mother's flour-dusted hands, copper pot steam, blue door.
 **Camera:** VFX montage. Warm light flares. Dissolve cuts. Nostalgic film grain.
 **Characters:** —
 
 #### Video prompt (Veo 3 / Runway / Kling)
 ```
-Cinematic VFX montage, 4 seconds. From inside a man's closed eyes: rapid dream flashes — sunlit Egyptian village green fields rolling in wind, an old stone oven glowing orange, a mother's flour-dusted hands rolling grape leaves on a wooden table, steam rising from a copper pot, a sun-bleached blue door. Each image dissolves into the next on warm light flares. Anamorphic, photoreal, nostalgic film-grain, golden hour. Audio: swelling strings + ney flute, soft heartbeat. no logos, no readable text, no warped faces, no extra fingers, no duplicated characters, no plastic skin, no AI artifact shimmer, no cartoon style, no anime, no watermark
+Cinematic VFX montage, 4 seconds. From inside a man's closed eyes: rapid dream flashes - sunlit Egyptian village green fields rolling in wind, an old stone oven glowing orange, a mother's flour-dusted hands rolling grape leaves on a wooden table, steam rising from a copper pot, a sun-bleached blue door. Each image dissolves into the next on warm light flares. Anamorphic, photoreal, nostalgic film-grain, golden hour. Audio: swelling strings + ney flute, soft heartbeat. no logos, no readable text, no warped faces, no extra fingers, no duplicated characters, no plastic skin, no AI artifact shimmer, no cartoon style, no anime, no watermark
 ```
 
 #### Image prompt (Midjourney / Flux / DALL-E 3)
 ```
-Cinematic VFX montage, 4 seconds. From inside a man's closed eyes: rapid dream flashes — sunlit Egyptian village green fields rolling in wind, an old stone oven glowing orange, a mother's flour-dusted hands rolling grape leaves on a wooden table, steam rising from a copper pot, a sun-bleached blue door. Each image dissolves into the next on warm light flares. Anamorphic, photoreal, nostalgic film-grain, golden hour.
+Cinematic VFX montage, 4 seconds. From inside a man's closed eyes: rapid dream flashes - sunlit Egyptian village green fields rolling in wind, an old stone oven glowing orange, a mother's flour-dusted hands rolling grape leaves on a wooden table, steam rising from a copper pot, a sun-bleached blue door. Each image dissolves into the next on warm light flares. Anamorphic, photoreal, nostalgic film-grain, golden hour.
 ```
 
 ### Shot 5.4 · MEDIUM · 3s
@@ -461,7 +461,7 @@ Cinematic wide, 3 seconds. The East-Asian man in cream linen suit reaches up and
 
 ---
 
-## Scene 6 — A high-tech, minimalist office overlooking the harbor. It’s "Apple-store" clean 
+## Scene 6 - A high-tech, minimalist office overlooking the harbor. It’s "Apple-store" clean
 *20s total*
 
 ### Shot 6.1 · WIDE · 4s
@@ -517,12 +517,12 @@ Macro insert, 2 seconds. A classic vintage red telephone sits on a minimalist gl
 
 #### Video prompt (Veo 3 / Runway / Kling)
 ```
-Cinematic medium, 4 seconds. A male figure silhouetted against a massive floor-to-ceiling penthouse window overlooking the sea at dusk. No facial features visible — pure dark silhouette of a tall man in a well-cut suit, holding a phone to his ear. Like the mysterious 'Banker'. Warm amber light around the edges of the silhouette. Anamorphic, photoreal. Dialogue (voice-only, measured Mandarin accent): 'The London branch is asking for more garlic in the sauce. What is your decision, Mama?' Audio: harbor ambience, quiet strings. no logos, no readable text, no warped faces, no extra fingers, no duplicated characters, no plastic skin, no AI artifact shimmer, no cartoon style, no anime, no watermark
+Cinematic medium, 4 seconds. A male figure silhouetted against a massive floor-to-ceiling penthouse window overlooking the sea at dusk. No facial features visible - pure dark silhouette of a tall man in a well-cut suit, holding a phone to his ear. Like the mysterious 'Banker'. Warm amber light around the edges of the silhouette. Anamorphic, photoreal. Dialogue (voice-only, measured Mandarin accent): 'The London branch is asking for more garlic in the sauce. What is your decision, Mama?' Audio: harbor ambience, quiet strings. no logos, no readable text, no warped faces, no extra fingers, no duplicated characters, no plastic skin, no AI artifact shimmer, no cartoon style, no anime, no watermark
 ```
 
 #### Image prompt (Midjourney / Flux / DALL-E 3)
 ```
-Cinematic medium, 4 seconds. A male figure silhouetted against a massive floor-to-ceiling penthouse window overlooking the sea at dusk. No facial features visible — pure dark silhouette of a tall man in a well-cut suit, holding a phone to his ear. Like the mysterious 'Banker'. Warm amber light around the edges of the silhouette. Anamorphic, photoreal.
+Cinematic medium, 4 seconds. A male figure silhouetted against a massive floor-to-ceiling penthouse window overlooking the sea at dusk. No facial features visible - pure dark silhouette of a tall man in a well-cut suit, holding a phone to his ear. Like the mysterious 'Banker'. Warm amber light around the edges of the silhouette. Anamorphic, photoreal.
 ```
 
 ### Shot 6.5 · CLOSE-UP · 3s
@@ -533,12 +533,12 @@ Cinematic medium, 4 seconds. A male figure silhouetted against a massive floor-t
 
 #### Video prompt (Veo 3 / Runway / Kling)
 ```
-Cinematic close-up, 3 seconds. Egyptian woman in her 50s [REF:Mama Zainab (Final).jpeg] holds a telephone handset to her ear. She smiles — warm, unhurried, utterly certain. Plaid green-and-yellow apron. Warm kitchen light. Shallow DOF. Anamorphic, photoreal. Dialogue (Egyptian Arabic, calm matriarchal authority): 'Tell them no. In this kitchen, we do it the village way, or not at all.' Audio: quiet warmth, her voice the only sound. no logos, no readable text, no warped faces, no extra fingers, no duplicated characters, no plastic skin, no AI artifact shimmer, no cartoon style, no anime, no watermark
+Cinematic close-up, 3 seconds. Egyptian woman in her 50s [REF:Mama Zainab (Final).jpeg] holds a telephone handset to her ear. She smiles - warm, unhurried, utterly certain. Plaid green-and-yellow apron. Warm kitchen light. Shallow DOF. Anamorphic, photoreal. Dialogue (Egyptian Arabic, calm matriarchal authority): 'Tell them no. In this kitchen, we do it the village way, or not at all.' Audio: quiet warmth, her voice the only sound. no logos, no readable text, no warped faces, no extra fingers, no duplicated characters, no plastic skin, no AI artifact shimmer, no cartoon style, no anime, no watermark
 ```
 
 #### Image prompt (Midjourney / Flux / DALL-E 3)
 ```
-Cinematic close-up, 3 seconds. Egyptian woman in her 50s holds a telephone handset to her ear. She smiles — warm, unhurried, utterly certain. Plaid green-and-yellow apron. Warm kitchen light. Shallow DOF. Anamorphic, photoreal.
+Cinematic close-up, 3 seconds. Egyptian woman in her 50s holds a telephone handset to her ear. She smiles - warm, unhurried, utterly certain. Plaid green-and-yellow apron. Warm kitchen light. Shallow DOF. Anamorphic, photoreal.
 ```
 
 ### Shot 6.6 · WIDE · 4s
@@ -548,12 +548,12 @@ Cinematic close-up, 3 seconds. Egyptian woman in her 50s holds a telephone hands
 
 #### Video prompt (Veo 3 / Runway / Kling)
 ```
-Cinematic wide, 4 seconds. The silhouetted man hangs up a phone and slowly turns to face the floor-to-ceiling window. The camera begins a slow push toward him. Beyond the glass, the Mediterranean Sea at dusk — golden, peaceful, vast. He smiles. A warrior at rest. FADE TO BLACK. Anamorphic, photoreal, warm amber and deep teal. Audio: East-meets-Mediterranean fusion theme swells and fades. no logos, no readable text, no warped faces, no extra fingers, no duplicated characters, no plastic skin, no AI artifact shimmer, no cartoon style, no anime, no watermark
+Cinematic wide, 4 seconds. The silhouetted man hangs up a phone and slowly turns to face the floor-to-ceiling window. The camera begins a slow push toward him. Beyond the glass, the Mediterranean Sea at dusk - golden, peaceful, vast. He smiles. A warrior at rest. FADE TO BLACK. Anamorphic, photoreal, warm amber and deep teal. Audio: East-meets-Mediterranean fusion theme swells and fades. no logos, no readable text, no warped faces, no extra fingers, no duplicated characters, no plastic skin, no AI artifact shimmer, no cartoon style, no anime, no watermark
 ```
 
 #### Image prompt (Midjourney / Flux / DALL-E 3)
 ```
-Cinematic wide, 4 seconds. The silhouetted man hangs up a phone and slowly turns to face the floor-to-ceiling window. The camera begins a slow push toward him. Beyond the glass, the Mediterranean Sea at dusk — golden, peaceful, vast. He smiles. A warrior at rest. FADE TO BLACK. Anamorphic, photoreal, warm amber and deep teal.
+Cinematic wide, 4 seconds. The silhouetted man hangs up a phone and slowly turns to face the floor-to-ceiling window. The camera begins a slow push toward him. Beyond the glass, the Mediterranean Sea at dusk - golden, peaceful, vast. He smiles. A warrior at rest. FADE TO BLACK. Anamorphic, photoreal, warm amber and deep teal.
 ```
 
 ---
