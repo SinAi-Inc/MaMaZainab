@@ -1,7 +1,7 @@
 {
   "project": {
     "id": "prj_brand_legend_v2",
-    "title": "Brand Incorporation — The Legend of Wong & MaMa Zainab (Full 10-Scene)",
+    "title": "Brand Incorporation - The Legend of Wong & MaMa Zainab (Full 10-Scene)",
     "logline": "An exiled warrior arrives in Egypt, and an AI tells him to build a comfort-food empire named after every Egyptian's mother.",
     "aspectRatio": "2.39:1",
     "targetRuntime": "3:30",
@@ -31,7 +31,7 @@
     {
       "id": "scn_-_qjHKxd",
       "number": 1,
-      "heading": "SCENE 1 — THE WARRIOR WHO WANTED FOOD",
+      "heading": "SCENE 1 - THE WARRIOR WHO WANTED FOOD",
       "totalSec": 26,
       "shots": [
         {
@@ -46,7 +46,9 @@
           "refImages": [],
           "videoPrompt": "Cinematic dystopian neon city at night in torrential rain, dense towers in pink, cyan, and magenta glow, camera viewpoint descending toward one isolated rain-soaked rooftop, wet streets far below reflecting neon, volumetric fog, photoreal, ARRI Alexa 35, anamorphic 2.39:1. Duration: 5s. Aspect: 2.39:1. shot on ARRI Alexa 35, anamorphic 2.39:1, cinematic color grade, warm Mediterranean highlights + cool teal shadows, volumetric haze, photoreal, film grain, no text overlay. no logos, no readable text, no watermarks, no warped faces, no extra fingers, no duplicated characters, no deformed hands, no plastic skin, no AI artifact shimmer, no cartoon, no anime, no 3D CGI render, no low-resolution artifacts",
           "imagePrompt": "Cinematic dystopian neon city at night in torrential rain, dense towers in pink, cyan, and magenta glow, camera viewpoint descending toward one isolated rain-soaked rooftop, wet streets far below reflecting neon, volumetric fog, photoreal, ARRI Alexa 35, anamorphic 2.39:1. shot on ARRI Alexa 35, anamorphic 2.39:1, cinematic color grade, warm Mediterranean highlights + cool teal shadows, volumetric haze, photoreal, film grain, no text overlay",
-          "status": "prompted"
+          "status": "keyframed",
+          "keyframeUrl": "/uploads/keyframes/1_1_shot_EU9dbSDH.png",
+          "keyframeSeed": 3450569879
         },
         {
           "id": "shot_a4asoJYi",
@@ -64,7 +66,9 @@
           ],
           "videoPrompt": "Young Wong, East-Asian warrior in dark rain-soaked robe, sprints across a rooftop and stops at the ledge, back three-quarters to camera, neon city abyss beyond him, rain slashing diagonally, high tension, cinematic silhouette. Duration: 4s. Aspect: 2.39:1. shot on ARRI Alexa 35, anamorphic 2.39:1, cinematic color grade, warm Mediterranean highlights + cool teal shadows, volumetric haze, photoreal, film grain, no text overlay. no logos, no readable text, no watermarks, no warped faces, no extra fingers, no duplicated characters, no deformed hands, no plastic skin, no AI artifact shimmer, no cartoon, no anime, no 3D CGI render, no low-resolution artifacts",
           "imagePrompt": "Young Wong, East-Asian warrior in dark rain-soaked robe, sprints across a rooftop and stops at the ledge, back three-quarters to camera, neon city abyss beyond him, rain slashing diagonally, high tension, cinematic silhouette. shot on ARRI Alexa 35, anamorphic 2.39:1, cinematic color grade, warm Mediterranean highlights + cool teal shadows, volumetric haze, photoreal, film grain, no text overlay",
-          "status": "prompted"
+          "status": "keyframed",
+          "keyframeUrl": "/uploads/keyframes/1_2_shot_a4asoJYi.png",
+          "keyframeSeed": 525481326
         },
         {
           "id": "shot_IPKsLsJ6",
@@ -82,7 +86,9 @@
           ],
           "videoPrompt": "Rooftop steel door bursting open behind Wong, suited gang enforcers flooding out in the background, Young Wong as dark foreground silhouette near the ledge, pink-cyan neon backlight, urgency, photoreal action still. Duration: 4s. Aspect: 2.39:1. shot on ARRI Alexa 35, anamorphic 2.39:1, cinematic color grade, warm Mediterranean highlights + cool teal shadows, volumetric haze, photoreal, film grain, no text overlay. no logos, no readable text, no watermarks, no warped faces, no extra fingers, no duplicated characters, no deformed hands, no plastic skin, no AI artifact shimmer, no cartoon, no anime, no 3D CGI render, no low-resolution artifacts",
           "imagePrompt": "Rooftop steel door bursting open behind Wong, suited gang enforcers flooding out in the background, Young Wong as dark foreground silhouette near the ledge, pink-cyan neon backlight, urgency, photoreal action still. shot on ARRI Alexa 35, anamorphic 2.39:1, cinematic color grade, warm Mediterranean highlights + cool teal shadows, volumetric haze, photoreal, film grain, no text overlay",
-          "status": "prompted"
+          "status": "keyframed",
+          "keyframeUrl": "/uploads/keyframes/1_3_shot_IPKsLsJ6.png",
+          "keyframeSeed": 1826507312
         },
         {
           "id": "shot_JFmkgPge",
@@ -96,7 +102,9 @@
           "refImages": [],
           "videoPrompt": "Scarred male hands turning palm-up in heavy rain, pink and cyan neon reflecting in pooled raindrops on skin, one hand marked by old combat wear, shallow depth of field, emotional pause before reinvention. Duration: 4s. Aspect: 2.39:1. shot on ARRI Alexa 35, anamorphic 2.39:1, cinematic color grade, warm Mediterranean highlights + cool teal shadows, volumetric haze, photoreal, film grain, no text overlay. no logos, no readable text, no watermarks, no warped faces, no extra fingers, no duplicated characters, no deformed hands, no plastic skin, no AI artifact shimmer, no cartoon, no anime, no 3D CGI render, no low-resolution artifacts",
           "imagePrompt": "Scarred male hands turning palm-up in heavy rain, pink and cyan neon reflecting in pooled raindrops on skin, one hand marked by old combat wear, shallow depth of field, emotional pause before reinvention. shot on ARRI Alexa 35, anamorphic 2.39:1, cinematic color grade, warm Mediterranean highlights + cool teal shadows, volumetric haze, photoreal, film grain, no text overlay",
-          "status": "prompted"
+          "status": "keyframed",
+          "keyframeUrl": "/uploads/keyframes/1_4_shot_JFmkgPge.png",
+          "keyframeSeed": 3748500401
         },
         {
           "id": "shot_5iY3P5Nd",
@@ -113,8 +121,10 @@
             "/brand/chars/wong-hong.png"
           ],
           "videoPrompt": "Split-memory cinematic keyframe: Young Wong’s scarred hands holding combat knives in a dark alley visually dissolving into the same hands delicately chopping scallions and folding dumplings in a warm imagined kitchen, poetic crossfade composition, no gore. Duration: 5s. Aspect: 2.39:1. shot on ARRI Alexa 35, anamorphic 2.39:1, cinematic color grade, warm Mediterranean highlights + cool teal shadows, volumetric haze, photoreal, film grain, no text overlay. no logos, no readable text, no watermarks, no warped faces, no extra fingers, no duplicated characters, no deformed hands, no plastic skin, no AI artifact shimmer, no cartoon, no anime, no 3D CGI render, no low-resolution artifacts",
-          "imagePrompt": "Split-memory cinematic keyframe: Young Wong’s scarred hands holding combat knives in a dark alley visually dissolving into the same hands delicately chopping scallions and folding dumplings in a warm imagined kitchen, poetic crossfade composition, no gore. shot on ARRI Alexa 35, anamorphic 2.39:1, cinematic color grade, warm Mediterranean highlights + cool teal shadows, volumetric haze, photoreal, film grain, no text overlay",
-          "status": "prompted"
+          "imagePrompt": "Split-memory cinematic keyframe: Young Wong's hands gently cradling a chef's knife in a dimly lit kitchen, the image softly dissolving into the same hands folding dumplings and delicately chopping scallions in a warm imagined kitchen, poetic crossfade composition, warm inviting light. warm Mediterranean highlights + cool teal shadows, volumetric haze, photoreal, no text overlay",
+          "status": "keyframed",
+          "keyframeUrl": "/uploads/keyframes/1_5_shot_5iY3P5Nd.png",
+          "keyframeSeed": 4246198341
         },
         {
           "id": "shot_9YoEAvFa",
@@ -132,14 +142,16 @@
           ],
           "videoPrompt": "Weathered hand holding a sleek glass-morphic smartphone in pouring rain, wet screen glowing softly with abstract AI-interface geometry only, no readable text, neon reflections in droplets, rack-focus-ready composition, Wong seeking an answer. Duration: 4s. Aspect: 2.39:1. shot on ARRI Alexa 35, anamorphic 2.39:1, cinematic color grade, warm Mediterranean highlights + cool teal shadows, volumetric haze, photoreal, film grain, no text overlay. no logos, no readable text, no watermarks, no warped faces, no extra fingers, no duplicated characters, no deformed hands, no plastic skin, no AI artifact shimmer, no cartoon, no anime, no 3D CGI render, no low-resolution artifacts",
           "imagePrompt": "Weathered hand holding a sleek glass-morphic smartphone in pouring rain, wet screen glowing softly with abstract AI-interface geometry only, no readable text, neon reflections in droplets, rack-focus-ready composition, Wong seeking an answer. shot on ARRI Alexa 35, anamorphic 2.39:1, cinematic color grade, warm Mediterranean highlights + cool teal shadows, volumetric haze, photoreal, film grain, no text overlay",
-          "status": "prompted"
+          "status": "keyframed",
+          "keyframeUrl": "/uploads/keyframes/1_6_shot_9YoEAvFa.png",
+          "keyframeSeed": 316832359
         }
       ]
     },
     {
       "id": "scn_92i3K0-q",
       "number": 2,
-      "heading": "SCENE 2 — WHERE CAN I BEGIN AGAIN?",
+      "heading": "SCENE 2 - WHERE CAN I BEGIN AGAIN?",
       "totalSec": 20,
       "shots": [
         {
@@ -154,7 +166,9 @@
           "refImages": [],
           "videoPrompt": "Overexposed neon rain dissolving into blazing warm Egyptian sunlight, abstract white flare clearing to gold dust in the air, poetic transition image connecting chaos to peace. Duration: 4s. Aspect: 2.39:1. shot on ARRI Alexa 35, anamorphic 2.39:1, cinematic color grade, warm Mediterranean highlights + cool teal shadows, volumetric haze, photoreal, film grain, no text overlay. no logos, no readable text, no watermarks, no warped faces, no extra fingers, no duplicated characters, no deformed hands, no plastic skin, no AI artifact shimmer, no cartoon, no anime, no 3D CGI render, no low-resolution artifacts",
           "imagePrompt": "Overexposed neon rain dissolving into blazing warm Egyptian sunlight, abstract white flare clearing to gold dust in the air, poetic transition image connecting chaos to peace. shot on ARRI Alexa 35, anamorphic 2.39:1, cinematic color grade, warm Mediterranean highlights + cool teal shadows, volumetric haze, photoreal, film grain, no text overlay",
-          "status": "prompted"
+          "status": "keyframed",
+          "keyframeUrl": "/uploads/keyframes/2_1_shot_NiOg230i.png",
+          "keyframeSeed": 179496926
         },
         {
           "id": "shot_Ud4pnMNQ",
@@ -168,7 +182,9 @@
           "refImages": [],
           "videoPrompt": "Felucca sail crossing the Nile at sunrise, warm golden light, soft river mist, ancient Cairo atmosphere, serene and welcoming, cinematic epic calm. Duration: 4s. Aspect: 2.39:1. shot on ARRI Alexa 35, anamorphic 2.39:1, cinematic color grade, warm Mediterranean highlights + cool teal shadows, volumetric haze, photoreal, film grain, no text overlay. no logos, no readable text, no watermarks, no warped faces, no extra fingers, no duplicated characters, no deformed hands, no plastic skin, no AI artifact shimmer, no cartoon, no anime, no 3D CGI render, no low-resolution artifacts",
           "imagePrompt": "Felucca sail crossing the Nile at sunrise, warm golden light, soft river mist, ancient Cairo atmosphere, serene and welcoming, cinematic epic calm. shot on ARRI Alexa 35, anamorphic 2.39:1, cinematic color grade, warm Mediterranean highlights + cool teal shadows, volumetric haze, photoreal, film grain, no text overlay",
-          "status": "prompted"
+          "status": "keyframed",
+          "keyframeUrl": "/uploads/keyframes/2_2_shot_Ud4pnMNQ.png",
+          "keyframeSeed": 3110684541
         },
         {
           "id": "shot_J7oL3bzp",
@@ -182,7 +198,9 @@
           "refImages": [],
           "videoPrompt": "A smiling Egyptian tea-shop owner placing a small glass of tea on a marble café table for a stranger, sunlit dust motes, warm human gesture, authentic local texture, no readable branding. Duration: 4s. Aspect: 2.39:1. shot on ARRI Alexa 35, anamorphic 2.39:1, cinematic color grade, warm Mediterranean highlights + cool teal shadows, volumetric haze, photoreal, film grain, no text overlay. no logos, no readable text, no watermarks, no warped faces, no extra fingers, no duplicated characters, no deformed hands, no plastic skin, no AI artifact shimmer, no cartoon, no anime, no 3D CGI render, no low-resolution artifacts",
           "imagePrompt": "A smiling Egyptian tea-shop owner placing a small glass of tea on a marble café table for a stranger, sunlit dust motes, warm human gesture, authentic local texture, no readable branding. shot on ARRI Alexa 35, anamorphic 2.39:1, cinematic color grade, warm Mediterranean highlights + cool teal shadows, volumetric haze, photoreal, film grain, no text overlay",
-          "status": "prompted"
+          "status": "keyframed",
+          "keyframeUrl": "/uploads/keyframes/2_3_shot_J7oL3bzp.png",
+          "keyframeSeed": 3018783205
         },
         {
           "id": "shot_qasy28i6",
@@ -196,7 +214,9 @@
           "refImages": [],
           "videoPrompt": "Rural Egyptian woman pulling fresh baladi bread from a clay oven and extending the first loaf outward, golden firelight, flour on hands, rustic wall texture, deeply hospitable composition. Duration: 4s. Aspect: 2.39:1. shot on ARRI Alexa 35, anamorphic 2.39:1, cinematic color grade, warm Mediterranean highlights + cool teal shadows, volumetric haze, photoreal, film grain, no text overlay. no logos, no readable text, no watermarks, no warped faces, no extra fingers, no duplicated characters, no deformed hands, no plastic skin, no AI artifact shimmer, no cartoon, no anime, no 3D CGI render, no low-resolution artifacts",
           "imagePrompt": "Rural Egyptian woman pulling fresh baladi bread from a clay oven and extending the first loaf outward, golden firelight, flour on hands, rustic wall texture, deeply hospitable composition. shot on ARRI Alexa 35, anamorphic 2.39:1, cinematic color grade, warm Mediterranean highlights + cool teal shadows, volumetric haze, photoreal, film grain, no text overlay",
-          "status": "prompted"
+          "status": "keyframed",
+          "keyframeUrl": "/uploads/keyframes/2_4_shot_qasy28i6.png",
+          "keyframeSeed": 2792300030
         },
         {
           "id": "shot_Dd2Yi4cX",
@@ -214,14 +234,16 @@
           ],
           "videoPrompt": "Older Wong stepping off a dusty rural bus in the Delta, dark silken robes contrasting with sun-washed village walls, a child offers him bread, Wong stunned by kindness, warm fairytale realism. Duration: 4s. Aspect: 2.39:1. shot on ARRI Alexa 35, anamorphic 2.39:1, cinematic color grade, warm Mediterranean highlights + cool teal shadows, volumetric haze, photoreal, film grain, no text overlay. no logos, no readable text, no watermarks, no warped faces, no extra fingers, no duplicated characters, no deformed hands, no plastic skin, no AI artifact shimmer, no cartoon, no anime, no 3D CGI render, no low-resolution artifacts",
           "imagePrompt": "Older Wong stepping off a dusty rural bus in the Delta, dark silken robes contrasting with sun-washed village walls, a child offers him bread, Wong stunned by kindness, warm fairytale realism. shot on ARRI Alexa 35, anamorphic 2.39:1, cinematic color grade, warm Mediterranean highlights + cool teal shadows, volumetric haze, photoreal, film grain, no text overlay",
-          "status": "prompted"
+          "status": "keyframed",
+          "keyframeUrl": "/uploads/keyframes/2_5_shot_Dd2Yi4cX.png",
+          "keyframeSeed": 2652371189
         }
       ]
     },
     {
       "id": "scn_j-2B8-qs",
       "number": 3,
-      "heading": "SCENE 3 — EGYPT WINS HIS HEART",
+      "heading": "SCENE 3 - EGYPT WINS HIS HEART",
       "totalSec": 22,
       "shots": [
         {
@@ -240,7 +262,9 @@
           ],
           "videoPrompt": "Older Wong standing respectfully at the edge of a lively Egyptian family meal, watching plates of molokhia, fattah, rice, and bread being shared, warm kitchen light, affectionate crowded table, Wong curious and quiet. Duration: 5s. Aspect: 2.39:1. shot on ARRI Alexa 35, anamorphic 2.39:1, cinematic color grade, warm Mediterranean highlights + cool teal shadows, volumetric haze, photoreal, film grain, no text overlay. no logos, no readable text, no watermarks, no warped faces, no extra fingers, no duplicated characters, no deformed hands, no plastic skin, no AI artifact shimmer, no cartoon, no anime, no 3D CGI render, no low-resolution artifacts",
           "imagePrompt": "Older Wong standing respectfully at the edge of a lively Egyptian family meal, watching plates of molokhia, fattah, rice, and bread being shared, warm kitchen light, affectionate crowded table, Wong curious and quiet. shot on ARRI Alexa 35, anamorphic 2.39:1, cinematic color grade, warm Mediterranean highlights + cool teal shadows, volumetric haze, photoreal, film grain, no text overlay",
-          "status": "prompted"
+          "status": "keyframed",
+          "keyframeUrl": "/uploads/keyframes/3_1_shot_f3ca01wN.png",
+          "keyframeSeed": 2608291447
         },
         {
           "id": "shot_2BZN1WLP",
@@ -254,14 +278,16 @@
           "refImages": [],
           "videoPrompt": "Stylized realistic dinner table where a bowl of Chinese soup sits visually out of place among Egyptian home dishes, the soup softly fading into steam while family food remains vivid, cinematic metaphor for cultural fit. Duration: 4s. Aspect: 2.39:1. shot on ARRI Alexa 35, anamorphic 2.39:1, cinematic color grade, warm Mediterranean highlights + cool teal shadows, volumetric haze, photoreal, film grain, no text overlay. no logos, no readable text, no watermarks, no warped faces, no extra fingers, no duplicated characters, no deformed hands, no plastic skin, no AI artifact shimmer, no cartoon, no anime, no 3D CGI render, no low-resolution artifacts",
           "imagePrompt": "Stylized realistic dinner table where a bowl of Chinese soup sits visually out of place among Egyptian home dishes, the soup softly fading into steam while family food remains vivid, cinematic metaphor for cultural fit. shot on ARRI Alexa 35, anamorphic 2.39:1, cinematic color grade, warm Mediterranean highlights + cool teal shadows, volumetric haze, photoreal, film grain, no text overlay",
-          "status": "prompted"
+          "status": "keyframed",
+          "keyframeUrl": "/uploads/keyframes/3_2_shot_2BZN1WLP.png",
+          "keyframeSeed": 460666093
         },
         {
           "id": "shot_OY1Dbn2F",
           "number": "3.3",
           "type": "holographic-food-search",
           "durationSec": 4,
-          "description": "Wong in a dim calm room with subtle translucent floating food silhouettes around him — koshari, mombar, béchamel, fattah, mahshi — all soft and abstract with no text, tactical contemplation, Egypt-inspired warm shadows.",
+          "description": "Wong in a dim calm room with subtle translucent floating food silhouettes around him - koshari, mombar, béchamel, fattah, mahshi - all soft and abstract with no text, tactical contemplation, Egypt-inspired warm shadows.",
           "dialogue": "",
           "cameraNotes": "",
           "characters": [
@@ -270,9 +296,11 @@
           "refImages": [
             "/brand/chars/wong-hong.png"
           ],
-          "videoPrompt": "Wong in a dim calm room with subtle translucent floating food silhouettes around him — koshari, mombar, béchamel, fattah, mahshi — all soft and abstract with no text, tactical contemplation, Egypt-inspired warm shadows. Duration: 4s. Aspect: 2.39:1. shot on ARRI Alexa 35, anamorphic 2.39:1, cinematic color grade, warm Mediterranean highlights + cool teal shadows, volumetric haze, photoreal, film grain, no text overlay. no logos, no readable text, no watermarks, no warped faces, no extra fingers, no duplicated characters, no deformed hands, no plastic skin, no AI artifact shimmer, no cartoon, no anime, no 3D CGI render, no low-resolution artifacts",
-          "imagePrompt": "Wong in a dim calm room with subtle translucent floating food silhouettes around him — koshari, mombar, béchamel, fattah, mahshi — all soft and abstract with no text, tactical contemplation, Egypt-inspired warm shadows. shot on ARRI Alexa 35, anamorphic 2.39:1, cinematic color grade, warm Mediterranean highlights + cool teal shadows, volumetric haze, photoreal, film grain, no text overlay",
-          "status": "prompted"
+          "videoPrompt": "Wong in a dim calm room with subtle translucent floating food silhouettes around him - koshari, mombar, béchamel, fattah, mahshi - all soft and abstract with no text, tactical contemplation, Egypt-inspired warm shadows. Duration: 4s. Aspect: 2.39:1. shot on ARRI Alexa 35, anamorphic 2.39:1, cinematic color grade, warm Mediterranean highlights + cool teal shadows, volumetric haze, photoreal, film grain, no text overlay. no logos, no readable text, no watermarks, no warped faces, no extra fingers, no duplicated characters, no deformed hands, no plastic skin, no AI artifact shimmer, no cartoon, no anime, no 3D CGI render, no low-resolution artifacts",
+          "imagePrompt": "Wong in a dim calm room with subtle translucent floating food silhouettes around him - koshari, mombar, béchamel, fattah, mahshi - all soft and abstract with no text, tactical contemplation, Egypt-inspired warm shadows. shot on ARRI Alexa 35, anamorphic 2.39:1, cinematic color grade, warm Mediterranean highlights + cool teal shadows, volumetric haze, photoreal, film grain, no text overlay",
+          "status": "keyframed",
+          "keyframeUrl": "/uploads/keyframes/3_3_shot_OY1Dbn2F.png",
+          "keyframeSeed": 2746317214
         },
         {
           "id": "shot_fJ3x3fiV",
@@ -286,7 +314,9 @@
           "refImages": [],
           "videoPrompt": "Hero beauty close-up of grape-leaf mahshi and cabbage rolls glowing with appetizing steam on a rustic brass tray, foreground greens and lemon wedges, every other dish visually softened in the background, decisive revelation. Duration: 4s. Aspect: 2.39:1. shot on ARRI Alexa 35, anamorphic 2.39:1, cinematic color grade, warm Mediterranean highlights + cool teal shadows, volumetric haze, photoreal, film grain, no text overlay. no logos, no readable text, no watermarks, no warped faces, no extra fingers, no duplicated characters, no deformed hands, no plastic skin, no AI artifact shimmer, no cartoon, no anime, no 3D CGI render, no low-resolution artifacts",
           "imagePrompt": "Hero beauty close-up of grape-leaf mahshi and cabbage rolls glowing with appetizing steam on a rustic brass tray, foreground greens and lemon wedges, every other dish visually softened in the background, decisive revelation. shot on ARRI Alexa 35, anamorphic 2.39:1, cinematic color grade, warm Mediterranean highlights + cool teal shadows, volumetric haze, photoreal, film grain, no text overlay",
-          "status": "prompted"
+          "status": "keyframed",
+          "keyframeUrl": "/uploads/keyframes/3_4_shot_fJ3x3fiV.png",
+          "keyframeSeed": 636087515
         },
         {
           "id": "shot_8DtQ73cN",
@@ -304,14 +334,16 @@
           ],
           "videoPrompt": "Older Wong in profile, eyes narrowing thoughtfully as he studies a single grape-leaf roll held reverently between fingers, golden side light, the food framed like a strategic discovery, solemn but hopeful. Duration: 5s. Aspect: 2.39:1. shot on ARRI Alexa 35, anamorphic 2.39:1, cinematic color grade, warm Mediterranean highlights + cool teal shadows, volumetric haze, photoreal, film grain, no text overlay. no logos, no readable text, no watermarks, no warped faces, no extra fingers, no duplicated characters, no deformed hands, no plastic skin, no AI artifact shimmer, no cartoon, no anime, no 3D CGI render, no low-resolution artifacts",
           "imagePrompt": "Older Wong in profile, eyes narrowing thoughtfully as he studies a single grape-leaf roll held reverently between fingers, golden side light, the food framed like a strategic discovery, solemn but hopeful. shot on ARRI Alexa 35, anamorphic 2.39:1, cinematic color grade, warm Mediterranean highlights + cool teal shadows, volumetric haze, photoreal, film grain, no text overlay",
-          "status": "prompted"
+          "status": "keyframed",
+          "keyframeUrl": "/uploads/keyframes/3_5_shot_8DtQ73cN.png",
+          "keyframeSeed": 3746629040
         }
       ]
     },
     {
       "id": "scn_7J-fLhNl",
       "number": 4,
-      "heading": "SCENE 4 — THE MAHSHI REVELATION: RURAL SOURCING",
+      "heading": "SCENE 4 - THE MAHSHI REVELATION: RURAL SOURCING",
       "totalSec": 20,
       "shots": [
         {
@@ -326,7 +358,9 @@
           "refImages": [],
           "videoPrompt": "Thick golden baladi ghee pouring from a clay jar into a warm copper pan, sunlight flaring through the stream, rustic village kitchen, hyper-detailed appetizing texture. Duration: 5s. Aspect: 2.39:1. shot on ARRI Alexa 35, anamorphic 2.39:1, cinematic color grade, warm Mediterranean highlights + cool teal shadows, volumetric haze, photoreal, film grain, no text overlay. no logos, no readable text, no watermarks, no warped faces, no extra fingers, no duplicated characters, no deformed hands, no plastic skin, no AI artifact shimmer, no cartoon, no anime, no 3D CGI render, no low-resolution artifacts",
           "imagePrompt": "Thick golden baladi ghee pouring from a clay jar into a warm copper pan, sunlight flaring through the stream, rustic village kitchen, hyper-detailed appetizing texture. shot on ARRI Alexa 35, anamorphic 2.39:1, cinematic color grade, warm Mediterranean highlights + cool teal shadows, volumetric haze, photoreal, film grain, no text overlay",
-          "status": "prompted"
+          "status": "keyframed",
+          "keyframeUrl": "/uploads/keyframes/4_1_shot_BPEmhYyZ.png",
+          "keyframeSeed": 1175366511
         },
         {
           "id": "shot_y-VP3yfh",
@@ -340,7 +374,9 @@
           "refImages": [],
           "videoPrompt": "Elderly village woman’s hands rolling one grape leaf with calm speed and precision, stuffing mixture visible, woven mat beneath, natural hand detail, authenticity over glamour. Duration: 5s. Aspect: 2.39:1. shot on ARRI Alexa 35, anamorphic 2.39:1, cinematic color grade, warm Mediterranean highlights + cool teal shadows, volumetric haze, photoreal, film grain, no text overlay. no logos, no readable text, no watermarks, no warped faces, no extra fingers, no duplicated characters, no deformed hands, no plastic skin, no AI artifact shimmer, no cartoon, no anime, no 3D CGI render, no low-resolution artifacts",
           "imagePrompt": "Elderly village woman’s hands rolling one grape leaf with calm speed and precision, stuffing mixture visible, woven mat beneath, natural hand detail, authenticity over glamour. shot on ARRI Alexa 35, anamorphic 2.39:1, cinematic color grade, warm Mediterranean highlights + cool teal shadows, volumetric haze, photoreal, film grain, no text overlay",
-          "status": "prompted"
+          "status": "keyframed",
+          "keyframeUrl": "/uploads/keyframes/4_2_shot_y-VP3yfh.png",
+          "keyframeSeed": 2226068764
         },
         {
           "id": "shot_lqZ3f8lN",
@@ -354,7 +390,9 @@
           "refImages": [],
           "videoPrompt": "Baskets of fresh parsley, dill, mint, grape leaves, cabbage, and tomatoes arranged outside a village home, early evening sun, dust and greenery, agricultural origin story. Duration: 5s. Aspect: 2.39:1. shot on ARRI Alexa 35, anamorphic 2.39:1, cinematic color grade, warm Mediterranean highlights + cool teal shadows, volumetric haze, photoreal, film grain, no text overlay. no logos, no readable text, no watermarks, no warped faces, no extra fingers, no duplicated characters, no deformed hands, no plastic skin, no AI artifact shimmer, no cartoon, no anime, no 3D CGI render, no low-resolution artifacts",
           "imagePrompt": "Baskets of fresh parsley, dill, mint, grape leaves, cabbage, and tomatoes arranged outside a village home, early evening sun, dust and greenery, agricultural origin story. shot on ARRI Alexa 35, anamorphic 2.39:1, cinematic color grade, warm Mediterranean highlights + cool teal shadows, volumetric haze, photoreal, film grain, no text overlay",
-          "status": "prompted"
+          "status": "keyframed",
+          "keyframeUrl": "/uploads/keyframes/4_3_shot_lqZ3f8lN.png",
+          "keyframeSeed": 3675089674
         },
         {
           "id": "shot_WN0oS5ji",
@@ -372,14 +410,16 @@
           ],
           "videoPrompt": "Older Wong standing at the doorway of a rural kitchen, silent and respectful, watching several village women working in synchronized rhythm, his head slightly bowed, sunset rim light, dignified admiration. Duration: 5s. Aspect: 2.39:1. shot on ARRI Alexa 35, anamorphic 2.39:1, cinematic color grade, warm Mediterranean highlights + cool teal shadows, volumetric haze, photoreal, film grain, no text overlay. no logos, no readable text, no watermarks, no warped faces, no extra fingers, no duplicated characters, no deformed hands, no plastic skin, no AI artifact shimmer, no cartoon, no anime, no 3D CGI render, no low-resolution artifacts",
           "imagePrompt": "Older Wong standing at the doorway of a rural kitchen, silent and respectful, watching several village women working in synchronized rhythm, his head slightly bowed, sunset rim light, dignified admiration. shot on ARRI Alexa 35, anamorphic 2.39:1, cinematic color grade, warm Mediterranean highlights + cool teal shadows, volumetric haze, photoreal, film grain, no text overlay",
-          "status": "prompted"
+          "status": "keyframed",
+          "keyframeUrl": "/uploads/keyframes/4_4_shot_WN0oS5ji.png",
+          "keyframeSeed": 3128180951
         }
       ]
     },
     {
       "id": "scn_TVLdI3gq",
       "number": 5,
-      "heading": "SCENE 5 — WHY ALEXANDRIA?",
+      "heading": "SCENE 5 - WHY ALEXANDRIA?",
       "totalSec": 21,
       "shots": [
         {
@@ -394,7 +434,9 @@
           "refImages": [],
           "videoPrompt": "Mediterranean Alexandria in bright daytime, Corniche road sweeping beside turquoise sea, old architecture, sea haze, fishing boats and cafés, elegant cinematic warmth. Duration: 4s. Aspect: 2.39:1. shot on ARRI Alexa 35, anamorphic 2.39:1, cinematic color grade, warm Mediterranean highlights + cool teal shadows, volumetric haze, photoreal, film grain, no text overlay. no logos, no readable text, no watermarks, no warped faces, no extra fingers, no duplicated characters, no deformed hands, no plastic skin, no AI artifact shimmer, no cartoon, no anime, no 3D CGI render, no low-resolution artifacts",
           "imagePrompt": "Mediterranean Alexandria in bright daytime, Corniche road sweeping beside turquoise sea, old architecture, sea haze, fishing boats and cafés, elegant cinematic warmth. shot on ARRI Alexa 35, anamorphic 2.39:1, cinematic color grade, warm Mediterranean highlights + cool teal shadows, volumetric haze, photoreal, film grain, no text overlay",
-          "status": "prompted"
+          "status": "keyframed",
+          "keyframeUrl": "/uploads/keyframes/5_1_shot_fDja29ly.png",
+          "keyframeSeed": 1919823755
         },
         {
           "id": "shot_KqCKCNwq",
@@ -408,7 +450,9 @@
           "refImages": [],
           "videoPrompt": "Family at a seaside café laughing around a shared table, plates of Egyptian food, breeze catching napkins, harbor light, atmosphere of taste, ease, and local approval. Duration: 4s. Aspect: 2.39:1. shot on ARRI Alexa 35, anamorphic 2.39:1, cinematic color grade, warm Mediterranean highlights + cool teal shadows, volumetric haze, photoreal, film grain, no text overlay. no logos, no readable text, no watermarks, no warped faces, no extra fingers, no duplicated characters, no deformed hands, no plastic skin, no AI artifact shimmer, no cartoon, no anime, no 3D CGI render, no low-resolution artifacts",
           "imagePrompt": "Family at a seaside café laughing around a shared table, plates of Egyptian food, breeze catching napkins, harbor light, atmosphere of taste, ease, and local approval. shot on ARRI Alexa 35, anamorphic 2.39:1, cinematic color grade, warm Mediterranean highlights + cool teal shadows, volumetric haze, photoreal, film grain, no text overlay",
-          "status": "prompted"
+          "status": "keyframed",
+          "keyframeUrl": "/uploads/keyframes/5_2_shot_KqCKCNwq.png",
+          "keyframeSeed": 1518446578
         },
         {
           "id": "shot_qRJqIMaR",
@@ -422,7 +466,9 @@
           "refImages": [],
           "videoPrompt": "Older man playing oud near the waterfront while passersby stroll, sunlit sea behind him, relaxed Alexandrian rhythm, authentic street poetry. Duration: 4s. Aspect: 2.39:1. shot on ARRI Alexa 35, anamorphic 2.39:1, cinematic color grade, warm Mediterranean highlights + cool teal shadows, volumetric haze, photoreal, film grain, no text overlay. no logos, no readable text, no watermarks, no warped faces, no extra fingers, no duplicated characters, no deformed hands, no plastic skin, no AI artifact shimmer, no cartoon, no anime, no 3D CGI render, no low-resolution artifacts",
           "imagePrompt": "Older man playing oud near the waterfront while passersby stroll, sunlit sea behind him, relaxed Alexandrian rhythm, authentic street poetry. shot on ARRI Alexa 35, anamorphic 2.39:1, cinematic color grade, warm Mediterranean highlights + cool teal shadows, volumetric haze, photoreal, film grain, no text overlay",
-          "status": "prompted"
+          "status": "keyframed",
+          "keyframeUrl": "/uploads/keyframes/5_3_shot_qRJqIMaR.png",
+          "keyframeSeed": 1003867432
         },
         {
           "id": "shot_gExHN6-V",
@@ -440,7 +486,9 @@
           ],
           "videoPrompt": "Older Wong seated alone at a classic Alexandrian café table, tea glass in hand, facing the sea, cream linen beginning to appear in his wardrobe, contemplative yet increasingly at home. Duration: 4s. Aspect: 2.39:1. shot on ARRI Alexa 35, anamorphic 2.39:1, cinematic color grade, warm Mediterranean highlights + cool teal shadows, volumetric haze, photoreal, film grain, no text overlay. no logos, no readable text, no watermarks, no warped faces, no extra fingers, no duplicated characters, no deformed hands, no plastic skin, no AI artifact shimmer, no cartoon, no anime, no 3D CGI render, no low-resolution artifacts",
           "imagePrompt": "Older Wong seated alone at a classic Alexandrian café table, tea glass in hand, facing the sea, cream linen beginning to appear in his wardrobe, contemplative yet increasingly at home. shot on ARRI Alexa 35, anamorphic 2.39:1, cinematic color grade, warm Mediterranean highlights + cool teal shadows, volumetric haze, photoreal, film grain, no text overlay",
-          "status": "prompted"
+          "status": "keyframed",
+          "keyframeUrl": "/uploads/keyframes/5_4_shot_gExHN6-V.png",
+          "keyframeSeed": 3789185339
         },
         {
           "id": "shot_8bPNXJmq",
@@ -458,14 +506,16 @@
           ],
           "videoPrompt": "Wong standing on the Corniche with Alexandria stretched behind him, wind in silver-streaked hair, determined founder energy, a subtle half-smile, the city as his chosen launch point. Duration: 5s. Aspect: 2.39:1. shot on ARRI Alexa 35, anamorphic 2.39:1, cinematic color grade, warm Mediterranean highlights + cool teal shadows, volumetric haze, photoreal, film grain, no text overlay. no logos, no readable text, no watermarks, no warped faces, no extra fingers, no duplicated characters, no deformed hands, no plastic skin, no AI artifact shimmer, no cartoon, no anime, no 3D CGI render, no low-resolution artifacts",
           "imagePrompt": "Wong standing on the Corniche with Alexandria stretched behind him, wind in silver-streaked hair, determined founder energy, a subtle half-smile, the city as his chosen launch point. shot on ARRI Alexa 35, anamorphic 2.39:1, cinematic color grade, warm Mediterranean highlights + cool teal shadows, volumetric haze, photoreal, film grain, no text overlay",
-          "status": "prompted"
+          "status": "keyframed",
+          "keyframeUrl": "/uploads/keyframes/5_5_shot_8bPNXJmq.png",
+          "keyframeSeed": 1367446370
         }
       ]
     },
     {
       "id": "scn_BHbqoSYt",
       "number": 6,
-      "heading": "SCENE 6 — THE NAME",
+      "heading": "SCENE 6 - THE NAME",
       "totalSec": 18,
       "shots": [
         {
@@ -480,7 +530,9 @@
           "refImages": [],
           "videoPrompt": "Classic Alexandrian ahwa interior at evening, marble tables, tea glasses, old ceiling fans, locals watching an old television glow in the corner, no readable screen text, warm amber practicals. Duration: 5s. Aspect: 2.39:1. shot on ARRI Alexa 35, anamorphic 2.39:1, cinematic color grade, warm Mediterranean highlights + cool teal shadows, volumetric haze, photoreal, film grain, no text overlay. no logos, no readable text, no watermarks, no warped faces, no extra fingers, no duplicated characters, no deformed hands, no plastic skin, no AI artifact shimmer, no cartoon, no anime, no 3D CGI render, no low-resolution artifacts",
           "imagePrompt": "Classic Alexandrian ahwa interior at evening, marble tables, tea glasses, old ceiling fans, locals watching an old television glow in the corner, no readable screen text, warm amber practicals. shot on ARRI Alexa 35, anamorphic 2.39:1, cinematic color grade, warm Mediterranean highlights + cool teal shadows, volumetric haze, photoreal, film grain, no text overlay",
-          "status": "prompted"
+          "status": "keyframed",
+          "keyframeUrl": "/uploads/keyframes/6_1_shot_y8ZKeE8n.png",
+          "keyframeSeed": 3599171262
         },
         {
           "id": "shot_-fnQJZw2",
@@ -498,7 +550,9 @@
           ],
           "videoPrompt": "Wong at a café table with a phone and half-finished tea, brows furrowed, several handwritten paper scraps with blurred, unreadable pseudo-names, he seeks an authentic Egyptian brand name. Duration: 5s. Aspect: 2.39:1. shot on ARRI Alexa 35, anamorphic 2.39:1, cinematic color grade, warm Mediterranean highlights + cool teal shadows, volumetric haze, photoreal, film grain, no text overlay. no logos, no readable text, no watermarks, no warped faces, no extra fingers, no duplicated characters, no deformed hands, no plastic skin, no AI artifact shimmer, no cartoon, no anime, no 3D CGI render, no low-resolution artifacts",
           "imagePrompt": "Wong at a café table with a phone and half-finished tea, brows furrowed, several handwritten paper scraps with blurred, unreadable pseudo-names, he seeks an authentic Egyptian brand name. shot on ARRI Alexa 35, anamorphic 2.39:1, cinematic color grade, warm Mediterranean highlights + cool teal shadows, volumetric haze, photoreal, film grain, no text overlay",
-          "status": "prompted"
+          "status": "keyframed",
+          "keyframeUrl": "/uploads/keyframes/6_2_shot_-fnQJZw2.png",
+          "keyframeSeed": 3437462720
         },
         {
           "id": "shot_UNl0XjF_",
@@ -518,7 +572,9 @@
           ],
           "videoPrompt": "Wong freezes mid-sip as warm television light hits his face; background patrons smile knowingly at something beloved on screen, the moment of “Mama Zainab” arriving without any readable dialogue visible. Duration: 4s. Aspect: 2.39:1. shot on ARRI Alexa 35, anamorphic 2.39:1, cinematic color grade, warm Mediterranean highlights + cool teal shadows, volumetric haze, photoreal, film grain, no text overlay. no logos, no readable text, no watermarks, no warped faces, no extra fingers, no duplicated characters, no deformed hands, no plastic skin, no AI artifact shimmer, no cartoon, no anime, no 3D CGI render, no low-resolution artifacts",
           "imagePrompt": "Wong freezes mid-sip as warm television light hits his face; background patrons smile knowingly at something beloved on screen, the moment of “Mama Zainab” arriving without any readable dialogue visible. shot on ARRI Alexa 35, anamorphic 2.39:1, cinematic color grade, warm Mediterranean highlights + cool teal shadows, volumetric haze, photoreal, film grain, no text overlay",
-          "status": "prompted"
+          "status": "keyframed",
+          "keyframeUrl": "/uploads/keyframes/6_3_shot_UNl0XjF_.png",
+          "keyframeSeed": 2131697636
         },
         {
           "id": "shot_-Q3g8o2d",
@@ -536,14 +592,16 @@
           ],
           "videoPrompt": "Extreme close-up of Wong’s eyes softening with recognition, amber café light and blue twilight rim, a quiet smile beginning, the name has landed. Duration: 4s. Aspect: 2.39:1. shot on ARRI Alexa 35, anamorphic 2.39:1, cinematic color grade, warm Mediterranean highlights + cool teal shadows, volumetric haze, photoreal, film grain, no text overlay. no logos, no readable text, no watermarks, no warped faces, no extra fingers, no duplicated characters, no deformed hands, no plastic skin, no AI artifact shimmer, no cartoon, no anime, no 3D CGI render, no low-resolution artifacts",
           "imagePrompt": "Extreme close-up of Wong’s eyes softening with recognition, amber café light and blue twilight rim, a quiet smile beginning, the name has landed. shot on ARRI Alexa 35, anamorphic 2.39:1, cinematic color grade, warm Mediterranean highlights + cool teal shadows, volumetric haze, photoreal, film grain, no text overlay",
-          "status": "prompted"
+          "status": "keyframed",
+          "keyframeUrl": "/uploads/keyframes/6_4_shot_-Q3g8o2d.png",
+          "keyframeSeed": 1166550754
         }
       ]
     },
     {
       "id": "scn_2WMjQfX4",
       "number": 7,
-      "heading": "SCENE 7 — SHENG EL MASRY",
+      "heading": "SCENE 7 - SHENG EL MASRY",
       "totalSec": 30,
       "shots": [
         {
@@ -562,7 +620,9 @@
           ],
           "videoPrompt": "Wong seated on floor cushions with a Sa’idi family in a sunlit home, sharing a generous mahshi meal, laughter around him, his guarded demeanor relaxing, photoreal warmth. Duration: 5s. Aspect: 2.39:1. shot on ARRI Alexa 35, anamorphic 2.39:1, cinematic color grade, warm Mediterranean highlights + cool teal shadows, volumetric haze, photoreal, film grain, no text overlay. no logos, no readable text, no watermarks, no warped faces, no extra fingers, no duplicated characters, no deformed hands, no plastic skin, no AI artifact shimmer, no cartoon, no anime, no 3D CGI render, no low-resolution artifacts",
           "imagePrompt": "Wong seated on floor cushions with a Sa’idi family in a sunlit home, sharing a generous mahshi meal, laughter around him, his guarded demeanor relaxing, photoreal warmth. shot on ARRI Alexa 35, anamorphic 2.39:1, cinematic color grade, warm Mediterranean highlights + cool teal shadows, volumetric haze, photoreal, film grain, no text overlay",
-          "status": "prompted"
+          "status": "keyframed",
+          "keyframeUrl": "/uploads/keyframes/7_1_shot_wWwTdYCP.png",
+          "keyframeSeed": 2767705327
         },
         {
           "id": "shot_dEJBJ8dm",
@@ -580,7 +640,9 @@
           ],
           "videoPrompt": "Wong in a Delta village courtyard tasting cabbage mahshi from a metal tray, eyes closing in genuine bliss, women nearby watching with amused pride, rural atmosphere. Duration: 5s. Aspect: 2.39:1. shot on ARRI Alexa 35, anamorphic 2.39:1, cinematic color grade, warm Mediterranean highlights + cool teal shadows, volumetric haze, photoreal, film grain, no text overlay. no logos, no readable text, no watermarks, no warped faces, no extra fingers, no duplicated characters, no deformed hands, no plastic skin, no AI artifact shimmer, no cartoon, no anime, no 3D CGI render, no low-resolution artifacts",
           "imagePrompt": "Wong in a Delta village courtyard tasting cabbage mahshi from a metal tray, eyes closing in genuine bliss, women nearby watching with amused pride, rural atmosphere. shot on ARRI Alexa 35, anamorphic 2.39:1, cinematic color grade, warm Mediterranean highlights + cool teal shadows, volumetric haze, photoreal, film grain, no text overlay",
-          "status": "prompted"
+          "status": "keyframed",
+          "keyframeUrl": "/uploads/keyframes/7_2_shot_dEJBJ8dm.png",
+          "keyframeSeed": 1240749902
         },
         {
           "id": "shot_0aiCFh9v",
@@ -598,7 +660,9 @@
           ],
           "videoPrompt": "Wong seated on a small felucca at golden hour, balancing a plate of grape-leaf rolls on one knee, Cairo river skyline behind him, soft breeze, comic-serene contradiction. Duration: 5s. Aspect: 2.39:1. shot on ARRI Alexa 35, anamorphic 2.39:1, cinematic color grade, warm Mediterranean highlights + cool teal shadows, volumetric haze, photoreal, film grain, no text overlay. no logos, no readable text, no watermarks, no warped faces, no extra fingers, no duplicated characters, no deformed hands, no plastic skin, no AI artifact shimmer, no cartoon, no anime, no 3D CGI render, no low-resolution artifacts",
           "imagePrompt": "Wong seated on a small felucca at golden hour, balancing a plate of grape-leaf rolls on one knee, Cairo river skyline behind him, soft breeze, comic-serene contradiction. shot on ARRI Alexa 35, anamorphic 2.39:1, cinematic color grade, warm Mediterranean highlights + cool teal shadows, volumetric haze, photoreal, film grain, no text overlay",
-          "status": "prompted"
+          "status": "keyframed",
+          "keyframeUrl": "/uploads/keyframes/7_3_shot_0aiCFh9v.png",
+          "keyframeSeed": 1741740710
         },
         {
           "id": "shot_1w6q-C9A",
@@ -616,7 +680,9 @@
           ],
           "videoPrompt": "Wong at a café table studying Arabic flashcards with simple blurred glyph-like shapes rather than readable text, intense martial discipline applied to language learning, tea and mahshi beside him. Duration: 5s. Aspect: 2.39:1. shot on ARRI Alexa 35, anamorphic 2.39:1, cinematic color grade, warm Mediterranean highlights + cool teal shadows, volumetric haze, photoreal, film grain, no text overlay. no logos, no readable text, no watermarks, no warped faces, no extra fingers, no duplicated characters, no deformed hands, no plastic skin, no AI artifact shimmer, no cartoon, no anime, no 3D CGI render, no low-resolution artifacts",
           "imagePrompt": "Wong at a café table studying Arabic flashcards with simple blurred glyph-like shapes rather than readable text, intense martial discipline applied to language learning, tea and mahshi beside him. shot on ARRI Alexa 35, anamorphic 2.39:1, cinematic color grade, warm Mediterranean highlights + cool teal shadows, volumetric haze, photoreal, film grain, no text overlay",
-          "status": "prompted"
+          "status": "keyframed",
+          "keyframeUrl": "/uploads/keyframes/7_4_shot_1w6q-C9A.png",
+          "keyframeSeed": 3702146647
         },
         {
           "id": "shot_H9xb051T",
@@ -634,14 +700,16 @@
           ],
           "videoPrompt": "Wong taking a cheerful phone selfie in a bustling Egyptian food spot, background friends leaning in, screen turned away or blurred, his clothing now partly linen, transformation underway. Duration: 5s. Aspect: 2.39:1. shot on ARRI Alexa 35, anamorphic 2.39:1, cinematic color grade, warm Mediterranean highlights + cool teal shadows, volumetric haze, photoreal, film grain, no text overlay. no logos, no readable text, no watermarks, no warped faces, no extra fingers, no duplicated characters, no deformed hands, no plastic skin, no AI artifact shimmer, no cartoon, no anime, no 3D CGI render, no low-resolution artifacts",
           "imagePrompt": "Wong taking a cheerful phone selfie in a bustling Egyptian food spot, background friends leaning in, screen turned away or blurred, his clothing now partly linen, transformation underway. shot on ARRI Alexa 35, anamorphic 2.39:1, cinematic color grade, warm Mediterranean highlights + cool teal shadows, volumetric haze, photoreal, film grain, no text overlay",
-          "status": "prompted"
+          "status": "keyframed",
+          "keyframeUrl": "/uploads/keyframes/7_5_shot_H9xb051T.png",
+          "keyframeSeed": 2720302453
         },
         {
           "id": "shot_1d1ZXx4h",
           "number": "7.6",
           "type": "founder-arrival",
           "durationSec": 5,
-          "description": "Sunset hero frame on Alexandria Corniche: Wong now fully in a premium minimalist cream linen suit, silver hair tied back, sea wind, no longer a stranger — a calm founder ready for the competition.",
+          "description": "Sunset hero frame on Alexandria Corniche: Wong now fully in a premium minimalist cream linen suit, silver hair tied back, sea wind, no longer a stranger - a calm founder ready for the competition.",
           "dialogue": "",
           "cameraNotes": "",
           "characters": [
@@ -650,16 +718,18 @@
           "refImages": [
             "/brand/chars/wong-hong.png"
           ],
-          "videoPrompt": "Sunset hero frame on Alexandria Corniche: Wong now fully in a premium minimalist cream linen suit, silver hair tied back, sea wind, no longer a stranger — a calm founder ready for the competition. Duration: 5s. Aspect: 2.39:1. shot on ARRI Alexa 35, anamorphic 2.39:1, cinematic color grade, warm Mediterranean highlights + cool teal shadows, volumetric haze, photoreal, film grain, no text overlay. no logos, no readable text, no watermarks, no warped faces, no extra fingers, no duplicated characters, no deformed hands, no plastic skin, no AI artifact shimmer, no cartoon, no anime, no 3D CGI render, no low-resolution artifacts",
-          "imagePrompt": "Sunset hero frame on Alexandria Corniche: Wong now fully in a premium minimalist cream linen suit, silver hair tied back, sea wind, no longer a stranger — a calm founder ready for the competition. shot on ARRI Alexa 35, anamorphic 2.39:1, cinematic color grade, warm Mediterranean highlights + cool teal shadows, volumetric haze, photoreal, film grain, no text overlay",
-          "status": "prompted"
+          "videoPrompt": "Sunset hero frame on Alexandria Corniche: Wong now fully in a premium minimalist cream linen suit, silver hair tied back, sea wind, no longer a stranger - a calm founder ready for the competition. Duration: 5s. Aspect: 2.39:1. shot on ARRI Alexa 35, anamorphic 2.39:1, cinematic color grade, warm Mediterranean highlights + cool teal shadows, volumetric haze, photoreal, film grain, no text overlay. no logos, no readable text, no watermarks, no warped faces, no extra fingers, no duplicated characters, no deformed hands, no plastic skin, no AI artifact shimmer, no cartoon, no anime, no 3D CGI render, no low-resolution artifacts",
+          "imagePrompt": "Sunset hero frame on Alexandria Corniche: Wong now fully in a premium minimalist cream linen suit, silver hair tied back, sea wind, no longer a stranger - a calm founder ready for the competition. shot on ARRI Alexa 35, anamorphic 2.39:1, cinematic color grade, warm Mediterranean highlights + cool teal shadows, volumetric haze, photoreal, film grain, no text overlay",
+          "status": "keyframed",
+          "keyframeUrl": "/uploads/keyframes/7_6_shot_1d1ZXx4h.png",
+          "keyframeSeed": 2487020724
         }
       ]
     },
     {
       "id": "scn_kqQgZsxU",
       "number": 8,
-      "heading": "SCENE 8 — THE FOUR MOTHERS",
+      "heading": "SCENE 8 - THE FOUR MOTHERS",
       "totalSec": 25,
       "shots": [
         {
@@ -673,8 +743,10 @@
           "characters": [],
           "refImages": [],
           "videoPrompt": "Elegant seaside plaza stage in Alexandria, Mediterranean sparkling behind it, four dignified cooking stations spaced evenly, tasteful crowd gathered, festive but refined, no readable signage. Duration: 5s. Aspect: 2.39:1. shot on ARRI Alexa 35, anamorphic 2.39:1, cinematic color grade, warm Mediterranean highlights + cool teal shadows, volumetric haze, photoreal, film grain, no text overlay. no logos, no readable text, no watermarks, no warped faces, no extra fingers, no duplicated characters, no deformed hands, no plastic skin, no AI artifact shimmer, no cartoon, no anime, no 3D CGI render, no low-resolution artifacts",
-          "imagePrompt": "Elegant seaside plaza stage in Alexandria, Mediterranean sparkling behind it, four dignified cooking stations spaced evenly, tasteful crowd gathered, festive but refined, no readable signage. shot on ARRI Alexa 35, anamorphic 2.39:1, cinematic color grade, warm Mediterranean highlights + cool teal shadows, volumetric haze, photoreal, film grain, no text overlay",
-          "status": "prompted"
+          "imagePrompt": "Outdoor seaside plaza in Alexandria with four cooking stations arranged under open sky, Mediterranean sea sparkling in the background, warm golden afternoon light, no signage visible, photoreal, volumetric haze, warm highlights cool shadows, no text overlay",
+          "status": "keyframed",
+          "keyframeUrl": "/uploads/keyframes/8_1_shot_sw4ZLILF.png",
+          "keyframeSeed": 4073896243
         },
         {
           "id": "shot_pwmFUKaZ",
@@ -692,7 +764,9 @@
           ],
           "videoPrompt": "Wong in cream linen suit behind a judging table with microphone, speaking warmly to the four rural mothers, sunlight on face, respectful founder energy, cinematic medium-wide. Duration: 5s. Aspect: 2.39:1. shot on ARRI Alexa 35, anamorphic 2.39:1, cinematic color grade, warm Mediterranean highlights + cool teal shadows, volumetric haze, photoreal, film grain, no text overlay. no logos, no readable text, no watermarks, no warped faces, no extra fingers, no duplicated characters, no deformed hands, no plastic skin, no AI artifact shimmer, no cartoon, no anime, no 3D CGI render, no low-resolution artifacts",
           "imagePrompt": "Wong in cream linen suit behind a judging table with microphone, speaking warmly to the four rural mothers, sunlight on face, respectful founder energy, cinematic medium-wide. shot on ARRI Alexa 35, anamorphic 2.39:1, cinematic color grade, warm Mediterranean highlights + cool teal shadows, volumetric haze, photoreal, film grain, no text overlay",
-          "status": "prompted"
+          "status": "keyframed",
+          "keyframeUrl": "/uploads/keyframes/8_2_shot_pwmFUKaZ.png",
+          "keyframeSeed": 4278724187
         },
         {
           "id": "shot_oQ_3nSqi",
@@ -706,7 +780,9 @@
           "refImages": [],
           "videoPrompt": "Symmetrical wide composition of four rural Egyptian mothers at four stations, each rolling mahshi in a distinct style, steam rising, focused intensity, visual nobility. Duration: 5s. Aspect: 2.39:1. shot on ARRI Alexa 35, anamorphic 2.39:1, cinematic color grade, warm Mediterranean highlights + cool teal shadows, volumetric haze, photoreal, film grain, no text overlay. no logos, no readable text, no watermarks, no warped faces, no extra fingers, no duplicated characters, no deformed hands, no plastic skin, no AI artifact shimmer, no cartoon, no anime, no 3D CGI render, no low-resolution artifacts",
           "imagePrompt": "Symmetrical wide composition of four rural Egyptian mothers at four stations, each rolling mahshi in a distinct style, steam rising, focused intensity, visual nobility. shot on ARRI Alexa 35, anamorphic 2.39:1, cinematic color grade, warm Mediterranean highlights + cool teal shadows, volumetric haze, photoreal, film grain, no text overlay",
-          "status": "prompted"
+          "status": "keyframed",
+          "keyframeUrl": "/uploads/keyframes/8_3_shot_oQ_3nSqi.png",
+          "keyframeSeed": 2486722819
         },
         {
           "id": "shot_aQJXDzsn",
@@ -724,7 +800,9 @@
           ],
           "videoPrompt": "Mama Zainab in green-base plaid apron with yellow stripes and white weft, cream headscarf, gold hoops, hand-rolling a grape leaf at stainless cooking station with calm precision, warm side light. Duration: 5s. Aspect: 2.39:1. shot on ARRI Alexa 35, anamorphic 2.39:1, cinematic color grade, warm Mediterranean highlights + cool teal shadows, volumetric haze, photoreal, film grain, no text overlay. no logos, no readable text, no watermarks, no warped faces, no extra fingers, no duplicated characters, no deformed hands, no plastic skin, no AI artifact shimmer, no cartoon, no anime, no 3D CGI render, no low-resolution artifacts",
           "imagePrompt": "Mama Zainab in green-base plaid apron with yellow stripes and white weft, cream headscarf, gold hoops, hand-rolling a grape leaf at stainless cooking station with calm precision, warm side light. shot on ARRI Alexa 35, anamorphic 2.39:1, cinematic color grade, warm Mediterranean highlights + cool teal shadows, volumetric haze, photoreal, film grain, no text overlay",
-          "status": "prompted"
+          "status": "keyframed",
+          "keyframeUrl": "/uploads/keyframes/8_4_shot_aQJXDzsn.png",
+          "keyframeSeed": 3070292586
         },
         {
           "id": "shot_I6ltmbvw",
@@ -744,14 +822,16 @@
           ],
           "videoPrompt": "Photoreal white goose beside Mama Zainab, alert and proud, wearing only a tiny matching plaid ribbon, looking toward the pot while Mama’s hands continue rolling in the background, charming not cartoonish. Duration: 5s. Aspect: 2.39:1. shot on ARRI Alexa 35, anamorphic 2.39:1, cinematic color grade, warm Mediterranean highlights + cool teal shadows, volumetric haze, photoreal, film grain, no text overlay. no logos, no readable text, no watermarks, no warped faces, no extra fingers, no duplicated characters, no deformed hands, no plastic skin, no AI artifact shimmer, no cartoon, no anime, no 3D CGI render, no low-resolution artifacts",
           "imagePrompt": "Photoreal white goose beside Mama Zainab, alert and proud, wearing only a tiny matching plaid ribbon, looking toward the pot while Mama’s hands continue rolling in the background, charming not cartoonish. shot on ARRI Alexa 35, anamorphic 2.39:1, cinematic color grade, warm Mediterranean highlights + cool teal shadows, volumetric haze, photoreal, film grain, no text overlay",
-          "status": "prompted"
+          "status": "keyframed",
+          "keyframeUrl": "/uploads/keyframes/8_5_shot_I6ltmbvw.png",
+          "keyframeSeed": 1435781855
         }
       ]
     },
     {
       "id": "scn_ko7_CSps",
       "number": 9,
-      "heading": "SCENE 9 — THE REVEAL",
+      "heading": "SCENE 9 - THE REVEAL",
       "totalSec": 14,
       "shots": [
         {
@@ -770,7 +850,9 @@
           ],
           "videoPrompt": "Four plates arranged before Wong on the judging table, the winning plate centered: a single impeccable emerald-green mahshi finger on refined rustic plating, crowd softly blurred behind. Duration: 5s. Aspect: 2.39:1. shot on ARRI Alexa 35, anamorphic 2.39:1, cinematic color grade, warm Mediterranean highlights + cool teal shadows, volumetric haze, photoreal, film grain, no text overlay. no logos, no readable text, no watermarks, no warped faces, no extra fingers, no duplicated characters, no deformed hands, no plastic skin, no AI artifact shimmer, no cartoon, no anime, no 3D CGI render, no low-resolution artifacts",
           "imagePrompt": "Four plates arranged before Wong on the judging table, the winning plate centered: a single impeccable emerald-green mahshi finger on refined rustic plating, crowd softly blurred behind. shot on ARRI Alexa 35, anamorphic 2.39:1, cinematic color grade, warm Mediterranean highlights + cool teal shadows, volumetric haze, photoreal, film grain, no text overlay",
-          "status": "prompted"
+          "status": "keyframed",
+          "keyframeUrl": "/uploads/keyframes/9_1_shot_NfAA4ZhV.png",
+          "keyframeSeed": 4015674586
         },
         {
           "id": "shot_SrjfKITF",
@@ -788,7 +870,9 @@
           ],
           "videoPrompt": "Wong taking one careful bite of mahshi, eyes closed, with subtle dreamy visual layering of green fields, warm village kitchens, and hands rolling grape leaves reflected around him, emotional flavor flashback. Duration: 5s. Aspect: 2.39:1. shot on ARRI Alexa 35, anamorphic 2.39:1, cinematic color grade, warm Mediterranean highlights + cool teal shadows, volumetric haze, photoreal, film grain, no text overlay. no logos, no readable text, no watermarks, no warped faces, no extra fingers, no duplicated characters, no deformed hands, no plastic skin, no AI artifact shimmer, no cartoon, no anime, no 3D CGI render, no low-resolution artifacts",
           "imagePrompt": "Wong taking one careful bite of mahshi, eyes closed, with subtle dreamy visual layering of green fields, warm village kitchens, and hands rolling grape leaves reflected around him, emotional flavor flashback. shot on ARRI Alexa 35, anamorphic 2.39:1, cinematic color grade, warm Mediterranean highlights + cool teal shadows, volumetric haze, photoreal, film grain, no text overlay",
-          "status": "prompted"
+          "status": "keyframed",
+          "keyframeUrl": "/uploads/keyframes/9_2_shot_SrjfKITF.png",
+          "keyframeSeed": 3974951049
         },
         {
           "id": "shot_jxQaRvOA",
@@ -808,14 +892,16 @@
           ],
           "videoPrompt": "Mama Zainab steps forward and looks directly into camera for the first time, warm knowing smile, plaid apron visible, ZuZu beginning to enter the lower edge of frame, narrator becomes hero. Duration: 4s. Aspect: 2.39:1. shot on ARRI Alexa 35, anamorphic 2.39:1, cinematic color grade, warm Mediterranean highlights + cool teal shadows, volumetric haze, photoreal, film grain, no text overlay. no logos, no readable text, no watermarks, no warped faces, no extra fingers, no duplicated characters, no deformed hands, no plastic skin, no AI artifact shimmer, no cartoon, no anime, no 3D CGI render, no low-resolution artifacts",
           "imagePrompt": "Mama Zainab steps forward and looks directly into camera for the first time, warm knowing smile, plaid apron visible, ZuZu beginning to enter the lower edge of frame, narrator becomes hero. shot on ARRI Alexa 35, anamorphic 2.39:1, cinematic color grade, warm Mediterranean highlights + cool teal shadows, volumetric haze, photoreal, film grain, no text overlay",
-          "status": "prompted"
+          "status": "keyframed",
+          "keyframeUrl": "/uploads/keyframes/9_3_shot_jxQaRvOA.png",
+          "keyframeSeed": 3506758488
         }
       ]
     },
     {
       "id": "scn_JOfKQgYf",
       "number": 10,
-      "heading": "SCENE 10 — THE BRAND PROMISE",
+      "heading": "SCENE 10 - THE BRAND PROMISE",
       "totalSec": 14,
       "shots": [
         {
@@ -838,7 +924,9 @@
           ],
           "videoPrompt": "Mama Zainab standing on the Alexandria Corniche at golden hour, sea behind her, ZuZu at her feet, Wong one respectful step behind in soft focus, Mama addresses the audience with maternal confidence. Duration: 5s. Aspect: 2.39:1. shot on ARRI Alexa 35, anamorphic 2.39:1, cinematic color grade, warm Mediterranean highlights + cool teal shadows, volumetric haze, photoreal, film grain, no text overlay. no logos, no readable text, no watermarks, no warped faces, no extra fingers, no duplicated characters, no deformed hands, no plastic skin, no AI artifact shimmer, no cartoon, no anime, no 3D CGI render, no low-resolution artifacts",
           "imagePrompt": "Mama Zainab standing on the Alexandria Corniche at golden hour, sea behind her, ZuZu at her feet, Wong one respectful step behind in soft focus, Mama addresses the audience with maternal confidence. shot on ARRI Alexa 35, anamorphic 2.39:1, cinematic color grade, warm Mediterranean highlights + cool teal shadows, volumetric haze, photoreal, film grain, no text overlay",
-          "status": "prompted"
+          "status": "keyframed",
+          "keyframeUrl": "/uploads/keyframes/10_1_shot_fk1g6E-T.png",
+          "keyframeSeed": 267734709
         },
         {
           "id": "shot_PPU6ez4r",
@@ -852,7 +940,9 @@
           "refImages": [],
           "videoPrompt": "Young city professional at a clean desk or modern outdoor café opening a neat unbranded premium food box containing steaming mahshi arranged beautifully, rural comfort entering modern fast life, no visible logo or text. Duration: 5s. Aspect: 2.39:1. shot on ARRI Alexa 35, anamorphic 2.39:1, cinematic color grade, warm Mediterranean highlights + cool teal shadows, volumetric haze, photoreal, film grain, no text overlay. no logos, no readable text, no watermarks, no warped faces, no extra fingers, no duplicated characters, no deformed hands, no plastic skin, no AI artifact shimmer, no cartoon, no anime, no 3D CGI render, no low-resolution artifacts",
           "imagePrompt": "Young city professional at a clean desk or modern outdoor café opening a neat unbranded premium food box containing steaming mahshi arranged beautifully, rural comfort entering modern fast life, no visible logo or text. shot on ARRI Alexa 35, anamorphic 2.39:1, cinematic color grade, warm Mediterranean highlights + cool teal shadows, volumetric haze, photoreal, film grain, no text overlay",
-          "status": "prompted"
+          "status": "keyframed",
+          "keyframeUrl": "/uploads/keyframes/10_2_shot_PPU6ez4r.png",
+          "keyframeSeed": 1857253124
         },
         {
           "id": "shot_g-35871m",
@@ -872,7 +962,9 @@
           ],
           "videoPrompt": "Sunset over the Mediterranean as Mama Zainab gently looks down toward ZuZu, calm smile, warm sea light, poetic final frame prepared for title or logo added later in post, no text generated in frame. Duration: 4s. Aspect: 2.39:1. shot on ARRI Alexa 35, anamorphic 2.39:1, cinematic color grade, warm Mediterranean highlights + cool teal shadows, volumetric haze, photoreal, film grain, no text overlay. no logos, no readable text, no watermarks, no warped faces, no extra fingers, no duplicated characters, no deformed hands, no plastic skin, no AI artifact shimmer, no cartoon, no anime, no 3D CGI render, no low-resolution artifacts",
           "imagePrompt": "Sunset over the Mediterranean as Mama Zainab gently looks down toward ZuZu, calm smile, warm sea light, poetic final frame prepared for title or logo added later in post, no text generated in frame. shot on ARRI Alexa 35, anamorphic 2.39:1, cinematic color grade, warm Mediterranean highlights + cool teal shadows, volumetric haze, photoreal, film grain, no text overlay",
-          "status": "prompted"
+          "status": "keyframed",
+          "keyframeUrl": "/uploads/keyframes/10_3_shot_g-35871m.png",
+          "keyframeSeed": 3578087335
         }
       ]
     }
