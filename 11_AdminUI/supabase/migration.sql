@@ -316,18 +316,26 @@ do $$ begin
   create policy "uploads_public_read" on storage.objects for select using ( bucket_id = 'uploads' );
 exception when duplicate_object then null; end $$;
 
--- Allow authenticated service-role writes (server actions use service role key)
-do $$ begin
-  create policy "uploads_service_write" on storage.objects for insert with check ( bucket_id = 'uploads' );
-exception when duplicate_object then null; end $$;
+-- Server actions write with the server Supabase key. Keep upload writes restricted.
+drop policy if exists "uploads_service_write" on storage.objects;
+drop policy if exists "uploads_service_update" on storage.objects;
+drop policy if exists "uploads_service_delete" on storage.objects;
 
-do $$ begin
-  create policy "uploads_service_update" on storage.objects for update using ( bucket_id = 'uploads' );
-exception when duplicate_object then null; end $$;
+create policy "uploads_service_write"
+  on storage.objects
+  for insert
+  with check (bucket_id = 'uploads' and auth.role() = 'service_role');
 
-do $$ begin
-  create policy "uploads_service_delete" on storage.objects for delete using ( bucket_id = 'uploads' );
-exception when duplicate_object then null; end $$;
+create policy "uploads_service_update"
+  on storage.objects
+  for update
+  using (bucket_id = 'uploads' and auth.role() = 'service_role')
+  with check (bucket_id = 'uploads' and auth.role() = 'service_role');
+
+create policy "uploads_service_delete"
+  on storage.objects
+  for delete
+  using (bucket_id = 'uploads' and auth.role() = 'service_role');
 
 -- ============================================================
 -- Incremental migrations (safe to re-run)

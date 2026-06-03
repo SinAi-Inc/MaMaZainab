@@ -1,6 +1,11 @@
 import { promises as fs } from "node:fs";
 import path from "node:path";
-import { isSupabaseConfigured, getSupabase } from "@/lib/supabase";
+import {
+  isSupabaseConfigured,
+  getSupabase,
+  isVercelRuntime,
+  requireSupabaseConfigured,
+} from "@/lib/supabase";
 import { toCamel, toSnake } from "@/lib/case";
 import {
   MenuCategorySchema,
@@ -276,12 +281,18 @@ export async function writeMenu(state: MenuState): Promise<void> {
   const normalizedState = normalizeState(state);
 
   if (!isSupabaseConfigured()) {
+    if (isVercelRuntime()) {
+      requireSupabaseConfigured("Updating the menu");
+    }
+
     // Local dev - persist to JSON only
     return writeJson(normalizedState);
   }
 
-  // Production (Vercel) - write to Supabase; also try JSON for dev parity but don't fail
-  try { await writeJson(normalizedState); } catch { /* read-only FS on Vercel - expected */ }
+  // Supabase-backed runtime - write to Supabase. Local dev also keeps JSON in sync.
+  if (!isVercelRuntime()) {
+    try { await writeJson(normalizedState); } catch { /* local JSON mirror is best-effort */ }
+  }
 
   const sb = getSupabase();
   await sb.from("menu_items").delete().neq("id", "");
