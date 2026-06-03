@@ -12,7 +12,7 @@ import type { Scene, Shot } from "./schema";
  * or a Markdown table whose first column is the shot number
  * (matching the format used in 05_VideoCampaign/STORYBOARD.md).
  *
- * If no shots can be detected, returns an empty array — the user
+ * If no shots can be detected, returns an empty array - the user
  * can add shots manually in the workspace.
  */
 

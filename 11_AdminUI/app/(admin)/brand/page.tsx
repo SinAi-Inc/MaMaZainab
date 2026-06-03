@@ -88,7 +88,7 @@ export default async function BrandBiblePage() {
           Brand Bible
         </h2>
         <p className="text-sm text-muted mt-1">
-          Complete brand reference — identity, colors, typography, patterns,
+          Complete brand reference - identity, colors, typography, patterns,
           characters, scenes, and generation rules. Single source of truth for
           all UI, packaging, signage, video, and marketing.
         </p>
@@ -276,7 +276,7 @@ function TypographyPanel() {
               )}
 
               <p className="text-xs text-muted">
-                {f.family} — {f.usage}
+                {f.family} - {f.usage}
               </p>
               <p className="text-[10px] text-muted">
                 Fallback: {f.fallback}
@@ -454,10 +454,10 @@ function PlaidPatternPanel() {
         </CardBody>
       </Card>
 
-      {/* Icon Pattern — AI Prompt Anchor */}
+      {/* Icon Pattern - AI Prompt Anchor */}
       <Card>
         <CardBody>
-          <h3 className="font-semibold mb-2">Icon Pattern — AI Prompt Anchor</h3>
+          <h3 className="font-semibold mb-2">Icon Pattern - AI Prompt Anchor</h3>
           <div className="bg-zinc-50 border border-border rounded-lg p-3 mb-3">
             <p className="text-xs font-mono text-brand-ink leading-relaxed">
               {BRAND_ICON_PATTERN.promptAnchor}

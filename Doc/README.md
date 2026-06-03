@@ -1,4 +1,4 @@
-# MaMa Zainab — Documentation Hub
+# MaMa Zainab - Documentation Hub
 
 > Single entry point for all project documentation, auto-generated reports, architecture notes, changelogs, and API references.
 
@@ -12,7 +12,7 @@
 
 ```
 Doc/
-├── README.md                ← This file — master hub & system guide
+├── README.md                ← This file - master hub & system guide
 ├── architecture/
 │   └── README.md            ← System architecture, stack decisions, data flow
 ├── api/
@@ -91,10 +91,10 @@ The following are human-authored and should be updated by hand:
 
 ## ✍️ How to contribute to docs
 
-1. **Auto-generated files** — do not edit by hand. Re-run `generate_docs.py` instead.
-2. **Manual files** — edit directly in this `Doc/` folder.
-3. **New module?** — add a row to the table above and create `Doc/<module>/README.md`.
-4. **Screenshots / audits** — continue using `11_AdminUI/_screenshots/YYYY-MM-DD/AUDIT.md`.
+1. **Auto-generated files** - do not edit by hand. Re-run `generate_docs.py` instead.
+2. **Manual files** - edit directly in this `Doc/` folder.
+3. **New module?** - add a row to the table above and create `Doc/<module>/README.md`.
+4. **Screenshots / audits** - continue using `11_AdminUI/_screenshots/YYYY-MM-DD/AUDIT.md`.
 
 ---
 

@@ -1,13 +1,13 @@
 /**
- * RunPod serverless provider — runs Wan 2.2 (or any OSS video model)
+ * RunPod serverless provider - runs Wan 2.2 (or any OSS video model)
  * on a RunPod Serverless endpoint.
  *
  * Setup: Create a Serverless endpoint at https://runpod.io/console/serverless
  *   using the official Wan 2.2 image (or community alternatives).
  *
  * ENV:
- *   RUNPOD_API_KEY            — your RunPod API key
- *   RUNPOD_WAN_ENDPOINT_ID    — endpoint ID (e.g. "abcd1234")
+ *   RUNPOD_API_KEY            - your RunPod API key
+ *   RUNPOD_WAN_ENDPOINT_ID    - endpoint ID (e.g. "abcd1234")
  *
  * API:
  *   POST https://api.runpod.ai/v2/{endpoint_id}/run     → { id, status }

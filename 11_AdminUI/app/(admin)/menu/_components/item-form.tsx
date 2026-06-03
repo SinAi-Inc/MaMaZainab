@@ -313,7 +313,7 @@ export function ItemForm({
         </CardBody>
       </Card>
 
-      {/* SKU + Barcode (read-only) — shown for existing items */}
+      {/* SKU + Barcode (read-only) - shown for existing items */}
       {existing?.sku && (
         <Card>
           <CardBody className="space-y-3">

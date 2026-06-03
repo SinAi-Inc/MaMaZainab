@@ -1,4 +1,4 @@
-# MaMa Zainab — Admin UI (`11_AdminUI`)
+# MaMa Zainab - Admin UI (`11_AdminUI`)
 
 Brand management dashboard and public-facing pages for the **MaMa Zainab** oriental fast-food chain. Built with Next.js 16 App Router.
 
@@ -12,7 +12,7 @@ Brand management dashboard and public-facing pages for the **MaMa Zainab** orien
 |-------|-----------|
 | Framework | Next.js 16 (App Router, Turbopack) |
 | UI | React 19 + TypeScript (strict) |
-| Styling | Tailwind CSS v4 — brand tokens via CSS vars |
+| Styling | Tailwind CSS v4 - brand tokens via CSS vars |
 | Validation | Zod |
 | Fonts | Chinese Monoline (brand) via `next/font/local` |
 | Persistence | Supabase in production, JSON fallback locally |
@@ -45,19 +45,19 @@ For admin writes and production-like local testing, set server env vars in `.env
 
 | Route | Description |
 |-------|-------------|
-| `/coming-soon` | Launch page — countdown, notify form, social links |
+| `/coming-soon` | Launch page - countdown, notify form, social links |
 | `/menu/preview` | Brand-accurate menu preview |
 | `/menu/print` | Print-optimised menu layout |
 | `/cn` | Corporate ownership page (王盛恒餐饮投资集团有限公司) |
 
-### Admin routes (route group `(admin)` — no URL prefix)
+### Admin routes (route group `(admin)` - no URL prefix)
 
 | Route | Description |
 |-------|-------------|
-| `/menu` | Menu management — categories + items CRUD |
+| `/menu` | Menu management - categories + items CRUD |
 | `/website` | Website preview |
 | `/videos` | Video campaign studio |
-| `/contacts` | Contact list — subscribers from notify form |
+| `/contacts` | Contact list - subscribers from notify form |
 
 ### API
 
@@ -71,16 +71,16 @@ For admin writes and production-like local testing, set server env vars in `.env
 
 ```text
 data/
-  menu.json        ← menu categories & items  (tracked — publicly visible on /menu/preview)
-  contacts.json    ← subscriber emails         (gitignored — never committed)
-  videos.json      ← video project state       (gitignored — business IP)
+  menu.json        ← menu categories & items  (tracked - publicly visible on /menu/preview)
+  contacts.json    ← subscriber emails         (gitignored - never committed)
+  videos.json      ← video project state       (gitignored - business IP)
 ```
 
 ---
 
 ## Security
 
-- `data/contacts.json` and `data/videos.json` are **gitignored** — never committed.
+- `data/contacts.json` and `data/videos.json` are **gitignored** - never committed.
 - No hardcoded secrets, API keys, or credentials in source.
 - Server secrets live in environment variables and are not persisted in tracked settings files.
 - Supabase server access supports `SUPABASE_SECRET_KEY` and the legacy `SUPABASE_SERVICE_ROLE_KEY` fallback during migration.

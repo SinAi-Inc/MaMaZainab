@@ -10,16 +10,16 @@ import { DecisionSurface, type DecisionItem } from "./_components/decision-surfa
 export const dynamic = "force-dynamic";
 
 /**
- * Owner's Eye — Hub page.
+ * Owner's Eye - Hub page.
  *
  * 5-layer Restaurant Operating System overview, inspired by Foodics
  * + AI-native chain operations analysis.
  *
- *   Layer 1 — Frontline Operations  (POS, Kiosk, KDS, Waiter, Delivery)
- *   Layer 2 — Operational Management (Inventory, Suppliers, Recipes, Waste)
- *   Layer 3 — Intelligence            (AI insights, Forecasting, Anomalies)
- *   Layer 4 — Growth                  (CRM, Loyalty, Campaigns)
- *   Layer 5 — Corporate Governance    (Franchise, Multi-branch, Compliance)
+ *   Layer 1 - Frontline Operations  (POS, Kiosk, KDS, Waiter, Delivery)
+ *   Layer 2 - Operational Management (Inventory, Suppliers, Recipes, Waste)
+ *   Layer 3 - Intelligence            (AI insights, Forecasting, Anomalies)
+ *   Layer 4 - Growth                  (CRM, Loyalty, Campaigns)
+ *   Layer 5 - Corporate Governance    (Franchise, Multi-branch, Compliance)
  *
  * Every layer card pulls live counts from the existing data stores.
  */
@@ -56,7 +56,7 @@ export default async function OwnersEyeHubPage() {
       id: "branches-construction",
       severity: "warning",
       title: `${constructionBranches} kiosk${constructionBranches > 1 ? "s" : ""} still under construction`,
-      detail: "No revenue yet — review buildout schedule.",
+      detail: "No revenue yet - review buildout schedule.",
       href: "/branches",
       cta: "Review",
     });
@@ -120,12 +120,12 @@ export default async function OwnersEyeHubPage() {
           Centralized command surface
         </p>
         <h2 className="mt-1 text-3xl font-bold text-brand-ink">
-          Everything that runs the chain — in one view.
+          Everything that runs the chain - in one view.
         </h2>
         <p className="mt-2 max-w-2xl text-sm text-muted leading-relaxed">
           Five operational layers wired to live data. Frontline speed, operational
           efficiency, predictive intelligence, customer growth, and corporate
-          governance — without switching apps.
+          governance - without switching apps.
         </p>
       </section>
 
@@ -144,7 +144,7 @@ export default async function OwnersEyeHubPage() {
           <LayerCard
             layer="1"
             title="Frontline Operations"
-            tagline="POS, Kiosk, KDS, Waiter, Delivery — the customer-facing speed layer."
+            tagline="POS, Kiosk, KDS, Waiter, Delivery - the customer-facing speed layer."
             href="/owners-eye/frontline"
             icon={Store}
             accent="green"
@@ -159,7 +159,7 @@ export default async function OwnersEyeHubPage() {
           <LayerCard
             layer="2"
             title="Operational Management"
-            tagline="Inventory, suppliers, recipes, waste, procurement — cost control engine."
+            tagline="Inventory, suppliers, recipes, waste, procurement - cost control engine."
             href="/owners-eye/operations"
             icon={Boxes}
             accent="yellow"
@@ -174,7 +174,7 @@ export default async function OwnersEyeHubPage() {
           <LayerCard
             layer="3"
             title="Intelligence"
-            tagline="Predictive forecasts, anomaly detection, profitability AI — autonomous insight."
+            tagline="Predictive forecasts, anomaly detection, profitability AI - autonomous insight."
             href="/owners-eye/intelligence"
             icon={Brain}
             accent="blue"
@@ -189,7 +189,7 @@ export default async function OwnersEyeHubPage() {
           <LayerCard
             layer="4"
             title="Growth"
-            tagline="CRM, loyalty, segmentation, campaigns — turn customers into regulars."
+            tagline="CRM, loyalty, segmentation, campaigns - turn customers into regulars."
             href="/owners-eye/growth"
             icon={Users}
             accent="red"
@@ -222,7 +222,7 @@ export default async function OwnersEyeHubPage() {
       <section>
         <DecisionSurface
           title="What needs your attention"
-          subtitle="Aggregated across all 5 layers — newest signals first."
+          subtitle="Aggregated across all 5 layers - newest signals first."
           items={decisions}
         />
       </section>

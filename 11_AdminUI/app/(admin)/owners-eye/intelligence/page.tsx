@@ -9,7 +9,7 @@ import { DecisionSurface, type DecisionItem } from "../_components/decision-surf
 export const dynamic = "force-dynamic";
 
 /**
- * Layer 3 — Intelligence
+ * Layer 3 - Intelligence
  *
  * AI-native predictive operations layer. Per the inspiration doc:
  * "Move from reporting → autonomous operational intelligence."

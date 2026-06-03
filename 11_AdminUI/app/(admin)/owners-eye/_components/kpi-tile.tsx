@@ -2,9 +2,9 @@ import { Card, CardBody } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 
 /**
- * KpiTile — compact KPI tile for Owner's Eye sub-pages.
+ * KpiTile - compact KPI tile for Owner's Eye sub-pages.
  *
- * Smaller and denser than dashboard StatCard — designed for the
+ * Smaller and denser than dashboard StatCard - designed for the
  * 4–6 column grids inside operational layers.
  */
 export function KpiTile({

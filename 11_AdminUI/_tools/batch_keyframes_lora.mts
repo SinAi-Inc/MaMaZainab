@@ -87,8 +87,8 @@ function extractLoras(
       // Replace with trigger word
       return record.triggerWord;
     }
-    // LoRA not trained yet — just use trigger word as text
-    console.log(`    ⚠ LoRA "${loraId}" not ready — using text description only`);
+    // LoRA not trained yet - just use trigger word as text
+    console.log(`    ⚠ LoRA "${loraId}" not ready - using text description only`);
     return record?.triggerWord ?? loraId;
   });
 
@@ -166,14 +166,14 @@ async function main() {
   try {
     loras = JSON.parse(await readFile(LORAS_PATH, "utf-8"));
   } catch {
-    console.log("⚠ No character_loras.json found — generating without LoRAs (text-only)");
+    console.log("⚠ No character_loras.json found - generating without LoRAs (text-only)");
   }
 
   const readyLoras = Object.values(loras).filter((l) => l.status === "completed");
   console.log(`\n🎨 LoRA-Conditioned Keyframe Generator`);
   console.log(`   Ready LoRAs: ${readyLoras.length} (${readyLoras.map((l) => l.id).join(", ") || "none"})`);
   if (readyLoras.length === 0) {
-    console.log(`   ⚠ No trained LoRAs available — images will use text description only`);
+    console.log(`   ⚠ No trained LoRAs available - images will use text description only`);
     console.log(`   Run train_character_loras.mts first for character consistency\n`);
   }
 

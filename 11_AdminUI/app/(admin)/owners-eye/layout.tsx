@@ -2,13 +2,13 @@ import Link from "next/link";
 import { ArrowLeft, Eye } from "lucide-react";
 
 /**
- * Owner's Eye layout — wraps the 5-layer route group with a
+ * Owner's Eye layout - wraps the 5-layer route group with a
  * consistent header strip. Per-page hero/content lives below.
  */
 export default function OwnersEyeLayout({ children }: { children: React.ReactNode }) {
   return (
     <div>
-      {/* Top strip — minimal, brand-aligned */}
+      {/* Top strip - minimal, brand-aligned */}
       <div className="mb-6 flex items-center justify-between gap-4 border-b border-border/60 pb-4">
         <div className="flex items-center gap-3">
           <div className="size-10 rounded-xl bg-brand-ink text-white flex items-center justify-center shadow-sm">

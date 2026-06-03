@@ -11,7 +11,7 @@ const now = () => new Date().toISOString();
 
 const SEED_PROJECT: Project = {
   id: "prj_brand_incorporation",
-  title: "Brand Incorporation — The Legend of Wong & MaMa Zainab",
+  title: "Brand Incorporation - The Legend of Wong & MaMa Zainab",
   logline:
     "An exiled warrior arrives in Egypt, and an AI tells him to build a comfort-food empire named after every Egyptian's mother.",
   synopsis:
@@ -63,7 +63,7 @@ async function writeJson(state: StudioState): Promise<void> {
 
 function projectToRow(p: Project): Record<string, unknown> {
   const row = toSnake(p as unknown as Record<string, unknown>);
-  // jsonb columns — send arrays directly, do NOT JSON.stringify
+  // jsonb columns - send arrays directly, do NOT JSON.stringify
   row.tags = p.tags;
   return row;
 }
@@ -78,7 +78,7 @@ function rowToProject(row: Record<string, unknown>): Project {
 
 function shotToRow(s: Shot): Record<string, unknown> {
   const row = toSnake(s as unknown as Record<string, unknown>);
-  // jsonb columns — send arrays directly, do NOT JSON.stringify
+  // jsonb columns - send arrays directly, do NOT JSON.stringify
   row.reference_urls = s.referenceUrls;
   return row;
 }
@@ -100,13 +100,13 @@ export async function readStudio(): Promise<StudioState> {
     const sb = getSupabase();
     const { data: projects } = await sb.from("projects").select("*").order("created_at");
     if (!projects || projects.length === 0) {
-      // Supabase has no projects — check local JSON first (may have data from before Supabase was configured)
+      // Supabase has no projects - check local JSON first (may have data from before Supabase was configured)
       const local = await readJson();
       if (local.projects.length > 0) return local;
       try {
         await sb.from("projects").upsert(projectToRow(SEED_PROJECT));
       } catch {
-        // Seed failed — return empty state rather than crashing the page
+        // Seed failed - return empty state rather than crashing the page
       }
       return SEED;
     }
@@ -124,7 +124,7 @@ export async function readStudio(): Promise<StudioState> {
     };
 
     // Fallback: if Supabase is missing shots, use local JSON for scenes+shots+takes together
-    // (must keep referential integrity — shot.sceneId references scene.id from the same source)
+    // (must keep referential integrity - shot.sceneId references scene.id from the same source)
     if (state.shots.length === 0) {
       const local = await readJson();
       if (local.shots.length > 0) {
@@ -136,7 +136,7 @@ export async function readStudio(): Promise<StudioState> {
 
     return state;
   } catch {
-    // Supabase read/mapping failed — return empty state rather than crashing the page
+    // Supabase read/mapping failed - return empty state rather than crashing the page
     return SEED;
   }
 }
@@ -168,12 +168,12 @@ export async function writeStudio(state: StudioState): Promise<void> {
       const rows = state.shots.map(shotToRow);
       const { error } = await sb.from("shots").insert(rows);
       if (error) {
-        console.error("[writeStudio] shots insert failed — data safe in local JSON", {
+        console.error("[writeStudio] shots insert failed - data safe in local JSON", {
           error: error.message,
           rowKeys: Object.keys(rows[0] ?? {}),
           rowCount: rows.length,
         });
-        // Don't throw — local JSON is already saved
+        // Don't throw - local JSON is already saved
         return;
       }
     }
@@ -181,12 +181,12 @@ export async function writeStudio(state: StudioState): Promise<void> {
       const rows = state.takes.map((t) => toSnake(t as unknown as Record<string, unknown>));
       const { error } = await sb.from("takes").insert(rows);
       if (error) {
-        console.error("[writeStudio] takes insert failed — data safe in local JSON", { error: error.message });
+        console.error("[writeStudio] takes insert failed - data safe in local JSON", { error: error.message });
         return;
       }
     }
   } catch (err) {
-    console.error("[writeStudio] Supabase sync failed — data safe in local JSON:", err instanceof Error ? err.message : err);
+    console.error("[writeStudio] Supabase sync failed - data safe in local JSON:", err instanceof Error ? err.message : err);
   }
 }
 
@@ -221,7 +221,7 @@ export async function readProject(id: string) {
   let takes = (takeData ?? []).map((r) => toCamel(r as unknown as Record<string, unknown>) as unknown as Take);
 
   // Fallback: if Supabase is missing shots, use local JSON for scenes+shots+takes together
-  // (must keep referential integrity — shot.sceneId references scene.id from the same source)
+  // (must keep referential integrity - shot.sceneId references scene.id from the same source)
   if (shots.length === 0) {
     const local = await readJson();
     const localScenes = local.scenes.filter((sc) => sc.projectId === id).sort((a, b) => a.sort - b.sort);

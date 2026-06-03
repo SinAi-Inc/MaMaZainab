@@ -1,7 +1,7 @@
 "use client";
 
 /**
- * Studio v2 shell — left-rail IA for the AI Production Suite.
+ * Studio v2 shell - left-rail IA for the AI Production Suite.
  *
  * PR 2 scope: IA migration only. No file moves; the existing /videos
  * workspace, /characters list, and Brand Bible page stay where they are.
@@ -162,7 +162,7 @@ export function StudioShell({
           </p>
           <h2 className="text-2xl font-semibold mt-1">Studio</h2>
           <p className="text-sm text-muted mt-1">
-            Brand-locked generation, storyboarding, and delivery — all in one place.
+            Brand-locked generation, storyboarding, and delivery - all in one place.
           </p>
         </div>
         {nvidiaKeySet ? (
@@ -509,7 +509,7 @@ function StoryboardPanel({
       {projectScenes.length === 0 ? (
         <Card>
           <CardBody className="py-12 text-center space-y-2">
-            <p className="text-sm text-muted">No scenes yet — parse a script to seed the storyboard.</p>
+            <p className="text-sm text-muted">No scenes yet - parse a script to seed the storyboard.</p>
             <Link href={`/videos/${project.id}/edit`}>
               <Button variant="primary">Open script editor</Button>
             </Link>
@@ -526,7 +526,7 @@ function StoryboardPanel({
                 <div className="flex items-baseline gap-2">
                   <h4 className="text-sm font-semibold">
                     Scene {scene.number}
-                    {scene.heading && <span className="text-muted font-normal"> — {scene.heading}</span>}
+                    {scene.heading && <span className="text-muted font-normal"> - {scene.heading}</span>}
                   </h4>
                   <span className="text-[11px] text-muted">{sceneShots.length} shots</span>
                 </div>
@@ -860,7 +860,7 @@ function DeliveryPanel({
           <section key={scene.id} className="space-y-2">
             <h4 className="text-sm font-semibold">
               Scene {scene.number}
-              {scene.heading && <span className="text-muted font-normal"> — {scene.heading}</span>}
+              {scene.heading && <span className="text-muted font-normal"> - {scene.heading}</span>}
               <span className="text-[11px] text-muted font-normal ml-2">
                 {withKeyframe.length} frame{withKeyframe.length === 1 ? "" : "s"}
               </span>

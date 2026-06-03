@@ -71,7 +71,7 @@ export default function NewProjectPage() {
         if (parseAfter && data.script.trim()) {
           const r = await reparseProjectScript(p.id, data.script);
           toast.success(
-            `Project created — parsed ${r.scenes} scene${r.scenes === 1 ? "" : "s"}, ${r.shots} shot${r.shots === 1 ? "" : "s"}`,
+            `Project created - parsed ${r.scenes} scene${r.scenes === 1 ? "" : "s"}, ${r.shots} shot${r.shots === 1 ? "" : "s"}`,
           );
         } else {
           toast.success("Project created");
@@ -104,7 +104,7 @@ export default function NewProjectPage() {
               <Label required>Title</Label>
               <Input
                 {...register("title")}
-                placeholder="e.g. Brand Incorporation — Hero Film"
+                placeholder="e.g. Brand Incorporation - Hero Film"
               />
               <FieldError>{errors.title?.message}</FieldError>
             </div>
@@ -127,7 +127,7 @@ export default function NewProjectPage() {
             </div>
 
             <div>
-              <Label hint="Markdown — scenes split on `---` and `**SCENE N**` markers">
+              <Label hint="Markdown - scenes split on `---` and `**SCENE N**` markers">
                 <span className="inline-flex items-center gap-1">
                   <FileText className="size-3.5" /> Script
                 </span>

@@ -14,7 +14,7 @@ import { Button } from "@/components/ui/button";
 import type { Branch } from "@/lib/branches/schema";
 
 /**
- * Communication panel — embed-ready for Slack, Rocket.Chat, Mattermost,
+ * Communication panel - embed-ready for Slack, Rocket.Chat, Mattermost,
  * or any embeddable chat/messaging API.
  *
  * Planned flow:
@@ -34,7 +34,7 @@ const INTEGRATIONS = [
   {
     id: "rocketchat",
     name: "Rocket.Chat",
-    description: "Self-hosted open-source chat — full control, embeddable widget",
+    description: "Self-hosted open-source chat - full control, embeddable widget",
     icon: "🚀",
     docsUrl: "https://developer.rocket.chat/",
   },
@@ -90,7 +90,7 @@ export function CommsPanel({ branch }: { branch: Branch }) {
           </div>
           <div className="flex-1">
             <p className="text-sm font-medium">
-              Communication Channel — {branch.name}
+              Communication Channel - {branch.name}
             </p>
             <p className="text-[11px] text-muted">
               Real-time link between admin dashboard and kiosk terminal

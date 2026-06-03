@@ -3,7 +3,7 @@ import { z } from "zod";
 export const SettingsSchema = z.object({
   // Account
   userName: z.string().min(1, "Required").default("HITL Admin"),
-  email: z.string().email("Invalid email").default("hello@mamazainab.com"),
+  email: z.string().email("Invalid email").default("admin@mamazainab.com"),
   // Localization
   primaryLanguage: z.string().default("English"),
   secondaryLanguage: z.string().default("Arabic (Egyptian)"),
@@ -32,7 +32,7 @@ export const SettingsSchema = z.object({
   requirePassword: z.boolean().default(false),
   adminPassword: z.string().default(""),
   allowPublicMenu: z.boolean().default(true),
-  /** ISO timestamp — JWTs issued before this are rejected ("end all sessions"). */
+  /** ISO timestamp - JWTs issued before this are rejected ("end all sessions"). */
   sessionFloor: z.string().default(""),
 });
 

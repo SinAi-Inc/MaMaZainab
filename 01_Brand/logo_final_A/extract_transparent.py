@@ -6,8 +6,8 @@ All source PNGs have solid backgrounds. This script removes them:
   mark_only_avatar.png M-mark on green (green IS the brand, keep as-is → copy)
 
 Outputs go to 11_AdminUI/public/brand/:
-  logo-wordmark-transparent.png  — white/yellow wordmark, no background
-  mark-transparent.png           — circle seal, no background
+  logo-wordmark-transparent.png  - white/yellow wordmark, no background
+  mark-transparent.png           - circle seal, no background
 """
 from pathlib import Path
 import numpy as np

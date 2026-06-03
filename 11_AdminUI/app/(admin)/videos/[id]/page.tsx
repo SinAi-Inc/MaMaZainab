@@ -224,7 +224,7 @@ export default async function ProjectWorkspacePage({
               <CardBody className="py-6 text-center text-xs text-muted">
                 <Wand2 className="mx-auto size-5 mb-2 opacity-40" />
                 Re-parse the script in the left panel to refresh scenes &amp; shots
-                — your existing takes will be deleted.
+                - your existing takes will be deleted.
               </CardBody>
             </Card>
           )}

@@ -54,14 +54,14 @@ const MIME: Record<string, string> = {
 async function resolveImageToBase64(urlOrPath: string): Promise<string | undefined> {
   if (!urlOrPath) return undefined;
 
-  // Already a data URI or full http(s) URL — pass through
+  // Already a data URI or full http(s) URL - pass through
   if (urlOrPath.startsWith("data:") || urlOrPath.startsWith("http")) return urlOrPath;
 
   // Treat as a path relative to the public/ directory
   const publicDir = path.join(process.cwd(), "public");
   const resolved = path.resolve(publicDir, urlOrPath.replace(/^\//, ""));
 
-  // Path-traversal guard — must stay inside public/
+  // Path-traversal guard - must stay inside public/
   if (!resolved.startsWith(publicDir)) return undefined;
 
   try {
@@ -70,7 +70,7 @@ async function resolveImageToBase64(urlOrPath: string): Promise<string | undefin
     const mime = MIME[ext] || "application/octet-stream";
     return `data:${mime};base64,${buf.toString("base64")}`;
   } catch {
-    // File not found — degrade gracefully to text-only generation
+    // File not found - degrade gracefully to text-only generation
     return undefined;
   }
 }
@@ -132,7 +132,7 @@ export const localNimProvider: VideoProvider = {
     }).catch((e: unknown) => {
       const msg = e instanceof Error ? e.message : String(e);
       throw new Error(
-        `Cannot reach NIM container at ${getBase()} — is it running? (${msg})`
+        `Cannot reach NIM container at ${getBase()} - is it running? (${msg})`
       );
     });
     if (!res.ok) {
@@ -142,7 +142,7 @@ export const localNimProvider: VideoProvider = {
     type NimResponse = { video_url?: string; task_id?: string; id?: string; status?: string };
     const json = (await res.json()) as NimResponse;
     if (json.video_url) {
-      // Synchronous return — done
+      // Synchronous return - done
       return {
         providerJobId: `sync_${Date.now()}`,
         status: "completed",
@@ -168,7 +168,7 @@ export const localNimProvider: VideoProvider = {
       headers: headers(),
     }).catch((e: unknown) => {
       const msg = e instanceof Error ? e.message : String(e);
-      throw new Error(`Cannot reach NIM container at ${getBase()} — is it running? (${msg})`);
+      throw new Error(`Cannot reach NIM container at ${getBase()} - is it running? (${msg})`);
     });
     if (!res.ok) {
       const text = await res.text();

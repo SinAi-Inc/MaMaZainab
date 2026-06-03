@@ -17,7 +17,7 @@ const result = await generateImage({
   height: 768,
 });
 const elapsed = ((Date.now() - start) / 1000).toFixed(1);
-console.log(`Done in ${elapsed}s — contentType: ${result.contentType}, seed: ${result.seed}`);
+console.log(`Done in ${elapsed}s - contentType: ${result.contentType}, seed: ${result.seed}`);
 
 const dir = path.join(process.cwd(), "public/uploads/generations");
 await mkdir(dir, { recursive: true });

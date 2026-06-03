@@ -19,7 +19,7 @@ Single source of truth for the brand. All UI, packaging, signage, video, and mar
 | Launch city | Alexandria, Egypt |
 | Y1 goal | 100 branches in Alexandria, then Cairo, then regional |
 | Domains | mamazainab.com · mamazainab.netlify.app (current) |
-| Contact | hello@mamazainab.com |
+| Contact | admin@mamazainab.com |
 
 ### Spelling rules (HARD LOCK)
 - ✅ **MaMa Zainab** - only correct form

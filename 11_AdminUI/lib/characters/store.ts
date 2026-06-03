@@ -27,7 +27,7 @@ async function writeJson(state: CharacterState): Promise<void> {
 
 function charToRow(c: Character): Record<string, unknown> {
   const row = toSnake(c as unknown as Record<string, unknown>);
-  // jsonb columns — send arrays directly, no JSON.stringify needed
+  // jsonb columns - send arrays directly, no JSON.stringify needed
   row.reference_images = c.referenceImages;
   row.identity_fields = c.identityFields;
   row.modes = c.modes;

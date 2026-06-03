@@ -24,11 +24,11 @@ const ASPECTS = ["16:9", "9:16", "1:1", "2.39:1", "4:3"];
 const DURATIONS = [4, 5, 6, 8, 10, 15];
 
 const STYLE_PRESETS = [
-  "Cinematic — ARRI Alexa 35, anamorphic, warm Mediterranean highlights + cool teal shadows",
-  "Food photography — overhead, soft diffused light, shallow depth of field",
-  "Street documentary — handheld, natural light, 24fps",
-  "Animated — bold outlines, flat color, smooth motion",
-  "Product showcase — turntable, studio lighting, white cyclorama",
+  "Cinematic - ARRI Alexa 35, anamorphic, warm Mediterranean highlights + cool teal shadows",
+  "Food photography - overhead, soft diffused light, shallow depth of field",
+  "Street documentary - handheld, natural light, 24fps",
+  "Animated - bold outlines, flat color, smooth motion",
+  "Product showcase - turntable, studio lighting, white cyclorama",
 ];
 
 // External video generation services
@@ -248,7 +248,7 @@ export function VideoGenTab({ characters, providers }: { characters: Character[]
             setAspect(p.aspect);
             setSceneValue(p.sceneValue);
             setAnchorValues(p.anchorValue ? [p.anchorValue] : []);
-            toast.success(`Loaded Shot ${p.shotNumber} — ${p.shotDescription}`);
+            toast.success(`Loaded Shot ${p.shotNumber} - ${p.shotDescription}`);
           }}
         />
 
@@ -307,7 +307,7 @@ export function VideoGenTab({ characters, providers }: { characters: Character[]
             aria-label="Style preset"
             className="w-full text-sm border border-border-strong rounded-md px-2.5 py-2 bg-white"
           >
-            <option value="">— Custom / None —</option>
+            <option value="">- Custom / None —</option>
             {STYLE_PRESETS.map((s) => (
               <option key={s} value={s}>{s.split("—")[0].trim()}</option>
             ))}
@@ -325,7 +325,7 @@ export function VideoGenTab({ characters, providers }: { characters: Character[]
             aria-label="Scene context"
             className="w-full text-sm border border-border-strong rounded-md px-2.5 py-2 bg-white"
           >
-            <option value="">— No Scene —</option>
+            <option value="">- No Scene —</option>
             {SCENE_CONTEXTS.map((s) => (
               <option key={s.value} value={s.value}>{s.label}</option>
             ))}
@@ -337,7 +337,7 @@ export function VideoGenTab({ characters, providers }: { characters: Character[]
           )}
         </div>
 
-        {/* Character Anchors — multi-select */}
+        {/* Character Anchors - multi-select */}
         <div>
           <div className="flex items-center gap-2 mb-2">
             <label className="text-xs font-medium text-muted uppercase tracking-wider">
@@ -395,7 +395,7 @@ export function VideoGenTab({ characters, providers }: { characters: Character[]
           </div>
           {anchorValues.length > 1 && (
             <p className="text-[10px] text-amber-700 bg-amber-50 border border-amber-200 rounded-md px-3 py-2 mt-2">
-              Multi-character frame — Cast Rules will be injected automatically.
+              Multi-character frame - Cast Rules will be injected automatically.
             </p>
           )}
         </div>

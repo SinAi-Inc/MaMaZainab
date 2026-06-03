@@ -19,11 +19,11 @@ export default async function ComingSoonPage() {
   const fbUrl = settings.socialFacebook || "https://facebook.com/";
   return (
     <main className="min-h-screen bg-brand-green text-white relative overflow-hidden flex flex-col">
-      {/* Background plaid — full brightness, matching brand apron */}
+      {/* Background plaid - full brightness, matching brand apron */}
       <div className="absolute inset-0 plaid pointer-events-none" />
 
       {}
-      {/*   Wrapper slides up; img holds the static left lean — independent transforms */}
+      {/*   Wrapper slides up; img holds the static left lean - independent transforms */}
       <div
         className="absolute bottom-0 right-4 pointer-events-none select-none z-[20] hidden md:block"
         style={{ width: "240px", animation: "zuzu-pop 33s ease-in-out infinite" }}
@@ -31,7 +31,7 @@ export default async function ComingSoonPage() {
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src="/brand/chars/zuzu-thumb.png"
-          alt="ZuZu — MaMa Zainab's head chef"
+          alt="ZuZu - MaMa Zainab's head chef"
           className="w-full"
           style={{
             transform: "rotate(-15deg)",
@@ -79,7 +79,7 @@ export default async function ComingSoonPage() {
           Coming Soon · Alexandria, EGYPT
         </p>
 
-        {/* Wordmark — transparent PNG, isolated over any background */}
+        {/* Wordmark - transparent PNG, isolated over any background */}
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src="/brand/logo-wordmark-transparent.png"
@@ -162,7 +162,7 @@ export default async function ComingSoonPage() {
             SinAI Inc.
           </a>
         </div>
-        {/* Discreet admin toggle — intentionally subtle */}
+        {/* Discreet admin toggle - intentionally subtle */}
         <Link
           href="/login"
           className="mt-1 text-white/20 hover:text-white/50 transition text-[9px] tracking-[0.2em] uppercase"

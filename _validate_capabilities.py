@@ -18,7 +18,7 @@ print()
 
 # ── Test 1: Model listing ──
 print("=" * 60)
-print("TEST 1: NVIDIA API Catalog — model listing")
+print("TEST 1: NVIDIA API Catalog - model listing")
 print("=" * 60)
 base = "https://integrate.api.nvidia.com/v1"
 req = urllib.request.Request(f"{base}/models", headers={"Authorization": f"Bearer {key}"}, method="GET")
@@ -34,10 +34,10 @@ try:
 except Exception as ex:
     print(f"  ERROR: {type(ex).__name__}: {ex}")
 
-# ── Test 2: Flux.1 Schnell (cheapest — $0.003/call) ──
+# ── Test 2: Flux.1 Schnell (cheapest - $0.003/call) ──
 print()
 print("=" * 60)
-print("TEST 2: Flux.1 Schnell — image generation ($0.003/call)")
+print("TEST 2: Flux.1 Schnell - image generation ($0.003/call)")
 print("=" * 60)
 url = "https://ai.api.nvidia.com/v1/genai/black-forest-labs/flux.1-schnell"
 payload = json.dumps({"prompt": "a single red tomato on white plate, photorealistic", "width": 512, "height": 512}).encode()
@@ -67,10 +67,10 @@ except Exception as ex:
     print(f"  STATUS: FAILED")
     print(f"  Error: {type(ex).__name__}: {ex}")
 
-# ── Test 3: Flux.1 Dev (higher quality — $0.04/call) ──
+# ── Test 3: Flux.1 Dev (higher quality - $0.04/call) ──
 print()
 print("=" * 60)
-print("TEST 3: Flux.1 Dev — image generation ($0.04/call)")
+print("TEST 3: Flux.1 Dev - image generation ($0.04/call)")
 print("=" * 60)
 url = "https://ai.api.nvidia.com/v1/genai/black-forest-labs/flux.1-dev"
 payload = json.dumps({"prompt": "a single red tomato on white plate, photorealistic", "width": 512, "height": 512}).encode()
@@ -103,7 +103,7 @@ except Exception as ex:
 # ── Test 4: ComfyUI local availability ──
 print()
 print("=" * 60)
-print("TEST 4: ComfyUI local (FREE — $0/call)")
+print("TEST 4: ComfyUI local (FREE - $0/call)")
 print("=" * 60)
 comfy_url = env.get("COMFYUI_BASE_URL", "http://127.0.0.1:8188")
 print(f"  Configured URL: {comfy_url}")
@@ -139,7 +139,7 @@ else:
         req = urllib.request.Request(f"{nim_url}/v1/models", method="GET")
         with urllib.request.urlopen(req, timeout=10) as r:
             data = json.loads(r.read())
-            print(f"  STATUS: RUNNING — {len(data.get('data', []))} models")
+            print(f"  STATUS: RUNNING - {len(data.get('data', []))} models")
     except Exception as ex:
         print(f"  STATUS: NOT REACHABLE ({type(ex).__name__}: {ex})")
 
@@ -160,7 +160,7 @@ print("""
 │ Midjourney v7        │ $0.05+     │ Manual (no API)                   │
 └──────────────────────┴────────────┴───────────────────────────────────┘
 
-KEYFRAME BUDGET ESTIMATE (revised screenplay — 10 scenes):
+KEYFRAME BUDGET ESTIMATE (revised screenplay - 10 scenes):
   ~40-50 keyframes needed (4-5 per scene avg.)
   
   ComfyUI local:      50 × $0.00  = $0.00 (if running)

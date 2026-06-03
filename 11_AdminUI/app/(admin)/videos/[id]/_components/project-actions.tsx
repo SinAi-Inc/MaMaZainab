@@ -72,7 +72,7 @@ export function ProjectActions({
               try {
                 const r = await generateAllPendingShots(projectId, { tier, providerId });
                 if (r.failed.length > 0) {
-                  toast.error(`Submitted ${r.submitted}/${r.total} — ${r.failed.length} failed`);
+                  toast.error(`Submitted ${r.submitted}/${r.total} - ${r.failed.length} failed`);
                 } else if (r.submitted === 0) {
                   toast.info("No pending shots to generate");
                 } else {
@@ -125,7 +125,7 @@ export function ProjectActions({
                 }
                 downloadText(r.filename, r.content);
                 if (r.missing.length > 0) {
-                  toast.warning(`EDL exported — ${r.missing.length} shots missing approved takes`);
+                  toast.warning(`EDL exported - ${r.missing.length} shots missing approved takes`);
                 } else {
                   toast.success(`EDL exported (${r.clipCount} clips, ${r.totalSec}s)`);
                 }

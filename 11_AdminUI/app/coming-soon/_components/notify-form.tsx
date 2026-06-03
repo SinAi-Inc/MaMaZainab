@@ -36,7 +36,7 @@ export function NotifyForm() {
         </p>
         <p className="mt-2 text-xs text-white/80 leading-relaxed">
           We&apos;ve registered your interest. When we open, you&apos;ll be the first to
-          know — and the first to get a{" "}
+          know - and the first to get a{" "}
           <span className="text-brand-yellow font-semibold">very special price</span>,
           just for loving us early. ❤️
         </p>
@@ -78,7 +78,7 @@ export function NotifyForm() {
       )}
       {state === "error" && (
         <p className="mt-2 text-[11px] text-red-300 text-center">
-          Something went wrong — please try again in a moment.
+          Something went wrong - please try again in a moment.
         </p>
       )}
 
