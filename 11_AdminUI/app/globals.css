@@ -83,7 +83,7 @@ body {
   background-size: 384px 384px;
 }
 
-/* Subtle plaid wash — use as an absolute overlay behind content */
+/* Subtle plaid wash - use as an absolute overlay behind content */
 .plaid-wash {
   background-image: url('/brand/plaid.png');
   background-repeat: repeat;
@@ -135,7 +135,7 @@ body {
 /* ---------- Coming Soon decorative animations ────────────────────────────── */
 
 /*
-  ZuZu pop cycle — 33 s total, 45° diagonal entry from bottom-right corner:
+  ZuZu pop cycle - 33 s total, 45° diagonal entry from bottom-right corner:
     0 s   –  1.5 s  : slides in along 45° diagonal           (0% → 4.5%)
     1.5 s –  7 s    : holds visible                           (4.5% → 21%)
     7 s   –  8.5 s  : slides back out along 45° diagonal     (21% → 26%)
@@ -152,7 +152,7 @@ body {
   100%       { transform: translateY(115%); }
 }
 
-/* ---------- Print layout (A4 portrait — dedicated /menu/print page) ---------- */
+/* ---------- Print layout (A4 portrait - dedicated /menu/print page) ---------- */
 .print-sheet {
   width: 210mm;
   min-height: 297mm;
@@ -180,7 +180,7 @@ body {
   .no-print {
     display: none !important;
   }
-  /* Kill min-h-screen on the outer wrapper — in print 100vh = one page height,
+  /* Kill min-h-screen on the outer wrapper - in print 100vh = one page height,
      so min-h-screen reserves an entire blank page before content starts */
   .print-root {
     background: #ffffff !important;
@@ -190,7 +190,7 @@ body {
     margin: 0 !important;
     box-shadow: none !important;
     width: 100% !important;
-    /* Let content grow across pages — don't lock to one viewport height */
+    /* Let content grow across pages - don't lock to one viewport height */
     min-height: unset !important;
   }
 
@@ -206,14 +206,14 @@ body {
     padding-top: 0 !important;
     padding-bottom: 4mm !important;
   }
-  /* Reduce logo from h-32 (128px ≈ 34mm) to ~60px (≈16mm) — saves ~18mm */
+  /* Reduce logo from h-32 (128px ≈ 34mm) to ~60px (≈16mm) - saves ~18mm */
   .print-logo {
     height: 60px !important;
   }
 
   /* Body: Chrome's print engine mis-paginates CSS `columns-N`, producing a
      blank first page then content on page 2. Replace with CSS Grid which
-     paginates correctly — each section is a grid cell that flows across pages
+     paginates correctly - each section is a grid cell that flows across pages
      without creating phantom column regions. */
   .print-page-body {
     display: grid !important;
@@ -224,7 +224,7 @@ body {
     column-gap: unset !important;
     /* Tight but readable gutter */
     gap: 4mm 10mm !important;
-    /* Each section starts at its natural height — no stretching */
+    /* Each section starts at its natural height - no stretching */
     align-items: start !important;
     padding-top: 5mm !important;
     padding-bottom: 5mm !important;
@@ -255,7 +255,7 @@ body {
     print-color-adjust: exact !important;
   }
 
-  /* ---- Menu preview page (/menu/preview) — clean print output ---- */
+  /* ---- Menu preview page (/menu/preview) - clean print output ---- */
 
   /* Show the print-only compact header */
   .print-only { display: block !important; }
@@ -304,7 +304,7 @@ body {
     flex-shrink: 0;
   }
 
-  /* Hide badges — they add height and colour noise on paper */
+  /* Hide badges - they add height and colour noise on paper */
   .menu-preview-badges { display: none !important; }
 
   /* Section headings / item text: scale down for A4 */

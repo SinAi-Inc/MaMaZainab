@@ -36,7 +36,7 @@ export const COLORS: ColorToken[] = [
     name: "Mahshi Green",
     hex: "#1B9B00",
     rgb: [27, 155, 0],
-    role: "Primary — fresh grape leaves, village fields, core Mahshi product",
+    role: "Primary - fresh grape leaves, village fields, core Mahshi product",
     usage: ["logo", "apron", "packaging_accent", "kiosk_header", "plaid_pattern"],
     category: "primary",
     locked: true,
@@ -46,7 +46,7 @@ export const COLORS: ColorToken[] = [
     name: "Brand Yellow",
     hex: "#EFD200",
     rgb: [239, 210, 0],
-    role: "Secondary warmth — golden rice, sunlight, Egyptian heritage",
+    role: "Secondary warmth - golden rice, sunlight, Egyptian heritage",
     usage: ["apron_plaid_cross", "highlight_accents", "menu_headers", "zuzu_ribbon"],
     category: "primary",
     locked: true,
@@ -57,7 +57,7 @@ export const COLORS: ColorToken[] = [
     name: "Brand Red",
     hex: "#E60000",
     rgb: [230, 0, 0],
-    role: "Accent & alert — spice, tomato sauce, energy",
+    role: "Accent & alert - spice, tomato sauce, energy",
     usage: ["sale_badges", "hot_items", "wong_accent", "emergency_phone"],
     category: "secondary",
   },
@@ -75,7 +75,7 @@ export const COLORS: ColorToken[] = [
     name: "Cream",
     hex: "#FFF8E7",
     rgb: [255, 248, 231],
-    role: "Background warmth — dough, village walls, comfort",
+    role: "Background warmth - dough, village walls, comfort",
     usage: ["backgrounds", "packaging_base", "plaid_base", "menu_canvas"],
     category: "secondary",
   },
@@ -168,7 +168,7 @@ export const FONTS: FontToken[] = [
     usage: "Body copy, menu descriptions, UI text, labels, pricing.",
     fallback: "Montserrat, sans-serif",
     cssVar: "--font-sans",
-    sampleText: "Homemade taste. Fast-food style — for the first time.",
+    sampleText: "Homemade taste. Fast-food style - for the first time.",
   },
   {
     id: "secondary",
@@ -186,7 +186,7 @@ export const FONTS: FontToken[] = [
     usage: "All Arabic text, RTL layouts, kiosk screens.",
     fallback: "Noto Sans Arabic, sans-serif",
     cssVar: "--font-arabic",
-    sampleText: "ماما زينب — طعم بيتي بأسلوب الفاست فود",
+    sampleText: "ماما زينب - طعم بيتي بأسلوب الفاست فود",
   },
   {
     id: "script",
@@ -220,7 +220,7 @@ export const PATTERN = {
   id: "plaid_v2",
   name: "Mama Zainab Plaid",
   description:
-    "Green-on-cream diamond weave — the signature textile pattern across all brand touchpoints",
+    "Green-on-cream diamond weave - the signature textile pattern across all brand touchpoints",
   structure:
     "Diamond/argyle weave with primary green lines on cream base, yellow cross-threads",
   colors: ["#1B9B00", "#FFF8E7", "#EFD200"] as string[],
@@ -266,20 +266,20 @@ export const PATTERN = {
 };
 
 /**
- * Brand Icon Pattern — the repeating checkerboard surface pattern
+ * Brand Icon Pattern - the repeating checkerboard surface pattern
  * made of brand-icon tiles (White Goose, mahshi rolls, plaid diamond, plate circle, cutlery).
  */
 export const BRAND_ICON_PATTERN = {
   id: "brand_icon_pattern",
   name: "Brand Icon Pattern",
   description:
-    "A repeating checkerboard surface pattern built from five brand icons — the White Goose, Mahshi Rolls, Diamond Plaid, Plate Circle, and Cutlery — arranged on alternating Mahshi Green, Saffron Yellow, and cream squares.",
+    "A repeating checkerboard surface pattern built from five brand icons - the White Goose, Mahshi Rolls, Diamond Plaid, Plate Circle, and Cutlery - arranged on alternating Mahshi Green, Saffron Yellow, and cream squares.",
   icons: [
-    { id: "White Goose",    label: "White Goose",          desc: "Brand mascot — grace, heritage, Egyptian waterway" },
-    { id: "mahshi",  label: "Mahshi Rolls",  desc: "Signature dish — stuffed grape-leaf rolls, the brand hero" },
-    { id: "diamond", label: "Diamond Plaid", desc: "Plaid v2 motif — links the icon pattern to the textile plaid" },
-    { id: "plate",   label: "Plate Circle",  desc: "Hospitality mark — cutlery inside a circle" },
-    { id: "cutlery", label: "Cutlery",       desc: "Spoon + fork — food service identity" },
+    { id: "White Goose",    label: "White Goose",          desc: "Brand mascot - grace, heritage, Egyptian waterway" },
+    { id: "mahshi",  label: "Mahshi Rolls",  desc: "Signature dish - stuffed grape-leaf rolls, the brand hero" },
+    { id: "diamond", label: "Diamond Plaid", desc: "Plaid v2 motif - links the icon pattern to the textile plaid" },
+    { id: "plate",   label: "Plate Circle",  desc: "Hospitality mark - cutlery inside a circle" },
+    { id: "cutlery", label: "Cutlery",       desc: "Spoon + fork - food service identity" },
   ],
   colors: ["#1B9B00", "#EFD200", "#FFFFFF"] as string[],
   imagePath: "/brand/pattern/patern-graphy.jpeg",
@@ -334,17 +334,17 @@ export const PACKAGING = {
   note: "All packaging uses cream #FFF8E7 as base, plaid v2 pattern accents, mahshi green #1B9B00 dominant",
   rules: [
     "Cream base, never pure white",
-    "Plaid pattern always present as accent band or wrap — never full-cover",
+    "Plaid pattern always present as accent band or wrap - never full-cover",
     "Logo placement: top-center or lid-center",
     "Green #1B9B00 is the dominant packaging color",
-    "No gradients — flat brand colors only",
+    "No gradients - flat brand colors only",
     "ZuZu mascot may appear as a small stamp/icon",
   ] as string[],
   items: [
-    { id: "food_box", name: "Food Box", description: "Main takeaway box — cream base with green plaid band wrapping, logo on lid" },
-    { id: "can_holder", name: "Can Holder", description: "Beverage can holder/sleeve — plaid pattern wrap with logo stamp" },
-    { id: "takeaway_column", name: "Takeaway Column", description: "Vertical takeaway pillar — tall branded container for stacked mahshi portions" },
-    { id: "sauce_station", name: "Sauce Station", description: "Kiosk sauce dispensing area — branded panel with sauce labels" },
+    { id: "food_box", name: "Food Box", description: "Main takeaway box - cream base with green plaid band wrapping, logo on lid" },
+    { id: "can_holder", name: "Can Holder", description: "Beverage can holder/sleeve - plaid pattern wrap with logo stamp" },
+    { id: "takeaway_column", name: "Takeaway Column", description: "Vertical takeaway pillar - tall branded container for stacked mahshi portions" },
+    { id: "sauce_station", name: "Sauce Station", description: "Kiosk sauce dispensing area - branded panel with sauce labels" },
   ] as PackagingItem[],
 };
 

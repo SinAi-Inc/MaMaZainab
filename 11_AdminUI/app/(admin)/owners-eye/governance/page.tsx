@@ -11,11 +11,11 @@ import { DecisionSurface, type DecisionItem } from "../_components/decision-surf
 export const dynamic = "force-dynamic";
 
 /**
- * Layer 5 — Corporate Governance
+ * Layer 5 - Corporate Governance
  *
  * Chain-wide policy, brand integrity, franchise rules, compliance.
  *
- * Per the inspiration doc: "Corporate HQ controls — central pricing,
+ * Per the inspiration doc: "Corporate HQ controls - central pricing,
  * menu rollout, promotions, supplier rules, compliance, franchise
  * governance, recipe synchronization."
  *
@@ -28,7 +28,7 @@ export const dynamic = "force-dynamic";
 const MODULES = [
   { id: "franchise", name: "Franchise Governance", icon: Building2, note: "Per-franchisee contracts, royalties, compliance" },
   { id: "policy", name: "Policy & SOP Library", icon: BookOpen, note: "Operational SOPs distributed to all branches" },
-  { id: "audit", name: "Audit Log", icon: Scale, note: "Who changed what, when — full trail" },
+  { id: "audit", name: "Audit Log", icon: Scale, note: "Who changed what, when - full trail" },
   { id: "rbac", name: "Roles & Access (RBAC)", icon: Users, note: "Cashier, Manager, Owner, Accountant matrix" },
   { id: "vault", name: "Secrets & API Keys", icon: Lock, note: "Centralized credential management" },
 ] as const;

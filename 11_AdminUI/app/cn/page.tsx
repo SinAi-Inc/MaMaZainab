@@ -7,7 +7,7 @@ export const metadata: Metadata = {
     "王盛恒餐饮投资集团有限公司是 MaMa Zainab 品牌的合法所有人，由王盛恒先生创立并运营。技术支持：SinAI Inc.",
 };
 
-// Chinese system font stack — renders correctly on Windows, macOS, and Linux
+// Chinese system font stack - renders correctly on Windows, macOS, and Linux
 const CH =
   "'PingFang SC','Hiragino Sans GB','Microsoft YaHei','SimHei','Noto Sans SC',sans-serif";
 
@@ -27,7 +27,7 @@ export default function ChineseOwnerPage() {
       className="min-h-screen bg-white text-gray-900 leading-relaxed"
     >
       {/* ══════════════════════════════════════════
-          HEADER — Deep Red / Gold
+          HEADER - Deep Red / Gold
       ══════════════════════════════════════════ */}
       <header
         className="relative text-white text-center py-20 px-6 overflow-hidden"
@@ -106,7 +106,7 @@ export default function ChineseOwnerPage() {
       </header>
 
       {/* ══════════════════════════════════════════
-          OWNERSHIP DECLARATION — White
+          OWNERSHIP DECLARATION - White
       ══════════════════════════════════════════ */}
       <section className="max-w-3xl mx-auto px-6 py-16">
         <h2
@@ -210,7 +210,7 @@ export default function ChineseOwnerPage() {
       </section>
 
       {/* ══════════════════════════════════════════
-          ABOUT — Red background
+          ABOUT - Red background
       ══════════════════════════════════════════ */}
       <section
         className="py-16 px-6 text-white"
@@ -280,7 +280,7 @@ export default function ChineseOwnerPage() {
       </section>
 
       {/* ══════════════════════════════════════════
-          TECHNOLOGY & CONTACT — White
+          TECHNOLOGY & CONTACT - White
       ══════════════════════════════════════════ */}
       <section className="max-w-3xl mx-auto px-6 py-16">
         <h2
@@ -335,7 +335,7 @@ export default function ChineseOwnerPage() {
       </section>
 
       {/* ══════════════════════════════════════════
-          FOOTER — Dark Red
+          FOOTER - Dark Red
       ══════════════════════════════════════════ */}
       <footer
         className="text-center px-6 py-10"

@@ -25,7 +25,7 @@ export async function POST(req: NextRequest) {
 
   if (!isSupabaseConfigured()) {
     return NextResponse.json(
-      { error: "Supabase not configured — nothing to sync" },
+      { error: "Supabase not configured - nothing to sync" },
       { status: 400 },
     );
   }
@@ -54,7 +54,7 @@ export async function POST(req: NextRequest) {
   if (state.items.length > 0) {
     const itemRows = state.items.map((i) => {
       const row = toSnake(i as unknown as Record<string, unknown>);
-      // Supabase stores badges as JSONB text — ensure array is serialized
+      // Supabase stores badges as JSONB text - ensure array is serialized
       if (Array.isArray(row.badges)) {
         row.badges = JSON.stringify(row.badges);
       }

@@ -44,7 +44,7 @@ export async function uploadFile(
   const sb = getSupabase();
   const storagePath = `${subdir}/${filename}`;
 
-  // Only attempt bucket creation once per process — avoids a round-trip on every upload
+  // Only attempt bucket creation once per process - avoids a round-trip on every upload
   if (!bucketConfirmed) {
     await sb.storage.createBucket(BUCKET, { public: true }).catch(() => null);
     bucketConfirmed = true;
@@ -59,6 +59,6 @@ export async function uploadFile(
 
   if (error) throw new Error(`Upload failed: ${error.message}`);
 
-  // Always return relative path — Next.js rewrite proxies to Supabase Storage
+  // Always return relative path - Next.js rewrite proxies to Supabase Storage
   return `/uploads/${subdir}/${filename}`;
 }

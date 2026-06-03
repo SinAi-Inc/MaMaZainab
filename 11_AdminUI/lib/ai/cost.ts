@@ -14,10 +14,10 @@ type ModelCostEntry = {
 };
 
 const MODEL_COSTS: Record<string, ModelCostEntry> = {
-  // Black Forest Labs (NVIDIA-hosted) — live models
+  // Black Forest Labs (NVIDIA-hosted) - live models
   "black-forest-labs/flux.1-dev": { perCallUsd: 0.04, note: "~50 steps" },
   "black-forest-labs/flux.1-schnell": { perCallUsd: 0.003, note: "4 steps, fast" },
-  // Local ComfyUI — free (CPU/AMD render)
+  // Local ComfyUI - free (CPU/AMD render)
   "comfyui": { perCallUsd: 0, note: "local render" },
 };
 

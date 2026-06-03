@@ -43,7 +43,7 @@ export async function upsertJob(job: VideoJob): Promise<void> {
     .from("video_jobs")
     .upsert(jobToRow(job), { onConflict: "id" });
   if (error) {
-    console.warn(`video_jobs upsert (Supabase): ${error.message} — falling back to JSON`);
+    console.warn(`video_jobs upsert (Supabase): ${error.message} - falling back to JSON`);
     const state = await readJson();
     const idx = state.jobs.findIndex((j) => j.id === job.id);
     if (idx >= 0) state.jobs[idx] = job;
@@ -99,7 +99,7 @@ export async function deleteJob(id: string): Promise<void> {
   }
   const { error } = await getSupabase().from("video_jobs").delete().eq("id", id);
   if (error) {
-    console.warn(`video_jobs delete (Supabase): ${error.message} — falling back to JSON`);
+    console.warn(`video_jobs delete (Supabase): ${error.message} - falling back to JSON`);
     const state = await readJson();
     state.jobs = state.jobs.filter((j) => j.id !== id);
     return writeJson(state);

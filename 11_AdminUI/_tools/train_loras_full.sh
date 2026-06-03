@@ -1,6 +1,6 @@
 #!/bin/bash
 # =============================================================================
-# MaMa Zainab — Complete LoRA Training (Brev/Paperspace VM Mode)
+# MaMa Zainab - Complete LoRA Training (Brev/Paperspace VM Mode)
 # =============================================================================
 #
 # Paste this entire script into your Jupyter terminal.
@@ -22,7 +22,7 @@ set -euo pipefail
 
 echo ""
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-echo "  MaMa Zainab — Character LoRA Training Pipeline"
+echo "  MaMa Zainab - Character LoRA Training Pipeline"
 echo "  GPU: $(nvidia-smi --query-gpu=name,memory.total --format=csv,noheader 2>/dev/null || echo 'unknown')"
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 echo ""

@@ -1,5 +1,5 @@
 /**
- * VideoProvider abstraction — every backend (Runway, RunPod, local NIM)
+ * VideoProvider abstraction - every backend (Runway, RunPod, local NIM)
  * implements this interface. The UI never knows which provider runs;
  * it just submits a brand-locked job and polls.
  */
@@ -21,7 +21,7 @@ export type ProviderCapabilities = {
 export type ProviderSubmitResult = {
   /** Provider's internal job ID (for polling) */
   providerJobId: string;
-  /** Initial status — most providers return "queued" or "running" */
+  /** Initial status - most providers return "queued" or "running" */
   status: "queued" | "running" | "completed" | "failed";
   /** Some providers (local NIM small clips) may return URL immediately */
   outputUrl?: string;
@@ -57,7 +57,7 @@ export interface VideoProvider {
 }
 
 /* --------------------------------------------------------------- */
-/*  Registry — lazy-loads providers (avoid circular imports)        */
+/*  Registry - lazy-loads providers (avoid circular imports)        */
 /* --------------------------------------------------------------- */
 
 let _registry: Record<string, VideoProvider> | null = null;

@@ -8,7 +8,7 @@ import { DecisionSurface, type DecisionItem } from "../_components/decision-surf
 export const dynamic = "force-dynamic";
 
 /**
- * Layer 4 — Growth
+ * Layer 4 - Growth
  *
  * Customer growth + retention layer: CRM, loyalty, segmentation, campaigns.
  *
@@ -80,7 +80,7 @@ export default async function GrowthPage() {
           <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-red-600">Layer 4</p>
           <h2 className="text-2xl font-bold text-brand-ink leading-tight">Growth</h2>
           <p className="mt-1 text-sm text-muted">
-            Acquire, engage, retain — turn customers into regulars.
+            Acquire, engage, retain - turn customers into regulars.
           </p>
         </div>
       </header>

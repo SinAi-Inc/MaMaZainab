@@ -69,7 +69,7 @@ function buildFluxLoraWorkflow(
     },
   };
 
-  // Node 2: CLIP loader (dual — T5 + CLIP-L for FLUX)
+  // Node 2: CLIP loader (dual - T5 + CLIP-L for FLUX)
   workflow["2"] = {
     class_type: "DualCLIPLoader",
     inputs: {
@@ -175,7 +175,7 @@ async function queuePrompt(workflow: Record<string, unknown>): Promise<string> {
 
   if (!res.ok) {
     const text = await res.text();
-    throw new Error(`ComfyUI queue failed: ${res.status} — ${text.slice(0, 200)}`);
+    throw new Error(`ComfyUI queue failed: ${res.status} - ${text.slice(0, 200)}`);
   }
 
   const json = await res.json() as { prompt_id: string };

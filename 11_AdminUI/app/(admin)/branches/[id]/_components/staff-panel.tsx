@@ -11,11 +11,11 @@ import { Card, CardBody } from "@/components/ui/card";
 import type { Branch } from "@/lib/branches/schema";
 
 /**
- * Staff & Attendance panel — skeleton ready for future API integration.
+ * Staff & Attendance panel - skeleton ready for future API integration.
  * Will connect to a scheduling/attendance system (e.g., Deputy, Homebase, or custom).
  */
 export function StaffPanel({ branch }: { branch: Branch }) {
-  // Placeholder data — will be replaced by real API
+  // Placeholder data - will be replaced by real API
   const placeholderStaff = [
     { name: branch.manager || "Manager TBD", role: "Shift Manager", status: "on-shift" },
     { name: "Staff Member 1", role: "Cashier", status: "on-shift" },

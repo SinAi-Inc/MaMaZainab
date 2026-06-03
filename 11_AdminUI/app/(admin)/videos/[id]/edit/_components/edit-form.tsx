@@ -190,7 +190,7 @@ export function EditProjectForm({ project }: { project: Project }) {
                 />
               </div>
               <div>
-                <Label hint="USD — 0 = unlimited">Video budget cap</Label>
+                <Label hint="USD - 0 = unlimited">Video budget cap</Label>
                 <Input type="number" step="0.01" min="0" {...register("budgetUsd")} />
                 <p className="text-[11px] text-muted mt-1">
                   Spent so far: <span className="font-mono">${(project.spentUsd ?? 0).toFixed(2)}</span>

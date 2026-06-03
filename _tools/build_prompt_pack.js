@@ -19,7 +19,7 @@ const md = fs.readFileSync(STORYBOARD_PATH, "utf-8");
 
 const project = {
   id: "prj_brand_legend_v2",
-  title: "Brand Incorporation — The Legend of Wong & MaMa Zainab (Full 10-Scene)",
+  title: "Brand Incorporation - The Legend of Wong & MaMa Zainab (Full 10-Scene)",
   logline: "An exiled warrior arrives in Egypt, and an AI tells him to build a comfort-food empire named after every Egyptian's mother.",
   aspectRatio: "2.39:1",
   targetRuntime: "3:30",
@@ -51,7 +51,7 @@ const characters = {
 
 // ─── Parse scenes ───────────────────────────────────────────────────────────
 
-// Scene heading pattern: # **SCENE N — TITLE**
+// Scene heading pattern: # **SCENE N - TITLE**
 const sceneHeadingRe = /^#\s+\*\*SCENE\s+(\d+)\s*[—–-]\s*(.+?)\*\*/gm;
 // Shot row pattern: | 1.1 | Type | 4s | Description |
 const shotRowRe = /^\|\s*(\d+\.\d+)\s*\|\s*(.+?)\s*\|\s*(\d+)s\s*\|\s*(.+?)\s*\|$/gm;
@@ -133,7 +133,7 @@ for (let i = 0; i < sceneHeaders.length; i++) {
   scenes.push({
     id: `scn_${nanoid(8)}`,
     number: header.number,
-    heading: `SCENE ${header.number} — ${header.title}`,
+    heading: `SCENE ${header.number} - ${header.title}`,
     totalSec,
     shots,
   });

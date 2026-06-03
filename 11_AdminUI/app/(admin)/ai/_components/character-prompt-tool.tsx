@@ -18,7 +18,7 @@ function buildCharacterPrompt(char: Character, style: string): string {
     lines.push(``);
   } else {
     // Derive anchor from structured fields
-    lines.push(`[CHARACTER ANCHOR — ${char.name.toUpperCase()} — DO NOT ALTER]`);
+    lines.push(`[CHARACTER ANCHOR - ${char.name.toUpperCase()} - DO NOT ALTER]`);
     lines.push(`Name: ${char.name}`);
     if (char.subtitle) lines.push(`Role: ${char.subtitle}`);
     if (char.role) lines.push(`Description: ${char.role}`);
@@ -80,7 +80,7 @@ export function CharacterPromptTool({ characters }: { characters: Character[] })
               </span>
             </div>
             <p className="text-sm text-muted mt-1">
-              Generate locked anchor blocks for AI prompting — keeps character identity stable across image generations.
+              Generate locked anchor blocks for AI prompting - keeps character identity stable across image generations.
             </p>
           </div>
         </div>

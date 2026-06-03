@@ -11,16 +11,16 @@ export type VideoCostBreakdown = {
 };
 
 const PROVIDER_RATES: Record<string, { label: string; perSecondUsd: number }> = {
-  // Runway Gen-4 Turbo — listed $0.05/s (Sep 2025), Gen-4 standard $0.12/s
+  // Runway Gen-4 Turbo - listed $0.05/s (Sep 2025), Gen-4 standard $0.12/s
   runway: { label: "Runway Gen-4", perSecondUsd: 0.05 },
-  // RunPod serverless Wan 2.2 — typical L40S ~$0.0007/s GPU time
+  // RunPod serverless Wan 2.2 - typical L40S ~$0.0007/s GPU time
   // Wan 2.2 needs ~30s GPU per 5s clip → ~$0.021 / 5s ≈ $0.004/s output
   runpod: { label: "RunPod Wan 2.2", perSecondUsd: 0.004 },
-  // Local NIM — only electricity
+  // Local NIM - only electricity
   "local-nim": { label: "Local NIM", perSecondUsd: 0 },
-  // Amazon Bedrock Nova Reel — ~$0.06 per 6s clip ≈ $0.01/s
+  // Amazon Bedrock Nova Reel - ~$0.06 per 6s clip ≈ $0.01/s
   bedrock: { label: "Amazon Nova Reel", perSecondUsd: 0.01 },
-  // fal.ai — varies by sub-model, avg ~$0.04/s
+  // fal.ai - varies by sub-model, avg ~$0.04/s
   fal: { label: "fal.ai", perSecondUsd: 0.04 },
 };
 

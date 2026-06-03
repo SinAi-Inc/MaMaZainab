@@ -1,5 +1,5 @@
 /**
- * Brand Reference Context — injected into every generation prompt to keep
+ * Brand Reference Context - injected into every generation prompt to keep
  * outputs on-brand. Detects character mentions, appends anchor blocks,
  * DO/DON'T rules, reference media paths, and brand material descriptors.
  *

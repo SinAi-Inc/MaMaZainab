@@ -54,7 +54,7 @@ async function generateWithRetry(prompt: string, seed: number): Promise<{ image:
     return await generateImage({ model: MODEL, prompt, width: WIDTH, height: HEIGHT, seed });
   } catch (err) {
     if (err instanceof Error && err.message.includes("CONTENT_FILTERED")) {
-      console.log("    ⚠ CONTENT_FILTERED — retrying with simplified prompt...");
+      console.log("    ⚠ CONTENT_FILTERED - retrying with simplified prompt...");
       const simplified = simplifyForRetry(prompt);
       try {
         return await generateImage({ model: MODEL, prompt: simplified, width: WIDTH, height: HEIGHT, seed });
@@ -62,7 +62,7 @@ async function generateWithRetry(prompt: string, seed: number): Promise<{ image:
         if (err2 instanceof Error && err2.message.includes("CONTENT_FILTERED")) {
           // Final attempt: use just the first sentence of the description
           const minimal = prompt.split(/[.,]/)[0] + ", cinematic, photorealistic, 16:9";
-          console.log("    ⚠ Still filtered — trying minimal prompt:", minimal.substring(0, 80) + "...");
+          console.log("    ⚠ Still filtered - trying minimal prompt:", minimal.substring(0, 80) + "...");
           return await generateImage({ model: MODEL, prompt: minimal, width: WIDTH, height: HEIGHT, seed });
         }
         throw err2;

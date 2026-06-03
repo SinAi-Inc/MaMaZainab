@@ -1,6 +1,6 @@
-# Architecture — MaMa Zainab Platform
+# Architecture - MaMa Zainab Platform
 
-> Auto-generated — do not edit by hand. Run `python Doc/scripts/generate_docs.py --section architecture` to refresh.
+> Auto-generated - do not edit by hand. Run `python Doc/scripts/generate_docs.py --section architecture` to refresh.
 > Last generated: 2026-05-25
 
 ---
@@ -10,7 +10,7 @@
 | Folder | Description | Status |
 |--------|-------------|--------|
 | `01_Brand/` | Brand tokens, logo finals, plaid v2, guidelines | ✅ locked |
-| `02_Characters/` | Character bible — MaMa Zainab, Wong Hong, ZuZu | ✅ complete |
+| `02_Characters/` | Character bible - MaMa Zainab, Wong Hong, ZuZu | ✅ complete |
 | `03_Packaging/` | Box, holder, kiosk packaging renders | 🔄 in progress |
 | `04_Scripts/` | Cinematic launch script (Scene 1–6) | ✅ complete |
 | `05_VideoCampaign/` | Storyboard, AI prompt pack, Veo render notes | ✅ complete |
@@ -21,11 +21,11 @@
 | `10_AI_Assets/` | LoRAs, prompt library | ⏭️ not started |
 | `11_AdminUI/` | Next.js admin + all public pages | ✅ deployed |
 | `Doc/` | This documentation hub | ✅ active |
-| `Profile/` | Founder / company profile assets | — |
-| `_extract/` | Brand audit, PDF pages, video frames | — |
-| `_source/` | Read-only asset mirrors | — |
-| `_tools/` | — | — |
-| `fonts/` | Brand typefaces | — |
+| `Profile/` | Founder / company profile assets | - |
+| `_extract/` | Brand audit, PDF pages, video frames | - |
+| `_source/` | Read-only asset mirrors | - |
+| `_tools/` | - | - |
+| `fonts/` | Brand typefaces | - |
 
 ---
 

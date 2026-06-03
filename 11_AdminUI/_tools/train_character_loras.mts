@@ -45,7 +45,7 @@ interface CharacterTrainingDef {
   id: string;
   triggerWord: string;
   label: string;
-  /** Captions for training — what the model learns to associate with the trigger */
+  /** Captions for training - what the model learns to associate with the trigger */
   caption: string;
   /** Paths to reference images (relative to workspace root or absolute) */
   imagePaths: string[];
@@ -206,7 +206,7 @@ async function submitTraining(char: CharacterTrainingDef, imageUrls: string[]): 
 
   if (!res.ok) {
     const text = await res.text();
-    throw new Error(`Training submit failed: ${res.status} — ${text.slice(0, 500)}`);
+    throw new Error(`Training submit failed: ${res.status} - ${text.slice(0, 500)}`);
   }
 
   const json = await res.json() as { request_id: string; status?: string };

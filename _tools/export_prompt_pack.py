@@ -1,8 +1,8 @@
 """
 Export a clean prompt pack from videos.json.
 Produces:
-  05_VideoCampaign/prompt_pack.json   — structured JSON for pipeline tools
-  05_VideoCampaign/prompt_pack.md     — human-readable copy-paste sheet
+  05_VideoCampaign/prompt_pack.json   - structured JSON for pipeline tools
+  05_VideoCampaign/prompt_pack.md     - human-readable copy-paste sheet
 Run from workspace root: python _tools/export_prompt_pack.py
 """
 
@@ -149,7 +149,7 @@ print(f"Wrote {out_json}")
 
 # ── Write Markdown ──────────────────────────────────────────────────────────
 md_lines = [
-    f"# Prompt Pack — {project['title']}",
+    f"# Prompt Pack - {project['title']}",
     f"**Logline:** {project['logline']}",
     f"**Target runtime:** {pack['project']['targetRuntime']} · **Aspect ratio:** {project['aspectRatio']} · **Primary model:** {project['defaultModel']}",
     f"**Shots:** {total_shots} across {len(pack['scenes'])} scenes · **Total cut:** {pack['summary']['totalRuntime']}",
@@ -164,13 +164,13 @@ md_lines = [
 ]
 for k, v in CHAR_DESC.items():
     ref = CHAR_REF_FILES.get(k, "N/A")
-    md_lines += [f"- **{k.upper()}** `{ref}` — {v}"]
+    md_lines += [f"- **{k.upper()}** `{ref}` - {v}"]
 
 md_lines += ["", "---", ""]
 
 for sc in pack["scenes"]:
     md_lines += [
-        f"## Scene {sc['number']} — {sc['heading']}",
+        f"## Scene {sc['number']} - {sc['heading']}",
         f"*{sc['totalSec']}s total*",
         "",
     ]

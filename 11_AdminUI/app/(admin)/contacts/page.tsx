@@ -40,7 +40,7 @@ export default async function ContactsPage() {
       {contacts.length === 0 ? (
         <div className="flex flex-col items-center justify-center gap-4 py-24 border-2 border-dashed border-border rounded-xl text-muted">
           <Mail className="size-10 opacity-30" />
-          <p className="text-sm">No contacts yet — submissions from the Coming Soon page will appear here.</p>
+          <p className="text-sm">No contacts yet - submissions from the Coming Soon page will appear here.</p>
         </div>
       ) : (
         <div className="border border-border rounded-xl overflow-hidden bg-white shadow-sm">

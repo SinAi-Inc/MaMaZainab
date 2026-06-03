@@ -167,7 +167,7 @@ export function HitlReviewQueue({ items }: { items: ReadyTake[] }) {
         {items.length === 0 ? (
           <div className="flex items-center gap-2 py-3 text-sm text-brand-green-deep">
             <CheckCircle2 className="size-4" />
-            <span className="font-medium">All clear — no takes awaiting review.</span>
+            <span className="font-medium">All clear - no takes awaiting review.</span>
           </div>
         ) : (
           <div>

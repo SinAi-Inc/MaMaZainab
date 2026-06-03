@@ -1,5 +1,5 @@
 /**
- * Provider recommendation engine — suggests the best video model
+ * Provider recommendation engine - suggests the best video model
  * per shot based on type, mood, and content analysis.
  *
  * Based on hybrid workflow:
@@ -139,14 +139,14 @@ export function recommendProviders(hint: ShotHint): Recommendation[] {
 
   // If nothing matched, default to Runway (safest all-rounder)
   if (results.length === 0) {
-    results.push({ model: "runway/gen4", reason: "Default — versatile all-rounder", confidence: "medium" });
+    results.push({ model: "runway/gen4", reason: "Default - versatile all-rounder", confidence: "medium" });
   }
 
   return results;
 }
 
 /**
- * Quick helper — returns the single best model for a shot.
+ * Quick helper - returns the single best model for a shot.
  */
 export function recommendBestModel(hint: ShotHint): VideoModel {
   const recs = recommendProviders(hint);

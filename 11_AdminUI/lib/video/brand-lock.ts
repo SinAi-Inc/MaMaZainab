@@ -1,10 +1,10 @@
 /**
- * Brand-Lock Gate — pre-flight validation that runs BEFORE any video job
+ * Brand-Lock Gate - pre-flight validation that runs BEFORE any video job
  * is submitted. Ensures every character mentioned in a prompt has an
  * anchor selected, so the generator gets the proper identity block.
  *
  * Why: prevents off-brand drift where a user types "Mama Zainab makes
- * mahshi" but forgets to anchor her — the model would invent a random
+ * mahshi" but forgets to anchor her - the model would invent a random
  * woman.
  */
 import type { Character } from "@/lib/characters/schema";
@@ -63,7 +63,7 @@ export function checkBrandLock(
     if (!anchored) {
       violations.push({
         type: "missing_anchor",
-        message: `"${c.name}" is in the prompt but no character anchor is selected — output will drift off-brand.`,
+        message: `"${c.name}" is in the prompt but no character anchor is selected - output will drift off-brand.`,
         characterId: c.id,
       });
     }
@@ -79,7 +79,7 @@ function escapeRegExp(s: string): string {
 /**
  * Keyframe-gate: hero-tier shot-linked motion jobs require a human-approved
  * 1280x720 starting keyframe on the Shot. This is the structural defense
- * against character drift across multi-shot films — identity is locked at
+ * against character drift across multi-shot films - identity is locked at
  * the keyframe, motion only animates from there.
  *
  * Pass-through (returns empty array) when:
@@ -140,7 +140,7 @@ export function autoExpandAnchors(
 
 /**
  * Assemble the canonical negative prompt for a job from the selected
- * characters' `donts[]` lists. Joined with commas — most providers
+ * characters' `donts[]` lists. Joined with commas - most providers
  * accept this format.
  */
 export function buildNegativePrompt(

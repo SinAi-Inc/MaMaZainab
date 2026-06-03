@@ -51,7 +51,7 @@ export function buildAnchorsFromCharacters(
         // Prefer mode-specific reference image, fall back to character primary
         const modeRef = mode.referenceImage || refImg;
         anchors.push({
-          label: `${c.name} — ${mode.label}`,
+          label: `${c.name} - ${mode.label}`,
           value: `${c.id}_${mode.label.toLowerCase().replace(/\s+/g, "_")}`,
           baseName: c.name,
           modeLabel: mode.label,
@@ -102,7 +102,7 @@ function buildModeAnchor(
 
 /** Fallback anchor from structured identity fields when anchorBlock is empty */
 function buildFallbackAnchor(c: Character): string {
-  const parts = [`${c.name} — ${c.role || c.subtitle}`];
+  const parts = [`${c.name} - ${c.role || c.subtitle}`];
   for (const f of c.identityFields) {
     if (f.value) parts.push(`${f.field}: ${f.value}`);
   }
@@ -152,7 +152,7 @@ export type SceneContextOption = {
 
 export const SCENE_CONTEXTS: SceneContextOption[] = [
   {
-    label: "Scene 1 — Neon Rooftop",
+    label: "Scene 1 - Neon Rooftop",
     value: "scene_1_rooftop",
     mood: "dark, neon, rain, high-action",
     paletteFocus: ["Ink #2C292A", "Brand Red #E60000"],
@@ -161,7 +161,7 @@ export const SCENE_CONTEXTS: SceneContextOption[] = [
     wongMode: "warrior",
   },
   {
-    label: "Scene 2 — Pyramids",
+    label: "Scene 2 - Pyramids",
     value: "scene_2_pyramids",
     mood: "epic, golden, vast, meditative",
     paletteFocus: ["Cream #FFF8E7", "Mahshi Green #1B9B00", "Brand Yellow #EFD200"],
@@ -170,7 +170,7 @@ export const SCENE_CONTEXTS: SceneContextOption[] = [
     wongMode: "warrior",
   },
   {
-    label: "Scene 3 — Competition",
+    label: "Scene 3 - Competition",
     value: "scene_3_competition",
     mood: "bright, Mediterranean, festive, competitive",
     paletteFocus: ["Mahshi Green #1B9B00", "Brand Yellow #EFD200", "Cream #FFF8E7"],
@@ -179,7 +179,7 @@ export const SCENE_CONTEXTS: SceneContextOption[] = [
     wongMode: "business",
   },
   {
-    label: "Scene 4 — Cooking",
+    label: "Scene 4 - Cooking",
     value: "scene_4_cooking",
     mood: "comedic, chaotic, warm",
     paletteFocus: ["Mahshi Green #1B9B00", "Brand Yellow #EFD200", "Cream #FFF8E7"],
@@ -187,7 +187,7 @@ export const SCENE_CONTEXTS: SceneContextOption[] = [
     characters: ["chr_mama_zainab", "chr_zuzu", "chr_ghost_zainab"],
   },
   {
-    label: "Scene 5 — Judging",
+    label: "Scene 5 - Judging",
     value: "scene_5_judging",
     mood: "dramatic, emotional, triumphant",
     paletteFocus: ["Mahshi Green #1B9B00", "Brand Yellow #EFD200"],
@@ -196,7 +196,7 @@ export const SCENE_CONTEXTS: SceneContextOption[] = [
     wongMode: "business",
   },
   {
-    label: "Scene 6 — Command Center",
+    label: "Scene 6 - Command Center",
     value: "scene_6_command_center",
     mood: "clean, futuristic, peaceful, Apple-store aesthetic",
     paletteFocus: ["Garlic White #FAFAFA", "Mahshi Green #1B9B00", "Cream #FFF8E7"],
@@ -205,7 +205,7 @@ export const SCENE_CONTEXTS: SceneContextOption[] = [
     wongMode: "silhouette",
   },
   {
-    label: "Marketing — General",
+    label: "Marketing - General",
     value: "marketing_general",
     mood: "warm, inviting, authentic, village-premium",
     paletteFocus: ["Mahshi Green #1B9B00", "Brand Yellow #EFD200", "Cream #FFF8E7"],
@@ -243,7 +243,7 @@ export const CAST_RULES =
 
 /**
  * Injected first in every assembled prompt.
- * FLUX.1 has no negative_prompt field — style must be enforced via strong
+ * FLUX.1 has no negative_prompt field - style must be enforced via strong
  * positive direction only. Negative phrasing ("NOT ...") confuses FLUX
  * and can trigger NVIDIA's safety filter, producing black images.
  */
@@ -285,7 +285,7 @@ export function assemblePrompt(opts: {
 }): string {
   const { sceneContext, userPrompt, includePalette, isVideo, menuItemPrompt } = opts;
 
-  // Normalise to an array — support both single and multi-anchor call sites
+  // Normalise to an array - support both single and multi-anchor call sites
   const anchors: CharacterAnchorOption[] = opts.characterAnchors?.length
     ? opts.characterAnchors
     : opts.characterAnchor
@@ -294,7 +294,7 @@ export function assemblePrompt(opts: {
 
   const parts: string[] = [];
 
-  // Step 0: Render Style — must come first so FLUX weighs it highest
+  // Step 0: Render Style - must come first so FLUX weighs it highest
   parts.push(RENDER_STYLE_BLOCK);
 
   // Step 1: Scene Context (mood + palette_focus)
@@ -320,7 +320,7 @@ export function assemblePrompt(opts: {
     parts.push(CAST_RULES);
   }
 
-  // Step 3: User Prompt — tagged so condenseForSD15 can extract it as priority
+  // Step 3: User Prompt - tagged so condenseForSD15 can extract it as priority
   if (userPrompt.trim()) {
     parts.push(`[SHOT] ${userPrompt.trim()}`);
   }
@@ -340,7 +340,7 @@ export function assemblePrompt(opts: {
   }
 
   // Step 6: Negative Prompt (merge do_not rules from all anchors)
-  // FLUX.1 has no negative_prompt API field — embed avoidances inline
+  // FLUX.1 has no negative_prompt API field - embed avoidances inline
   const allDoNots = [...new Set(anchors.flatMap((a) => a.doNots))];
   if (allDoNots.length > 0) {
     parts.push(`Avoid: ${allDoNots.join(". ")}`);

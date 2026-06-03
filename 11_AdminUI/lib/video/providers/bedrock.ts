@@ -1,5 +1,5 @@
 /**
- * Amazon Bedrock — Nova Reel video generation provider.
+ * Amazon Bedrock - Nova Reel video generation provider.
  *
  * Model: amazon.nova-reel-v1:0  (us-east-1 only)
  * Docs: https://docs.aws.amazon.com/nova/latest/userguide/video-generation.html
@@ -9,7 +9,7 @@
  *   When Completed: output.mp4 stored at s3://{AWS_S3_BUCKET}/nova-reel/{id}/output.mp4
  *
  * Nova Reel v1 constraints:
- *   - Duration: 6 seconds (fixed — only value accepted)
+ *   - Duration: 6 seconds (fixed - only value accepted)
  *   - Resolution: 1280×720 landscape (only value accepted)
  *   - Text-to-video AND image-to-video supported. For i2v, source image
  *     must be PNG/JPEG at exactly 1280×720. Pass via job.imageUrl
@@ -17,10 +17,10 @@
  *     pin character identity across multi-shot films.
  *
  * Required env vars:
- *   AWS_S3_BUCKET    — existing S3 bucket in us-east-1 for output storage
- *   AWS_REGION       — optional, defaults to us-east-1
+ *   AWS_S3_BUCKET    - existing S3 bucket in us-east-1 for output storage
+ *   AWS_REGION       - optional, defaults to us-east-1
  *
- * Credentials (no explicit keys needed in env — SDK resolves from chain):
+ * Credentials (no explicit keys needed in env - SDK resolves from chain):
  *   Local dev:  ~/.aws/credentials default profile (already configured)
  *   Vercel:     set AWS_ACCESS_KEY_ID + AWS_SECRET_ACCESS_KEY as env vars
  */
@@ -73,7 +73,7 @@ export const bedrockProvider: VideoProvider = {
   capabilities: {
     maxDurationSec: 6,
     aspects: ["16:9"],
-    // Image-to-video enabled — source image must be exactly 1280x720 PNG/JPEG.
+    // Image-to-video enabled - source image must be exactly 1280x720 PNG/JPEG.
     // Use this with a Shot's locked keyframeUrl to defend against character drift.
     imageToVideo: true,
     characterRefs: false,
@@ -81,7 +81,7 @@ export const bedrockProvider: VideoProvider = {
   },
 
   isConfigured(): boolean {
-    // Only the bucket name is required — credentials come from the default chain
+    // Only the bucket name is required - credentials come from the default chain
     return !!process.env.AWS_S3_BUCKET;
   },
 
@@ -106,7 +106,7 @@ export const bedrockProvider: VideoProvider = {
         const format: "png" | "jpeg" = ext === ".jpg" || ext === ".jpeg" ? "jpeg" : "png";
         imagePayload = { format, source: { bytes: buf.toString("base64") } };
       } catch (e) {
-        throw new Error(`Nova Reel: failed to load keyframe ${job.imageUrl} — ${String(e)}`);
+        throw new Error(`Nova Reel: failed to load keyframe ${job.imageUrl} - ${String(e)}`);
       }
     }
 
@@ -153,7 +153,7 @@ export const bedrockProvider: VideoProvider = {
   async poll(providerJobId: string): Promise<ProviderPollResult> {
     const sep = providerJobId.indexOf("::");
     if (sep === -1) {
-      return { status: "failed", error: "Malformed providerJobId — expected arn::s3Folder" };
+      return { status: "failed", error: "Malformed providerJobId - expected arn::s3Folder" };
     }
 
     const invocationArn = providerJobId.slice(0, sep);
@@ -209,7 +209,7 @@ export const bedrockProvider: VideoProvider = {
       }
     }
 
-    // Unexpected status — treat as still running
+    // Unexpected status - treat as still running
     return { status: "running" };
   },
 };

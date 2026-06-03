@@ -1,5 +1,5 @@
 {
-  "_comment": "Universal SDXL/SD1.5 txt2img — works with any checkpoint. Placeholders __PROMPT__ __NEGATIVE__ __WIDTH__ __HEIGHT__ __SEED__ __CKPT__ are substituted by the client. Set COMFYUI_SDXL_CKPT env var to override the default checkpoint name.",
+  "_comment": "Universal SDXL/SD1.5 txt2img - works with any checkpoint. Placeholders __PROMPT__ __NEGATIVE__ __WIDTH__ __HEIGHT__ __SEED__ __CKPT__ are substituted by the client. Set COMFYUI_SDXL_CKPT env var to override the default checkpoint name.",
   "3": {
     "class_type": "KSampler",
     "inputs": {

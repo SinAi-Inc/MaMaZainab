@@ -1,5 +1,5 @@
 /**
- * Lightweight client-facing summary of a video provider — safe to pass
+ * Lightweight client-facing summary of a video provider - safe to pass
  * from a Server Component to a Client Component (no methods, no secrets).
  */
 import { listProviders } from "./provider";

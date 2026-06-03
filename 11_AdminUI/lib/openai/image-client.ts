@@ -1,5 +1,5 @@
 /**
- * OpenAI Image Generation — reference-image-aware provider.
+ * OpenAI Image Generation - reference-image-aware provider.
  *
  * Model: gpt-image-1 (supports reference images for character consistency)
  *
@@ -12,10 +12,10 @@
  * the 77-token CLIP constraint that limits text-only pipelines.
  *
  * Required env vars:
- *   OPENAI_API_KEY   — OpenAI API key (or Bedrock-proxied OpenAI endpoint)
+ *   OPENAI_API_KEY   - OpenAI API key (or Bedrock-proxied OpenAI endpoint)
  *
  * Optional:
- *   OPENAI_BASE_URL  — Override base URL (for Bedrock proxy, Azure OpenAI, etc.)
+ *   OPENAI_BASE_URL  - Override base URL (for Bedrock proxy, Azure OpenAI, etc.)
  *                      Default: https://api.openai.com/v1
  */
 
@@ -37,7 +37,7 @@ export type OpenAIImageSize =
 export type OpenAIImageQuality = "low" | "medium" | "high";
 
 export interface OpenAIImageParams {
-  /** The generation prompt — can be the full assemblePrompt() output (no condensation needed). */
+  /** The generation prompt - can be the full assemblePrompt() output (no condensation needed). */
   prompt: string;
   /** Model to use. Default: gpt-image-1 */
   model?: OpenAIImageModel;
@@ -107,7 +107,7 @@ async function resolveReferenceImage(ref: string): Promise<{ buffer: Buffer; mim
     return { buffer: Buffer.from(match[2], "base64"), mimeType };
   }
 
-  // Local /uploads/ path — resolve from public/
+  // Local /uploads/ path - resolve from public/
   if (ref.startsWith("/uploads/") || ref.startsWith("/chars/")) {
     const absPath = path.join(process.cwd(), "public", ref.replace(/^\//, ""));
     const buffer = await fs.readFile(absPath);
@@ -116,7 +116,7 @@ async function resolveReferenceImage(ref: string): Promise<{ buffer: Buffer; mim
     return { buffer, mimeType };
   }
 
-  // HTTP(S) URL — fetch it
+  // HTTP(S) URL - fetch it
   if (ref.startsWith("http://") || ref.startsWith("https://")) {
     const resp = await fetch(ref);
     if (!resp.ok) throw new Error(`Failed to fetch reference image: ${resp.status}`);
@@ -133,7 +133,7 @@ async function resolveReferenceImage(ref: string): Promise<{ buffer: Buffer; mim
 }
 
 // ---------------------------------------------------------------------------
-// Generation — reference-guided (edits endpoint)
+// Generation - reference-guided (edits endpoint)
 // ---------------------------------------------------------------------------
 
 /**
@@ -164,7 +164,7 @@ async function generateWithReference(
       formData.append("image[]", blob, `reference.${ext}`);
     } catch (err) {
       console.warn("[openai-image] Failed to load reference image:", ref, err instanceof Error ? err.message : err);
-      // Continue without this reference — non-fatal
+      // Continue without this reference - non-fatal
     }
   }
 
@@ -198,7 +198,7 @@ async function generateWithReference(
 }
 
 // ---------------------------------------------------------------------------
-// Generation — text-only (generations endpoint)
+// Generation - text-only (generations endpoint)
 // ---------------------------------------------------------------------------
 
 /**
@@ -260,7 +260,7 @@ async function generateTextOnly(
  * When referenceImages are provided, uses the edits endpoint for visual
  * character anchoring. Otherwise, uses the generations endpoint.
  *
- * Unlike SD1.5/ComfyUI, there is NO 310-char prompt limit — send the
+ * Unlike SD1.5/ComfyUI, there is NO 310-char prompt limit - send the
  * full assemblePrompt() output directly.
  */
 export async function generateImageOpenAI(params: OpenAIImageParams): Promise<OpenAIImageResult> {

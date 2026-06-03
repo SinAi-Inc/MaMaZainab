@@ -217,7 +217,7 @@ export function CharacterForm({ existing }: { existing?: Character }) {
           </div>
           <div className="col-span-2">
             <Label>Role description</Label>
-            <Input {...register("role")} placeholder="Brand face — village matriarch & master cook" />
+            <Input {...register("role")} placeholder="Brand face - village matriarch & master cook" />
           </div>
           <div className="flex items-center gap-3">
             <Controller
@@ -306,7 +306,7 @@ export function CharacterForm({ existing }: { existing?: Character }) {
                       onClick={() => {
                         refs.fields.forEach((_, j) => {
                           if (j !== i) {
-                            // unset others — handled by update below
+                            // unset others - handled by update below
                           }
                         });
                         refs.update(i, { ...refs.fields[i], ...{ url: watch(`referenceImages.${i}.url`), label: watch(`referenceImages.${i}.label`), isPrimary: true } });
@@ -433,7 +433,7 @@ export function CharacterForm({ existing }: { existing?: Character }) {
           </div>
           <div className="col-span-2">
             <Label>Voice notes</Label>
-            <Textarea {...register("voiceNotes")} rows={3} placeholder="ElevenLabs v3 — warm 50s Egyptian woman, low chest voice, slight rasp." />
+            <Textarea {...register("voiceNotes")} rows={3} placeholder="ElevenLabs v3 - warm 50s Egyptian woman, low chest voice, slight rasp." />
           </div>
         </div>
       </Section>

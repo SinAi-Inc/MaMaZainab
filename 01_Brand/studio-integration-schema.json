@@ -1,6 +1,6 @@
 {
   "$schema": "mama-zainab-studio-integration/v1",
-  "description": "Contract between Brand Bible and Studio/Media Hub UI — defines how the UI must consume and enforce brand elements",
+  "description": "Contract between Brand Bible and Studio/Media Hub UI - defines how the UI must consume and enforce brand elements",
 
   "ui_binding": {
     "character_anchor_dropdown": {
@@ -15,21 +15,21 @@
           "asset_preview": "Charcters/MaMaZainabFinal.png"
         },
         {
-          "label": "Shang Hong Wong — Warrior",
+          "label": "Shang Hong Wong - Warrior",
           "value": "char_wong_warrior",
           "injects": "prompt_anchors.character_anchors.wong_warrior",
           "also_injects": [],
           "asset_preview": "Charcters/WongWarrior.jpg"
         },
         {
-          "label": "Shang Hong Wong — Business",
+          "label": "Shang Hong Wong - Business",
           "value": "char_wong_business",
           "injects": "prompt_anchors.character_anchors.wong_business",
           "also_injects": [],
           "asset_preview": "Charcters/IsolatedWong.png"
         },
         {
-          "label": "Shang Hong Wong — Silhouette",
+          "label": "Shang Hong Wong - Silhouette",
           "value": "char_wong_silhouette",
           "injects": "prompt_anchors.character_anchors.wong_silhouette",
           "also_injects": [],
@@ -66,13 +66,13 @@
       "source": "brand-bible.json → scene_to_brand_mapping.scenes",
       "behavior": "When a scene is selected, auto-configure: character options, palette focus, pattern usage, mood keywords",
       "options": [
-        { "label": "Scene 1 — Neon Rooftop", "value": "scene_1_rooftop" },
-        { "label": "Scene 2 — Pyramids", "value": "scene_2_pyramids" },
-        { "label": "Scene 3 — Competition", "value": "scene_3_competition" },
-        { "label": "Scene 4 — Cooking", "value": "scene_4_cooking" },
-        { "label": "Scene 5 — Judging", "value": "scene_5_judging" },
-        { "label": "Scene 6 — Command Center", "value": "scene_6_command_center" },
-        { "label": "Marketing — General", "value": "marketing_general" },
+        { "label": "Scene 1 - Neon Rooftop", "value": "scene_1_rooftop" },
+        { "label": "Scene 2 - Pyramids", "value": "scene_2_pyramids" },
+        { "label": "Scene 3 - Competition", "value": "scene_3_competition" },
+        { "label": "Scene 4 - Cooking", "value": "scene_4_cooking" },
+        { "label": "Scene 5 - Judging", "value": "scene_5_judging" },
+        { "label": "Scene 6 - Command Center", "value": "scene_6_command_center" },
+        { "label": "Marketing - General", "value": "marketing_general" },
         { "label": "Packaging Shot", "value": "packaging_shot" },
         { "label": "Menu Item Hero", "value": "menu_hero" }
       ]
@@ -81,12 +81,12 @@
 
   "prompt_assembly_pipeline": {
     "order": [
-      "1. scene_context (mood + palette_focus) — if scene selected",
-      "2. character_anchor — from dropdown selection",
-      "3. user_prompt — the free-text creative prompt",
-      "4. palette_block — if checkbox enabled",
-      "5. plaid_block — if character has apron/ribbon OR packaging shown",
-      "6. negative_prompt — auto-injected do_not rules from selected character"
+      "1. scene_context (mood + palette_focus) - if scene selected",
+      "2. character_anchor - from dropdown selection",
+      "3. user_prompt - the free-text creative prompt",
+      "4. palette_block - if checkbox enabled",
+      "5. plaid_block - if character has apron/ribbon OR packaging shown",
+      "6. negative_prompt - auto-injected do_not rules from selected character"
     ],
     "assembled_template": "[SCENE: {mood}] {character_anchor}. {user_prompt}. [BRAND PALETTE] {palette_block}. [PATTERN] {plaid_block}. --no {negative_prompt_list}"
   },
@@ -146,7 +146,7 @@
       "wong_scene_1_2": "Chinese language with Arabic subtitles",
       "wong_scene_3_plus": "Broken Egyptian accent in Arabic",
       "mama_zainab": "Authentic Egyptian village dialect",
-      "chatgpt_vo": "Crisp, analytical AI voice — English or Arabic dub"
+      "chatgpt_vo": "Crisp, analytical AI voice - English or Arabic dub"
     }
   },
 

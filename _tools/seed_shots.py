@@ -103,7 +103,7 @@ SHOTS = [
         "cameraNotes": "Reverse low angle. Wong foreground, door background.",
         "prompt": (
             "Cinematic wide, 3 seconds. Reverse low-angle shot. Rooftop in pouring neon rain. "
-            "In the background, a steel rooftop door bursts open — a mob of suited men and "
+            "In the background, a steel rooftop door bursts open - a mob of suited men and "
             "street fighters floods through. In the foreground, the dark silhouette of a "
             "warrior-robed man. Tension, threat, urgency. Anamorphic, high contrast, "
             "pink-cyan neon color, photoreal. Audio: door crash, shouting, rain. " + NEGATIVE
@@ -111,7 +111,7 @@ SHOTS = [
     },
     {
         "number": "1.6", "sceneN": 1, "type": "wide", "dur": 3,
-        "description": "Wong dives backward off the roof edge into the neon glow — dissolves to white.",
+        "description": "Wong dives backward off the roof edge into the neon glow - dissolves to white.",
         "dialogue": "",
         "cameraNotes": "Match-cut leap. Camera rushes to edge. White dissolve.",
         "prompt": (
@@ -147,7 +147,7 @@ SHOTS = [
         "cameraNotes": "Low push-in. Desert heat shimmer. Calm authority.",
         "prompt": (
             "Cinematic medium close-up, 4 seconds. East-Asian man in his 60s [REF:WongHong.png] "
-            "seated cross-legged on the Great Pyramid apex, slowly opens his eyes — calm, "
+            "seated cross-legged on the Great Pyramid apex, slowly opens his eyes - calm, "
             "tactical. He raises a glass-morphic smartphone toward the blazing noon sky. "
             "Desert light rims his weathered face. Shallow DOF, heat haze bokeh behind him. "
             "Anamorphic, photoreal. Dialogue (Mandarin accent, calm-commanding English): "
@@ -157,7 +157,7 @@ SHOTS = [
     },
     {
         "number": "2.3", "sceneN": 2, "type": "insert", "dur": 4,
-        "description": "HUD insert — smartphone above pyramid limestone. Holographic Egyptian market data, Alexandria pulsing dot, dish illustrations.",
+        "description": "HUD insert - smartphone above pyramid limestone. Holographic Egyptian market data, Alexandria pulsing dot, dish illustrations.",
         "dialogue": "CHATGPT (V.O.): Analyzing Egyptian market sentiment... The highest emotional currency in Egypt is Original Home Food.",
         "cameraNotes": "Tight OTS. Translucent holographic UI. Sun-drenched, warm rim light.",
         "prompt": (
@@ -199,13 +199,13 @@ SHOTS = [
     },
     {
         "number": "2.6", "sceneN": 2, "type": "aerial", "dur": 4,
-        "description": "Wong steps to the edge and dives off the pyramid. Camera rushes to follow — he's already gone, swallowed by a dust devil.",
+        "description": "Wong steps to the edge and dives off the pyramid. Camera rushes to follow - he's already gone, swallowed by a dust devil.",
         "dialogue": "Time to find the first Mama Zainab.",
         "cameraNotes": "High angle top-down then rush to edge. Dust devil swallows him.",
         "prompt": (
             "Cinematic aerial, 4 seconds. From above: East-Asian warrior stands at the very "
             "apex of the Great Pyramid and steps off the edge without hesitation. "
-            "The camera plunges forward to the edge — he is already gone, "
+            "The camera plunges forward to the edge - he is already gone, "
             "vanished into a swirling desert dust devil far below. Only wind and ancient stone. "
             "CUT TO BLACK. Anamorphic, photoreal, dramatic. Dialogue (voice-over): "
             "'Time to find the first Mama Zainab.' Audio: orchestral sting, dust rush. "
@@ -215,7 +215,7 @@ SHOTS = [
     # ── SCENE 3 ─────────────────────────────────────────────────────────────
     {
         "number": "3.1", "sceneN": 3, "type": "aerial", "dur": 4,
-        "description": "Mediterranean coastline reveal — giant competition stage with hundreds of cooking stations in an Alexandria grand plaza.",
+        "description": "Mediterranean coastline reveal - giant competition stage with hundreds of cooking stations in an Alexandria grand plaza.",
         "dialogue": "",
         "cameraNotes": "Sweeping drone. Coastal reveal. Golden hour. Lens flare.",
         "prompt": (
@@ -234,7 +234,7 @@ SHOTS = [
         "cameraNotes": "Hero medium. Golden-hour key light. Rows of cooks bokeh'd out behind.",
         "prompt": (
             "Cinematic medium, 3 seconds. The same East-Asian man [REF:WongHong.png] now "
-            "transformed — clean-shaven, hair tied back, wearing a premium minimalist "
+            "transformed - clean-shaven, hair tied back, wearing a premium minimalist "
             "cream-linen suit, standing behind a long judging table, holding a vintage "
             "brass microphone. Background: rows of cooks bokeh'd out. Calm authority. "
             "Anamorphic, soft golden-hour key light, photoreal. "
@@ -262,11 +262,11 @@ SHOTS = [
     },
     {
         "number": "3.4", "sceneN": 3, "type": "wide", "dur": 2,
-        "description": "Reaction shot — excited Alexandria crowd in the bleachers, electric anticipation.",
+        "description": "Reaction shot - excited Alexandria crowd in the bleachers, electric anticipation.",
         "dialogue": "",
         "cameraNotes": "Wide crowd shot. Energy, diversity, anticipation.",
         "prompt": (
-            "Cinematic wide, 2 seconds. Bleachers filled with an excited Alexandria crowd — "
+            "Cinematic wide, 2 seconds. Bleachers filled with an excited Alexandria crowd - "
             "diverse ages, men and women, leaning forward in anticipation. Mediterranean sun. "
             "Some hold up phones, others shout encouragement. Energy and joy. "
             "Anamorphic, warm golden afternoon light, photoreal. "
@@ -276,7 +276,7 @@ SHOTS = [
     # ── SCENE 4 ─────────────────────────────────────────────────────────────
     {
         "number": "4.1", "sceneN": 4, "type": "medium", "dur": 3,
-        "description": "Mama Zainab and ZuZu the goose at her station — calm precision. The perfect two-shot.",
+        "description": "Mama Zainab and ZuZu the goose at her station - calm precision. The perfect two-shot.",
         "dialogue": "",
         "cameraNotes": "Medium two-shot. Cast lock. Golden hour outdoor stage.",
         "prompt": (
@@ -292,7 +292,7 @@ SHOTS = [
     },
     {
         "number": "4.2", "sceneN": 4, "type": "medium", "dur": 2,
-        "description": "Ghost of Mama Zainab — translucent luminous-green younger self — shimmers into existence beside her. Only Zainab and ZuZu can see her.",
+        "description": "Ghost of Mama Zainab - translucent luminous-green younger self - shimmers into existence beside her. Only Zainab and ZuZu can see her.",
         "dialogue": "",
         "cameraNotes": "VFX shimmer reveal. Pale green glow #1B9B00 @ 30%. Wind particles.",
         "prompt": (
@@ -305,7 +305,7 @@ SHOTS = [
     },
     {
         "number": "4.3", "sceneN": 4, "type": "insert", "dur": 2,
-        "description": "Comedic sabotage: rival chef reaches for salt — ZuZu trips her — she dumps a whole bag of sugar into the pot.",
+        "description": "Comedic sabotage: rival chef reaches for salt - ZuZu trips her - she dumps a whole bag of sugar into the pot.",
         "dialogue": "",
         "cameraNotes": "Quick comedic insert. Slapstick timing. Cartoon sound effect.",
         "prompt": (
@@ -319,12 +319,12 @@ SHOTS = [
     },
     {
         "number": "4.4", "sceneN": 4, "type": "insert", "dur": 2,
-        "description": "Mob saboteur in cook disguise tries to tip Zainab's table — the Ghost blows an ice wind that freezes his hands to his own pot.",
+        "description": "Mob saboteur in cook disguise tries to tip Zainab's table - the Ghost blows an ice wind that freezes his hands to his own pot.",
         "dialogue": "",
         "cameraNotes": "Quick insert. VFX ice wind from Ghost. Frozen hands gag.",
         "prompt": (
             "Quick comedic insert, 2 seconds. A large man disguised as a cook reaches out to "
-            "tip a cooking station — the pale green translucent Ghost of Mama Zainab extends "
+            "tip a cooking station - the pale green translucent Ghost of Mama Zainab extends "
             "a hand and blows a supernatural cold wind. Ice crystals form instantly around "
             "the man's hands, freezing them to his own copper pot. His shocked face. "
             "Anamorphic, VFX photoreal, comic timing. Audio: ice crack, cartoon freeze SFX. "
@@ -333,7 +333,7 @@ SHOTS = [
     },
     {
         "number": "4.5", "sceneN": 4, "type": "insert", "dur": 2,
-        "description": "ZuZu flaps wings wildly — a flour cloud billows into the faces of three rival cooks mid-plate.",
+        "description": "ZuZu flaps wings wildly - a flour cloud billows into the faces of three rival cooks mid-plate.",
         "dialogue": "",
         "cameraNotes": "Quick insert. ZuZu hero moment. Flour slow-motion.",
         "prompt": (
@@ -389,12 +389,12 @@ SHOTS = [
     },
     {
         "number": "5.3", "sceneN": 5, "type": "wide", "dur": 4,
-        "description": "VFX flavor explosion — rapid dream flashes: sunlit green fields, stone oven, mother's flour-dusted hands, copper pot steam, blue door.",
+        "description": "VFX flavor explosion - rapid dream flashes: sunlit green fields, stone oven, mother's flour-dusted hands, copper pot steam, blue door.",
         "dialogue": "",
         "cameraNotes": "VFX montage. Warm light flares. Dissolve cuts. Nostalgic film grain.",
         "prompt": (
             "Cinematic VFX montage, 4 seconds. From inside a man's closed eyes: rapid dream "
-            "flashes — sunlit Egyptian village green fields rolling in wind, an old stone "
+            "flashes - sunlit Egyptian village green fields rolling in wind, an old stone "
             "oven glowing orange, a mother's flour-dusted hands rolling grape leaves on a "
             "wooden table, steam rising from a copper pot, a sun-bleached blue door. Each "
             "image dissolves into the next on warm light flares. Anamorphic, photoreal, "
@@ -481,7 +481,7 @@ SHOTS = [
         "prompt": (
             "Cinematic medium, 4 seconds. A male figure silhouetted against a massive "
             "floor-to-ceiling penthouse window overlooking the sea at dusk. "
-            "No facial features visible — pure dark silhouette of a tall man in "
+            "No facial features visible - pure dark silhouette of a tall man in "
             "a well-cut suit, holding a phone to his ear. Like the mysterious 'Banker'. "
             "Warm amber light around the edges of the silhouette. Anamorphic, photoreal. "
             "Dialogue (voice-only, measured Mandarin accent): 'The London branch is "
@@ -496,7 +496,7 @@ SHOTS = [
         "cameraNotes": "Hero close. Matriarchal authority. Warm kitchen light.",
         "prompt": (
             "Cinematic close-up, 3 seconds. Egyptian woman in her 50s [REF:Mama Zainab (Final).jpeg] "
-            "holds a telephone handset to her ear. She smiles — warm, unhurried, utterly certain. "
+            "holds a telephone handset to her ear. She smiles - warm, unhurried, utterly certain. "
             "Plaid green-and-yellow apron. Warm kitchen light. Shallow DOF. Anamorphic, photoreal. "
             "Dialogue (Egyptian Arabic, calm matriarchal authority): 'Tell them no. "
             "In this kitchen, we do it the village way, or not at all.' "
@@ -511,7 +511,7 @@ SHOTS = [
         "prompt": (
             "Cinematic wide, 4 seconds. The silhouetted man hangs up a phone and slowly "
             "turns to face the floor-to-ceiling window. The camera begins a slow push toward "
-            "him. Beyond the glass, the Mediterranean Sea at dusk — golden, peaceful, vast. "
+            "him. Beyond the glass, the Mediterranean Sea at dusk - golden, peaceful, vast. "
             "He smiles. A warrior at rest. FADE TO BLACK. Anamorphic, photoreal, warm amber "
             "and deep teal. Audio: East-meets-Mediterranean fusion theme swells and fades. "
             + NEGATIVE
@@ -556,6 +556,6 @@ for take in data.get("takes", []):
 with open(DATA_PATH, "w", encoding="utf-8") as f:
     json.dump(data, f, ensure_ascii=False, indent=2)
 
-print(f"Done — wrote {len(new_shots)} shots to {DATA_PATH}")
+print(f"Done - wrote {len(new_shots)} shots to {DATA_PATH}")
 for s in new_shots:
     print(f"  {s['number']:5}  {s['id']}  {s['type']:10}  {s['durationSec']}s  {s['description'][:55]}")

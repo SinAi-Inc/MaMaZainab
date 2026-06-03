@@ -9,7 +9,7 @@ import { DecisionSurface, type DecisionItem } from "../_components/decision-surf
 export const dynamic = "force-dynamic";
 
 /**
- * Layer 2 — Operational Management
+ * Layer 2 - Operational Management
  *
  * Cost-control engine: inventory, suppliers, recipes, waste, procurement.
  *
@@ -76,7 +76,7 @@ export default async function OperationsPage() {
           <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-amber-600">Layer 2</p>
           <h2 className="text-2xl font-bold text-brand-ink leading-tight">Operational Management</h2>
           <p className="mt-1 text-sm text-muted">
-            Cost-control engine — inventory, suppliers, recipes, waste, procurement.
+            Cost-control engine - inventory, suppliers, recipes, waste, procurement.
           </p>
         </div>
       </header>

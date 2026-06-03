@@ -81,7 +81,7 @@ export async function addGeneration(entry: GenerationEntry): Promise<void> {
     .from("generations")
     .insert(entryToRow(entry));
   if (error) {
-    // Supabase insert failed — fall back to local JSON so entries are never lost
+    // Supabase insert failed - fall back to local JSON so entries are never lost
     console.warn("[generations] Supabase insert failed, falling back to JSON:", error.message);
     const state = await readJson();
     state.entries.unshift(entry);

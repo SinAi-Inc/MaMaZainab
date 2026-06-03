@@ -136,7 +136,7 @@ export function ImageGenTab({ characters, menuCategories, menuItems, nimAvailabl
     );
   }
 
-  /** Mirror of server cleanPrompt() — strips tags FLUX can't use */
+  /** Mirror of server cleanPrompt() - strips tags FLUX can't use */
   function clientClean(raw: string): string {
     return raw
       .replace(/\[REF:[^\]]*\]/gi, "")
@@ -159,10 +159,10 @@ export function ImageGenTab({ characters, menuCategories, menuItems, nimAvailabl
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedScene, selectedAnchors, prompt, includeBrand, aspect, model, menuItemPromptText]);
 
-  /** What actually reaches NVIDIA — [REF:...] stripped, same as server cleanPrompt() */
+  /** What actually reaches NVIDIA - [REF:...] stripped, same as server cleanPrompt() */
   const sendablePrompt = useMemo(() => clientClean(fullPrompt), [fullPrompt]);
 
-  /** Brand system prompt (without user's Director's Notes) — for split preview */
+  /** Brand system prompt (without user's Director's Notes) - for split preview */
   const brandOnlyPrompt = useMemo(() => {
     return clientClean(assemblePrompt({
       sceneContext: selectedScene,
@@ -198,7 +198,7 @@ export function ImageGenTab({ characters, menuCategories, menuItems, nimAvailabl
     startTimer();
     try {
       // Pass characterAnchor + sceneContext so the SERVER saves history.
-      // Generation and history save both happen server-side — survives tab switches.
+      // Generation and history save both happen server-side - survives tab switches.
       const res = await fetch("/api/generate/image", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -239,7 +239,7 @@ export function ImageGenTab({ characters, menuCategories, menuItems, nimAvailabl
             setAspect(p.aspect);
             setSceneValue(p.sceneValue);
             setAnchorValues(p.anchorValue ? [p.anchorValue] : []);
-            toast.success(`Loaded Shot ${p.shotNumber} — ${p.shotDescription}`);
+            toast.success(`Loaded Shot ${p.shotNumber} - ${p.shotDescription}`);
           }}
         />
 
@@ -267,7 +267,7 @@ export function ImageGenTab({ characters, menuCategories, menuItems, nimAvailabl
             >
               {availableModels.map((m) => (
                 <option key={m.id} value={m.id}>
-                  {m.label} — {m.vendor}{m.nimOnly ? (nimAvailable ? " [NIM]" : " [NIM — offline]") : ""}
+                  {m.label} - {m.vendor}{m.nimOnly ? (nimAvailable ? " [NIM]" : " [NIM - offline]") : ""}
                 </option>
               ))}
             </select>
@@ -365,7 +365,7 @@ export function ImageGenTab({ characters, menuCategories, menuItems, nimAvailabl
             aria-label="Scene context"
             className="w-full text-sm border border-border-strong rounded-md px-2.5 py-2 bg-white"
           >
-            <option value="">— No Scene —</option>
+            <option value="">- No Scene —</option>
             {SCENE_CONTEXTS.map((s) => (
               <option key={s.value} value={s.value}>{s.label}</option>
             ))}
@@ -377,7 +377,7 @@ export function ImageGenTab({ characters, menuCategories, menuItems, nimAvailabl
           )}
         </div>
 
-        {/* Menu Item Picker — visible when scene is "Menu Item Hero" */}
+        {/* Menu Item Picker - visible when scene is "Menu Item Hero" */}
         {sceneValue === "menu_hero" && (
           <div>
             <label className="text-xs font-medium text-muted uppercase tracking-wider block mb-1.5">
@@ -390,7 +390,7 @@ export function ImageGenTab({ characters, menuCategories, menuItems, nimAvailabl
               aria-label="Menu item"
               className="w-full text-sm border border-border-strong rounded-md px-2.5 py-2 bg-white"
             >
-              <option value="">— Select a dish —</option>
+              <option value="">- Select a dish —</option>
               {menuCategories.map((cat) => {
                 const catItems = menuItems.filter((i) => i.categoryId === cat.id && i.available);
                 if (catItems.length === 0) return null;
@@ -398,7 +398,7 @@ export function ImageGenTab({ characters, menuCategories, menuItems, nimAvailabl
                   <optgroup key={cat.id} label={cat.nameEn}>
                     {catItems.map((item) => (
                       <option key={item.id} value={item.id}>
-                        {item.nameEn}{item.descriptionEn ? ` — ${item.descriptionEn}` : ""}
+                        {item.nameEn}{item.descriptionEn ? ` - ${item.descriptionEn}` : ""}
                       </option>
                     ))}
                   </optgroup>
@@ -408,13 +408,13 @@ export function ImageGenTab({ characters, menuCategories, menuItems, nimAvailabl
             {selectedMenuItem && (
               <p className="text-[10px] text-brand-green-deep bg-brand-green/5 border border-brand-green/20 rounded-md px-3 py-1.5 mt-1.5">
                 Food direction will be auto-injected: <strong>{selectedMenuItem.nameEn}</strong>
-                {selectedMenuItem.descriptionEn && ` — ${selectedMenuItem.descriptionEn}`}
+                {selectedMenuItem.descriptionEn && ` - ${selectedMenuItem.descriptionEn}`}
               </p>
             )}
           </div>
         )}
 
-        {/* Character Anchors — multi-select with thumbnails */}
+        {/* Character Anchors - multi-select with thumbnails */}
         <div>
           <div className="flex items-center gap-2 mb-2">
             <label className="text-xs font-medium text-muted uppercase tracking-wider">
@@ -472,7 +472,7 @@ export function ImageGenTab({ characters, menuCategories, menuItems, nimAvailabl
           </div>
           {anchorValues.length > 1 && (
             <p className="text-[10px] text-amber-700 bg-amber-50 border border-amber-200 rounded-md px-3 py-2 mt-2">
-              Multi-character frame — Cast Rules will be injected automatically. Mama Zainab must be largest/centered.
+              Multi-character frame - Cast Rules will be injected automatically. Mama Zainab must be largest/centered.
             </p>
           )}
         </div>
@@ -495,7 +495,7 @@ export function ImageGenTab({ characters, menuCategories, menuItems, nimAvailabl
           />
           {promptTooLong && (
             <p className="text-[10px] text-red-600 mt-1">
-              Prompt exceeds {MAX_PROMPT} chars — remove some character anchors or shorten Director's Notes.
+              Prompt exceeds {MAX_PROMPT} chars - remove some character anchors or shorten Director's Notes.
             </p>
           )}
         </div>
@@ -522,7 +522,7 @@ export function ImageGenTab({ characters, menuCategories, menuItems, nimAvailabl
           </Button>
           <Button onClick={handleGenerate} disabled={generating || !sendablePrompt.trim() || promptTooLong}>
             {generating
-              ? <><Loader2 className="size-4 animate-spin" /> {(elapsedMs / 1000).toFixed(1)}s&nbsp;— up to 90s</>
+              ? <><Loader2 className="size-4 animate-spin" /> {(elapsedMs / 1000).toFixed(1)}s&nbsp;- up to 90s</>
               : <><Sparkles className="size-4" /> Generate</>
             }
           </Button>
@@ -532,7 +532,7 @@ export function ImageGenTab({ characters, menuCategories, menuItems, nimAvailabl
         )}
         {generating && (
           <p className="text-xs text-amber-700 bg-amber-50 border border-amber-200 rounded-md px-3 py-2">
-            Generation running on server — you can switch tabs safely. Result will appear here when ready.
+            Generation running on server - you can switch tabs safely. Result will appear here when ready.
           </p>
         )}
       </div>

@@ -1,6 +1,6 @@
-# API Reference — MaMa Zainab Admin UI
+# API Reference - MaMa Zainab Admin UI
 
-> Auto-generated — do not edit by hand. Run `python Doc/scripts/generate_docs.py --section api` to refresh.
+> Auto-generated - do not edit by hand. Run `python Doc/scripts/generate_docs.py --section api` to refresh.
 > Last generated: 2026-05-25
 
 > Base URL (prod): `https://ma-ma-zainab.vercel.app`  

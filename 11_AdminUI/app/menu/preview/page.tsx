@@ -9,7 +9,7 @@ export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: "Sneak Peek · MaMa Zainab Menu",
-  description: "A sneak peek at the MaMa Zainab menu — opening late 2026.",
+  description: "A sneak peek at the MaMa Zainab menu - opening late 2026.",
 };
 
 /**
@@ -45,7 +45,7 @@ export default async function MenuPreviewPage({
         </Link>
       )}
 
-      {/* Print-only compact title — replaces the hero when printing */}
+      {/* Print-only compact title - replaces the hero when printing */}
       <div className="print-only menu-preview-print-header">
         <div className="menu-preview-print-title">MaMa Zainab</div>
         <div className="menu-preview-print-subtitle">Menu · Alexandria · Est. 2026</div>
@@ -53,7 +53,7 @@ export default async function MenuPreviewPage({
 
       {/* Hero */}
       <header className="menu-preview-hero relative plaid overflow-hidden">
-        {/* Dark vignette overlay — fades the plaid so text is readable */}
+        {/* Dark vignette overlay - fades the plaid so text is readable */}
         <div className="menu-preview-hero-overlay absolute inset-0 pointer-events-none" />
         <div className="relative z-10 max-w-5xl mx-auto px-6 py-14 text-center text-white">
           <Link href={logoHref} aria-label={hitlPreview ? "Back to HITL menu" : "Back to MaMa Zainab landing page"}>
@@ -68,7 +68,7 @@ export default async function MenuPreviewPage({
             Menu
           </p>
           <p className="mt-3 text-sm text-white/85 drop-shadow-sm">
-            Homemade taste. Fast-food style — for the first time.
+            Homemade taste. Fast-food style - for the first time.
           </p>
           <div className="mt-4 inline-block h-1 w-16 bg-brand-yellow rounded" />
         </div>
@@ -78,7 +78,7 @@ export default async function MenuPreviewPage({
       <div className="menu-preview-body relative">
         {/* Very faint plaid wash behind menu content */}
         <div className="menu-deco absolute inset-0 plaid opacity-[0.07] pointer-events-none" />
-        {/* Left decorative green strip — matches the solid-green vertical band in the plaid */}
+        {/* Left decorative green strip - matches the solid-green vertical band in the plaid */}
         <div className="menu-deco absolute left-0 inset-y-0 hidden w-14 bg-brand-green opacity-40 pointer-events-none sm:block" />
         <div className="menu-preview-content relative z-10 max-w-5xl mx-auto px-4 py-10 space-y-12 sm:px-6 sm:py-12 sm:pl-20">
         {cats.map((cat) => {

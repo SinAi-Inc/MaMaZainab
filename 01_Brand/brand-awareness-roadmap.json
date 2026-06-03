@@ -2,18 +2,18 @@
   "$schema": "mama-zainab-brand-awareness-roadmap/v1",
   "meta": {
     "created": "2026-05-08",
-    "project": "Mama Zainab — Brand Awareness System",
-    "status": "Phase 1 Complete — Bible & Schema Delivered"
+    "project": "Mama Zainab - Brand Awareness System",
+    "status": "Phase 1 Complete - Bible & Schema Delivered"
   },
 
   "architecture_overview": {
     "layers": [
-      "L0: Brand Bible (brand-bible.json) — Single Source of Truth",
-      "L1: Studio Integration Schema (studio-integration-schema.json) — UI Contract",
-      "L2: Generation Pipeline — Prompt assembly + model dispatch",
-      "L3: Validation Pipeline — Post-gen quality gates",
-      "L4: Media Hub DAM — Asset management + versioning",
-      "L5: Distribution — Social, print, video, in-store"
+      "L0: Brand Bible (brand-bible.json) - Single Source of Truth",
+      "L1: Studio Integration Schema (studio-integration-schema.json) - UI Contract",
+      "L2: Generation Pipeline - Prompt assembly + model dispatch",
+      "L3: Validation Pipeline - Post-gen quality gates",
+      "L4: Media Hub DAM - Asset management + versioning",
+      "L5: Distribution - Social, print, video, in-store"
     ],
     "data_flow": "Bible → Studio UI → Prompt Assembly → Model (Flux/SDXL/Video) → Validation → Approved Asset → Media Hub → Distribution Channels"
   },
@@ -23,10 +23,10 @@
       "name": "Brand Bible & Schema Foundation",
       "status": "COMPLETE",
       "deliverables": [
-        "brand-bible.json — Full character definitions, palette, pattern, typography, packaging, scene mapping, prompt anchors, generation rules",
-        "studio-integration-schema.json — UI binding contract, prompt assembly pipeline, validation pipeline, video extensions, asset registry"
+        "brand-bible.json - Full character definitions, palette, pattern, typography, packaging, scene mapping, prompt anchors, generation rules",
+        "studio-integration-schema.json - UI binding contract, prompt assembly pipeline, validation pipeline, video extensions, asset registry"
       ],
-      "what_this_solves": "The exact problem shown in the Studio screenshot — wrong character look due to missing structured brand data feeding the prompt pipeline"
+      "what_this_solves": "The exact problem shown in the Studio screenshot - wrong character look due to missing structured brand data feeding the prompt pipeline"
     },
 
     "phase_2": {
@@ -83,7 +83,7 @@
         {
           "id": "3.4",
           "task": "Pattern classifier",
-          "detail": "Distinguish diamond weave from tartan/gingham/checkered — reject wrong patterns"
+          "detail": "Distinguish diamond weave from tartan/gingham/checkered - reject wrong patterns"
         }
       ]
     },
@@ -146,7 +146,7 @@
   "immediate_next_steps": [
     "1. Feed brand-bible.json into the Studio backend as the /brand/* API endpoint",
     "2. Update Studio UI CHARACTER ANCHOR dropdown to consume character entries with asset previews",
-    "3. Implement prompt assembly pipeline (Phase 2.3) — this alone would have prevented the screenshot failure",
+    "3. Implement prompt assembly pipeline (Phase 2.3) - this alone would have prevented the screenshot failure",
     "4. Add the reference image preview panel so operators can visually verify before distributing"
   ]
 }

@@ -4,7 +4,7 @@ import { Card, CardBody } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 
 /**
- * LayerCard — Owner's Eye 5-layer hub entry.
+ * LayerCard - Owner's Eye 5-layer hub entry.
  *
  * Each card represents one layer of the Restaurant Operating System
  * (Frontline / Operations / Intelligence / Growth / Governance) with

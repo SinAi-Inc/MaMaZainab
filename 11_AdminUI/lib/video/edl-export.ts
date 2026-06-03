@@ -6,8 +6,8 @@
  * Resolve, Premiere Pro, or Final Cut Pro.
  *
  * Two output formats:
- *   - CMX 3600 EDL (.edl) — universal, no nesting
- *   - Final Cut Pro XML v1.10 (.fcpxml) — preserves clip names + URLs
+ *   - CMX 3600 EDL (.edl) - universal, no nesting
+ *   - Final Cut Pro XML v1.10 (.fcpxml) - preserves clip names + URLs
  */
 import type { Project, Scene, Shot, Take } from "@/lib/videos/schema";
 
@@ -110,7 +110,7 @@ export function exportEdl(timeline: ProjectTimeline, fps = 24): string {
     const num = String(i).padStart(3, "0");
     const reel = `CLIP${num}`;
     lines.push(`${num}  ${reel}  V  C  ${srcIn} ${srcOut} ${recIn} ${recOut}`);
-    lines.push(`* FROM CLIP NAME: Shot ${clip.shotNumber} — ${clip.description.slice(0, 60)}`);
+    lines.push(`* FROM CLIP NAME: Shot ${clip.shotNumber} - ${clip.description.slice(0, 60)}`);
     lines.push(`* SOURCE FILE: ${clip.videoUrl}`);
     lines.push("");
     recordIn += clip.durationSec;
@@ -162,7 +162,7 @@ export function exportFcpxml(timeline: ProjectTimeline, fps = 24): string {
 ${assets}
   </resources>
   <library>
-    <event name="MaMa Zainab — ${safeTitle}">
+    <event name="MaMa Zainab - ${safeTitle}">
       <project name="${safeTitle}">
         <sequence format="r1" duration="${fcpDuration(timeline.totalSec, fps)}" tcStart="0s">
           <spine>
