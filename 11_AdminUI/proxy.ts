@@ -65,6 +65,10 @@ function isCreative(pathname: string): boolean {
   return CREATIVE_PREFIXES.some((p) => pathname === p || pathname.startsWith(p));
 }
 
+function isServerActionRequest(req: NextRequest): boolean {
+  return req.method === "POST" && req.headers.has("next-action");
+}
+
 function isWithinHardSessionLimit(iat: unknown): boolean {
   if (typeof iat !== "number") return false;
   const now = Math.floor(Date.now() / 1000);
@@ -75,6 +79,7 @@ export async function proxy(req: NextRequest) {
   const { pathname } = req.nextUrl;
 
   if (isPublic(pathname)) return NextResponse.next();
+  if (isServerActionRequest(req)) return NextResponse.next();
 
   const rawSecret = process.env.ADMIN_JWT_SECRET ?? "";
   const secret = new TextEncoder().encode(rawSecret);
