@@ -1,7 +1,12 @@
 import { promises as fs } from "node:fs";
 import path from "node:path";
 import { nanoid } from "nanoid";
-import { isSupabaseConfigured, getSupabase } from "@/lib/supabase";
+import {
+  isSupabaseConfigured,
+  getSupabase,
+  isVercelRuntime,
+  requireSupabaseConfigured,
+} from "@/lib/supabase";
 
 const BUCKET = "uploads";
 
@@ -35,6 +40,10 @@ export async function uploadFile(
   }
 
   if (!isSupabaseConfigured()) {
+    if (isVercelRuntime()) {
+      requireSupabaseConfigured("Uploading files");
+    }
+
     const dir = path.join(process.cwd(), "public", "uploads", subdir);
     await fs.mkdir(dir, { recursive: true });
     await fs.writeFile(path.join(dir, filename), buf);

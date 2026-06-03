@@ -98,3 +98,10 @@ data/
 
 > Public pages (`/coming-soon`, `/menu/preview`, `/cn`) work fully on serverless.  
 > Admin writes and partner/admin auth require the server env vars above. Supabase-backed persistence is the intended production path.
+
+### Production persistence
+
+- Vercel must have `NEXT_PUBLIC_SUPABASE_URL` and `SUPABASE_SECRET_KEY` set for menu updates and uploads.
+- Menu photo uploads write to the public Supabase Storage bucket named `uploads`, then return `/uploads/...` URLs that Vercel rewrites to Supabase Storage.
+- Hosted Vercel does not use local JSON or local disk fallbacks for admin menu writes. If Supabase is missing, the Admin UI shows a configuration error instead of silently depending on a local dev server.
+- Re-run `supabase/migration.sql` after storage policy changes so the `uploads` bucket remains public-readable and service-role writable.
