@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useMemo, useState, useTransition } from "react";
+import { useId, useMemo, useState, useTransition } from "react";
 import {
   ArrowLeft,
   CalendarCheck,
@@ -114,10 +114,10 @@ const slides = [
   {
     id: "cta",
     eyebrow: "Next Step",
-    title: "Download the Partner Presentation",
+    title: "Partner Presentation Coming Soon",
     body:
-      "Share the model, request a tasting session, or submit your location for assessment.",
-    visual: "Downloadable PDF / PPTX holder",
+      "Request a tasting session or submit your location for assessment while the final deck is being prepared.",
+    visual: "Final PDF / PPTX holder coming soon",
   },
 ];
 
@@ -204,7 +204,6 @@ export function PartnerPortal({
   locations,
   presentationTitle = "MaMa Zainab Partner Presentation",
   presentationSubtitle = "Authentic Mahshi. Homemade Taste. Fast-Food Speed.",
-  presentationFileUrl = "/Mama-Zainab-Partners-Presentation.pdf",
   presentationVersion = "v0.1",
   presentationUpdatedAt = "",
   contactEmail = "hello@mamazainab.com",
@@ -222,8 +221,6 @@ export function PartnerPortal({
 
   const slide = slides[activeSlide];
   const featuredLocations = useMemo(() => locations.slice(0, 6), [locations]);
-  const deckUrl = presentationFileUrl || "/Mama-Zainab-Partners-Presentation.pdf";
-  const effectiveDeckUrl = deckUrl;
   const emailHref = `mailto:${contactEmail || "hello@mamazainab.com"}?subject=MaMa%20Zainab%20Partnership`;
   const phoneHref = contactPhone ? `tel:${contactPhone.replace(/[^\d+]/g, "")}` : "";
   const selectedFit = partnerFitCopy[partnerType] ?? partnerFitCopy.Malls;
@@ -329,13 +326,10 @@ export function PartnerPortal({
           </Link>
           <div className="flex items-center gap-2">
             {showPresentation && (
-              <a
-                href={effectiveDeckUrl}
-                className="hidden items-center gap-2 rounded-lg bg-brand-yellow px-4 py-2 text-[10px] font-bold uppercase tracking-[0.18em] text-brand-ink transition hover:bg-yellow-300 sm:inline-flex"
-              >
-                <Download className="size-3.5" />
-                Deck
-              </a>
+              <DeckComingSoonButton
+                label="Deck"
+                className="hidden bg-brand-yellow px-4 py-2 text-brand-ink hover:bg-yellow-300 sm:inline-flex"
+              />
             )}
             <a
               href={emailHref}
@@ -447,9 +441,7 @@ export function PartnerPortal({
                     {slide.eyebrow}
                   </p>
                   <h2
-                    className={`font-[family-name:var(--font-brand)] leading-none tracking-[0.08em] ${
-                      slide.id === "cover" ? "text-2xl md:text-3xl" : "text-4xl md:text-6xl"
-                    }`}
+                    className="font-[family-name:var(--font-brand)] text-2xl leading-none tracking-[0.08em] md:text-3xl"
                   >
                     {slide.title}
                   </h2>
@@ -461,7 +453,7 @@ export function PartnerPortal({
                 <div className="mt-10 grid gap-4 md:grid-cols-3">
                   <InfoCard title="Partner Type" value={partnerType} />
                   <InfoCard title="Format" value="Kiosk / Corner" />
-                  <InfoCard title="Action" value="Download / Share" />
+                  <InfoCard title="Action" value="Deck coming soon" />
                 </div>
               </div>
 
@@ -472,7 +464,6 @@ export function PartnerPortal({
                     slideId={slide.id}
                     visual={slide.visual}
                     partnerType={partnerType}
-                    deckUrl={effectiveDeckUrl}
                     locationsCount={locations.length}
                     locations={locations}
                     asset={getSlideVisualAsset({
@@ -538,9 +529,9 @@ export function PartnerPortal({
               icon={<Download className="size-5" />}
               eyebrow="Download"
               title="Partner Presentation"
-              body="Download the latest approved partner deck, then request a tasting, meeting, or location assessment."
-              actionHref={effectiveDeckUrl}
-              actionLabel="Download Deck"
+              body="The final partner deck is not published yet. Request a tasting, meeting, or location assessment while the PDF is prepared."
+              comingSoonAction
+              actionLabel="Deck Coming Soon"
             />
           )}
         </div>
@@ -707,7 +698,6 @@ function SlideVisual({
   slideId,
   visual,
   partnerType,
-  deckUrl,
   locationsCount,
   locations,
   asset,
@@ -716,7 +706,6 @@ function SlideVisual({
   slideId: string;
   visual: string;
   partnerType: string;
-  deckUrl: string;
   locationsCount: number;
   locations: PartnerLocation[];
   asset?: BrandMediaAsset;
@@ -861,17 +850,14 @@ function SlideVisual({
       <>
         <div>
           <p className="text-[10px] font-bold uppercase tracking-[0.24em] text-brand-green">
-            Downloadable Deck
+            Deck Coming Soon
           </p>
           <h3 className="mt-3 text-2xl font-semibold leading-tight">{visual}</h3>
         </div>
-        <a
-          href={deckUrl}
-          className="inline-flex w-full items-center justify-center gap-2 rounded-lg bg-brand-green px-4 py-4 text-xs font-bold uppercase tracking-[0.18em] text-white transition hover:bg-brand-green-deep"
-        >
-          <Download className="size-4" />
-          Download Presentation
-        </a>
+        <DeckComingSoonButton
+          label="Presentation Coming Soon"
+          className="w-full bg-brand-green px-4 py-4 text-white hover:bg-brand-green-deep"
+        />
       </>
     );
   }
@@ -1071,6 +1057,49 @@ function InfoCard({ title, value }: { title: string; value: string }) {
   );
 }
 
+function DeckComingSoonButton({
+  label,
+  className,
+}: {
+  label: string;
+  className?: string;
+}) {
+  const [active, setActive] = useState(false);
+  const noticeId = useId();
+
+  function flashNotice() {
+    setActive(true);
+    window.setTimeout(() => setActive(false), 2200);
+  }
+
+  return (
+    <span className="relative inline-flex">
+      <button
+        type="button"
+        aria-describedby={noticeId}
+        onClick={flashNotice}
+        onMouseEnter={() => setActive(true)}
+        onMouseLeave={() => setActive(false)}
+        onFocus={() => setActive(true)}
+        onBlur={() => setActive(false)}
+        className={`inline-flex items-center justify-center gap-2 rounded-lg text-xs font-bold uppercase tracking-[0.16em] transition ${className ?? ""}`}
+      >
+        <Download className="size-4" />
+        {label}
+      </button>
+      <span
+        id={noticeId}
+        role="status"
+        className={`pointer-events-none absolute right-0 top-full z-20 mt-2 w-64 rounded-lg border border-brand-yellow/50 bg-brand-ink px-3 py-2 text-left text-[11px] font-semibold normal-case leading-5 tracking-normal text-white shadow-xl transition ${
+          active ? "translate-y-0 opacity-100" : "-translate-y-1 opacity-0"
+        }`}
+      >
+        Coming soon. The final partner PDF and internal generation tool are not published yet.
+      </span>
+    </span>
+  );
+}
+
 function PortalCard({
   icon,
   eyebrow,
@@ -1078,6 +1107,7 @@ function PortalCard({
   body,
   actionHref,
   actionLabel,
+  comingSoonAction,
 }: {
   icon: React.ReactNode;
   eyebrow: string;
@@ -1085,6 +1115,7 @@ function PortalCard({
   body: string;
   actionHref?: string;
   actionLabel?: string;
+  comingSoonAction?: boolean;
 }) {
   return (
     <div className="rounded-2xl border border-border-default bg-white p-6 shadow-sm">
@@ -1096,6 +1127,12 @@ function PortalCard({
       </p>
       <h3 className="mt-3 text-xl font-semibold leading-tight">{title}</h3>
       <p className="mt-3 text-sm font-medium leading-6 text-muted-fg">{body}</p>
+      {comingSoonAction && actionLabel && (
+        <DeckComingSoonButton
+          label={actionLabel}
+          className="mt-6 bg-brand-yellow px-4 py-2.5 text-brand-ink hover:bg-yellow-300"
+        />
+      )}
       {actionHref && actionLabel && (
         <Link
           href={actionHref}
