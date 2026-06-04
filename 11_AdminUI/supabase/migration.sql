@@ -311,10 +311,9 @@ insert into storage.buckets (id, name, public)
 values ('uploads', 'uploads', true)
 on conflict (id) do nothing;
 
--- Allow public read of all objects in the uploads bucket
-do $$ begin
-  create policy "uploads_public_read" on storage.objects for select using ( bucket_id = 'uploads' );
-exception when duplicate_object then null; end $$;
+-- Public buckets serve object URLs without a broad storage.objects SELECT policy.
+-- Keep the bucket public, but prevent anon clients from listing all uploaded files.
+drop policy if exists "uploads_public_read" on storage.objects;
 
 -- Server actions write with the server Supabase key. Keep upload writes restricted.
 drop policy if exists "uploads_service_write" on storage.objects;
@@ -379,4 +378,17 @@ create index if not exists video_jobs_status_idx on video_jobs(status);
 -- Project budget tracking
 alter table projects add column if not exists budget_usd numeric(10,2) not null default 0;
 alter table projects add column if not exists spent_usd numeric(10,2) not null default 0;
+
+-- ============================================================
+-- Supabase warning hardening
+-- ============================================================
+
+-- If present, this SECURITY DEFINER helper should not be callable through
+-- /rest/v1/rpc by anon or authenticated clients.
+do $$
+begin
+  if to_regprocedure('public.rls_auto_enable()') is not null then
+    revoke execute on function public.rls_auto_enable() from public, anon, authenticated;
+  end if;
+end $$;
 
