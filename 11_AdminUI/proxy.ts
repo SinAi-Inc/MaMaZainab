@@ -56,6 +56,10 @@ const CREATIVE_PREFIXES = [
   "/api/dev/char-",
 ];
 
+const SHARED_AUTH_PREFIXES = [
+  "/partners",
+];
+
 function isPublic(pathname: string): boolean {
   if (pathname === "/") return true;
   return PUBLIC_PREFIXES.some((p) => pathname === p || pathname.startsWith(p));
@@ -63,6 +67,10 @@ function isPublic(pathname: string): boolean {
 
 function isCreative(pathname: string): boolean {
   return CREATIVE_PREFIXES.some((p) => pathname === p || pathname.startsWith(p));
+}
+
+function isSharedAuth(pathname: string): boolean {
+  return SHARED_AUTH_PREFIXES.some((p) => pathname === p || pathname.startsWith(p));
 }
 
 function isServerActionRequest(req: NextRequest): boolean {
@@ -107,6 +115,10 @@ export async function proxy(req: NextRequest) {
         const res = NextResponse.redirect(loginUrl);
         res.cookies.delete(COOKIE);
         return res;
+      }
+
+      if (isSharedAuth(pathname)) {
+        return NextResponse.next();
       }
 
       if (role === "admin" && !isCreative(pathname)) {
