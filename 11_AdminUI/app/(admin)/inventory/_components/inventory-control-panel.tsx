@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState, useTransition } from "react";
+import { useEffect, useMemo, useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import {
   Archive,
@@ -10,9 +10,13 @@ import {
   ClipboardCheck,
   Pencil,
   Plus,
+  Printer,
   Save,
   Search,
+  Square,
+  SquareCheck,
   TriangleAlert,
+  X,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardBody, CardHeader } from "@/components/ui/card";
@@ -117,6 +121,81 @@ function stockTone(item: InventoryItem) {
   return "ok";
 }
 
+function escapeHtml(value: string) {
+  return value
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
+}
+
+function buildInventoryPrintHtml(items: InventoryItem[], totalValue: number) {
+  const printedAt = new Date().toLocaleString();
+  const rows = items
+    .map((item) => {
+      const value = Math.round(item.onHand * item.unitCostEgp).toLocaleString();
+      return `
+        <tr>
+          <td>${escapeHtml(item.sku || "-")}</td>
+          <td><strong>${escapeHtml(item.name)}</strong></td>
+          <td>${escapeHtml(INVENTORY_CATEGORY_META[item.category].label)}</td>
+          <td class="number">${item.onHand.toLocaleString()} ${escapeHtml(item.unit)}</td>
+          <td class="number">${item.parLevel.toLocaleString()}</td>
+          <td class="number">${item.reorderPoint.toLocaleString()}</td>
+          <td>${escapeHtml(item.storageLocation || "-")}</td>
+          <td class="number">${value} EGP</td>
+        </tr>
+      `;
+    })
+    .join("");
+
+  return `<!doctype html>
+    <html>
+      <head>
+        <meta charset="utf-8" />
+        <title>Inventory Selection</title>
+        <style>
+          @page { size: A4 portrait; margin: 10mm 12mm; }
+          * { box-sizing: border-box; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+          body { margin: 0; color: #2C292A; font-family: Arial, Helvetica, sans-serif; }
+          header { border-bottom: 2px solid #1B9B00; padding-bottom: 12px; margin-bottom: 18px; }
+          .kicker { color: #169216; font-size: 9pt; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase; }
+          h1 { margin: 4px 0 4px; font-size: 22pt; line-height: 1.1; }
+          .meta { color: #6B6669; font-size: 9pt; }
+          table { width: 100%; border-collapse: collapse; font-size: 9pt; }
+          th { border-bottom: 1.5px solid #2C292A; padding: 7px 6px; text-align: left; }
+          td { border-bottom: 1px solid #E7E7E2; padding: 7px 6px; vertical-align: top; }
+          .number { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+          footer { margin-top: 16px; color: #6B6669; font-size: 8pt; }
+        </style>
+      </head>
+      <body>
+        <header>
+          <div class="kicker">MaMa Zainab Operations</div>
+          <h1>Inventory Selection</h1>
+          <div class="meta">Printed ${escapeHtml(printedAt)} · ${items.length} selected SKU${items.length === 1 ? "" : "s"} · ${Math.round(totalValue).toLocaleString()} EGP stock value</div>
+        </header>
+        <table>
+          <thead>
+            <tr>
+              <th>SKU</th>
+              <th>Item</th>
+              <th>Category</th>
+              <th class="number">On Hand</th>
+              <th class="number">Par</th>
+              <th class="number">Reorder</th>
+              <th>Location</th>
+              <th class="number">Value</th>
+            </tr>
+          </thead>
+          <tbody>${rows}</tbody>
+        </table>
+        <footer>Generated from the selected inventory rows only.</footer>
+      </body>
+    </html>`;
+}
+
 export function InventoryControlPanel({
   items,
   movements,
@@ -130,6 +209,7 @@ export function InventoryControlPanel({
   const [draft, setDraft] = useState<ItemDraft>(() => emptyDraft());
   const [query, setQuery] = useState("");
   const [category, setCategory] = useState<InventoryCategory | "all">("all");
+  const [selectedIds, setSelectedIds] = useState<string[]>([]);
   const [adjustItemId, setAdjustItemId] = useState(items[0]?.id ?? "");
   const [movementType, setMovementType] = useState<InventoryMovementType>("receive");
   const [quantity, setQuantity] = useState("");
@@ -160,6 +240,20 @@ export function InventoryControlPanel({
       });
   }, [items, category, query]);
 
+  const selectedItems = useMemo(
+    () => selectedIds.map((id) => itemsById.get(id)).filter((item): item is InventoryItem => Boolean(item)),
+    [itemsById, selectedIds],
+  );
+
+  const selectedValue = selectedItems.reduce((sum, item) => sum + item.onHand * item.unitCostEgp, 0);
+  const visibleIds = filteredItems.map((item) => item.id);
+  const allVisibleSelected = visibleIds.length > 0 && visibleIds.every((id) => selectedIds.includes(id));
+
+  useEffect(() => {
+    const validIds = new Set(items.map((item) => item.id));
+    setSelectedIds((prev) => prev.filter((id) => validIds.has(id)));
+  }, [items]);
+
   function updateDraft<K extends keyof ItemDraft>(key: K, value: ItemDraft[K]) {
     setDraft((prev) => ({ ...prev, [key]: value }));
   }
@@ -168,6 +262,52 @@ export function InventoryControlPanel({
     setDraft(emptyDraft());
     setError(null);
     setMessage(null);
+  }
+
+  function toggleSelected(id: string) {
+    setSelectedIds((prev) => (
+      prev.includes(id) ? prev.filter((selectedId) => selectedId !== id) : [...prev, id]
+    ));
+  }
+
+  function toggleVisibleSelection() {
+    setSelectedIds((prev) => {
+      const visible = new Set(visibleIds);
+      if (allVisibleSelected) return prev.filter((id) => !visible.has(id));
+      return Array.from(new Set([...prev, ...visibleIds]));
+    });
+  }
+
+  function editSelectedItem() {
+    const item = selectedItems[0];
+    if (!item) return;
+    setDraft(draftFromItem(item));
+    setMessage(`Editing ${item.name}.`);
+    setError(null);
+  }
+
+  function moveSelectedItem() {
+    const item = selectedItems[0];
+    if (!item) return;
+    setAdjustItemId(item.id);
+    setMessage(`Movement target set to ${item.name}.`);
+    setError(null);
+  }
+
+  function printSelected() {
+    if (selectedItems.length === 0) return;
+    const printWindow = window.open("", "inventory-selection-print", "width=960,height=720");
+    if (!printWindow) {
+      setError("The browser blocked the print window. Allow pop-ups for this site and try again.");
+      return;
+    }
+    printWindow.document.open();
+    printWindow.document.write(buildInventoryPrintHtml(selectedItems, selectedValue));
+    printWindow.document.close();
+    printWindow.focus();
+    window.setTimeout(() => {
+      printWindow.print();
+    }, 250);
   }
 
   function saveDraft() {
@@ -269,11 +409,45 @@ export function InventoryControlPanel({
               </select>
             </div>
           </CardHeader>
+          <div className="no-print border-b border-border bg-white px-5 py-3">
+            <div className="flex flex-wrap items-center justify-between gap-3">
+              <div className="flex flex-wrap items-center gap-2">
+                <Button type="button" variant="outline" size="sm" onClick={toggleVisibleSelection} disabled={filteredItems.length === 0}>
+                  {allVisibleSelected ? <SquareCheck className="size-4" /> : <Square className="size-4" />}
+                  {allVisibleSelected ? "Clear visible" : "Select visible"}
+                </Button>
+                <Button type="button" variant="outline" size="sm" onClick={editSelectedItem} disabled={selectedItems.length !== 1}>
+                  <Pencil className="size-4" />
+                  Edit selected
+                </Button>
+                <Button type="button" variant="outline" size="sm" onClick={moveSelectedItem} disabled={selectedItems.length !== 1}>
+                  <ClipboardCheck className="size-4" />
+                  Move selected
+                </Button>
+                <Button type="button" variant="secondary" size="sm" onClick={printSelected} disabled={selectedItems.length === 0}>
+                  <Printer className="size-4" />
+                  Print selected
+                </Button>
+                {selectedItems.length > 0 && (
+                  <Button type="button" variant="ghost" size="sm" onClick={() => setSelectedIds([])}>
+                    <X className="size-4" />
+                    Clear
+                  </Button>
+                )}
+              </div>
+              <p className="text-xs text-muted">
+                {selectedItems.length} selected · {Math.round(selectedValue).toLocaleString()} EGP
+              </p>
+            </div>
+          </div>
           <CardBody className="p-0">
             <div className="overflow-x-auto">
               <table className="w-full min-w-[820px] text-left text-sm">
                 <thead className="border-b border-border bg-surface">
                   <tr className="text-[10px] uppercase tracking-[0.14em] text-muted">
+                    <th className="w-10 px-4 py-3 font-medium">
+                      <span className="sr-only">Select</span>
+                    </th>
                     <th className="px-4 py-3 font-medium">Item</th>
                     <th className="px-4 py-3 font-medium">Category</th>
                     <th className="px-4 py-3 font-medium">On Hand</th>
@@ -286,8 +460,18 @@ export function InventoryControlPanel({
                 <tbody className="divide-y divide-border">
                   {filteredItems.map((item) => {
                     const tone = stockTone(item);
+                    const isSelected = selectedIds.includes(item.id);
                     return (
-                      <tr key={item.id} className={!item.isActive ? "opacity-55" : ""}>
+                      <tr key={item.id} className={cn(isSelected && "bg-brand-green/5", !item.isActive && "opacity-55")}>
+                        <td className="px-4 py-3 align-top">
+                          <input
+                            type="checkbox"
+                            checked={isSelected}
+                            onChange={() => toggleSelected(item.id)}
+                            className="size-4 accent-brand-green"
+                            aria-label={`Select ${item.name}`}
+                          />
+                        </td>
                         <td className="px-4 py-3">
                           <div className="flex items-start gap-2">
                             {tone === "low" ? (
@@ -319,7 +503,10 @@ export function InventoryControlPanel({
                           <div className="flex gap-2">
                             <button
                               type="button"
-                              onClick={() => setDraft(draftFromItem(item))}
+                              onClick={() => {
+                                setDraft(draftFromItem(item));
+                                setSelectedIds([item.id]);
+                              }}
                               className="inline-flex items-center gap-1 text-xs font-semibold text-brand-green hover:underline"
                             >
                               <Pencil className="size-3" />
@@ -340,7 +527,7 @@ export function InventoryControlPanel({
                   })}
                   {filteredItems.length === 0 && (
                     <tr>
-                      <td colSpan={7} className="px-4 py-10 text-center text-sm text-muted">
+                      <td colSpan={8} className="px-4 py-10 text-center text-sm text-muted">
                         No inventory items match this filter.
                       </td>
                     </tr>
