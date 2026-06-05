@@ -122,8 +122,11 @@ function isMissingInventoryTable(error: { code?: string; message?: string } | nu
 }
 
 export async function readInventory(): Promise<InventoryState> {
-  const fileState = await readJson();
-  if (!isSupabaseConfigured()) return fileState;
+  const fileState = isVercelRuntime() ? SEED_STATE : await readJson();
+  if (!isSupabaseConfigured()) {
+    if (isVercelRuntime()) requireSupabaseConfigured("Reading inventory");
+    return fileState;
+  }
 
   const sb = getSupabase();
   const { data: items, error: itemsError } = await sb
