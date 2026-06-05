@@ -20,7 +20,11 @@ import {
   ExternalLink,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { getPartnerSettings, updatePartnerSettings } from "@/lib/partners/actions";
+import {
+  generatePartnerPresentationPdf,
+  getPartnerSettings,
+  updatePartnerSettings,
+} from "@/lib/partners/actions";
 import {
   getBrandMedia,
   removeBrandMediaAsset,
@@ -102,6 +106,7 @@ export function PartnersAdmin({ branches }: { branches: Branch[] }) {
   const [isPending, startTransition] = useTransition();
   const [saved, setSaved] = useState(false);
   const [saveError, setSaveError] = useState<string | null>(null);
+  const [deckMessage, setDeckMessage] = useState<string | null>(null);
   const [mediaAssets, setMediaAssets] = useState<BrandMediaAsset[]>([]);
   const [editingAsset, setEditingAsset] = useState<BrandMediaAsset>(() => newBrandMediaAsset());
   const [mediaPending, startMediaTransition] = useTransition();
@@ -150,6 +155,22 @@ export function PartnersAdmin({ branches }: { branches: Branch[] }) {
         setSaved(true);
         setTimeout(() => setSaved(false), 3000);
       }
+    });
+  }
+
+  function handleGenerateDeck() {
+    setSaveError(null);
+    setDeckMessage(null);
+    startTransition(async () => {
+      const result = await generatePartnerPresentationPdf();
+      if (result.error) {
+        setSaveError(result.error);
+        return;
+      }
+      if (result.data) setSettings(result.data);
+      setDeckMessage("Partner deck generated and linked for portal download.");
+      setSaved(true);
+      setTimeout(() => setSaved(false), 3000);
     });
   }
 
@@ -343,12 +364,41 @@ export function PartnersAdmin({ branches }: { branches: Branch[] }) {
 
         {/* Presentation download */}
         <div className="bg-card rounded-xl border border-border p-5 space-y-4">
-          <div>
-            <h4 className="text-xs uppercase tracking-wider font-medium text-muted">Presentation Download</h4>
-            <p className="text-[11px] text-muted mt-1">
-              Controls the title, version label, and downloadable deck shown in the partner portal.
-            </p>
+          <div className="flex flex-wrap items-start justify-between gap-3">
+            <div>
+              <h4 className="text-xs uppercase tracking-wider font-medium text-muted">Presentation Download</h4>
+              <p className="text-[11px] text-muted mt-1">
+                Controls the title, version label, and downloadable deck shown in the partner portal.
+              </p>
+            </div>
+            <button
+              type="button"
+              onClick={handleGenerateDeck}
+              disabled={isPending}
+              className="inline-flex items-center gap-2 rounded-lg bg-brand-yellow px-4 py-2 text-xs font-bold uppercase tracking-[0.14em] text-brand-ink transition hover:bg-yellow-300 disabled:opacity-50"
+            >
+              <FileText className="size-4" />
+              {isPending ? "Generating..." : "Generate PDF"}
+            </button>
           </div>
+          {deckMessage && (
+            <div className="rounded-lg border border-brand-green/20 bg-brand-green/5 px-4 py-3 text-sm font-medium text-brand-green-deep">
+              {deckMessage}
+            </div>
+          )}
+          {settings.presentationFileUrl && (
+            <div className="flex flex-wrap items-center justify-between gap-3 rounded-lg border border-border bg-background px-4 py-3 text-sm">
+              <span className="min-w-0 truncate text-muted">{settings.presentationFileUrl}</span>
+              <a
+                href={settings.presentationFileUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex shrink-0 items-center gap-1.5 text-xs font-semibold text-brand-green hover:underline"
+              >
+                Open deck <ExternalLink className="size-3" />
+              </a>
+            </div>
+          )}
           <div className="grid gap-4 md:grid-cols-2">
             <TextField
               icon={Presentation}
