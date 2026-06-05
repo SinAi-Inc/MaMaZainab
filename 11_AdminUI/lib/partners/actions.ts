@@ -8,7 +8,7 @@ import {
   verifyPartnerPasscodeValue,
 } from "./auth";
 import { checkServerActionRateLimit } from "@/lib/rate-limit";
-import { requireAdminAction } from "@/lib/server-action-auth";
+import { requireAdminOrCreativeAction } from "@/lib/server-action-auth";
 import {
   readPartnerSettings,
   readStoredPartnerSettings,
@@ -17,7 +17,7 @@ import {
 import type { PartnerSettings } from "./schema";
 
 export async function getPartnerSettings() {
-  await requireAdminAction();
+  await requireAdminOrCreativeAction();
   return readPartnerSettings();
 }
 
@@ -25,7 +25,7 @@ export async function updatePartnerSettings(
   settings: PartnerSettings,
 ): Promise<{ data?: PartnerSettings; error?: string }> {
   try {
-    await requireAdminAction();
+    await requireAdminOrCreativeAction();
     const current = await readStoredPartnerSettings();
     const trimmedPasscode = settings.passcode.trim();
 

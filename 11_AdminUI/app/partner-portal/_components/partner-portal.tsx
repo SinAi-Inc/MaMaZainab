@@ -209,6 +209,7 @@ export function PartnerPortal({
   locations,
   presentationTitle = "MaMa Zainab Partner Presentation",
   presentationSubtitle = "Authentic Mahshi. Homemade Taste. Fast-Food Speed.",
+  presentationFileUrl = "",
   presentationVersion = "v0.1",
   presentationUpdatedAt = "",
   contactPhone = "",
@@ -241,6 +242,7 @@ export function PartnerPortal({
     buildWhatsAppHref(contactPhone, "Hello MaMa Zainab, I would like to book a tasting session.") ||
     phoneHref ||
     "#";
+  const deckReady = showPresentation && Boolean(presentationFileUrl);
 
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -339,7 +341,8 @@ export function PartnerPortal({
           <div className="flex items-center gap-2">
             {showPresentation && (
               <DeckComingSoonButton
-                label="Deck"
+                label={deckReady ? "Download Deck" : "Deck"}
+                href={deckReady ? presentationFileUrl : undefined}
                 className="hidden bg-brand-yellow px-4 py-2 text-brand-ink hover:bg-yellow-300 sm:inline-flex"
               />
             )}
@@ -465,7 +468,7 @@ export function PartnerPortal({
                 <div className="mt-10 grid gap-4 md:grid-cols-3">
                   <InfoCard title="Partner Type" value={partnerType} />
                   <InfoCard title="Format" value="Kiosk / Corner" />
-                  <InfoCard title="Action" value="Deck coming soon" />
+                  <InfoCard title="Action" value={deckReady ? "Deck ready" : "Deck coming soon"} />
                 </div>
               </div>
 
@@ -476,6 +479,7 @@ export function PartnerPortal({
                     slideId={slide.id}
                     visual={slide.visual}
                     partnerType={partnerType}
+                    deckUrl={deckReady ? presentationFileUrl : ""}
                     locationsCount={locations.length}
                     locations={locations}
                     asset={getSlideVisualAsset({
@@ -541,9 +545,14 @@ export function PartnerPortal({
               icon={<Download className="size-5" />}
               eyebrow="Download"
               title="Partner Presentation"
-              body="The final partner deck is not published yet. Request a tasting, meeting, or location assessment while the PDF is prepared."
-              comingSoonAction
-              actionLabel="Deck Coming Soon"
+              body={
+                deckReady
+                  ? "Download the current partner PDF/PPTX package for client review, meetings, and location conversations."
+                  : "The final partner deck is not published yet. Request a tasting, meeting, or location assessment while the PDF is prepared."
+              }
+              comingSoonAction={!deckReady}
+              actionHref={deckReady ? presentationFileUrl : undefined}
+              actionLabel={deckReady ? "Download Deck" : "Deck Coming Soon"}
             />
           )}
         </div>
@@ -710,6 +719,7 @@ function SlideVisual({
   slideId,
   visual,
   partnerType,
+  deckUrl,
   locationsCount,
   locations,
   asset,
@@ -718,6 +728,7 @@ function SlideVisual({
   slideId: string;
   visual: string;
   partnerType: string;
+  deckUrl: string;
   locationsCount: number;
   locations: PartnerLocation[];
   asset?: BrandMediaAsset;
@@ -867,7 +878,8 @@ function SlideVisual({
           <h3 className="mt-3 text-2xl font-semibold leading-tight">{visual}</h3>
         </div>
         <DeckComingSoonButton
-          label="Presentation Coming Soon"
+          label={deckUrl ? "Download Partner Deck" : "Presentation Coming Soon"}
+          href={deckUrl || undefined}
           className="w-full bg-brand-green px-4 py-4 text-white hover:bg-brand-green-deep"
         />
       </>
@@ -1072,9 +1084,11 @@ function InfoCard({ title, value }: { title: string; value: string }) {
 function DeckComingSoonButton({
   label,
   className,
+  href,
 }: {
   label: string;
   className?: string;
+  href?: string;
 }) {
   const [active, setActive] = useState(false);
   const noticeId = useId();
@@ -1082,6 +1096,21 @@ function DeckComingSoonButton({
   function flashNotice() {
     setActive(true);
     window.setTimeout(() => setActive(false), 2200);
+  }
+
+  if (href) {
+    return (
+      <a
+        href={href}
+        download
+        target={href.startsWith("http") ? "_blank" : undefined}
+        rel={href.startsWith("http") ? "noopener noreferrer" : undefined}
+        className={`inline-flex items-center justify-center gap-2 rounded-lg text-xs font-bold uppercase tracking-[0.16em] transition ${className ?? ""}`}
+      >
+        <Download className="size-4" />
+        {label}
+      </a>
+    );
   }
 
   return (
@@ -1146,13 +1175,16 @@ function PortalCard({
         />
       )}
       {actionHref && actionLabel && (
-        <Link
+        <a
           href={actionHref}
+          download={actionLabel.toLowerCase().includes("download") || undefined}
+          target={actionHref.startsWith("http") ? "_blank" : undefined}
+          rel={actionHref.startsWith("http") ? "noopener noreferrer" : undefined}
           className="mt-6 inline-flex items-center gap-2 rounded-lg bg-brand-yellow px-4 py-2.5 text-xs font-bold uppercase tracking-[0.16em] text-brand-ink transition hover:bg-yellow-300"
         >
           {actionLabel}
           <ChevronRight className="size-3.5" />
-        </Link>
+        </a>
       )}
     </div>
   );

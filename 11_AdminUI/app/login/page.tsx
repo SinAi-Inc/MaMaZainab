@@ -30,7 +30,7 @@ function LoginForm() {
 
         if (res.ok) {
           const data = await res.json().catch(() => ({}));
-          const creativePrefixes = ["/ai", "/videos", "/characters", "/brand"];
+          const creativePrefixes = ["/ai", "/videos", "/characters", "/brand", "/partners"];
           const isCreativeNext = creativePrefixes.some(
             (prefix) => next === prefix || next.startsWith(`${prefix}/`),
           );
