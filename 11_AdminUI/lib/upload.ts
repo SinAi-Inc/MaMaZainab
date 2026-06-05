@@ -71,3 +71,69 @@ export async function uploadFile(
   // Always return relative path - Next.js rewrite proxies to Supabase Storage
   return `/uploads/${subdir}/${filename}`;
 }
+
+export async function uploadBuffer({
+  buffer,
+  filename,
+  contentType,
+  subdir,
+  allowedExts,
+  maxBytes,
+}: {
+  buffer: Buffer;
+  filename: string;
+  contentType: string;
+  subdir: string;
+  allowedExts: string[];
+  maxBytes: number;
+}): Promise<string> {
+  if (buffer.byteLength > maxBytes) {
+    throw new Error(`Max ${Math.round(maxBytes / 1024 / 1024)} MB`);
+  }
+
+  const ext = (filename.split(".").pop() || "").toLowerCase();
+  if (!allowedExts.includes(ext)) {
+    throw new Error(`Allowed: ${allowedExts.join(", ")}`);
+  }
+
+  if (/[\\\/]\.\./.test(subdir) || subdir.includes("..") || path.isAbsolute(subdir)) {
+    throw new Error("Invalid upload directory");
+  }
+
+  const safeBase = filename
+    .replace(/\.[^.]+$/, "")
+    .replace(/[^a-z0-9_-]+/gi, "-")
+    .replace(/^-+|-+$/g, "")
+    .toLowerCase() || "upload";
+  const storageName = `${safeBase}-${nanoid(8)}.${ext}`;
+
+  if (!isSupabaseConfigured()) {
+    if (isVercelRuntime()) {
+      requireSupabaseConfigured("Uploading files");
+    }
+
+    const dir = path.join(process.cwd(), "public", "uploads", subdir);
+    await fs.mkdir(dir, { recursive: true });
+    await fs.writeFile(path.join(dir, storageName), buffer);
+    return `/uploads/${subdir}/${storageName}`;
+  }
+
+  const sb = getSupabase();
+  const storagePath = `${subdir}/${storageName}`;
+
+  if (!bucketConfirmed) {
+    await sb.storage.createBucket(BUCKET, { public: true }).catch(() => null);
+    bucketConfirmed = true;
+  }
+
+  const { error } = await sb.storage
+    .from(BUCKET)
+    .upload(storagePath, buffer, {
+      contentType,
+      upsert: false,
+    });
+
+  if (error) throw new Error(`Upload failed: ${error.message}`);
+
+  return `/uploads/${subdir}/${storageName}`;
+}
