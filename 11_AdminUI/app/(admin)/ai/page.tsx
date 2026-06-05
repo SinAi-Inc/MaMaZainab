@@ -1,4 +1,5 @@
 import { readCharacters } from "@/lib/characters/store";
+import { isComfyConfigured } from "@/lib/comfy/client";
 import { readMenu } from "@/lib/menu/store";
 import { nimAvailable } from "@/lib/nvidia/client";
 import { getProviderSummaries } from "@/lib/video/provider-info";
@@ -36,6 +37,7 @@ export default async function StudioPage({
   ]);
   const nvidiaKeySet = !!(process.env.NVIDIA_API_KEY && process.env.NVIDIA_API_KEY.length > 0);
   const hasNim = nimAvailable();
+  const comfyConfigured = isComfyConfigured();
 
   const projects: ProjectSummary[] = [...studio.projects]
     .sort((a, b) => +new Date(b.updatedAt) - +new Date(a.updatedAt))
@@ -66,6 +68,7 @@ export default async function StudioPage({
       menuItems={items}
       nvidiaKeySet={nvidiaKeySet}
       nimAvailable={hasNim}
+      comfyConfigured={comfyConfigured}
       videoProviders={videoProviders}
       projects={projects}
       scenes={studio.scenes}

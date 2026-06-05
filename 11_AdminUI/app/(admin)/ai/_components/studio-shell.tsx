@@ -93,6 +93,7 @@ export function StudioShell({
   menuItems,
   nvidiaKeySet,
   nimAvailable,
+  comfyConfigured,
   videoProviders,
   projects,
   scenes,
@@ -106,6 +107,7 @@ export function StudioShell({
   menuItems: MenuItem[];
   nvidiaKeySet: boolean;
   nimAvailable: boolean;
+  comfyConfigured: boolean;
   videoProviders: ProviderSummary[];
   projects: ProjectSummary[];
   scenes: Scene[];
@@ -245,6 +247,7 @@ export function StudioShell({
               menuItems={menuItems}
               nvidiaKeySet={nvidiaKeySet}
               nimAvailable={nimAvailable}
+              comfyConfigured={comfyConfigured}
               videoProviders={videoProviders}
             />
           )}
