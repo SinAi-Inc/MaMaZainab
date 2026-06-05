@@ -20,12 +20,13 @@ const TABS: { id: Tab; label: string; icon: React.ComponentType<{ className?: st
   { id: "history", label: "History", icon: History },
 ];
 
-export function StudioTabs({ characters, menuCategories, menuItems, nimAvailable, videoProviders }: {
+export function StudioTabs({ characters, menuCategories, menuItems, nimAvailable, comfyConfigured, videoProviders }: {
   characters: Character[];
   menuCategories: MenuCategory[];
   menuItems: MenuItem[];
   nvidiaKeySet?: boolean;
   nimAvailable: boolean;
+  comfyConfigured: boolean;
   videoProviders: ProviderSummary[];
 }) {
   const [active, setActive] = useState<Tab>("image");
@@ -56,7 +57,7 @@ export function StudioTabs({ characters, menuCategories, menuItems, nimAvailable
       </div>
 
       {/* Tab content */}
-      {active === "image" && <ImageGenTab characters={characters} menuCategories={menuCategories} menuItems={menuItems} nimAvailable={nimAvailable} />}
+      {active === "image" && <ImageGenTab characters={characters} menuCategories={menuCategories} menuItems={menuItems} nimAvailable={nimAvailable} comfyConfigured={comfyConfigured} />}
       {active === "video" && <VideoGenTab characters={characters} providers={videoProviders} />}
       {active === "prompts" && <CharacterPromptTool characters={characters} />}
       {active === "history" && <HistoryTab />}

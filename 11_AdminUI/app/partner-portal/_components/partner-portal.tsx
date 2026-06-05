@@ -11,7 +11,6 @@ import {
   Download,
   Handshake,
   Lock,
-  Mail,
   MessageCircle,
   Presentation,
   Store,
@@ -157,6 +156,12 @@ const commercialModels = [
   "90-Day Pilot Kiosk",
 ];
 
+function buildWhatsAppHref(phone: string, message: string) {
+  const digits = phone.replace(/\D/g, "");
+  if (!digits) return "";
+  return `https://wa.me/${digits}?text=${encodeURIComponent(message)}`;
+}
+
 const partnerTypeToMediaKey: Record<string, string> = {
   Malls: "mall",
   Clubs: "club",
@@ -206,7 +211,6 @@ export function PartnerPortal({
   presentationSubtitle = "Authentic Mahshi. Homemade Taste. Fast-Food Speed.",
   presentationVersion = "v0.1",
   presentationUpdatedAt = "",
-  contactEmail = "hello@mamazainab.com",
   contactPhone = "",
   bookingUrl = "",
   assessmentUrl = "",
@@ -221,14 +225,22 @@ export function PartnerPortal({
 
   const slide = slides[activeSlide];
   const featuredLocations = useMemo(() => locations.slice(0, 6), [locations]);
-  const emailHref = `mailto:${contactEmail || "hello@mamazainab.com"}?subject=MaMa%20Zainab%20Partnership`;
   const phoneHref = contactPhone ? `tel:${contactPhone.replace(/[^\d+]/g, "")}` : "";
+  const contactHref =
+    buildWhatsAppHref(contactPhone, "Hello MaMa Zainab, I would like to discuss a partnership.") ||
+    phoneHref ||
+    "#";
   const selectedFit = partnerFitCopy[partnerType] ?? partnerFitCopy.Malls;
   const assessmentHref =
-    assessmentUrl || `${emailHref}&body=I%20would%20like%20to%20request%20a%20location%20assessment.`;
+    assessmentUrl ||
+    buildWhatsAppHref(contactPhone, "Hello MaMa Zainab, I would like to request a location assessment.") ||
+    phoneHref ||
+    "#";
   const bookingHref =
-    bookingUrl || `${emailHref}&body=I%20would%20like%20to%20book%20a%20tasting%20session.`;
-  const contactHref = emailHref;
+    bookingUrl ||
+    buildWhatsAppHref(contactPhone, "Hello MaMa Zainab, I would like to book a tasting session.") ||
+    phoneHref ||
+    "#";
 
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -332,10 +344,10 @@ export function PartnerPortal({
               />
             )}
             <a
-              href={emailHref}
+              href={contactHref}
               className="inline-flex items-center gap-2 rounded-lg border border-white/20 px-4 py-2 text-[10px] font-bold uppercase tracking-[0.18em] text-white/75 transition hover:border-brand-yellow hover:text-brand-yellow"
             >
-              <Mail className="size-3.5" />
+              <MessageCircle className="size-3.5" />
               Contact
             </a>
           </div>

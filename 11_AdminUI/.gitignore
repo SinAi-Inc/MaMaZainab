@@ -43,6 +43,8 @@ data/generations.json
 data/settings.json
 # location strategy
 data/branches.json
+# inventory control state
+data/inventory.json
 # partner portal config
 data/partners.json
 # sensitive brand prose: char anchors, AI prompt templates, origin story

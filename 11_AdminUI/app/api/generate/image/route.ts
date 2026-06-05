@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { generateImage, NVIDIA_IMAGE_MODELS, nimAvailable, type NvidiaImageModelId } from "@/lib/nvidia/client";
+import { generateImageComfy, isComfyConfigured } from "@/lib/comfy/client";
 import { requireCreative } from "@/lib/api-guard";
 import { generateImageLimiter } from "@/lib/rate-limit";
 import { recordGeneration } from "@/lib/generations/actions";
@@ -12,6 +13,7 @@ export const maxDuration = 180;
 const VALID_MODELS = new Set(
   NVIDIA_IMAGE_MODELS.filter((m) => !m.nimOnly || nimAvailable()).map((m) => m.id)
 );
+type ImageModelId = NvidiaImageModelId | "comfyui";
 
 // NVIDIA FLUX.1 practical prompt limit - beyond ~2000 chars quality degrades
 const MAX_PROMPT_CHARS = 3000;
@@ -50,7 +52,11 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "model and prompt are required" }, { status: 400 });
     }
 
-    if (!VALID_MODELS.has(model as NvidiaImageModelId)) {
+    if (model === "comfyui" && !isComfyConfigured()) {
+      return NextResponse.json({ error: "ComfyUI is not configured" }, { status: 400 });
+    }
+
+    if (model !== "comfyui" && !VALID_MODELS.has(model as NvidiaImageModelId)) {
       return NextResponse.json({ error: "Invalid model" }, { status: 400 });
     }
 
@@ -63,12 +69,19 @@ export async function POST(req: NextRequest) {
 
     const { width, height } = aspectToSize(aspect ?? "1:1");
 
-    const result = await generateImage({
-      model: model as NvidiaImageModelId,
-      prompt,
-      width,
-      height,
-    });
+    const result = model === "comfyui"
+      ? await generateImageComfy({
+          prompt,
+          width,
+          height,
+          seed: Math.floor(Math.random() * 2_000_000_000),
+        })
+      : await generateImage({
+          model: model as NvidiaImageModelId,
+          prompt,
+          width,
+          height,
+        });
 
     const elapsedMs = Date.now() - startTime;
 
@@ -77,7 +90,7 @@ export async function POST(req: NextRequest) {
     try {
       savedEntry = await recordGeneration({
         type: "image",
-        model,
+        model: model as ImageModelId,
         prompt,
         characterAnchor,
         sceneContext,

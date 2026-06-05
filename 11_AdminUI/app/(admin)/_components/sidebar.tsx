@@ -15,6 +15,7 @@ import {
   Mail,
   Store,
   Handshake,
+  Boxes,
   ChevronLeft,
   ChevronRight,
 } from "lucide-react";
@@ -42,6 +43,7 @@ const NAV: { section: string; items: NavItem[] }[] = [
       { href: "/owners-eye", label: "Owner's Eye", icon: LayoutDashboard, status: "active" },
       { href: "/branches", label: "Kiosks", icon: Store, status: "active" },
       { href: "/menu", label: "Menu", icon: UtensilsCrossed, status: "active" },
+      { href: "/inventory", label: "Inventory", icon: Boxes, status: "active" },
     ],
   },
   {

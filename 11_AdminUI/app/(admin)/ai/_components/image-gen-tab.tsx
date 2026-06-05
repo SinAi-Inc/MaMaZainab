@@ -19,24 +19,31 @@ import {
 import { PresetPicker } from "./preset-picker";
 
 const IMAGE_MODELS = [
+  { id: "comfyui", label: "ComfyUI Local", vendor: "Local", nimOnly: false, localOnly: true },
   { id: "black-forest-labs/flux.1-schnell",  label: "Flux.1 Schnell", vendor: "Black Forest Labs", nimOnly: false },
   { id: "black-forest-labs/flux.1-dev",      label: "Flux.1 Dev",    vendor: "Black Forest Labs", nimOnly: false },
 ] as const;
 
 const ASPECT_RATIOS = ["1:1", "16:9", "9:16", "4:3", "3:2", "2.39:1"];
 
-export function ImageGenTab({ characters, menuCategories, menuItems, nimAvailable }: {
+export function ImageGenTab({ characters, menuCategories, menuItems, nimAvailable, comfyConfigured }: {
   characters: Character[];
   menuCategories: MenuCategory[];
   menuItems: MenuItem[];
   nimAvailable: boolean;
+  comfyConfigured: boolean;
 }) {
   const characterAnchors = useMemo(
     () => buildAnchorsFromCharacters(characters),
     [characters],
   );
-  const availableModels = IMAGE_MODELS;
-  const [model, setModel] = useState<string>(IMAGE_MODELS[0].id);
+  const availableModels = useMemo(
+    () => IMAGE_MODELS.filter((m) => !("localOnly" in m) || comfyConfigured),
+    [comfyConfigured],
+  );
+  const [model, setModel] = useState<string>(
+    comfyConfigured ? "comfyui" : "black-forest-labs/flux.1-schnell",
+  );
   const [aspect, setAspect] = useState("1:1");
   const [prompt, setPrompt] = useState("");
   const [anchorValues, setAnchorValues] = useState<string[]>([]);
@@ -72,7 +79,7 @@ export function ImageGenTab({ characters, menuCategories, menuItems, nimAvailabl
     setSceneValue("");
     setMenuItemId("");
     setAspect("1:1");
-    setModel(IMAGE_MODELS[0].id);
+    setModel(comfyConfigured ? "comfyui" : "black-forest-labs/flux.1-schnell");
     setIncludeBrand(false);
     setResultImage(null);
     setError(null);
@@ -267,7 +274,7 @@ export function ImageGenTab({ characters, menuCategories, menuItems, nimAvailabl
             >
               {availableModels.map((m) => (
                 <option key={m.id} value={m.id}>
-                  {m.label} - {m.vendor}{m.nimOnly ? (nimAvailable ? " [NIM]" : " [NIM - offline]") : ""}
+                  {m.label} - {m.vendor}{m.id === "comfyui" ? " [local]" : m.nimOnly ? (nimAvailable ? " [NIM]" : " [NIM - offline]") : ""}
                 </option>
               ))}
             </select>
@@ -334,7 +341,7 @@ export function ImageGenTab({ characters, menuCategories, menuItems, nimAvailabl
                     ) : (
                       <XCircle className="size-4 text-red-500 shrink-0" />
                     )}
-                    <span className="flex-1 text-xs">{m.label}{m.nimOnly ? " [NIM]" : ""}</span>
+                    <span className="flex-1 text-xs">{m.label}{m.id === "comfyui" ? " [local]" : m.nimOnly ? " [NIM]" : ""}</span>
                     {v?.status === "ok" && (
                       <span className="text-[10px] text-green-700 font-medium">{((v.elapsedMs ?? 0) / 1000).toFixed(1)}s ✓</span>
                     )}
