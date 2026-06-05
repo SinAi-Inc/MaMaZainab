@@ -77,6 +77,12 @@ const MEDIA_HUB_NAV: { section: string; items: NavItem[] }[] = [
       { href: "/brand", label: "Brand Bible", icon: BookOpen, status: "active" },
     ],
   },
+  {
+    section: "Partner Delivery",
+    items: [
+      { href: "/partners", label: "Partner Delivery", icon: Handshake, status: "active" },
+    ],
+  },
 ];
 
 // ── Single nav link (expanded or icon-only) ────────────────────────────────
