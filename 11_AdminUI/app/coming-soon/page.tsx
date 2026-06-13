@@ -58,18 +58,19 @@ export default async function ComingSoonPage() {
 
       {/* Top bar */}
       <header className="relative z-10 px-6 py-3 flex items-center justify-between bg-brand-ink/80 backdrop-blur-sm">
-        <div className="flex items-center gap-2">
+        <Link
+          href="/coming-soon"
+          aria-label="MaMa Zainab home"
+          className="inline-flex h-9 items-center rounded-md bg-white px-3 py-1.5 shadow-sm"
+        >
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
-            src="/brand/mark.png"
-            alt=""
-            className="size-7"
+            src="/brand/logo-wordmark-transparent.png"
+            alt="MaMa Zainab"
+            className="h-full w-auto max-w-[168px] object-contain"
             draggable={false}
           />
-          <span className="font-[family-name:var(--font-brand)] text-xs tracking-[0.18em] text-white">
-            MaMa Zainab
-          </span>
-        </div>
+        </Link>
         <div className="flex items-center gap-2">
           <Link
             href="/partner-portal"
