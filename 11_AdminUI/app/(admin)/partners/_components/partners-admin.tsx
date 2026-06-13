@@ -13,6 +13,7 @@ import {
   Presentation,
   Image as ImageIcon,
   Trash2,
+  TrendingUp,
   Upload,
   Save,
   Utensils,
@@ -54,6 +55,17 @@ type TextSettingKey =
   | "presentationFileUrl"
   | "presentationVersion"
   | "presentationUpdatedAt"
+  | "brandVideoUrl"
+  | "brandVideoTitle"
+  | "brandVideoBody"
+  | "brandOverviewTitle"
+  | "brandOverviewBody"
+  | "portalBenefitsTitle"
+  | "portalBenefitsEyebrow"
+  | "portalCommercialTitle"
+  | "portalCommercialEyebrow"
+  | "portalLocationsTitle"
+  | "portalLocationsEyebrow"
   | "contactEmail"
   | "contactPhone"
   | "bookingUrl"
@@ -129,6 +141,19 @@ export function PartnersAdmin({ branches }: { branches: Branch[] }) {
 
   function updateText(key: TextSettingKey, value: string) {
     setSettings((prev) => (prev ? { ...prev, [key]: value } : prev));
+    setSaved(false);
+  }
+
+  function updatePortalSlide(index: number, key: "eyebrow" | "title" | "body" | "visual", value: string) {
+    setSettings((prev) => {
+      if (!prev) return prev;
+      return {
+        ...prev,
+        portalSlides: prev.portalSlides.map((slide, slideIndex) =>
+          slideIndex === index ? { ...slide, [key]: value } : slide,
+        ),
+      };
+    });
     setSaved(false);
   }
 
@@ -436,6 +461,126 @@ export function PartnersAdmin({ branches }: { branches: Branch[] }) {
               placeholder="Authentic Mahshi. Homemade Taste. Fast-Food Speed."
               className="md:col-span-2"
             />
+          </div>
+        </div>
+
+        {/* Portal content */}
+        <div className="bg-card rounded-xl border border-border p-5 space-y-5">
+          <div>
+            <h4 className="text-xs uppercase tracking-wider font-medium text-muted">Portal Content &amp; Brand Video</h4>
+            <p className="text-[11px] text-muted mt-1">
+              Edit partner-facing headlines, body copy, slide labels, and the YouTube brand video without code changes.
+            </p>
+          </div>
+
+          <div className="grid gap-4 md:grid-cols-2">
+            <TextField
+              icon={LinkIcon}
+              label="Brand video YouTube URL"
+              value={settings.brandVideoUrl}
+              onChange={(value) => updateText("brandVideoUrl", value)}
+              placeholder="https://www.youtube.com/watch?v=..."
+              className="md:col-span-2"
+            />
+            <TextField
+              icon={Presentation}
+              label="Brand video title"
+              value={settings.brandVideoTitle}
+              onChange={(value) => updateText("brandVideoTitle", value)}
+              placeholder="Brand Video"
+            />
+            <TextAreaField
+              label="Brand video body"
+              value={settings.brandVideoBody}
+              onChange={(value) => updateText("brandVideoBody", value)}
+              placeholder="Short partner-facing video description"
+            />
+            <TextField
+              icon={BookOpen}
+              label="Fallback brand overview title"
+              value={settings.brandOverviewTitle}
+              onChange={(value) => updateText("brandOverviewTitle", value)}
+              placeholder="Fast-food Mahshi & oriental home-food"
+            />
+            <TextAreaField
+              label="Fallback brand overview body"
+              value={settings.brandOverviewBody}
+              onChange={(value) => updateText("brandOverviewBody", value)}
+              placeholder="Brand overview copy shown when no video URL is set"
+            />
+          </div>
+
+          <div className="grid gap-4 md:grid-cols-2">
+            <TextField
+              icon={TrendingUp}
+              label="Benefits eyebrow"
+              value={settings.portalBenefitsEyebrow}
+              onChange={(value) => updateText("portalBenefitsEyebrow", value)}
+            />
+            <TextField
+              icon={TrendingUp}
+              label="Benefits headline"
+              value={settings.portalBenefitsTitle}
+              onChange={(value) => updateText("portalBenefitsTitle", value)}
+            />
+            <TextField
+              icon={Presentation}
+              label="Commercial eyebrow"
+              value={settings.portalCommercialEyebrow}
+              onChange={(value) => updateText("portalCommercialEyebrow", value)}
+            />
+            <TextField
+              icon={Presentation}
+              label="Commercial headline"
+              value={settings.portalCommercialTitle}
+              onChange={(value) => updateText("portalCommercialTitle", value)}
+            />
+            <TextField
+              icon={MapPin}
+              label="Locations eyebrow"
+              value={settings.portalLocationsEyebrow}
+              onChange={(value) => updateText("portalLocationsEyebrow", value)}
+            />
+            <TextField
+              icon={MapPin}
+              label="Locations headline"
+              value={settings.portalLocationsTitle}
+              onChange={(value) => updateText("portalLocationsTitle", value)}
+            />
+          </div>
+
+          <div className="space-y-3">
+            <h5 className="text-[11px] font-medium uppercase tracking-wider text-muted">
+              Presentation Slides
+            </h5>
+            {settings.portalSlides.map((slide, index) => (
+              <div key={slide.id} className="rounded-xl border border-border bg-background p-4">
+                <div className="grid gap-3 md:grid-cols-2">
+                  <TextField
+                    icon={Presentation}
+                    label={`Slide ${index + 1} eyebrow`}
+                    value={slide.eyebrow}
+                    onChange={(value) => updatePortalSlide(index, "eyebrow", value)}
+                  />
+                  <TextField
+                    icon={FileText}
+                    label="Slide headline"
+                    value={slide.title}
+                    onChange={(value) => updatePortalSlide(index, "title", value)}
+                  />
+                  <TextAreaField
+                    label="Slide body"
+                    value={slide.body}
+                    onChange={(value) => updatePortalSlide(index, "body", value)}
+                  />
+                  <TextAreaField
+                    label="Visual direction"
+                    value={slide.visual}
+                    onChange={(value) => updatePortalSlide(index, "visual", value)}
+                  />
+                </div>
+              </div>
+            ))}
           </div>
         </div>
 
@@ -768,6 +913,35 @@ function TextField({
           className="w-full rounded-lg border border-border bg-background py-2 pl-10 pr-3 text-sm outline-none transition focus:border-brand-green"
         />
       </div>
+    </label>
+  );
+}
+
+function TextAreaField({
+  label,
+  value,
+  onChange,
+  placeholder,
+  className,
+}: {
+  label: string;
+  value: string;
+  onChange: (value: string) => void;
+  placeholder?: string;
+  className?: string;
+}) {
+  return (
+    <label className={cn("block space-y-1.5", className)}>
+      <span className="text-[11px] font-medium uppercase tracking-wider text-muted">
+        {label}
+      </span>
+      <textarea
+        value={value}
+        onChange={(event) => onChange(event.target.value)}
+        placeholder={placeholder}
+        rows={4}
+        className="w-full resize-y rounded-lg border border-border bg-background px-3 py-2 text-sm leading-6 outline-none transition focus:border-brand-green"
+      />
     </label>
   );
 }

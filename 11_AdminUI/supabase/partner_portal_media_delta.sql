@@ -12,9 +12,28 @@ alter table branches add column if not exists show_in_partner_portal boolean not
 
 alter table partner_settings add column if not exists presentation_title text not null default 'MaMa Zainab Partner Presentation';
 alter table partner_settings add column if not exists presentation_subtitle text not null default 'Authentic Mahshi. Homemade Taste. Fast-Food Speed.';
-alter table partner_settings add column if not exists presentation_file_url text not null default '/Mama-Zainab-Partners-Presentation.pdf';
+alter table partner_settings add column if not exists presentation_file_url text not null default '/partner-portal/deck';
 alter table partner_settings add column if not exists presentation_version text not null default 'v0.1';
 alter table partner_settings add column if not exists presentation_updated_at text not null default '';
+alter table partner_settings add column if not exists brand_video_url text not null default '';
+alter table partner_settings add column if not exists brand_video_title text not null default 'Brand Video';
+alter table partner_settings add column if not exists brand_video_body text not null default 'Watch the MaMa Zainab brand story and partnership experience before reviewing the deck.';
+alter table partner_settings add column if not exists brand_overview_title text not null default 'Fast-food Mahshi & oriental home-food';
+alter table partner_settings add column if not exists brand_overview_body text not null default 'MaMa Zainab is village authenticity at scale: warm, nostalgic, premium-casual Egyptian comfort food founded in Alexandria.';
+alter table partner_settings add column if not exists portal_benefits_title text not null default 'Why the kiosk earns its space';
+alter table partner_settings add column if not exists portal_benefits_eyebrow text not null default 'Property Partner Benefits';
+alter table partner_settings add column if not exists portal_commercial_title text not null default 'Flexible model paths';
+alter table partner_settings add column if not exists portal_commercial_eyebrow text not null default 'Commercial Models';
+alter table partner_settings add column if not exists portal_locations_title text not null default 'Partner-ready rollout points';
+alter table partner_settings add column if not exists portal_locations_eyebrow text not null default 'Featured Locations';
+alter table partner_settings add column if not exists portal_slides jsonb not null default '[
+  {"id":"cover","eyebrow":"Partner Opportunity","title":"Bring MaMa Zainab to Your Location","body":"A compact, high-visibility Egyptian comfort-food kiosk built for premium footfall destinations.","visual":"Kiosk hero + Alexandria rollout map"},
+  {"id":"brand","eyebrow":"Brand Promise","title":"The Village Way, or Not at All","body":"Authentic Mahshi and oriental home-food, served with homemade warmth and fast-food speed.","visual":"Logo, palette, MaMa Zainab character, pattern system"},
+  {"id":"format","eyebrow":"Kiosk Format","title":"Small Footprint. Big Brand Presence.","body":"A modular kiosk format designed for food courts, entrances, club zones, cinema lobbies, and retail corridors.","visual":"3m x 2m x 2.5m kiosk diagram"},
+  {"id":"benefits","eyebrow":"Location Owner Benefits","title":"A Ready-Made Food Attraction","body":"Adds a strong local food category, activates unused space, increases dwell time, and creates a photo-friendly tenant.","visual":"Partner benefit cards"},
+  {"id":"rollout","eyebrow":"Expansion Plan","title":"Alexandria First. Egypt Next.","body":"The rollout starts with dense Alexandria coverage, then expands into clubs, malls, campuses, hypermarkets, and compounds.","visual":"Interactive location map"},
+  {"id":"cta","eyebrow":"Next Step","title":"Start the Partnership Conversation","body":"Download the current partner presentation, request a tasting session, or submit your location for assessment.","visual":"Partner deck and next actions"}
+]';
 alter table partner_settings add column if not exists contact_email text not null default 'hello@mamazainab.com';
 alter table partner_settings add column if not exists contact_phone text not null default '';
 alter table partner_settings add column if not exists booking_url text not null default '';

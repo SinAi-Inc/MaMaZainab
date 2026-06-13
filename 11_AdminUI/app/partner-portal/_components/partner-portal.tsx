@@ -50,11 +50,31 @@ type PartnerPortalProps = {
   presentationFileUrl?: string;
   presentationVersion?: string;
   presentationUpdatedAt?: string;
+  brandVideoUrl?: string;
+  brandVideoTitle?: string;
+  brandVideoBody?: string;
+  brandOverviewTitle?: string;
+  brandOverviewBody?: string;
+  portalBenefitsTitle?: string;
+  portalBenefitsEyebrow?: string;
+  portalCommercialTitle?: string;
+  portalCommercialEyebrow?: string;
+  portalLocationsTitle?: string;
+  portalLocationsEyebrow?: string;
+  portalSlides?: PartnerPortalSlide[];
   contactEmail?: string;
   contactPhone?: string;
   bookingUrl?: string;
   assessmentUrl?: string;
   mediaAssets?: BrandMediaAsset[];
+};
+
+type PartnerPortalSlide = {
+  id: string;
+  eyebrow: string;
+  title: string;
+  body: string;
+  visual: string;
 };
 
 const partnerTypes = [
@@ -67,7 +87,7 @@ const partnerTypes = [
   "Compounds",
 ];
 
-const slides = [
+const defaultPortalSlides: PartnerPortalSlide[] = [
   {
     id: "cover",
     eyebrow: "Partner Opportunity",
@@ -111,10 +131,10 @@ const slides = [
   {
     id: "cta",
     eyebrow: "Next Step",
-    title: "Partner Deck Ready for Review",
+    title: "Start the Partnership Conversation",
     body:
-      "Download the live partner PDF, then request a tasting session or submit your location for assessment.",
-    visual: "Live partner deck and next actions",
+      "Download the current partner presentation, request a tasting session, or submit your location for assessment.",
+    visual: "Partner deck and next actions",
   },
 ];
 
@@ -175,6 +195,33 @@ function buildWhatsAppHref(phone: string, message: string) {
   return `https://wa.me/${digits}?text=${encodeURIComponent(message)}`;
 }
 
+function getYouTubeEmbedUrl(url: string) {
+  const value = url.trim();
+  if (!value) return "";
+
+  try {
+    const parsed = new URL(value);
+    const host = parsed.hostname.replace(/^www\./, "");
+    let videoId = "";
+
+    if (host === "youtu.be") {
+      videoId = parsed.pathname.split("/").filter(Boolean)[0] ?? "";
+    } else if (host.endsWith("youtube.com")) {
+      if (parsed.pathname.startsWith("/embed/")) {
+        videoId = parsed.pathname.split("/").filter(Boolean)[1] ?? "";
+      } else if (parsed.pathname.startsWith("/shorts/")) {
+        videoId = parsed.pathname.split("/").filter(Boolean)[1] ?? "";
+      } else {
+        videoId = parsed.searchParams.get("v") ?? "";
+      }
+    }
+
+    return videoId ? `https://www.youtube-nocookie.com/embed/${videoId}` : "";
+  } catch {
+    return "";
+  }
+}
+
 const partnerTypeToMediaKey: Record<string, string> = {
   Malls: "mall",
   Clubs: "club",
@@ -225,6 +272,18 @@ export function PartnerPortal({
   presentationFileUrl = "",
   presentationVersion = "v0.1",
   presentationUpdatedAt = "",
+  brandVideoUrl = "",
+  brandVideoTitle = "Brand Video",
+  brandVideoBody = "Watch the MaMa Zainab brand story and partnership experience before reviewing the deck.",
+  brandOverviewTitle = "Fast-food Mahshi & oriental home-food",
+  brandOverviewBody = "MaMa Zainab is village authenticity at scale: warm, nostalgic, premium-casual Egyptian comfort food founded in Alexandria.",
+  portalBenefitsTitle = "Why the kiosk earns its space",
+  portalBenefitsEyebrow = "Property Partner Benefits",
+  portalCommercialTitle = "Flexible model paths",
+  portalCommercialEyebrow = "Commercial Models",
+  portalLocationsTitle = "Partner-ready rollout points",
+  portalLocationsEyebrow = "Featured Locations",
+  portalSlides = defaultPortalSlides,
   contactPhone = "",
   bookingUrl = "",
   assessmentUrl = "",
@@ -237,8 +296,10 @@ export function PartnerPortal({
   const [isPending, startTransition] = useTransition();
   const router = useRouter();
 
-  const slide = slides[activeSlide];
+  const slides = portalSlides.length > 0 ? portalSlides : defaultPortalSlides;
+  const slide = slides[Math.min(activeSlide, slides.length - 1)] ?? defaultPortalSlides[0];
   const featuredLocations = useMemo(() => locations.slice(0, 6), [locations]);
+  const brandVideoEmbedUrl = getYouTubeEmbedUrl(brandVideoUrl);
   const phoneHref = contactPhone ? `tel:${contactPhone.replace(/[^\d+]/g, "")}` : "";
   const contactHref =
     buildWhatsAppHref(contactPhone, "Hello MaMa Zainab, I would like to discuss a partnership.") ||
@@ -348,7 +409,7 @@ export function PartnerPortal({
         <div className="mx-auto flex max-w-7xl items-center justify-between gap-4">
           <Link href="/coming-soon" className="flex items-center gap-3">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/brand/mark.png" alt="" className="size-8" draggable={false} />
+            <img src="/brand/mark-transparent.png" alt="" className="size-8 rounded-sm bg-white object-contain" draggable={false} />
             <span className="font-[family-name:var(--font-brand)] text-xs tracking-[0.18em]">
               MaMa Zainab
             </span>
@@ -485,7 +546,7 @@ export function PartnerPortal({
                 <div className="mt-10 grid gap-4 md:grid-cols-3">
                   <InfoCard title="Partner Type" value={partnerType} />
                   <InfoCard title="Format" value="Kiosk / Corner" />
-                  <InfoCard title="Action" value={deckReady ? "Deck ready" : "Deck coming soon"} />
+                  <InfoCard title="Deck" value={deckReady ? "Current PDF" : "On request"} />
                 </div>
               </div>
 
@@ -543,12 +604,20 @@ export function PartnerPortal({
       <section className="mx-auto max-w-7xl space-y-5 px-6 pb-12">
         <div className="grid gap-5 lg:grid-cols-3">
           {showBrandOverview && (
-            <PortalCard
-              icon={<Presentation className="size-5" />}
-              eyebrow="Brand Overview"
-              title="Fast-food Mahshi & oriental home-food"
-              body="MaMa Zainab is village authenticity at scale: warm, nostalgic, premium-casual Egyptian comfort food founded in Alexandria."
-            />
+            brandVideoEmbedUrl ? (
+              <BrandVideoCard
+                embedUrl={brandVideoEmbedUrl}
+                title={brandVideoTitle}
+                body={brandVideoBody}
+              />
+            ) : (
+              <PortalCard
+                icon={<Presentation className="size-5" />}
+                eyebrow="Brand Overview"
+                title={brandOverviewTitle}
+                body={brandOverviewBody}
+              />
+            )
           )}
           {showMenu && (
             <PortalCard
@@ -567,8 +636,8 @@ export function PartnerPortal({
               title="Partner Presentation"
               body={
                 deckReady
-                  ? "Download the current partner PDF/PPTX package for client review, meetings, and location conversations."
-                  : "The final partner deck is not published yet. Request a tasting, meeting, or location assessment while the PDF is prepared."
+                  ? "Download the current partner presentation for client review, meetings, and location conversations."
+                  : "Request a tasting, meeting, or location assessment while the presentation is prepared."
               }
               comingSoonAction={!deckReady}
               actionHref={deckHref || undefined}
@@ -586,9 +655,9 @@ export function PartnerPortal({
                 </div>
                 <div>
                   <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-brand-green">
-                    Property Partner Benefits
+                    {portalBenefitsEyebrow}
                   </p>
-                  <h2 className="text-xl font-semibold">Why the kiosk earns its space</h2>
+                  <h2 className="text-xl font-semibold">{portalBenefitsTitle}</h2>
                 </div>
               </div>
               <div className="grid gap-3 sm:grid-cols-2">
@@ -608,9 +677,9 @@ export function PartnerPortal({
                 </div>
                 <div>
                   <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-brand-green">
-                    Commercial Models
+                    {portalCommercialEyebrow}
                   </p>
-                  <h2 className="text-xl font-semibold">Flexible model paths</h2>
+                  <h2 className="text-xl font-semibold">{portalCommercialTitle}</h2>
                 </div>
               </div>
               <div className="space-y-2">
@@ -631,10 +700,10 @@ export function PartnerPortal({
             <div className="mb-6 flex flex-col gap-2 md:flex-row md:items-end md:justify-between">
               <div>
                 <p className="text-[10px] font-bold uppercase tracking-[0.24em] text-brand-green">
-                  Featured Locations
+                  {portalLocationsEyebrow}
                 </p>
                 <h2 className="mt-2 font-[family-name:var(--font-brand)] text-4xl tracking-[0.08em]">
-                  Partner-ready rollout points
+                  {portalLocationsTitle}
                 </h2>
               </div>
               <p className="text-sm font-semibold text-muted-fg">
@@ -1341,6 +1410,38 @@ function PortalCard({
           <ChevronRight className="size-3.5" />
         </a>
       )}
+    </div>
+  );
+}
+
+function BrandVideoCard({
+  embedUrl,
+  title,
+  body,
+}: {
+  embedUrl: string;
+  title: string;
+  body: string;
+}) {
+  return (
+    <div className="overflow-hidden rounded-2xl border border-border-default bg-white shadow-sm lg:col-span-1">
+      <div className="relative aspect-video bg-brand-ink">
+        <iframe
+          src={embedUrl}
+          title={title}
+          className="absolute inset-0 h-full w-full"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          allowFullScreen
+          loading="lazy"
+        />
+      </div>
+      <div className="p-5">
+        <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-brand-green">
+          Brand Video
+        </p>
+        <h3 className="mt-3 text-xl font-semibold leading-tight">{title}</h3>
+        <p className="mt-3 text-sm font-medium leading-6 text-muted-fg">{body}</p>
+      </div>
     </div>
   );
 }
