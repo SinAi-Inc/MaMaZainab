@@ -54,6 +54,9 @@ export async function saveSettings(formData: FormData) {
   await writeSettings(parsed);
   revalidatePath("/settings");
   revalidatePath("/coming-soon");
+  revalidatePath("/menu/preview");
+  revalidatePath("/menu/print");
+  revalidatePath("/partner-portal");
 }
 
 /**

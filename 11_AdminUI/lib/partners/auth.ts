@@ -72,13 +72,14 @@ export async function setPartnerSessionCookie(): Promise<void> {
     secure: process.env.NODE_ENV === "production",
     sameSite: "lax",
     maxAge: PARTNER_MAX_AGE_SECONDS,
-    path: "/partner-portal",
+    path: "/",
   });
 }
 
 export async function clearPartnerSessionCookie(): Promise<void> {
   const jar = await cookies();
-  jar.delete(PARTNER_COOKIE_NAME);
+  jar.set(PARTNER_COOKIE_NAME, "", { maxAge: 0, path: "/" });
+  jar.set(PARTNER_COOKIE_NAME, "", { maxAge: 0, path: "/partner-portal" });
 }
 
 export async function isPartnerPortalAuthenticated(): Promise<boolean> {

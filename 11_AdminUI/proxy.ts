@@ -60,9 +60,48 @@ const SHARED_AUTH_PREFIXES = [
   "/partners",
 ];
 
+const PROTECTED_PUBLIC_ASSET_PREFIXES = [
+  "/brand/",
+  "/uploads/",
+];
+
+const PASS_THROUGH_PUBLIC_FILES = [
+  "/apple-touch-icon.png",
+  "/file.svg",
+  "/globe.svg",
+  "/next.svg",
+  "/vercel.svg",
+  "/window.svg",
+];
+
 function isPublic(pathname: string): boolean {
   if (pathname === "/") return true;
   return PUBLIC_PREFIXES.some((p) => pathname === p || pathname.startsWith(p));
+}
+
+function isProtectedPublicAsset(pathname: string): boolean {
+  return PROTECTED_PUBLIC_ASSET_PREFIXES.some((prefix) => pathname.startsWith(prefix));
+}
+
+function isPassThroughPublicFile(pathname: string): boolean {
+  return pathname.startsWith("/favicon-") || PASS_THROUGH_PUBLIC_FILES.includes(pathname);
+}
+
+function isSameOriginImageRequest(req: NextRequest): boolean {
+  const fetchDest = req.headers.get("sec-fetch-dest");
+  const fetchMode = req.headers.get("sec-fetch-mode");
+  const referer = req.headers.get("referer");
+  if (!referer) return false;
+
+  try {
+    const refererUrl = new URL(referer);
+    return (
+      refererUrl.origin === req.nextUrl.origin &&
+      (fetchDest === "image" || fetchMode === "no-cors")
+    );
+  } catch {
+    return false;
+  }
 }
 
 function isCreative(pathname: string): boolean {
@@ -86,6 +125,13 @@ function isWithinHardSessionLimit(iat: unknown): boolean {
 export async function proxy(req: NextRequest) {
   const { pathname } = req.nextUrl;
 
+  if (isProtectedPublicAsset(pathname)) {
+    return isSameOriginImageRequest(req)
+      ? NextResponse.next()
+      : NextResponse.json({ error: "Forbidden" }, { status: 403 });
+  }
+
+  if (isPassThroughPublicFile(pathname)) return NextResponse.next();
   if (isPublic(pathname)) return NextResponse.next();
   if (isServerActionRequest(req)) return NextResponse.next();
 
@@ -150,5 +196,5 @@ export async function proxy(req: NextRequest) {
 
 export const config = {
   // Run on all paths except static assets
-  matcher: ["/((?!_next/static|_next/image|favicon\\.ico|brand/|uploads/).*)"],
+  matcher: ["/((?!_next/static|_next/image|favicon\\.ico).*)"],
 };

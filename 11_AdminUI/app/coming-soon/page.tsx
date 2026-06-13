@@ -12,11 +12,25 @@ export const metadata: Metadata = {
 
 const LAUNCH_ISO = "2026-09-01T12:00:00+02:00";
 
+function normalizeExternalHref(value: string) {
+  const href = value.trim();
+  if (!href) return "";
+  return /^https?:\/\//i.test(href) ? href : `https://${href}`;
+}
+
 export default async function ComingSoonPage() {
   const settings = await readSettings();
-  const igUrl = settings.socialInstagram || "https://instagram.com/";
-  const ttUrl = settings.socialTiktok || "https://tiktok.com/";
-  const fbUrl = settings.socialFacebook || "https://facebook.com/";
+  const socialLinks = [
+    ["Instagram", settings.socialInstagram],
+    ["TikTok", settings.socialTiktok],
+    ["Facebook", settings.socialFacebook],
+    ["X", settings.socialTwitter],
+    ["YouTube", settings.socialYoutube],
+    ["WhatsApp", settings.socialWhatsapp],
+  ]
+    .map(([label, href]) => [label, normalizeExternalHref(href)] as const)
+    .filter(([, href]) => Boolean(href));
+
   return (
     <main className="min-h-screen bg-brand-green text-white relative overflow-hidden flex flex-col">
       {/* Background plaid - full brightness, matching brand apron */}
@@ -63,12 +77,14 @@ export default async function ComingSoonPage() {
           >
             Partners
           </Link>
-          <Link
-            href="/menu/preview?peek=1"
-            className="px-3 py-1.5 rounded-md bg-white text-brand-ink text-[10px] uppercase tracking-[0.2em] font-semibold hover:bg-white/85 transition"
-          >
-            Sneak Peek 👀
-          </Link>
+          {settings.allowPublicMenu && (
+            <Link
+              href="/menu/preview?peek=1"
+              className="px-3 py-1.5 rounded-md bg-white text-brand-ink text-[10px] uppercase tracking-[0.2em] font-semibold hover:bg-white/85 transition"
+            >
+              Sneak Peek
+            </Link>
+          )}
         </div>
       </header>
 
@@ -107,35 +123,23 @@ export default async function ComingSoonPage() {
 
         <NotifyForm />
 
-        {/* Social links */}
-        <div className="mt-6 flex items-center justify-center gap-3 sm:gap-5 flex-wrap text-[10px] text-white/60">
-          <a
-            href={igUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="hover:text-brand-yellow transition uppercase tracking-[0.2em]"
-          >
-            Instagram
-          </a>
-          <span className="text-white/30">·</span>
-          <a
-            href={ttUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="hover:text-brand-yellow transition uppercase tracking-[0.2em]"
-          >
-            TikTok
-          </a>
-          <span className="text-white/30">·</span>
-          <a
-            href={fbUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="hover:text-brand-yellow transition uppercase tracking-[0.2em]"
-          >
-            Facebook
-          </a>
-        </div>
+        {socialLinks.length > 0 && (
+          <div className="mt-6 flex items-center justify-center gap-3 sm:gap-5 flex-wrap text-[10px] text-white/60">
+            {socialLinks.map(([label, href], index) => (
+              <span key={label} className="inline-flex items-center gap-3 sm:gap-5">
+                {index > 0 && <span className="text-white/30">·</span>}
+                <a
+                  href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-brand-yellow transition uppercase tracking-[0.2em]"
+                >
+                  {label}
+                </a>
+              </span>
+            ))}
+          </div>
+        )}
         </div>
       </section>
 
