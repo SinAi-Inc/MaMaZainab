@@ -20,7 +20,7 @@ export const PartnerSettingsSchema = z.object({
     .default("Authentic Mahshi. Homemade Taste. Fast-Food Speed."),
   presentationFileUrl: z
     .string()
-    .default("/Mama-Zainab-Partners-Presentation.pdf"),
+    .default("/partner-portal/deck"),
   presentationVersion: z.string().default("v0.1"),
   presentationUpdatedAt: z.string().default(""),
   contactEmail: z.string().default("hello@mamazainab.com"),

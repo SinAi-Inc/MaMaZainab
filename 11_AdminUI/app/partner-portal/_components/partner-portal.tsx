@@ -111,10 +111,10 @@ const slides = [
   {
     id: "cta",
     eyebrow: "Next Step",
-    title: "Partner Presentation Coming Soon",
+    title: "Partner Deck Ready for Review",
     body:
-      "Request a tasting session or submit your location for assessment while the final deck is being prepared.",
-    visual: "Final PDF / PPTX holder coming soon",
+      "Download the live partner PDF, then request a tasting session or submit your location for assessment.",
+    visual: "Live partner deck and next actions",
   },
 ];
 
@@ -256,6 +256,8 @@ export function PartnerPortal({
     phoneHref ||
     "#";
   const deckReady = showPresentation && Boolean(presentationFileUrl);
+  const deckHref = deckReady ? "/partner-portal/deck" : "";
+  const activeMediaCount = mediaAssets.filter((asset) => asset.isActive).length;
 
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -355,7 +357,7 @@ export function PartnerPortal({
             {showPresentation && (
               <DeckComingSoonButton
                 label={deckReady ? "Download Deck" : "Deck"}
-                href={deckReady ? presentationFileUrl : undefined}
+                href={deckHref || undefined}
                 className="hidden bg-brand-yellow px-4 py-2 text-brand-ink hover:bg-yellow-300 sm:inline-flex"
               />
             )}
@@ -494,7 +496,10 @@ export function PartnerPortal({
                     slideId={slide.id}
                     visual={slide.visual}
                     partnerType={partnerType}
-                    deckUrl={deckReady ? presentationFileUrl : ""}
+                    deckUrl={deckHref}
+                    deckVersion={presentationVersion}
+                    deckUpdatedAt={presentationUpdatedAt}
+                    activeMediaCount={activeMediaCount}
                     locationsCount={locations.length}
                     locations={locations}
                     asset={getSlideVisualAsset({
@@ -566,8 +571,8 @@ export function PartnerPortal({
                   : "The final partner deck is not published yet. Request a tasting, meeting, or location assessment while the PDF is prepared."
               }
               comingSoonAction={!deckReady}
-              actionHref={deckReady ? presentationFileUrl : undefined}
-              actionLabel={deckReady ? "Download Deck" : "Deck Coming Soon"}
+              actionHref={deckHref || undefined}
+              actionLabel={deckReady ? "Download Deck" : "Deck Unavailable"}
             />
           )}
         </div>
@@ -847,6 +852,9 @@ function SlideVisual({
   visual,
   partnerType,
   deckUrl,
+  deckVersion,
+  deckUpdatedAt,
+  activeMediaCount,
   locationsCount,
   locations,
   asset,
@@ -856,6 +864,9 @@ function SlideVisual({
   visual: string;
   partnerType: string;
   deckUrl: string;
+  deckVersion: string;
+  deckUpdatedAt: string;
+  activeMediaCount: number;
   locationsCount: number;
   locations: PartnerLocation[];
   asset?: BrandMediaAsset;
@@ -871,18 +882,28 @@ function SlideVisual({
       <>
         <div>
           <p className="text-[10px] font-bold uppercase tracking-[0.24em] text-brand-green">
-            Kiosk Hero
+            Live Partner Deck
           </p>
-          <h3 className="mt-3 text-2xl font-semibold leading-tight">{visual}</h3>
+          <h3 className="mt-3 text-2xl font-semibold leading-tight">
+            Presentation visuals are live and partner-ready
+          </h3>
+          <p className="mt-2 text-sm font-medium leading-6 text-muted-fg">
+            Kiosk, brand, rollout, and proof assets now feed the portal deck experience.
+          </p>
         </div>
         <div className="overflow-hidden rounded-xl bg-white shadow-lg">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src={asset?.url || "/brand/partners/kiosk.png"}
             alt={asset?.alt || "MaMa Zainab kiosk render"}
-            className="h-56 w-full object-contain p-3"
+            className="h-44 w-full object-contain p-3"
             draggable={false}
           />
+        </div>
+        <div className="grid grid-cols-3 gap-2">
+          <Metric label="Deck" value={deckVersion || "Live"} />
+          <Metric label="Media" value={String(activeMediaCount)} />
+          <Metric label="Sites" value={String(locationsCount)} />
         </div>
       </>
     );
@@ -1000,12 +1021,23 @@ function SlideVisual({
       <>
         <div>
           <p className="text-[10px] font-bold uppercase tracking-[0.24em] text-brand-green">
-            Deck Coming Soon
+            Deck Download
           </p>
-          <h3 className="mt-3 text-2xl font-semibold leading-tight">{visual}</h3>
+          <h3 className="mt-3 text-2xl font-semibold leading-tight">
+            Partner presentation PDF is live
+          </h3>
+          <p className="mt-2 text-sm font-medium leading-6 text-muted-fg">
+            The download is generated from the current partner portal settings, locations, and media
+            assets each time it is requested.
+          </p>
+        </div>
+        <div className="grid gap-2 rounded-xl bg-white p-4 shadow-sm">
+          <InfoCard title="Version" value={deckVersion || "Live"} />
+          <InfoCard title="Updated" value={deckUpdatedAt || "On request"} />
+          <InfoCard title="Output" value="PDF deck" />
         </div>
         <DeckComingSoonButton
-          label={deckUrl ? "Download Partner Deck" : "Presentation Coming Soon"}
+          label={deckUrl ? "Download Partner Deck" : "Deck Not Enabled"}
           href={deckUrl || undefined}
           className="w-full bg-brand-green px-4 py-4 text-white hover:bg-brand-green-deep"
         />
@@ -1258,7 +1290,7 @@ function DeckComingSoonButton({
           active ? "translate-y-0 opacity-100" : "-translate-y-1 opacity-0"
         }`}
       >
-        Coming soon. The final partner PDF and internal generation tool are not published yet.
+        Partner deck download is not enabled for this portal session yet.
       </span>
     </span>
   );

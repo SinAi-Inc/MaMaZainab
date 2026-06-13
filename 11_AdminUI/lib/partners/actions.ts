@@ -11,7 +11,6 @@ import { checkServerActionRateLimit } from "@/lib/rate-limit";
 import { requireAdminOrCreativeAction } from "@/lib/server-action-auth";
 import { readBranches } from "@/lib/branches/store";
 import { readBrandMedia } from "@/lib/brand-media/store";
-import { uploadBuffer } from "@/lib/upload";
 import {
   readPartnerSettings,
   readStoredPartnerSettings,
@@ -76,14 +75,10 @@ export async function generatePartnerPresentationPdf(): Promise<{ data?: Partner
       mediaAssets: mediaState.assets,
     });
     const today = new Date().toISOString().slice(0, 10);
-    const url = await uploadBuffer({
-      buffer: pdf,
-      filename: `MaMa-Zainab-Partner-Deck-${today}.pdf`,
-      contentType: "application/pdf",
-      subdir: "partner-decks",
-      allowedExts: ["pdf"],
-      maxBytes: 5 * 1024 * 1024,
-    });
+    if (!pdf.subarray(0, 5).equals(Buffer.from("%PDF-"))) {
+      throw new Error("Generated deck is not a PDF");
+    }
+    const url = "/partner-portal/deck";
 
     await writeStoredPartnerSettings({
       ...settings,
