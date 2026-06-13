@@ -61,11 +61,11 @@ export default async function ComingSoonPage() {
         <Link
           href="/coming-soon"
           aria-label="MaMa Zainab home"
-          className="inline-flex h-9 items-center rounded-md bg-white px-3 py-1.5 shadow-sm"
+          className="inline-flex h-9 min-w-[136px] items-center rounded-md border border-white/10 bg-brand-ink/35 px-2.5 py-1.5"
         >
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
-            src="/brand/logo-wordmark-transparent.png"
+            src="/brand/logo-on-dark.png"
             alt="MaMa Zainab"
             className="h-full w-auto max-w-[168px] object-contain"
             draggable={false}

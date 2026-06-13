@@ -390,7 +390,7 @@ export function PartnersAdmin({ branches }: { branches: Branch[] }) {
             <div className="flex flex-wrap items-center justify-between gap-3 rounded-lg border border-border bg-background px-4 py-3 text-sm">
               <span className="min-w-0 truncate text-muted">{settings.presentationFileUrl}</span>
               <a
-                href={settings.presentationFileUrl}
+                href="/partner-portal/deck"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex shrink-0 items-center gap-1.5 text-xs font-semibold text-brand-green hover:underline"
