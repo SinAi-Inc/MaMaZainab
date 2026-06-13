@@ -5,6 +5,7 @@ import { Toaster } from "sonner";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import Script from "next/script";
+import { AssetProtection } from "@/components/asset-protection";
 import "./globals.css";
 
 const siteUrl =
@@ -75,6 +76,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             `,
           }}
         />
+        <AssetProtection />
         {children}
         <Toaster position="top-right" richColors closeButton />
         <Analytics />

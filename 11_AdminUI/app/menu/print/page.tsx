@@ -1,5 +1,7 @@
 import { readMenu } from "@/lib/menu/store";
 import { formatEGP } from "@/lib/utils";
+import { canViewPublicMenu } from "@/lib/menu/access";
+import { PublicMenuUnavailable } from "../_components/public-menu-unavailable";
 import { PrintTrigger, PrintButton } from "./_print-trigger";
 
 export const dynamic = "force-dynamic";
@@ -11,6 +13,10 @@ export const dynamic = "force-dynamic";
  * The Print/PDF button auto-opens the print dialog when this page loads.
  */
 export default async function MenuPrintPage() {
+  if (!(await canViewPublicMenu())) {
+    return <PublicMenuUnavailable />;
+  }
+
   const state = await readMenu();
   const cats = [...state.categories]
     .filter((c) => c.visible)

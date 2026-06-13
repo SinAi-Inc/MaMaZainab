@@ -238,21 +238,6 @@ export function SettingsForm({ settings }: { settings: SettingsType }) {
         </CardBody>
       </Card>
 
-      {/* Runtime Secrets */}
-      <Card>
-        <CardBody>
-          <SectionHeader icon={Plug} title="Runtime Secrets" description="Server-only credentials are managed through environment variables" />
-          <div className="rounded-xl border border-border bg-surface-2 px-4 py-4 text-sm text-muted space-y-2">
-            <p>
-              NVIDIA generation now reads only from the server environment variable <code className="text-[10px] bg-white px-1 rounded">NVIDIA_API_KEY</code>.
-            </p>
-            <p>
-              This key is intentionally not stored in app settings or local JSON files anymore. Configure it in <a href="https://build.nvidia.com" target="_blank" rel="noreferrer noopener" className="underline text-brand-green-deep hover:text-brand-green">build.nvidia.com</a>, then set it in your local or hosting environment.
-            </p>
-          </div>
-        </CardBody>
-      </Card>
-
       {/* Security */}
       <Card>
         <CardBody>

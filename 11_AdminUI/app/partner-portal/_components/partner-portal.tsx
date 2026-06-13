@@ -5,7 +5,6 @@ import { useRouter } from "next/navigation";
 import { useId, useMemo, useState, useTransition } from "react";
 import {
   ArrowLeft,
-  CalendarCheck,
   ChevronRight,
   CheckCircle2,
   Download,
@@ -13,7 +12,6 @@ import {
   Lock,
   MessageCircle,
   Presentation,
-  Store,
   TrendingUp,
   Utensils,
   Users,
@@ -155,6 +153,21 @@ const commercialModels = [
   "Seasonal Activation",
   "90-Day Pilot Kiosk",
 ];
+
+const partnerPortalIdentityAssets = {
+  mamaZainab: {
+    src: "/partner-portal/assets/mama-zainab-final",
+    alt: "MaMa Zainab holding a platter of mahshi with ZuZu",
+  },
+  shengStamp: {
+    src: "/partner-portal/assets/sheng-stamp",
+    alt: "Sheng Heng Wang founder and brand owner stamp",
+  },
+  shengFounder: {
+    src: "/partner-portal/assets/sheng-founder-photo",
+    alt: "Sheng Heng Wang brand owner portrait",
+  },
+};
 
 function buildWhatsAppHref(phone: string, message: string) {
   const digits = phone.replace(/\D/g, "");
@@ -421,6 +434,8 @@ export function PartnerPortal({
         </div>
       </section>
 
+      <PartnerIdentityBand />
+
       {showPresentation && (
         <section className="mx-auto grid max-w-7xl gap-6 px-6 py-10 lg:grid-cols-[280px_1fr]">
           <nav className="rounded-2xl border border-border-default bg-white p-4 shadow-sm">
@@ -657,61 +672,169 @@ export function PartnerPortal({
         </section>
       )}
 
-      <section className="mx-auto max-w-7xl px-6 pb-16">
-        <div className="relative overflow-hidden rounded-2xl bg-brand-ink p-6 text-white shadow-xl md:p-8">
-          <div className="absolute inset-0 plaid opacity-10" />
-          <div className="relative grid gap-6 lg:grid-cols-[1fr_auto] lg:items-center">
-            <div>
-              <p className="text-[10px] font-bold uppercase tracking-[0.24em] text-brand-yellow">
-                Next Step
+      <PartnerPortalFooter
+        assessmentHref={assessmentHref}
+        bookingHref={bookingHref}
+        contactHref={contactHref}
+        phoneHref={phoneHref}
+      />
+    </main>
+  );
+}
+
+function PartnerIdentityBand() {
+  return (
+    <section className="mx-auto max-w-7xl px-6 py-8">
+      <div className="grid overflow-hidden rounded-2xl border border-border-default bg-white shadow-sm lg:grid-cols-[0.85fr_1fr_0.85fr]">
+        <div className="relative min-h-[310px] overflow-hidden bg-brand-green text-white">
+          <div className="absolute inset-0 plaid opacity-25" />
+          <div className="absolute inset-x-6 bottom-6 top-6 rounded-2xl border border-white/20 bg-white/10" />
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={partnerPortalIdentityAssets.mamaZainab.src}
+            alt={partnerPortalIdentityAssets.mamaZainab.alt}
+            className="absolute bottom-0 left-1/2 h-[300px] max-w-none -translate-x-1/2 object-contain sm:h-[340px] lg:h-[360px]"
+            draggable={false}
+          />
+        </div>
+
+        <div className="flex flex-col justify-center p-6 md:p-8">
+          <p className="text-[10px] font-bold uppercase tracking-[0.24em] text-brand-green">
+            Brand Host
+          </p>
+          <h2 className="mt-3 text-2xl font-semibold leading-tight">
+            MaMa Zainab anchors every partner conversation
+          </h2>
+          <p className="mt-4 text-sm font-medium leading-6 text-muted-fg">
+            The portal now carries the core character visual beside the partnership story, connecting
+            location proposals, tasting meetings, and kiosk rollout material to the recognizable brand host.
+          </p>
+          <div className="mt-6 grid gap-3 sm:grid-cols-2">
+            <div className="rounded-lg bg-surface-muted p-4">
+              <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-brand-green">
+                Usage
               </p>
-              <h2 className="mt-3 font-[family-name:var(--font-brand)] text-2xl tracking-[0.08em]">
-                Bring MaMa Zainab to Your Location
-              </h2>
-              <p className="mt-3 max-w-2xl text-sm leading-6 text-white/70">
-                Request a location assessment, book a tasting session, or contact partnerships to discuss the right commercial model.
-              </p>
+              <p className="mt-2 text-sm font-semibold">Partner introductions</p>
             </div>
-            <div className="flex flex-wrap gap-3">
-              <a
-                href={assessmentHref}
-                className="inline-flex items-center gap-2 rounded-lg bg-brand-yellow px-4 py-3 text-xs font-bold uppercase tracking-[0.16em] text-brand-ink transition hover:bg-yellow-300"
-              >
-                <Store className="size-4" />
-                Request Location Assessment
-              </a>
-              <a
-                href={bookingHref}
-                className="inline-flex items-center gap-2 rounded-lg border border-white/20 px-4 py-3 text-xs font-bold uppercase tracking-[0.16em] text-white transition hover:border-brand-yellow hover:text-brand-yellow"
-              >
-                <CalendarCheck className="size-4" />
-                Book Tasting Session
-              </a>
-              <a
-                href={contactHref}
-                className="inline-flex items-center gap-2 rounded-lg border border-white/20 px-4 py-3 text-xs font-bold uppercase tracking-[0.16em] text-white transition hover:border-brand-yellow hover:text-brand-yellow"
-              >
-                <MessageCircle className="size-4" />
-                Contact Partnerships
-              </a>
-              {phoneHref && (
-                <a
-                  href={phoneHref}
-                  className="inline-flex items-center gap-2 rounded-lg border border-white/20 px-4 py-3 text-xs font-bold uppercase tracking-[0.16em] text-white transition hover:border-brand-yellow hover:text-brand-yellow"
-                >
-                  <PhoneIcon />
-                  Phone / WhatsApp
-                </a>
-              )}
+            <div className="rounded-lg bg-surface-muted p-4">
+              <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-brand-green">
+                Context
+              </p>
+              <p className="mt-2 text-sm font-semibold">Brand origin and trust</p>
             </div>
           </div>
         </div>
-      </section>
 
-      <footer className="bg-brand-ink px-6 py-6 text-center text-[10px] uppercase tracking-[0.2em] text-white/50">
-        (c) 2026 MaMa Zainab - Confidential - For Authorized Partners Only
-      </footer>
-    </main>
+        <aside className="border-t border-border-default bg-brand-cream/70 p-6 md:p-8 lg:border-l lg:border-t-0">
+          <p className="text-[10px] font-bold uppercase tracking-[0.24em] text-brand-green">
+            Brand Owner
+          </p>
+          <div className="mt-5 overflow-hidden rounded-xl border border-border-default bg-white shadow-inner">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={partnerPortalIdentityAssets.shengFounder.src}
+              alt={partnerPortalIdentityAssets.shengFounder.alt}
+              className="h-56 w-full object-cover object-top"
+              draggable={false}
+            />
+          </div>
+          <p className="mt-5 text-sm font-medium leading-6 text-muted-fg">
+            Sheng Heng Wang is the founder and brand owner behind the MaMa Zainab partner rollout.
+            The founder seal now appears in the footer where authorization and next-step actions belong.
+          </p>
+        </aside>
+      </div>
+    </section>
+  );
+}
+
+function PartnerPortalFooter({
+  assessmentHref,
+  bookingHref,
+  contactHref,
+  phoneHref,
+}: {
+  assessmentHref: string;
+  bookingHref: string;
+  contactHref: string;
+  phoneHref: string;
+}) {
+  const actions = [
+    { href: assessmentHref, label: "Site Fit", emoji: "📍", primary: true },
+    { href: bookingHref, label: "Tasting", emoji: "🍽️" },
+    { href: contactHref, label: "Partner Chat", emoji: "💬" },
+    ...(phoneHref ? [{ href: phoneHref, label: "Call / WhatsApp", emoji: "☎️" }] : []),
+  ];
+
+  return (
+    <footer className="mx-auto max-w-7xl px-6 pb-10">
+      <div className="relative overflow-hidden rounded-2xl bg-brand-ink text-white shadow-xl">
+        <div className="absolute inset-0 plaid opacity-10" />
+        <div className="relative grid gap-0 lg:grid-cols-[1fr_300px]">
+          <div className="p-6 md:p-8">
+            <p className="text-[10px] font-bold uppercase tracking-[0.24em] text-brand-yellow">
+              Next Step
+            </p>
+            <div className="mt-3 grid gap-5 xl:grid-cols-[0.9fr_1.1fr] xl:items-end">
+              <div>
+                <h2 className="font-[family-name:var(--font-brand)] text-2xl leading-tight tracking-[0.08em] md:text-3xl">
+                  Bring MaMa Zainab to Your Location
+                </h2>
+                <p className="mt-3 max-w-xl text-sm leading-6 text-white/70">
+                  Share the location, book a tasting, or open the commercial conversation with the
+                  partnerships team.
+                </p>
+              </div>
+
+              <div className="grid gap-2 sm:grid-cols-2">
+                {actions.map((action) => (
+                  <a
+                    key={action.label}
+                    href={action.href}
+                    className={`inline-flex min-h-11 items-center justify-center gap-2 rounded-lg px-3 py-2.5 text-[11px] font-bold uppercase tracking-[0.14em] transition ${
+                      action.primary
+                        ? "bg-brand-yellow text-brand-ink hover:bg-yellow-300"
+                        : "border border-white/20 text-white hover:border-brand-yellow hover:text-brand-yellow"
+                    }`}
+                  >
+                    <span aria-hidden="true" className="text-sm leading-none">
+                      {action.emoji}
+                    </span>
+                    {action.label}
+                  </a>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          <aside className="border-t border-white/10 bg-white/[0.06] p-6 md:p-8 lg:border-l lg:border-t-0">
+            <div className="grid gap-4 sm:grid-cols-[112px_1fr] sm:items-center lg:grid-cols-1">
+              <div className="mx-auto flex aspect-square w-28 items-center justify-center rounded-full border border-brand-red/35 bg-brand-cream p-3 shadow-inner">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={partnerPortalIdentityAssets.shengStamp.src}
+                  alt={partnerPortalIdentityAssets.shengStamp.alt}
+                  className="h-full w-full object-contain"
+                  draggable={false}
+                />
+              </div>
+              <div>
+                <p className="text-[10px] font-bold uppercase tracking-[0.24em] text-brand-yellow">
+                  Founder Seal
+                </p>
+                <p className="mt-2 text-sm font-semibold leading-6 text-white/78">
+                  Authorized partner material only. Founder-owned, current, confidential.
+                </p>
+              </div>
+            </div>
+          </aside>
+        </div>
+
+        <div className="relative border-t border-white/10 px-6 py-4 text-center text-[10px] uppercase tracking-[0.2em] text-white/45">
+          (c) 2026 MaMa Zainab - Confidential - For Authorized Partners Only
+        </div>
+      </div>
+    </footer>
   );
 }
 
@@ -909,10 +1032,6 @@ function SlideVisual({
       )}
     </>
   );
-}
-
-function PhoneIcon() {
-  return <MessageCircle className="size-4" />;
 }
 
 const mapFilters = [

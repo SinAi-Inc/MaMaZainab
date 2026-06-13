@@ -1,6 +1,8 @@
 import { readMenu } from "@/lib/menu/store";
 import { Badge } from "@/components/ui/badge";
 import { formatEGP } from "@/lib/utils";
+import { canViewPublicMenu } from "@/lib/menu/access";
+import { PublicMenuUnavailable } from "../_components/public-menu-unavailable";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import type { Metadata } from "next";
@@ -22,6 +24,10 @@ export default async function MenuPreviewPage({
 }: {
   searchParams: Promise<{ peek?: string }>;
 }) {
+  if (!(await canViewPublicMenu())) {
+    return <PublicMenuUnavailable />;
+  }
+
   const { peek } = await searchParams;
   const hidePrices = peek === "1";
   const hitlPreview = !hidePrices;
