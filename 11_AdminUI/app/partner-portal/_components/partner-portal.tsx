@@ -807,9 +807,9 @@ function PartnerPortalFooter({
             </div>
           </div>
 
-          <aside className="border-t border-white/10 bg-white/[0.06] p-6 md:p-8 lg:border-l lg:border-t-0">
-            <div className="grid gap-4 sm:grid-cols-[112px_1fr] sm:items-center lg:grid-cols-1">
-              <div className="mx-auto flex aspect-square w-28 items-center justify-center rounded-full border border-brand-red/35 bg-brand-cream p-3 shadow-inner">
+          <aside className="border-t border-white/10 bg-brand-cream p-5 text-brand-ink md:p-6 lg:border-l lg:border-t-0">
+            <div className="grid gap-4 sm:grid-cols-[150px_1fr] sm:items-center lg:grid-cols-1">
+              <div className="mx-auto flex aspect-square w-36 items-center justify-center rounded-full border border-brand-red/25 bg-white p-3 shadow-inner md:w-40">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={partnerPortalIdentityAssets.shengStamp.src}
@@ -819,11 +819,15 @@ function PartnerPortalFooter({
                 />
               </div>
               <div>
-                <p className="text-[10px] font-bold uppercase tracking-[0.24em] text-brand-yellow">
+                <p className="text-[10px] font-bold uppercase tracking-[0.24em] text-brand-green">
                   Founder Seal
                 </p>
-                <p className="mt-2 text-sm font-semibold leading-6 text-white/78">
-                  Authorized partner material only. Founder-owned, current, confidential.
+                <p className="mt-2 text-sm font-semibold leading-6 text-brand-ink">
+                  Authorized partner material only.
+                </p>
+                <p className="mt-1 text-xs font-medium leading-5 text-muted-fg">
+                  Do not copy, forward, or use outside this portal. Founder-owned, current,
+                  and confidential.
                 </p>
               </div>
             </div>
