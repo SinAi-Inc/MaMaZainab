@@ -39,6 +39,12 @@ function settingsToRow(s: PartnerSettings): Record<string, unknown> {
   return { id: "singleton", ...toSnake(stored as unknown as Record<string, unknown>) };
 }
 
+function getMissingColumn(error: { code?: string; message?: string }) {
+  if (error.code !== "PGRST204") return "";
+  const match = error.message?.match(/'([^']+)' column/);
+  return match?.[1] ?? "";
+}
+
 function rowToSettings(row: Record<string, unknown>): PartnerSettings {
   const camel = toCamel(row) as Record<string, unknown>;
   delete camel.id;
@@ -77,9 +83,33 @@ export async function writeStoredPartnerSettings(settings: PartnerSettings): Pro
   }
 
   const row = settingsToRow(settings);
-  const { error } = await getSupabase()
-    .from("partner_settings")
-    .upsert(row, { onConflict: "id" });
+  const skippedColumns: string[] = [];
+  let error: { code?: string; message: string } | null = null;
+
+  for (let attempt = 0; attempt < 30; attempt += 1) {
+    const result = await getSupabase()
+      .from("partner_settings")
+      .upsert(row, { onConflict: "id" });
+
+    if (!result.error) {
+      if (skippedColumns.length > 0) {
+        console.warn(
+          `[partner_settings upsert] skipped columns missing from Supabase schema cache: ${skippedColumns.join(", ")}`,
+        );
+      }
+      return;
+    }
+
+    const missingColumn = getMissingColumn(result.error);
+    if (!missingColumn || !(missingColumn in row)) {
+      error = result.error;
+      break;
+    }
+
+    delete row[missingColumn];
+    skippedColumns.push(missingColumn);
+  }
+
   if (error) {
     console.error("[partner_settings upsert]", JSON.stringify(error));
     if (

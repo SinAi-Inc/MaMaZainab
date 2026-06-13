@@ -61,6 +61,15 @@ type PartnerPortalProps = {
   portalCommercialEyebrow?: string;
   portalLocationsTitle?: string;
   portalLocationsEyebrow?: string;
+  brandHostEyebrow?: string;
+  brandHostTitle?: string;
+  brandHostBody?: string;
+  brandHostUsageLabel?: string;
+  brandHostUsageValue?: string;
+  brandHostContextLabel?: string;
+  brandHostContextValue?: string;
+  brandOwnerEyebrow?: string;
+  brandOwnerBody?: string;
   portalSlides?: PartnerPortalSlide[];
   contactEmail?: string;
   contactPhone?: string;
@@ -283,6 +292,15 @@ export function PartnerPortal({
   portalCommercialEyebrow = "Commercial Models",
   portalLocationsTitle = "Partner-ready rollout points",
   portalLocationsEyebrow = "Featured Locations",
+  brandHostEyebrow = "Brand Host",
+  brandHostTitle = "The familiar face of village comfort food",
+  brandHostBody = "MaMa Zainab brings warmth, trust, and instant recognition to every partner location, turning a compact kiosk into a memorable local food destination.",
+  brandHostUsageLabel = "Usage",
+  brandHostUsageValue = "Partner introductions",
+  brandHostContextLabel = "Context",
+  brandHostContextValue = "Brand origin and trust",
+  brandOwnerEyebrow = "Brand Owner",
+  brandOwnerBody = "Sheng Heng Wang is the founder and brand owner behind the MaMa Zainab rollout, with the founder seal reserved for authorized partner material.",
   portalSlides = defaultPortalSlides,
   contactPhone = "",
   bookingUrl = "",
@@ -497,7 +515,17 @@ export function PartnerPortal({
         </div>
       </section>
 
-      <PartnerIdentityBand />
+      <PartnerIdentityBand
+        brandHostEyebrow={brandHostEyebrow}
+        brandHostTitle={brandHostTitle}
+        brandHostBody={brandHostBody}
+        brandHostUsageLabel={brandHostUsageLabel}
+        brandHostUsageValue={brandHostUsageValue}
+        brandHostContextLabel={brandHostContextLabel}
+        brandHostContextValue={brandHostContextValue}
+        brandOwnerEyebrow={brandOwnerEyebrow}
+        brandOwnerBody={brandOwnerBody}
+      />
 
       {showPresentation && (
         <section className="mx-auto grid max-w-7xl gap-6 px-6 py-10 lg:grid-cols-[280px_1fr]">
@@ -756,7 +784,27 @@ export function PartnerPortal({
   );
 }
 
-function PartnerIdentityBand() {
+function PartnerIdentityBand({
+  brandHostEyebrow,
+  brandHostTitle,
+  brandHostBody,
+  brandHostUsageLabel,
+  brandHostUsageValue,
+  brandHostContextLabel,
+  brandHostContextValue,
+  brandOwnerEyebrow,
+  brandOwnerBody,
+}: {
+  brandHostEyebrow: string;
+  brandHostTitle: string;
+  brandHostBody: string;
+  brandHostUsageLabel: string;
+  brandHostUsageValue: string;
+  brandHostContextLabel: string;
+  brandHostContextValue: string;
+  brandOwnerEyebrow: string;
+  brandOwnerBody: string;
+}) {
   return (
     <section className="mx-auto max-w-7xl px-6 py-8">
       <div className="grid overflow-hidden rounded-2xl border border-border-default bg-white shadow-sm lg:grid-cols-[0.85fr_1fr_0.85fr]">
@@ -774,34 +822,33 @@ function PartnerIdentityBand() {
 
         <div className="flex flex-col justify-center p-6 md:p-8">
           <p className="text-[10px] font-bold uppercase tracking-[0.24em] text-brand-green">
-            Brand Host
+            {brandHostEyebrow}
           </p>
           <h2 className="mt-3 text-2xl font-semibold leading-tight">
-            MaMa Zainab anchors every partner conversation
+            {brandHostTitle}
           </h2>
           <p className="mt-4 text-sm font-medium leading-6 text-muted-fg">
-            The portal now carries the core character visual beside the partnership story, connecting
-            location proposals, tasting meetings, and kiosk rollout material to the recognizable brand host.
+            {brandHostBody}
           </p>
           <div className="mt-6 grid gap-3 sm:grid-cols-2">
             <div className="rounded-lg bg-surface-muted p-4">
               <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-brand-green">
-                Usage
+                {brandHostUsageLabel}
               </p>
-              <p className="mt-2 text-sm font-semibold">Partner introductions</p>
+              <p className="mt-2 text-sm font-semibold">{brandHostUsageValue}</p>
             </div>
             <div className="rounded-lg bg-surface-muted p-4">
               <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-brand-green">
-                Context
+                {brandHostContextLabel}
               </p>
-              <p className="mt-2 text-sm font-semibold">Brand origin and trust</p>
+              <p className="mt-2 text-sm font-semibold">{brandHostContextValue}</p>
             </div>
           </div>
         </div>
 
         <aside className="border-t border-border-default bg-brand-cream/70 p-6 md:p-8 lg:border-l lg:border-t-0">
           <p className="text-[10px] font-bold uppercase tracking-[0.24em] text-brand-green">
-            Brand Owner
+            {brandOwnerEyebrow}
           </p>
           <div className="mt-5 overflow-hidden rounded-xl border border-border-default bg-white shadow-inner">
             {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -813,8 +860,7 @@ function PartnerIdentityBand() {
             />
           </div>
           <p className="mt-5 text-sm font-medium leading-6 text-muted-fg">
-            Sheng Heng Wang is the founder and brand owner behind the MaMa Zainab partner rollout.
-            The founder seal now appears in the footer where authorization and next-step actions belong.
+            {brandOwnerBody}
           </p>
         </aside>
       </div>

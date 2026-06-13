@@ -91,6 +91,19 @@ export const PartnerSettingsSchema = z.object({
   portalCommercialEyebrow: z.string().default("Commercial Models"),
   portalLocationsTitle: z.string().default("Partner-ready rollout points"),
   portalLocationsEyebrow: z.string().default("Featured Locations"),
+  brandHostEyebrow: z.string().default("Brand Host"),
+  brandHostTitle: z.string().default("The familiar face of village comfort food"),
+  brandHostBody: z
+    .string()
+    .default("MaMa Zainab brings warmth, trust, and instant recognition to every partner location, turning a compact kiosk into a memorable local food destination."),
+  brandHostUsageLabel: z.string().default("Usage"),
+  brandHostUsageValue: z.string().default("Partner introductions"),
+  brandHostContextLabel: z.string().default("Context"),
+  brandHostContextValue: z.string().default("Brand origin and trust"),
+  brandOwnerEyebrow: z.string().default("Brand Owner"),
+  brandOwnerBody: z
+    .string()
+    .default("Sheng Heng Wang is the founder and brand owner behind the MaMa Zainab rollout, with the founder seal reserved for authorized partner material."),
   portalSlides: z.array(PartnerPortalSlideSchema).default(DEFAULT_PARTNER_PORTAL_SLIDES),
   contactEmail: z.string().default("hello@mamazainab.com"),
   contactPhone: z.string().default(""),
