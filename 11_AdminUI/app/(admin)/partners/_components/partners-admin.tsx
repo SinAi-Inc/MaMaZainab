@@ -66,6 +66,15 @@ type TextSettingKey =
   | "portalCommercialEyebrow"
   | "portalLocationsTitle"
   | "portalLocationsEyebrow"
+  | "brandHostEyebrow"
+  | "brandHostTitle"
+  | "brandHostBody"
+  | "brandHostUsageLabel"
+  | "brandHostUsageValue"
+  | "brandHostContextLabel"
+  | "brandHostContextValue"
+  | "brandOwnerEyebrow"
+  | "brandOwnerBody"
   | "contactEmail"
   | "contactPhone"
   | "bookingUrl"
@@ -547,6 +556,67 @@ export function PartnersAdmin({ branches }: { branches: Branch[] }) {
               value={settings.portalLocationsTitle}
               onChange={(value) => updateText("portalLocationsTitle", value)}
             />
+          </div>
+
+          <div className="rounded-xl border border-border bg-background p-4">
+            <h5 className="text-[11px] font-medium uppercase tracking-wider text-muted">
+              Brand Host &amp; Owner
+            </h5>
+            <div className="mt-4 grid gap-4 md:grid-cols-2">
+              <TextField
+                icon={BookOpen}
+                label="Host eyebrow"
+                value={settings.brandHostEyebrow}
+                onChange={(value) => updateText("brandHostEyebrow", value)}
+              />
+              <TextField
+                icon={BookOpen}
+                label="Host headline"
+                value={settings.brandHostTitle}
+                onChange={(value) => updateText("brandHostTitle", value)}
+              />
+              <TextAreaField
+                label="Host body"
+                value={settings.brandHostBody}
+                onChange={(value) => updateText("brandHostBody", value)}
+                className="md:col-span-2"
+              />
+              <TextField
+                icon={FileText}
+                label="Usage label"
+                value={settings.brandHostUsageLabel}
+                onChange={(value) => updateText("brandHostUsageLabel", value)}
+              />
+              <TextField
+                icon={FileText}
+                label="Usage value"
+                value={settings.brandHostUsageValue}
+                onChange={(value) => updateText("brandHostUsageValue", value)}
+              />
+              <TextField
+                icon={FileText}
+                label="Context label"
+                value={settings.brandHostContextLabel}
+                onChange={(value) => updateText("brandHostContextLabel", value)}
+              />
+              <TextField
+                icon={FileText}
+                label="Context value"
+                value={settings.brandHostContextValue}
+                onChange={(value) => updateText("brandHostContextValue", value)}
+              />
+              <TextField
+                icon={Presentation}
+                label="Owner eyebrow"
+                value={settings.brandOwnerEyebrow}
+                onChange={(value) => updateText("brandOwnerEyebrow", value)}
+              />
+              <TextAreaField
+                label="Owner body"
+                value={settings.brandOwnerBody}
+                onChange={(value) => updateText("brandOwnerBody", value)}
+              />
+            </div>
           </div>
 
           <div className="space-y-3">

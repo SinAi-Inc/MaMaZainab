@@ -286,6 +286,15 @@ alter table partner_settings add column if not exists portal_commercial_title te
 alter table partner_settings add column if not exists portal_commercial_eyebrow text not null default 'Commercial Models';
 alter table partner_settings add column if not exists portal_locations_title text not null default 'Partner-ready rollout points';
 alter table partner_settings add column if not exists portal_locations_eyebrow text not null default 'Featured Locations';
+alter table partner_settings add column if not exists brand_host_eyebrow text not null default 'Brand Host';
+alter table partner_settings add column if not exists brand_host_title text not null default 'The familiar face of village comfort food';
+alter table partner_settings add column if not exists brand_host_body text not null default 'MaMa Zainab brings warmth, trust, and instant recognition to every partner location, turning a compact kiosk into a memorable local food destination.';
+alter table partner_settings add column if not exists brand_host_usage_label text not null default 'Usage';
+alter table partner_settings add column if not exists brand_host_usage_value text not null default 'Partner introductions';
+alter table partner_settings add column if not exists brand_host_context_label text not null default 'Context';
+alter table partner_settings add column if not exists brand_host_context_value text not null default 'Brand origin and trust';
+alter table partner_settings add column if not exists brand_owner_eyebrow text not null default 'Brand Owner';
+alter table partner_settings add column if not exists brand_owner_body text not null default 'Sheng Heng Wang is the founder and brand owner behind the MaMa Zainab rollout, with the founder seal reserved for authorized partner material.';
 alter table partner_settings add column if not exists portal_slides jsonb not null default '[
   {"id":"cover","eyebrow":"Partner Opportunity","title":"Bring MaMa Zainab to Your Location","body":"A compact, high-visibility Egyptian comfort-food kiosk built for premium footfall destinations.","visual":"Kiosk hero + Alexandria rollout map"},
   {"id":"brand","eyebrow":"Brand Promise","title":"The Village Way, or Not at All","body":"Authentic Mahshi and oriental home-food, served with homemade warmth and fast-food speed.","visual":"Logo, palette, MaMa Zainab character, pattern system"},
