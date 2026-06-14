@@ -1,5 +1,7 @@
 import Link from "next/link";
 import { Boxes, ChefHat, Trash2, Truck, BookOpen } from "lucide-react";
+import { readInventory } from "@/lib/inventory/store";
+import { buildSmartInventoryAlerts, getKitchenOrders } from "@/lib/inventory/smart";
 import { readMenu } from "@/lib/menu/store";
 import { Card, CardBody } from "@/components/ui/card";
 import { formatEGP } from "@/lib/utils";
@@ -13,24 +15,29 @@ export const dynamic = "force-dynamic";
  *
  * Cost-control engine: inventory, suppliers, recipes, waste, procurement.
  *
- * Wired live: Menu (catalog + pricing).
- * Scaffold:   Inventory, Suppliers, Recipes, Waste tracking.
+ * Wired live: Menu, inventory, recipe deduction, kitchen order age.
+ * Scaffold:   Suppliers, waste tracking, procurement automation.
  */
 
 const MODULES = [
-  { id: "inventory", name: "Inventory", icon: Boxes, note: "Stock levels per kiosk + central warehouse" },
-  { id: "suppliers", name: "Suppliers", icon: Truck, note: "Vendor catalog, lead times, pricing" },
-  { id: "recipes", name: "Recipes & BOM", icon: BookOpen, note: "Per-item ingredient costs + yield" },
-  { id: "waste", name: "Waste Tracking", icon: Trash2, note: "Spoilage, returns, comp tracking" },
-  { id: "procurement", name: "Procurement", icon: ChefHat, note: "Auto-reorder rules + PO generation" },
+  { id: "inventory", name: "Inventory", icon: Boxes, note: "Stock levels, par pressure, movement ledger", status: "Live" },
+  { id: "recipes", name: "Recipes & BOM", icon: BookOpen, note: "Order-based ingredient and packaging deduction", status: "Live" },
+  { id: "kitchen", name: "Kitchen Age", icon: ChefHat, note: "Order target minutes and late prep signals", status: "Live" },
+  { id: "suppliers", name: "Suppliers", icon: Truck, note: "Vendor catalog, lead times, pricing", status: "Soon" },
+  { id: "waste", name: "Waste Tracking", icon: Trash2, note: "Spoilage, returns, comp tracking", status: "Signal" },
+  { id: "procurement", name: "Procurement", icon: ChefHat, note: "Auto-reorder rules + PO generation", status: "Signal" },
 ] as const;
 
 export default async function OperationsPage() {
-  const menu = await readMenu();
+  const [menu, inventory] = await Promise.all([readMenu(), readInventory()]);
   const allItems = menu.items;
   const available = allItems.filter((i) => i.available).length;
   const totalCats = menu.categories.length;
-  const visibleCats = menu.categories.filter((c) => c.visible).length;
+  const activeSkus = inventory.items.filter((item) => item.isActive);
+  const lowItems = activeSkus.filter((item) => item.reorderPoint > 0 && item.onHand <= item.reorderPoint);
+  const kitchenOrders = getKitchenOrders(inventory.movements);
+  const lateOrders = kitchenOrders.filter((order) => order.status === "late");
+  const smartAlerts = buildSmartInventoryAlerts(inventory, menu);
 
   const prices = allItems.filter((i) => i.priceEgp > 0).map((i) => i.priceEgp);
   const avgPrice = prices.length ? prices.reduce((a, b) => a + b, 0) / prices.length : 0;
@@ -58,11 +65,15 @@ export default async function OperationsPage() {
       cta: "Add photos",
     });
   }
-  decisions.push({
-    id: "inventory-coming",
-    severity: "info",
-    title: "Inventory tracking not yet enabled",
-    detail: "Recipes + ingredient costs are required for waste and profitability analysis.",
+  smartAlerts.forEach((alert) => {
+    decisions.push({
+      id: alert.id,
+      severity: alert.severity,
+      title: alert.title,
+      detail: alert.detail,
+      href: alert.href,
+      cta: alert.href ? "Open inventory" : undefined,
+    });
   });
 
   return (
@@ -85,9 +96,10 @@ export default async function OperationsPage() {
       <section className="grid grid-cols-2 gap-3 md:grid-cols-5">
         <KpiTile label="Total Items" value={allItems.length} accent="ink" />
         <KpiTile label="Available" value={available} accent="green" />
-        <KpiTile label="Categories" value={`${visibleCats}/${totalCats}`} hint="visible / total" />
+        <KpiTile label="Inventory SKUs" value={activeSkus.length} accent="blue" />
+        <KpiTile label="Low Stock" value={lowItems.length} accent={lowItems.length ? "red" : "green"} />
+        <KpiTile label="Kitchen Late" value={lateOrders.length} accent={lateOrders.length ? "red" : "green"} />
         <KpiTile label="Avg Price" value={avgPrice ? formatEGP(avgPrice) : "—"} accent="blue" />
-        <KpiTile label="Missing Px" value={noPhoto} accent={noPhoto ? "red" : "green"} hint="photos" />
       </section>
 
       {/* Modules grid */}
@@ -128,8 +140,11 @@ export default async function OperationsPage() {
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center justify-between gap-2">
                       <p className="font-semibold text-brand-ink">{m.name}</p>
-                      <span className="rounded-full bg-zinc-100 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-zinc-600">
-                        Soon
+                      <span className={m.status === "Live"
+                        ? "rounded-full bg-emerald-100 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-emerald-700"
+                        : "rounded-full bg-zinc-100 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-zinc-600"}
+                      >
+                        {m.status}
                       </span>
                     </div>
                     <p className="mt-0.5 text-xs text-muted">{m.note}</p>
