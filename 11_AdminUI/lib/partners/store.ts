@@ -3,9 +3,11 @@ import path from "node:path";
 import { isSupabaseConfigured, getSupabase } from "@/lib/supabase";
 import { toSnake, toCamel } from "@/lib/case";
 import { PartnerSettingsSchema, type PartnerSettings } from "./schema";
+import { readBrandMedia } from "@/lib/brand-media/store";
 
 const FILE = path.join(process.cwd(), "data", "partners.json");
 const DATA_DIR = path.join(process.cwd(), "data");
+export const BRAND_VIDEO_MEDIA_ASSET_ID = "asset_partner_brand_video";
 
 
 
@@ -68,7 +70,17 @@ export async function readStoredPartnerSettings(): Promise<PartnerSettings> {
 
 export async function readPartnerSettings(): Promise<PartnerSettings> {
   const settings = await readStoredPartnerSettings();
-  return withPublicPasscodeState(settings);
+  const media = await readBrandMedia();
+  const brandVideo = media.assets.find(
+    (asset) => asset.id === BRAND_VIDEO_MEDIA_ASSET_ID && asset.isActive,
+  );
+
+  return withPublicPasscodeState({
+    ...settings,
+    brandVideoUrl: settings.brandVideoUrl || brandVideo?.url || "",
+    brandVideoTitle: settings.brandVideoTitle || brandVideo?.title || "Brand Video",
+    brandVideoBody: settings.brandVideoBody || brandVideo?.description || "",
+  });
 }
 
 export async function writeStoredPartnerSettings(settings: PartnerSettings): Promise<void> {
