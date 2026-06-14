@@ -10,8 +10,9 @@ import {
 import { checkServerActionRateLimit } from "@/lib/rate-limit";
 import { requireAdminOrCreativeAction } from "@/lib/server-action-auth";
 import { readBranches } from "@/lib/branches/store";
-import { readBrandMedia } from "@/lib/brand-media/store";
+import { readBrandMedia, writeBrandMediaAsset } from "@/lib/brand-media/store";
 import {
+  BRAND_VIDEO_MEDIA_ASSET_ID,
   readPartnerSettings,
   readStoredPartnerSettings,
   writeStoredPartnerSettings,
@@ -71,6 +72,28 @@ export async function updatePartnerSettings(
       assessmentUrl: settings.assessmentUrl,
       passcode: trimmedPasscode ? hashPartnerPasscode(trimmedPasscode) : current.passcode,
       passcodeConfigured: false,
+    });
+
+    const timestamp = new Date().toISOString();
+    const trimmedBrandVideoUrl = settings.brandVideoUrl.trim();
+    const currentBrandVideo = (await readBrandMedia()).assets.find(
+      (asset) => asset.id === BRAND_VIDEO_MEDIA_ASSET_ID,
+    );
+    await writeBrandMediaAsset({
+      id: BRAND_VIDEO_MEDIA_ASSET_ID,
+      title: settings.brandVideoTitle || "Brand Video",
+      description: settings.brandVideoBody,
+      url: trimmedBrandVideoUrl || currentBrandVideo?.url || "https://www.youtube.com/",
+      thumbnailUrl: "",
+      alt: settings.brandVideoTitle || "MaMa Zainab brand video",
+      category: "partner_presentation",
+      usage: "brand_overview",
+      partnerType: "",
+      slideId: "brand",
+      isActive: Boolean(trimmedBrandVideoUrl),
+      sortOrder: 15,
+      createdAt: timestamp,
+      updatedAt: timestamp,
     });
 
     const data = await readPartnerSettings();
