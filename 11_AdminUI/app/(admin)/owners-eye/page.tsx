@@ -4,6 +4,8 @@ import { readBranches } from "@/lib/branches/store";
 import { readCharacters } from "@/lib/characters/store";
 import { readContacts } from "@/lib/contacts/store";
 import { readGenerations } from "@/lib/generations/store";
+import { readInventory } from "@/lib/inventory/store";
+import { buildSmartInventoryAlerts, getKitchenOrders } from "@/lib/inventory/smart";
 import { LayerCard } from "./_components/layer-card";
 import { DecisionSurface, type DecisionItem } from "./_components/decision-surface";
 
@@ -24,12 +26,13 @@ export const dynamic = "force-dynamic";
  * Every layer card pulls live counts from the existing data stores.
  */
 export default async function OwnersEyeHubPage() {
-  const [menu, branches, characters, contacts, generations] = await Promise.all([
+  const [menu, branches, characters, contacts, generations, inventory] = await Promise.all([
     readMenu(),
     readBranches(),
     readCharacters(),
     readContacts(),
     readGenerations(),
+    readInventory(),
   ]);
 
   
@@ -40,7 +43,11 @@ export default async function OwnersEyeHubPage() {
   const availableItems = menu.items.filter((i) => i.available).length;
   const itemsMissingPrice = menu.items.filter((i) => !i.priceEgp).length;
   const itemsMissingPhoto = menu.items.filter((i) => !i.imageUrl).length;
-  const visibleCategories = menu.categories.filter((c) => c.visible).length;
+  const activeSkus = inventory.items.filter((item) => item.isActive);
+  const lowSkus = activeSkus.filter((item) => item.reorderPoint > 0 && item.onHand <= item.reorderPoint);
+  const kitchenOrders = getKitchenOrders(inventory.movements);
+  const lateKitchenOrders = kitchenOrders.filter((order) => order.status === "late");
+  const inventoryAlerts = buildSmartInventoryAlerts(inventory, menu).filter((alert) => alert.id !== "inventory-clear");
 
   const subscribers = contacts.contacts.length;
   const activeChars = characters.characters.filter((c) => c.active).length;
@@ -111,6 +118,16 @@ export default async function OwnersEyeHubPage() {
       cta: "Review",
     });
   }
+  inventoryAlerts.forEach((alert) => {
+    decisions.push({
+      id: `inventory-${alert.id}`,
+      severity: alert.severity,
+      title: alert.title,
+      detail: alert.detail,
+      href: alert.href,
+      cta: alert.href ? "Open" : undefined,
+    });
+  });
 
   return (
     <div className="space-y-8">
@@ -163,11 +180,11 @@ export default async function OwnersEyeHubPage() {
             href="/owners-eye/operations"
             icon={Boxes}
             accent="yellow"
-            status="scaffold"
+            status="live"
             metrics={[
-              { label: "Menu Items", value: availableItems },
-              { label: "Categories", value: visibleCategories },
-              { label: "Missing Px", value: itemsMissingPhoto },
+              { label: "Live SKUs", value: activeSkus.length },
+              { label: "Low Stock", value: lowSkus.length },
+              { label: "Kitchen Late", value: lateKitchenOrders.length },
             ]}
           />
 
@@ -178,11 +195,11 @@ export default async function OwnersEyeHubPage() {
             href="/owners-eye/intelligence"
             icon={Brain}
             accent="blue"
-            status="scaffold"
+            status={inventoryAlerts.length > 0 || totalGenerations > 0 ? "live" : "scaffold"}
             metrics={[
               { label: "Generations", value: totalGenerations },
+              { label: "Smart Alerts", value: inventoryAlerts.length },
               { label: "Failed", value: failedGenerations },
-              { label: "Models", value: 2 },
             ]}
           />
 

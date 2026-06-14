@@ -1,6 +1,8 @@
 import { Store, ScanLine, Smartphone, Truck, MonitorPlay } from "lucide-react";
 import { readBranches } from "@/lib/branches/store";
 import { STATUS_META } from "@/lib/branches/schema";
+import { readInventory } from "@/lib/inventory/store";
+import { getKitchenOrders } from "@/lib/inventory/smart";
 import { Card, CardBody } from "@/components/ui/card";
 import Link from "next/link";
 import { KpiTile } from "../_components/kpi-tile";
@@ -18,27 +20,29 @@ export const dynamic = "force-dynamic";
  * Modules (status tracked in MODULE_GRID):
  *   - POS               - coming
  *   - Self-Order Kiosk  - coming
- *   - Kitchen Display   - coming
+ *   - Kitchen Display   - live order-age signal
  *   - Waiter App        - coming
  *   - Delivery routing  - coming
  *
- * Wired live: Branches/Kiosks (already shipped at /branches).
+ * Wired live: Branches/Kiosks and kitchen order-age signals.
  */
 
 const MODULES = [
   { id: "pos", name: "POS Terminal", icon: ScanLine, status: "soon", note: "Cashier-side checkout" },
   { id: "kiosk", name: "Self-Order Kiosk", icon: MonitorPlay, status: "soon", note: "Customer-facing kiosk UI" },
-  { id: "kds", name: "Kitchen Display", icon: MonitorPlay, status: "soon", note: "Order routing to kitchen" },
+  { id: "kds", name: "Kitchen Display", icon: MonitorPlay, status: "live", note: "Kitchen order age and target alerts" },
   { id: "waiter", name: "Waiter App", icon: Smartphone, status: "soon", note: "Table mgmt (post-MVP)" },
   { id: "delivery", name: "Delivery Routing", icon: Truck, status: "soon", note: "Dispatch + tracking" },
 ] as const;
 
 export default async function FrontlinePage() {
-  const branches = await readBranches();
+  const [branches, inventory] = await Promise.all([readBranches(), readInventory()]);
   const total = branches.branches.length;
   const active = branches.branches.filter((b) => b.status === "active").length;
   const construction = branches.branches.filter((b) => b.status === "construction").length;
   const paused = branches.branches.filter((b) => b.status === "paused").length;
+  const kitchenOrders = getKitchenOrders(inventory.movements);
+  const lateKitchenOrders = kitchenOrders.filter((order) => order.status === "late").length;
 
   const decisions: DecisionItem[] = [];
   if (active === 0) {
@@ -81,11 +85,12 @@ export default async function FrontlinePage() {
       </header>
 
       {/* KPIs */}
-      <section className="grid grid-cols-2 gap-3 md:grid-cols-4">
+      <section className="grid grid-cols-2 gap-3 md:grid-cols-5">
         <KpiTile label="Total Sites" value={total} accent="ink" />
         <KpiTile label="Active" value={active} accent="green" hint="Live revenue" />
         <KpiTile label="In Build" value={construction} accent="yellow" hint="Pre-launch" />
         <KpiTile label="Paused" value={paused} accent="red" hint="Temporarily off" />
+        <KpiTile label="Kitchen Late" value={lateKitchenOrders} accent={lateKitchenOrders ? "red" : "green"} />
       </section>
 
       {/* Branches table */}
@@ -151,7 +156,7 @@ export default async function FrontlinePage() {
         </Card>
       </section>
 
-      {/* Modules grid (scaffold placeholders) */}
+      {/* Modules grid */}
       <section>
         <h3 className="mb-3 text-sm font-bold uppercase tracking-[0.16em] text-brand-ink">
           Frontline Modules
@@ -168,8 +173,11 @@ export default async function FrontlinePage() {
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center justify-between gap-2">
                       <p className="font-semibold text-brand-ink">{m.name}</p>
-                      <span className="rounded-full bg-zinc-100 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-zinc-600">
-                        Soon
+                      <span className={m.status === "live"
+                        ? "rounded-full bg-emerald-100 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-emerald-700"
+                        : "rounded-full bg-zinc-100 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-zinc-600"}
+                      >
+                        {m.status === "live" ? "Live" : "Soon"}
                       </span>
                     </div>
                     <p className="mt-0.5 text-xs text-muted">{m.note}</p>
