@@ -1,6 +1,7 @@
 import { Boxes, ClipboardList, PackageCheck, TriangleAlert } from "lucide-react";
 import { readInventory } from "@/lib/inventory/store";
 import { readMenu } from "@/lib/menu/store";
+import { buildSmartInventoryAlerts, getKitchenOrders } from "@/lib/inventory/smart";
 import { Card, CardBody } from "@/components/ui/card";
 import { InventoryControlPanel } from "./_components/inventory-control-panel";
 
@@ -11,6 +12,8 @@ export default async function InventoryPage() {
   const activeItems = inventory.items.filter((item) => item.isActive);
   const lowItems = activeItems.filter((item) => item.reorderPoint > 0 && item.onHand <= item.reorderPoint);
   const inventoryValue = activeItems.reduce((sum, item) => sum + item.onHand * item.unitCostEgp, 0);
+  const smartAlerts = buildSmartInventoryAlerts(inventory, menu);
+  const kitchenOrders = getKitchenOrders(inventory.movements);
 
   return (
     <div className="space-y-6">
@@ -38,6 +41,8 @@ export default async function InventoryPage() {
         items={inventory.items}
         movements={inventory.movements}
         menuItems={menu.items}
+        smartAlerts={smartAlerts}
+        kitchenOrders={kitchenOrders}
       />
     </div>
   );

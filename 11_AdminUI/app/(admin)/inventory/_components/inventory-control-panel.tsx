@@ -8,6 +8,7 @@ import {
   ArrowUpCircle,
   CheckCircle2,
   ClipboardCheck,
+  ChefHat,
   Pencil,
   Plus,
   Printer,
@@ -25,9 +26,15 @@ import { cn } from "@/lib/utils";
 import {
   adjustInventoryStock,
   createInventoryItem,
+  recordKitchenOrder,
   toggleInventoryItemActive,
   updateInventoryItem,
 } from "@/lib/inventory/actions";
+import {
+  buildRecipeForMenuItem,
+  type KitchenOrderSummary,
+  type SmartInventoryAlert,
+} from "@/lib/inventory/smart";
 import {
   INVENTORY_CATEGORY_META,
   INVENTORY_MOVEMENT_META,
@@ -200,10 +207,14 @@ export function InventoryControlPanel({
   items,
   movements,
   menuItems,
+  smartAlerts,
+  kitchenOrders,
 }: {
   items: InventoryItem[];
   movements: InventoryMovement[];
   menuItems: MenuItem[];
+  smartAlerts: SmartInventoryAlert[];
+  kitchenOrders: KitchenOrderSummary[];
 }) {
   const router = useRouter();
   const [draft, setDraft] = useState<ItemDraft>(() => emptyDraft());
@@ -214,6 +225,9 @@ export function InventoryControlPanel({
   const [movementType, setMovementType] = useState<InventoryMovementType>("receive");
   const [quantity, setQuantity] = useState("");
   const [note, setNote] = useState("");
+  const [orderMenuItemId, setOrderMenuItemId] = useState(menuItems.find((item) => item.available)?.id ?? menuItems[0]?.id ?? "");
+  const [orderQty, setOrderQty] = useState("1");
+  const [orderTargetMinutes, setOrderTargetMinutes] = useState("12");
   const [message, setMessage] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [isPending, startTransition] = useTransition();
@@ -248,6 +262,8 @@ export function InventoryControlPanel({
   const selectedValue = selectedItems.reduce((sum, item) => sum + item.onHand * item.unitCostEgp, 0);
   const visibleIds = filteredItems.map((item) => item.id);
   const allVisibleSelected = visibleIds.length > 0 && visibleIds.every((id) => selectedIds.includes(id));
+  const selectedOrderMenuItem = menuItems.find((item) => item.id === orderMenuItemId);
+  const selectedOrderRecipe = selectedOrderMenuItem ? buildRecipeForMenuItem(selectedOrderMenuItem, items) : [];
 
   useEffect(() => {
     const validIds = new Set(items.map((item) => item.id));
@@ -352,6 +368,24 @@ export function InventoryControlPanel({
     });
   }
 
+  function submitKitchenOrder() {
+    setError(null);
+    setMessage(null);
+    startTransition(async () => {
+      try {
+        const result = await recordKitchenOrder({
+          menuItemId: orderMenuItemId,
+          quantity: Number(orderQty) || 1,
+          targetMinutes: Number(orderTargetMinutes) || 12,
+        });
+        setMessage(`Kitchen order ${result.orderId} recorded and inventory deducted.`);
+        router.refresh();
+      } catch (err) {
+        setError(err instanceof Error ? err.message : String(err));
+      }
+    });
+  }
+
   function toggleActive(id: string) {
     setError(null);
     setMessage(null);
@@ -379,6 +413,63 @@ export function InventoryControlPanel({
             {error || message}
           </div>
         )}
+
+        <Card>
+          <CardHeader>
+            <h3 className="text-sm font-semibold">Smart Operations Feed</h3>
+            <p className="mt-0.5 text-xs text-muted">
+              Auto-deductions, stock risk, recipe coverage, and kitchen age tracking.
+            </p>
+          </CardHeader>
+          <CardBody className="grid gap-3 lg:grid-cols-[1fr_0.9fr]">
+            <div className="space-y-2">
+              {smartAlerts.map((alert) => (
+                <div
+                  key={alert.id}
+                  className={cn(
+                    "rounded-lg border px-3 py-2 text-sm",
+                    alert.severity === "critical"
+                      ? "border-red-200 bg-red-50 text-red-700"
+                      : alert.severity === "warning"
+                        ? "border-amber-200 bg-amber-50 text-amber-800"
+                        : "border-brand-green/20 bg-brand-green/5 text-brand-green-deep",
+                  )}
+                >
+                  <p className="font-semibold">{alert.title}</p>
+                  <p className="mt-0.5 text-xs opacity-80">{alert.detail}</p>
+                </div>
+              ))}
+            </div>
+            <div className="space-y-2">
+              <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-muted">Kitchen Age</p>
+              {kitchenOrders.slice(0, 5).map((order) => (
+                <div key={order.orderId} className="flex items-center justify-between rounded-lg border border-border bg-white px-3 py-2 text-sm">
+                  <div>
+                    <p className="font-medium">{order.menuItemName}</p>
+                    <p className="text-xs text-muted">x{order.quantity} · target {order.targetMinutes} min</p>
+                  </div>
+                  <span
+                    className={cn(
+                      "rounded-full px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider",
+                      order.status === "late"
+                        ? "bg-red-100 text-red-700"
+                        : order.status === "watch"
+                          ? "bg-amber-100 text-amber-800"
+                          : "bg-emerald-100 text-emerald-700",
+                    )}
+                  >
+                    {order.ageMinutes} min
+                  </span>
+                </div>
+              ))}
+              {kitchenOrders.length === 0 && (
+                <p className="rounded-lg border border-border bg-white px-3 py-6 text-center text-sm text-muted">
+                  No kitchen orders recorded yet.
+                </p>
+              )}
+            </div>
+          </CardBody>
+        </Card>
 
         <Card>
           <CardHeader className="flex flex-wrap items-center justify-between gap-3">
@@ -664,6 +755,79 @@ export function InventoryControlPanel({
                 New
               </Button>
             </div>
+          </CardBody>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <h3 className="text-sm font-semibold">Kitchen Order</h3>
+            <p className="mt-0.5 text-xs text-muted">
+              Deduct recipe stock and start an order age signal.
+            </p>
+          </CardHeader>
+          <CardBody className="space-y-3">
+            <div>
+              <Label>Menu item</Label>
+              <select
+                value={orderMenuItemId}
+                onChange={(event) => setOrderMenuItemId(event.target.value)}
+                className="h-10 w-full rounded-md border border-border-strong bg-white px-3 text-sm outline-none focus:border-brand-green"
+              >
+                {menuItems.filter((item) => item.available).map((item) => (
+                  <option key={item.id} value={item.id}>{item.nameEn}</option>
+                ))}
+              </select>
+            </div>
+            <div className="grid grid-cols-2 gap-3">
+              <div>
+                <Label>Quantity</Label>
+                <Input
+                  type="number"
+                  min="1"
+                  value={orderQty}
+                  onChange={(event) => setOrderQty(event.target.value)}
+                />
+              </div>
+              <div>
+                <Label>Target min</Label>
+                <Input
+                  type="number"
+                  min="1"
+                  value={orderTargetMinutes}
+                  onChange={(event) => setOrderTargetMinutes(event.target.value)}
+                />
+              </div>
+            </div>
+            <div className="rounded-lg border border-border bg-surface px-3 py-2">
+              <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-muted">Recipe deduction</p>
+              <div className="mt-2 space-y-1.5">
+                {selectedOrderRecipe.map((ingredient) => {
+                  const needed = ingredient.quantity * (Number(orderQty) || 1);
+                  const isShort = ingredient.availableQty < needed;
+                  return (
+                    <div key={ingredient.itemId} className="flex items-center justify-between gap-3 text-xs">
+                      <span className="min-w-0 truncate font-medium text-brand-ink">{ingredient.itemName}</span>
+                      <span className={cn("shrink-0 tabular-nums", isShort ? "text-red-600" : "text-muted")}>
+                        {needed.toLocaleString()} / {ingredient.availableQty.toLocaleString()} {ingredient.unit}
+                      </span>
+                    </div>
+                  );
+                })}
+                {selectedOrderRecipe.length === 0 && (
+                  <p className="py-2 text-xs text-amber-700">
+                    No recipe mapping found. Link inventory SKUs to this menu item, or add ingredient names to stock notes.
+                  </p>
+                )}
+              </div>
+            </div>
+            <Button
+              type="button"
+              onClick={submitKitchenOrder}
+              disabled={isPending || !orderMenuItemId || selectedOrderRecipe.length === 0}
+            >
+              <ChefHat className="size-4" />
+              Record Order
+            </Button>
           </CardBody>
         </Card>
 

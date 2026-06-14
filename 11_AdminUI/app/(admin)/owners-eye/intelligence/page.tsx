@@ -1,6 +1,8 @@
 import Link from "next/link";
 import { Brain, TrendingUp, AlertTriangle, Sparkles, BarChart3, Zap } from "lucide-react";
 import { readGenerations } from "@/lib/generations/store";
+import { readInventory } from "@/lib/inventory/store";
+import { buildSmartInventoryAlerts, getKitchenOrders } from "@/lib/inventory/smart";
 import { readMenu } from "@/lib/menu/store";
 import { Card, CardBody } from "@/components/ui/card";
 import { KpiTile } from "../_components/kpi-tile";
@@ -14,25 +16,28 @@ export const dynamic = "force-dynamic";
  * AI-native predictive operations layer. Per the inspiration doc:
  * "Move from reporting → autonomous operational intelligence."
  *
- * Wired live: Studio generations (NVIDIA NIM via Studio).
- * Scaffold:   Demand forecasting, anomaly detection, profitability AI,
- *             menu engineering, dynamic pricing.
+ * Wired live: Studio generations, inventory alerts, kitchen order age.
+ * Scaffold:   Demand forecasting, profitability AI, dynamic pricing.
  */
 
 const MODULES = [
-  { id: "forecast", name: "Demand Forecasting", icon: TrendingUp, note: "Predict per-item sales by hour/day/season" },
-  { id: "anomaly", name: "Anomaly Detection", icon: AlertTriangle, note: "Refund spikes, voids, off-pattern transactions" },
-  { id: "profitability", name: "Menu Engineering", icon: BarChart3, note: "Star / plow-horse / dog / puzzle classification" },
-  { id: "dynamic-pricing", name: "Dynamic Pricing", icon: Zap, note: "Time-of-day / load-based price suggestions" },
-  { id: "staff-optimizer", name: "Staffing Optimizer", icon: Sparkles, note: "Predicted footfall vs. roster" },
+  { id: "anomaly", name: "Operational Anomalies", icon: AlertTriangle, note: "Low stock, recipe coverage, late kitchen orders", status: "Live" },
+  { id: "forecast", name: "Demand Forecasting", icon: TrendingUp, note: "Predict per-item sales by hour/day/season", status: "Signal" },
+  { id: "profitability", name: "Menu Engineering", icon: BarChart3, note: "Star / plow-horse / dog / puzzle classification", status: "Signal" },
+  { id: "dynamic-pricing", name: "Dynamic Pricing", icon: Zap, note: "Time-of-day / load-based price suggestions", status: "Soon" },
+  { id: "staff-optimizer", name: "Staffing Optimizer", icon: Sparkles, note: "Predicted footfall vs. roster", status: "Soon" },
 ] as const;
 
 export default async function IntelligencePage() {
-  const [gens, menu] = await Promise.all([readGenerations(), readMenu()]);
+  const [gens, menu, inventory] = await Promise.all([readGenerations(), readMenu(), readInventory()]);
   const total = gens.entries.length;
   const completed = gens.entries.filter((g) => g.status === "completed").length;
   const failed = gens.entries.filter((g) => g.status === "failed").length;
   const recent = gens.entries.slice(0, 5);
+  const smartAlerts = buildSmartInventoryAlerts(inventory, menu);
+  const actionableAlerts = smartAlerts.filter((alert) => alert.id !== "inventory-clear");
+  const kitchenOrders = getKitchenOrders(inventory.movements);
+  const lateKitchenOrders = kitchenOrders.filter((order) => order.status === "late");
 
   const decisions: DecisionItem[] = [];
   if (failed > 0) {
@@ -45,6 +50,16 @@ export default async function IntelligencePage() {
       cta: "Review",
     });
   }
+  actionableAlerts.forEach((alert) => {
+    decisions.push({
+      id: `smart-${alert.id}`,
+      severity: alert.severity,
+      title: alert.title,
+      detail: alert.detail,
+      href: alert.href,
+      cta: alert.href ? "Open inventory" : undefined,
+    });
+  });
   if (menu.items.length > 0) {
     decisions.push({
       id: "no-sales-data",
@@ -70,11 +85,12 @@ export default async function IntelligencePage() {
       </header>
 
       {/* KPIs */}
-      <section className="grid grid-cols-2 gap-3 md:grid-cols-4">
+      <section className="grid grid-cols-2 gap-3 md:grid-cols-5">
         <KpiTile label="AI Generations" value={total} accent="blue" />
         <KpiTile label="Completed" value={completed} accent="green" />
         <KpiTile label="Failed" value={failed} accent={failed ? "red" : "ink"} />
-        <KpiTile label="Models Active" value={2} hint="image + video" />
+        <KpiTile label="Smart Alerts" value={actionableAlerts.length} accent={actionableAlerts.length ? "red" : "green"} />
+        <KpiTile label="Kitchen Late" value={lateKitchenOrders.length} accent={lateKitchenOrders.length ? "red" : "green"} />
       </section>
 
       {/* Live: Studio output stream */}
@@ -138,8 +154,11 @@ export default async function IntelligencePage() {
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center justify-between gap-2">
                       <p className="font-semibold text-brand-ink">{m.name}</p>
-                      <span className="rounded-full bg-zinc-100 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-zinc-600">
-                        Soon
+                      <span className={m.status === "Live"
+                        ? "rounded-full bg-emerald-100 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-emerald-700"
+                        : "rounded-full bg-zinc-100 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-zinc-600"}
+                      >
+                        {m.status}
                       </span>
                     </div>
                     <p className="mt-0.5 text-xs text-muted">{m.note}</p>
