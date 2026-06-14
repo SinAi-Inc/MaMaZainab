@@ -61,13 +61,13 @@ export default async function ComingSoonPage() {
         <Link
           href="/coming-soon"
           aria-label="MaMa Zainab home"
-          className="inline-flex h-9 min-w-[136px] items-center rounded-md border border-white/10 bg-brand-ink/35 px-2.5 py-1.5"
+          className="inline-flex h-9 w-[136px] items-center rounded-md border border-white/10 bg-brand-ink/35 px-3 py-1.5"
         >
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
-            src="/brand/logo-on-dark.png"
+            src="/brand/logo-wordmark-cropped.png"
             alt="MaMa Zainab"
-            className="h-full w-auto max-w-[168px] object-contain"
+            className="h-full w-full object-contain"
             draggable={false}
           />
         </Link>
@@ -99,9 +99,9 @@ export default async function ComingSoonPage() {
         {/* Wordmark - transparent PNG, isolated over any background */}
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
-          src="/brand/logo-wordmark-transparent.png"
+          src="/brand/logo-wordmark-cropped.png"
           alt="MaMa Zainab"
-          className="w-full max-w-sm mx-auto"
+          className="mx-auto w-full max-w-[300px]"
           style={{ filter: "drop-shadow(0 0 24px rgba(239,210,0,0.25))" }}
           draggable={false}
         />

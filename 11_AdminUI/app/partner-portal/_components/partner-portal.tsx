@@ -383,7 +383,7 @@ export function PartnerPortal({
         <div className="absolute inset-0 plaid opacity-80" />
         <section className="relative z-10 w-full max-w-md rounded-2xl bg-brand-ink/85 px-8 py-12 text-center shadow-2xl backdrop-blur-sm">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/brand/logo-wordmark-transparent.png" alt="MaMa Zainab" className="mx-auto w-full max-w-xs" draggable={false} />
+          <img src="/brand/logo-wordmark-cropped.png" alt="MaMa Zainab" className="mx-auto w-full max-w-[260px]" draggable={false} />
           <p className="mt-5 text-[10px] font-semibold uppercase tracking-[0.3em] text-brand-yellow">
             Private Partner Access
           </p>

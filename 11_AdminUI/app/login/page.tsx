@@ -140,7 +140,7 @@ export default function LoginPage() {
           <div className="flex flex-col items-center mb-8 mt-6">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src="/brand/logo-wordmark-transparent.png"
+              src="/brand/logo-wordmark-cropped.png"
               alt="MaMa Zainab"
               className="w-48"
               draggable={false}
