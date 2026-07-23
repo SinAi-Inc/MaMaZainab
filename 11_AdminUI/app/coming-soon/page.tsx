@@ -106,7 +106,7 @@ export default async function ComingSoonPage() {
           draggable={false}
         />
 
-        <h1 className="sr-only">MaMa Zainab - Coming Soon</h1>
+        <h1 className="sr-only">Sheng Heng Wang - Coming Soon</h1>
 
         <p className="mt-6 text-base sm:text-lg text-white max-w-md font-light leading-relaxed">
           <span className="font-[family-name:var(--font-brand)] tracking-wider text-brand-yellow text-xl block">
