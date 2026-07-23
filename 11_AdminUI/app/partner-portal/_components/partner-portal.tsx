@@ -383,7 +383,7 @@ export function PartnerPortal({
         <div className="absolute inset-0 plaid opacity-80" />
         <section className="relative z-10 w-full max-w-md rounded-2xl bg-brand-ink/85 px-8 py-12 text-center shadow-2xl backdrop-blur-sm">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/brand/logo-wordmark-cropped.png" alt="MaMa Zainab" className="mx-auto w-full max-w-[260px]" draggable={false} />
+          <img src="/brand/FinalLogo.png" alt="Sheng Heng Wang by MaMa Zainab" className="mx-auto w-full max-w-[260px]" draggable={false} />
           <p className="mt-5 text-[10px] font-semibold uppercase tracking-[0.3em] text-brand-yellow">
             Private Partner Access
           </p>
@@ -495,7 +495,7 @@ export function PartnerPortal({
               <div className="absolute inset-0 plaid opacity-25" />
               <div className="relative m-auto w-full max-w-sm rounded-xl bg-white/95 p-6 text-center shadow-2xl">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src="/brand/logo-primary.png" alt="MaMa Zainab" className="mx-auto mb-4 w-44" draggable={false} />
+                <img src="/brand/FinalLogo.png" alt="Sheng Heng Wang by MaMa Zainab" className="mx-auto mb-4 w-44" draggable={false} />
                 <p className="text-[10px] font-bold uppercase tracking-[0.24em] text-brand-green">
                   Live Deck Preview
                 </p>
@@ -1032,7 +1032,7 @@ function SlideVisual({
             Brand System
           </p>
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/brand/logo-primary.png" alt="MaMa Zainab" className="mt-5 w-56" draggable={false} />
+          <img src="/brand/FinalLogo.png" alt="Sheng Heng Wang by MaMa Zainab" className="mt-5 w-56" draggable={false} />
         </div>
         <div className="grid grid-cols-4 gap-2">
           {[

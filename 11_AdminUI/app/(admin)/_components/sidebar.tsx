@@ -237,8 +237,8 @@ export function Sidebar({ role }: { role: SessionRole }) {
               <div className="flex-1 flex items-center justify-center">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
-                  src="/brand/logo-wordmark-cropped.png"
-                  alt="MaMa Zainab"
+                  src="/brand/FinalLogo.png"
+                  alt="Sheng Heng Wang by MaMa Zainab"
                   className="h-11 w-auto object-contain"
                   draggable={false}
                 />
