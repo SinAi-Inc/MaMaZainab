@@ -61,13 +61,13 @@ export default async function ComingSoonPage() {
         <Link
           href="/coming-soon"
           aria-label="MaMa Zainab home"
-          className="inline-flex h-9 w-[136px] items-center rounded-md border border-white/10 bg-brand-ink/35 px-3 py-1.5"
+          className="inline-flex h-9 w-[136px] items-center overflow-hidden rounded-md border border-white/10 bg-brand-ink/35 px-3 py-1.5"
         >
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src="/brand/FinalLogo.png"
             alt="Sheng Heng Wang by MaMa Zainab"
-            className="h-full w-full object-contain"
+            className="h-full w-full scale-[1.5] object-contain"
             draggable={false}
           />
         </Link>
@@ -101,7 +101,7 @@ export default async function ComingSoonPage() {
         <img
           src="/brand/FinalLogo.png"
           alt="Sheng Heng Wang by MaMa Zainab"
-          className="mx-auto w-full max-w-[300px]"
+          className="mx-auto w-full max-w-[300px] scale-[1.15]"
           style={{ filter: "drop-shadow(0 0 24px rgba(239,210,0,0.25))" }}
           draggable={false}
         />
