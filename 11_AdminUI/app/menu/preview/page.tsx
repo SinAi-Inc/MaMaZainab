@@ -65,8 +65,8 @@ export default async function MenuPreviewPage({
           <Link href={logoHref} aria-label={hitlPreview ? "Back to HITL menu" : "Back to MaMa Zainab landing page"}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src="/brand/logo-wordmark-cropped.png"
-              alt="MaMa Zainab"
+              src="/brand/FinalLogo.png"
+              alt="Sheng Heng Wang by MaMa Zainab"
               className="h-28 w-auto object-contain mx-auto drop-shadow-xl hover:scale-105 transition-transform"
             />
           </Link>

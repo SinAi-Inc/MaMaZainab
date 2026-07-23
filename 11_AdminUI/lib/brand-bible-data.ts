@@ -379,10 +379,7 @@ export const LOGO_ASSETS = {
     clearSpace: "1× cap-height of 'M' on all sides",
   },
   variants: [
-    { src: "/brand/logo-primary.png", label: "Primary (on light)", bg: "bg-brand-cream" },
-    { src: "/brand/logo-on-dark.png", label: "On dark", bg: "bg-brand-ink" },
-    { src: "/brand/logo-wordmark-transparent.png", label: "Wordmark (transparent)", bg: "bg-brand-green" },
-    { src: "/brand/logo-mono.png", label: "Mono", bg: "bg-zinc-100" },
+    { src: "/brand/FinalLogo.png", label: "Primary", bg: "bg-brand-green" },
   ],
   marks: [
     { src: "/brand/mark.png", label: "Default", bg: "bg-white" },

@@ -65,8 +65,8 @@ export default async function ComingSoonPage() {
         >
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
-            src="/brand/logo-wordmark-cropped.png"
-            alt="MaMa Zainab"
+            src="/brand/FinalLogo.png"
+            alt="Sheng Heng Wang by MaMa Zainab"
             className="h-full w-full object-contain"
             draggable={false}
           />
@@ -96,11 +96,11 @@ export default async function ComingSoonPage() {
           Coming Soon · Alexandria, EGYPT
         </p>
 
-        {/* Wordmark - transparent PNG, isolated over any background */}
+        {/* Primary logo */}
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
-          src="/brand/logo-wordmark-cropped.png"
-          alt="MaMa Zainab"
+          src="/brand/FinalLogo.png"
+          alt="Sheng Heng Wang by MaMa Zainab"
           className="mx-auto w-full max-w-[300px]"
           style={{ filter: "drop-shadow(0 0 24px rgba(239,210,0,0.25))" }}
           draggable={false}
