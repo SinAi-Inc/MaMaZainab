@@ -64,8 +64,8 @@ export default async function MenuPrintPage() {
           <div className="plaid h-3 -mx-12 -mt-8 mb-4" />
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
-            src="/brand/logo-primary.png"
-            alt="MaMa Zainab"
+            src="/brand/FinalLogo.png"
+            alt="Sheng Heng Wang by MaMa Zainab"
             className="mx-auto h-32 print-logo w-auto object-contain"
           />
           <p className="mt-3 text-sm tracking-[0.4em] uppercase text-brand-green-deep font-semibold">

@@ -7,8 +7,8 @@ export function PublicMenuUnavailable() {
       <section className="relative z-10 w-full max-w-md rounded-2xl bg-brand-ink/85 px-8 py-12 text-center shadow-2xl backdrop-blur-sm">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
-          src="/brand/logo-wordmark-cropped.png"
-          alt="MaMa Zainab"
+          src="/brand/FinalLogo.png"
+          alt="Sheng Heng Wang by MaMa Zainab"
           className="mx-auto w-full max-w-[260px]"
           draggable={false}
         />
