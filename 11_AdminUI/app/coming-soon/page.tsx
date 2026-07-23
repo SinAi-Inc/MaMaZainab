@@ -5,7 +5,7 @@ import { NotifyForm } from "./_components/notify-form";
 import { readSettings } from "@/lib/settings/store";
 
 export const metadata: Metadata = {
-  title: "MaMa Zainab - Coming Soon",
+  title: "Sheng Heng Wang - Coming Soon",
   description:
     "Homemade taste. Fast-food style - for the first time. A new kind of Egyptian comfort food, opening soon in Alexandria.",
 };
