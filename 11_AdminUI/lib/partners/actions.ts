@@ -28,8 +28,8 @@ export async function getPartnerSettings() {
 export async function updatePartnerSettings(
   settings: PartnerSettings,
 ): Promise<{ data?: PartnerSettings; error?: string }> {
+  await requireAdminOrCreativeAction();
   try {
-    await requireAdminOrCreativeAction();
     const current = await readStoredPartnerSettings();
     const trimmedPasscode = settings.passcode.trim();
 
@@ -84,7 +84,7 @@ export async function updatePartnerSettings(
       title: settings.brandVideoTitle || "Brand Video",
       description: settings.brandVideoBody,
       url: trimmedBrandVideoUrl || currentBrandVideo?.url || "https://www.youtube.com/",
-      thumbnailUrl: "",
+      thumbnailUrl: currentBrandVideo?.thumbnailUrl || "",
       alt: settings.brandVideoTitle || "MaMa Zainab brand video",
       category: "partner_presentation",
       usage: "brand_overview",
@@ -92,7 +92,7 @@ export async function updatePartnerSettings(
       slideId: "brand",
       isActive: Boolean(trimmedBrandVideoUrl),
       sortOrder: 15,
-      createdAt: timestamp,
+      createdAt: currentBrandVideo?.createdAt || timestamp,
       updatedAt: timestamp,
     });
 
@@ -106,8 +106,8 @@ export async function updatePartnerSettings(
 }
 
 export async function generatePartnerPresentationPdf(): Promise<{ data?: PartnerSettings; url?: string; error?: string }> {
+  await requireAdminOrCreativeAction();
   try {
-    await requireAdminOrCreativeAction();
     const [settings, branchesState, mediaState] = await Promise.all([
       readStoredPartnerSettings(),
       readBranches(),

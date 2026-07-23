@@ -11,6 +11,7 @@ import {
   Handshake,
   Lock,
   MessageCircle,
+  Play,
   Presentation,
   TrendingUp,
   Utensils,
@@ -317,7 +318,15 @@ export function PartnerPortal({
   const slides = portalSlides.length > 0 ? portalSlides : defaultPortalSlides;
   const slide = slides[Math.min(activeSlide, slides.length - 1)] ?? defaultPortalSlides[0];
   const featuredLocations = useMemo(() => locations.slice(0, 6), [locations]);
-  const brandVideoEmbedUrl = getYouTubeEmbedUrl(brandVideoUrl);
+  const brandVideoAsset = mediaAssets.find(
+    (asset) => asset.id === "asset_partner_brand_video" && asset.isActive,
+  );
+  const brandVideoSourceUrl = brandVideoUrl || brandVideoAsset?.url || "";
+  const brandVideoEmbedUrl = getYouTubeEmbedUrl(brandVideoSourceUrl);
+  const brandVideoPosterUrl =
+    brandVideoAsset?.thumbnailUrl ||
+    (brandVideoAsset?.url && !getYouTubeEmbedUrl(brandVideoAsset.url) ? brandVideoAsset.url : "") ||
+    "/uploads/brand-media/yV7Fqt_1gw.png";
   const phoneHref = contactPhone ? `tel:${contactPhone.replace(/[^\d+]/g, "")}` : "";
   const contactHref =
     buildWhatsAppHref(contactPhone, "Hello MaMa Zainab, I would like to discuss a partnership.") ||
@@ -422,7 +431,7 @@ export function PartnerPortal({
   }
 
   return (
-    <main className="min-h-screen bg-brand-cream text-brand-ink">
+    <main className="min-h-screen bg-[radial-gradient(circle_at_top,_#eef2e9_0%,_#e3e9dc_48%,_#d9e1d2_100%)] text-brand-ink">
       <header className="sticky top-0 z-50 border-b border-white/10 bg-brand-ink/95 px-6 py-3 text-white backdrop-blur-sm">
         <div className="mx-auto flex max-w-7xl items-center justify-between gap-4">
           <Link href="/coming-soon" className="flex items-center gap-3">
@@ -490,12 +499,12 @@ export function PartnerPortal({
             </div>
           </div>
 
-          <aside className="rounded-2xl border border-white/15 bg-white p-5 text-brand-ink shadow-2xl">
+          <aside className="rounded-2xl bg-white p-5 text-brand-ink shadow-2xl">
             <div className="relative flex aspect-[16/10] overflow-hidden rounded-xl bg-brand-ink p-6">
               <div className="absolute inset-0 plaid opacity-25" />
               <div className="relative m-auto w-full max-w-sm rounded-xl bg-white/95 p-6 text-center shadow-2xl">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src="/brand/FinalLogo.png" alt="Sheng Heng Wang by MaMa Zainab" className="mx-auto mb-4 w-44" draggable={false} />
+                <img src="/brand/FinalLogoblack.png" alt="Sheng Heng Wang by MaMa Zainab" className="mx-auto mb-4 w-44" draggable={false} />
                 <p className="text-[10px] font-bold uppercase tracking-[0.24em] text-brand-green">
                   Live Deck Preview
                 </p>
@@ -529,7 +538,7 @@ export function PartnerPortal({
 
       {showPresentation && (
         <section className="mx-auto grid max-w-7xl gap-6 px-6 py-10 lg:grid-cols-[280px_1fr]">
-          <nav className="rounded-2xl border border-border-default bg-white p-4 shadow-sm">
+          <nav className="rounded-2xl bg-white p-4 shadow-[0_18px_45px_rgba(44,41,42,0.08)]">
             <p className="mb-4 px-3 text-[10px] font-bold uppercase tracking-[0.24em] text-brand-green">
               Presentation
             </p>
@@ -554,7 +563,7 @@ export function PartnerPortal({
             </div>
           </nav>
 
-          <article className="overflow-hidden rounded-2xl border border-border-default bg-white shadow-xl">
+          <article className="overflow-hidden rounded-2xl bg-white shadow-[0_22px_55px_rgba(44,41,42,0.11)]">
             <div className="grid min-h-[520px] lg:grid-cols-[1.1fr_0.9fr]">
               <div className="flex flex-col justify-between p-7 md:p-10">
                 <div>
@@ -635,6 +644,7 @@ export function PartnerPortal({
             brandVideoEmbedUrl ? (
               <BrandVideoCard
                 embedUrl={brandVideoEmbedUrl}
+                posterUrl={brandVideoPosterUrl}
                 title={brandVideoTitle}
                 body={brandVideoBody}
               />
@@ -676,7 +686,7 @@ export function PartnerPortal({
 
         {showBrandOverview && (
           <div className="grid gap-5 lg:grid-cols-[1.1fr_0.9fr]">
-            <section className="rounded-2xl border border-border-default bg-white p-6 shadow-sm">
+            <section className="rounded-2xl bg-white p-6 shadow-[0_16px_38px_rgba(44,41,42,0.08)]">
               <div className="mb-5 flex items-center gap-3">
                 <div className="rounded-lg bg-brand-green/10 p-3 text-brand-green">
                   <TrendingUp className="size-5" />
@@ -698,7 +708,7 @@ export function PartnerPortal({
               </div>
             </section>
 
-            <section className="rounded-2xl border border-border-default bg-white p-6 shadow-sm">
+            <section className="rounded-2xl bg-white p-6 shadow-[0_16px_38px_rgba(44,41,42,0.08)]">
               <div className="mb-5 flex items-center gap-3">
                 <div className="rounded-lg bg-brand-yellow/50 p-3 text-brand-ink">
                   <Handshake className="size-5" />
@@ -807,7 +817,7 @@ function PartnerIdentityBand({
 }) {
   return (
     <section className="mx-auto max-w-7xl px-6 py-8">
-      <div className="grid overflow-hidden rounded-2xl border border-border-default bg-white shadow-sm lg:grid-cols-[0.85fr_1fr_0.85fr]">
+      <div className="grid overflow-hidden rounded-2xl bg-white shadow-[0_20px_48px_rgba(44,41,42,0.09)] lg:grid-cols-[0.85fr_1fr_0.85fr]">
         <div className="relative min-h-[310px] overflow-hidden bg-brand-green text-white">
           <div className="absolute inset-0 plaid opacity-25" />
           <div className="absolute inset-x-6 bottom-6 top-6 rounded-2xl border border-white/20 bg-white/10" />
@@ -1032,7 +1042,7 @@ function SlideVisual({
             Brand System
           </p>
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/brand/FinalLogo.png" alt="Sheng Heng Wang by MaMa Zainab" className="mt-5 w-56" draggable={false} />
+          <img src="/uploads/brand-media/p2YEuq9skq.png" alt="Sheng Heng Wang by MaMa Zainab" className="mt-5 w-56" draggable={false} />
         </div>
         <div className="grid grid-cols-4 gap-2">
           {[
@@ -1342,7 +1352,7 @@ function Metric({ label, value }: { label: string; value: string }) {
 
 function InfoCard({ title, value }: { title: string; value: string }) {
   return (
-    <div className="rounded-lg border border-border-default bg-surface-muted p-4">
+    <div className="rounded-lg bg-surface-muted p-4">
       <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-brand-green">
         {title}
       </p>
@@ -1429,7 +1439,7 @@ function PortalCard({
   comingSoonAction?: boolean;
 }) {
   return (
-    <div className="rounded-2xl border border-border-default bg-white p-6 shadow-sm">
+    <div className="rounded-2xl bg-white p-6 shadow-[0_16px_38px_rgba(44,41,42,0.08)]">
       <div className="mb-4 inline-flex rounded-lg bg-brand-green/10 p-3 text-brand-green">
         {icon}
       </div>
@@ -1462,24 +1472,44 @@ function PortalCard({
 
 function BrandVideoCard({
   embedUrl,
+  posterUrl,
   title,
   body,
 }: {
   embedUrl: string;
+  posterUrl: string;
   title: string;
   body: string;
 }) {
+  const [playing, setPlaying] = useState(!posterUrl);
+
   return (
-    <div className="overflow-hidden rounded-2xl border border-border-default bg-white shadow-sm lg:col-span-1">
+    <div className="overflow-hidden rounded-2xl bg-white shadow-[0_18px_45px_rgba(44,41,42,0.10)] lg:col-span-1">
       <div className="relative aspect-video bg-brand-ink">
-        <iframe
-          src={embedUrl}
-          title={title}
-          className="absolute inset-0 h-full w-full"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-          allowFullScreen
-          loading="lazy"
-        />
+        {playing ? (
+          <iframe
+            src={posterUrl ? `${embedUrl}?autoplay=1` : embedUrl}
+            title={title}
+            className="absolute inset-0 h-full w-full"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowFullScreen
+            loading="lazy"
+          />
+        ) : (
+          <button
+            type="button"
+            onClick={() => setPlaying(true)}
+            className="group absolute inset-0 h-full w-full overflow-hidden text-white"
+            aria-label={`Play ${title}`}
+          >
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={posterUrl} alt="" className="h-full w-full object-cover transition duration-500 group-hover:scale-[1.02]" draggable={false} />
+            <span className="absolute inset-0 bg-brand-ink/35 transition group-hover:bg-brand-ink/45" />
+            <span className="absolute left-1/2 top-1/2 inline-flex size-14 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-brand-yellow text-brand-ink shadow-xl transition group-hover:scale-105">
+              <Play className="ml-0.5 size-6 fill-current" />
+            </span>
+          </button>
+        )}
       </div>
       <div className="p-5">
         <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-brand-green">
