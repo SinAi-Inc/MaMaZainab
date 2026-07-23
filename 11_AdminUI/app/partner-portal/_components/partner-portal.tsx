@@ -429,7 +429,7 @@ export function PartnerPortal({
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src="/brand/mark-transparent.png" alt="" className="size-8 rounded-sm bg-white object-contain" draggable={false} />
             <span className="font-[family-name:var(--font-brand)] text-xs tracking-[0.18em]">
-              MaMa Zainab
+              Sheng Heng Wang
             </span>
           </Link>
           <div className="flex items-center gap-2">
