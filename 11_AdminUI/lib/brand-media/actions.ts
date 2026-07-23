@@ -32,8 +32,8 @@ export async function uploadBrandMediaFile(formData: FormData): Promise<string> 
 export async function saveBrandMediaAsset(
   input: BrandMediaAsset,
 ): Promise<{ data?: BrandMediaAsset; error?: string }> {
+  await requireAdminOrCreativeAction();
   try {
-    await requireAdminOrCreativeAction();
     const timestamp = new Date().toISOString();
     const asset = BrandMediaAssetSchema.parse({
       ...input,
@@ -54,8 +54,8 @@ export async function saveBrandMediaAsset(
 }
 
 export async function removeBrandMediaAsset(id: string): Promise<{ error?: string }> {
+  await requireAdminOrCreativeAction();
   try {
-    await requireAdminOrCreativeAction();
     await deleteBrandMediaAsset(id);
     revalidatePath("/partners");
     revalidatePath("/partner-portal");
