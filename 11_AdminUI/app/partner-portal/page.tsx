@@ -8,7 +8,7 @@ import { PartnerPortal } from "./_components/partner-portal";
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: "MaMa Zainab - Partner Portal",
+  title: "Sheng Heng Wang - Partner Portal",
   description:
     "Private MaMa Zainab partner presentation for malls, clubs, campuses, cinemas, hypermarkets, petrol stations, and compounds.",
 };
