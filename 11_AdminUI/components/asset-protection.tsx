@@ -17,7 +17,7 @@ export function AssetProtection() {
     }
 
     function blockSaveShortcut(event: KeyboardEvent) {
-      const key = event.key.toLowerCase();
+      const key = typeof event.key === "string" ? event.key.toLowerCase() : "";
       if ((event.ctrlKey || event.metaKey) && key === "s") {
         event.preventDefault();
       }

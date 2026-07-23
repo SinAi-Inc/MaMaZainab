@@ -77,9 +77,9 @@ export async function readPartnerSettings(): Promise<PartnerSettings> {
 
   return withPublicPasscodeState({
     ...settings,
-    brandVideoUrl: settings.brandVideoUrl || brandVideo?.url || "",
-    brandVideoTitle: settings.brandVideoTitle || brandVideo?.title || "Brand Video",
-    brandVideoBody: settings.brandVideoBody || brandVideo?.description || "",
+    brandVideoUrl: brandVideo?.url || settings.brandVideoUrl || "",
+    brandVideoTitle: brandVideo?.title || settings.brandVideoTitle || "Brand Video",
+    brandVideoBody: brandVideo?.description || settings.brandVideoBody || "",
   });
 }
 

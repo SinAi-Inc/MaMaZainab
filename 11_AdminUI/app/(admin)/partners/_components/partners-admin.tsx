@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useTransition, useEffect } from "react";
+import { unstable_rethrow } from "next/navigation";
 import {
   Calendar,
   Eye,
@@ -222,12 +223,13 @@ export function PartnersAdmin({ branches }: { branches: Branch[] }) {
         const url = await uploadBrandMediaFile(fd);
         setEditingAsset((prev) => ({
           ...prev,
-          url,
-          thumbnailUrl: prev.thumbnailUrl || url,
+          url: prev.id === "asset_partner_brand_video" ? prev.url : url,
+          thumbnailUrl: prev.id === "asset_partner_brand_video" ? url : prev.thumbnailUrl || url,
           title: prev.title || file.name.replace(/\.[^.]+$/, ""),
           alt: prev.alt || file.name.replace(/\.[^.]+$/, "").replace(/[-_]/g, " "),
         }));
       } catch (err) {
+        unstable_rethrow(err);
         setMediaError(err instanceof Error ? err.message : String(err));
       }
     });
@@ -240,6 +242,20 @@ export function PartnersAdmin({ branches }: { branches: Branch[] }) {
       if (result.error) {
         setMediaError(result.error);
         return;
+      }
+
+      const savedAsset = result.data;
+      if (savedAsset?.id === "asset_partner_brand_video") {
+        setSettings((prev) =>
+          prev
+            ? {
+                ...prev,
+                brandVideoUrl: savedAsset.url,
+                brandVideoTitle: savedAsset.title,
+                brandVideoBody: savedAsset.description,
+              }
+            : prev,
+        );
       }
 
       const state = await getBrandMedia();
@@ -478,7 +494,7 @@ export function PartnersAdmin({ branches }: { branches: Branch[] }) {
           <div>
             <h4 className="text-xs uppercase tracking-wider font-medium text-muted">Portal Content &amp; Brand Video</h4>
             <p className="text-[11px] text-muted mt-1">
-              Edit partner-facing headlines, body copy, slide labels, and the YouTube brand video without code changes.
+              The YouTube URL controls playback. Its poster photo is managed separately in Presentation Media.
             </p>
           </div>
 
@@ -700,7 +716,7 @@ export function PartnersAdmin({ branches }: { branches: Branch[] }) {
             <div>
               <h4 className="text-xs uppercase tracking-wider font-medium text-muted">Presentation Media</h4>
               <p className="text-[11px] text-muted mt-1">
-                Upload generated or approved brand media and assign it to slides without code changes.
+                Upload approved brand media. For the Brand Video asset, uploads update the poster photo without replacing its YouTube URL.
               </p>
             </div>
             <label className="inline-flex cursor-pointer items-center gap-2 rounded-lg bg-brand-yellow px-3 py-2 text-xs font-semibold text-brand-ink transition hover:bg-yellow-300">
@@ -724,9 +740,17 @@ export function PartnersAdmin({ branches }: { branches: Branch[] }) {
           <div className="grid gap-4 lg:grid-cols-[0.95fr_1.05fr]">
             <div className="space-y-3 rounded-xl border border-border bg-background p-4">
               <div className="overflow-hidden rounded-lg bg-surface-muted">
-                {editingAsset.url ? (
+                {(editingAsset.thumbnailUrl || editingAsset.url) ? (
                   // eslint-disable-next-line @next/next/no-img-element
-                  <img src={editingAsset.url} alt={editingAsset.alt || ""} className="h-44 w-full object-cover" />
+                  <img
+                    src={
+                      editingAsset.id === "asset_partner_brand_video"
+                        ? editingAsset.thumbnailUrl || "/uploads/brand-media/yV7Fqt_1gw.png"
+                        : editingAsset.thumbnailUrl || editingAsset.url
+                    }
+                    alt={editingAsset.alt || ""}
+                    className="h-44 w-full object-cover"
+                  />
                 ) : (
                   <div className="flex h-44 items-center justify-center text-muted">
                     <ImageIcon className="size-8" />
@@ -749,11 +773,20 @@ export function PartnersAdmin({ branches }: { branches: Branch[] }) {
               />
               <TextField
                 icon={LinkIcon}
-                label="Asset URL"
+                label={editingAsset.id === "asset_partner_brand_video" ? "YouTube Video URL" : "Asset URL"}
                 value={editingAsset.url}
                 onChange={(value) => updateAsset("url", value)}
                 placeholder="/uploads/brand-media/..."
               />
+              {editingAsset.id === "asset_partner_brand_video" && (
+                <TextField
+                  icon={ImageIcon}
+                  label="Brand Video Poster Photo"
+                  value={editingAsset.thumbnailUrl}
+                  onChange={(value) => updateAsset("thumbnailUrl", value)}
+                  placeholder="/uploads/brand-media/..."
+                />
+              )}
               <div className="grid gap-3 sm:grid-cols-2">
                 <SelectField
                   label="Category"
@@ -823,7 +856,15 @@ export function PartnersAdmin({ branches }: { branches: Branch[] }) {
                 <div key={asset.id} className="flex gap-3 rounded-xl border border-border bg-background p-3">
                   <div className="h-20 w-28 shrink-0 overflow-hidden rounded-lg bg-surface-muted">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src={asset.thumbnailUrl || asset.url} alt={asset.alt} className="h-full w-full object-cover" />
+                    <img
+                      src={
+                        asset.id === "asset_partner_brand_video"
+                          ? asset.thumbnailUrl || "/uploads/brand-media/yV7Fqt_1gw.png"
+                          : asset.thumbnailUrl || asset.url
+                      }
+                      alt={asset.alt}
+                      className="h-full w-full object-cover"
+                    />
                   </div>
                   <div className="min-w-0 flex-1">
                     <div className="flex items-start justify-between gap-2">
@@ -831,6 +872,7 @@ export function PartnersAdmin({ branches }: { branches: Branch[] }) {
                         <p className="truncate text-sm font-semibold">{asset.title}</p>
                         <p className="mt-0.5 text-[11px] text-muted">
                           {asset.category} / {asset.usage}
+                          {asset.id === "asset_partner_brand_video" ? " / YouTube + poster" : ""}
                           {asset.slideId ? ` / ${asset.slideId}` : ""}
                           {asset.partnerType ? ` / ${asset.partnerType}` : ""}
                         </p>
