@@ -216,7 +216,7 @@ function getYouTubeEmbedUrl(url: string) {
 
     if (host === "youtu.be") {
       videoId = parsed.pathname.split("/").filter(Boolean)[0] ?? "";
-    } else if (host.endsWith("youtube.com")) {
+    } else if (host === "youtube.com" || host.endsWith(".youtube.com")) {
       if (parsed.pathname.startsWith("/embed/")) {
         videoId = parsed.pathname.split("/").filter(Boolean)[1] ?? "";
       } else if (parsed.pathname.startsWith("/shorts/")) {
