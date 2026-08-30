@@ -10,7 +10,7 @@ export const metadata: Metadata = {
     "Homemade taste. Fast-food style - for the first time. A new kind of Egyptian comfort food, opening soon in Alexandria.",
 };
 
-const LAUNCH_ISO = "2026-09-01T12:00:00+02:00";
+const LAUNCH_ISO = "2026-09-30T12:00:00+02:00";
 
 function normalizeExternalHref(value: string) {
   const href = value.trim();
