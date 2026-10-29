@@ -28,6 +28,7 @@ _source/
 *.pdf
 *.psd
 
+<<<<<<< HEAD
 # Extracted assets - regenerable from source, may contain sensitive paths
 _extract/pdf_pages/*.png
 _extract/video_frames/*.jpg
