@@ -28,8 +28,10 @@ _source/
 *.pdf
 *.psd
 
-# Extracted PDF page renders (regenerable)
+# Extracted assets - regenerable from source, may contain sensitive paths
 _extract/pdf_pages/*.png
+_extract/video_frames/*.jpg
+_extract/*.json
 
 # Environment files - NEVER commit (contains secrets)
 .env.local
