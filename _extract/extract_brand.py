@@ -22,17 +22,24 @@ MP4 = ROOT / "Archive" / "WhatsApp Video 2026-05-02 at 1.58.24 PM.mp4"
 
 results = {"pdfs": [], "pptx": {}, "video": {}, "palette": {}}
 
+def sanitize_path(path_str):
+    """Remove sensitive network paths from file references"""
+    p = str(path_str).lower()
+    if "h.q" in p or "sinai" in p or "r&d" in p:
+        return "[ASSET]"
+    return path_str
+
 # ---- PDFs ----
 def render_pdf(pdf_path, tag):
     if not pdf_path.exists():
         return
     doc = fitz.open(pdf_path)
-    info = {"file": str(pdf_path), "pages": len(doc), "rendered": []}
+    info = {"file": sanitize_path(pdf_path), "pages": len(doc), "rendered": []}
     for i, page in enumerate(doc):
         pix = page.get_pixmap(dpi=150)
         out = OUT / "pdf_pages" / f"{tag}_p{i+1:02d}.png"
         pix.save(out)
-        info["rendered"].append(str(out))
+        info["rendered"].append(out.name)
         # also extract any embedded text
         text = page.get_text().strip()
         if text:
@@ -45,18 +52,18 @@ render_pdf(PDF2, "final")
 
 # ---- PPTX ----
 if PPTX.exists():
-    prs = Presentation(PPTX)
+    prs = Presentation(str(PPTX))
     slides = []
     for idx, slide in enumerate(prs.slides):
         texts = []
         for shape in slide.shapes:
-            if shape.has_text_frame:
+            if hasattr(shape, "text_frame"):
                 for p in shape.text_frame.paragraphs:
                     line = "".join(r.text for r in p.runs).strip()
                     if line:
                         texts.append(line)
         slides.append({"slide": idx + 1, "text": texts})
-    results["pptx"] = {"file": str(PPTX), "slide_count": len(slides), "slides": slides}
+    results["pptx"] = {"file": sanitize_path(PPTX), "slide_count": len(slides), "slides": slides}
     (OUT / "pptx_text.json").write_text(json.dumps(results["pptx"], ensure_ascii=False, indent=2), encoding="utf-8")
 
 # ---- Video keyframes ----
@@ -74,9 +81,9 @@ if MP4.exists():
         if ok:
             out = OUT / "video_frames" / f"frame_{i:02d}.jpg"
             cv2.imwrite(str(out), frame, [int(cv2.IMWRITE_JPEG_QUALITY), 85])
-            saved.append(str(out))
+            saved.append(out.name)
     cap.release()
-    results["video"] = {"file": str(MP4), "fps": fps, "duration_s": round(duration, 2), "frames": saved}
+    results["video"] = {"file": sanitize_path(MP4), "fps": fps, "duration_s": round(duration, 2), "frames": saved}
 
 # ---- Palette extraction (from rendered PDF pages) ----
 def quantize_palette(img_path, k=8):
