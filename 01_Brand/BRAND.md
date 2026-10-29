@@ -155,9 +155,9 @@ Type scale lives in [tokens.json](tokens.json#L52) (`typography.scale`).
 
 ## 10. Source Materials
 
-- Brand book PDF: `F:\H.Q\SinAI Inc\R&D Docs\Mama Zainab\BrandGuidelines\Mama Zainab Brand_guideline.pdf` (22 pages)
-- Pitch deck: `F:\...\BrandGuidelines\mamazienab.pptx` (10 slides, bilingual)
-- Vector source: `F:\...\Mama Zainab Brand_guideline.ai`
-- Reference video: `F:\...\Archive\WhatsApp Video 2026-05-02 at 1.58.24 PM.mp4`
+- Brand book PDF: Brand guidelines reference document (22 pages)
+- Pitch deck: Bilingual presentation deck (10 slides)
+- Vector source: Adobe Illustrator brand file
+- Reference materials: Media archive
 - Extracted assets: [`_extract/`](../_extract/) (PDF pages → PNG, video frames, palette JSON, PPTX text)
 - Script: [Scripts/MaMa Zainab.md](../Scripts/MaMa%20Zainab.md)

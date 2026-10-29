@@ -7,7 +7,9 @@ from PIL import Image
 import cv2
 from pptx import Presentation
 
-ROOT = Path(r"F:\H.Q\SinAI Inc\R&D Docs\Mama Zainab")
+# Configure ROOT path to master brand assets repository
+# Set this to the path of your local master brand assets folder
+ROOT = Path(os.getenv("MAMA_ZAINAB_MASTER_ASSETS", "."))
 OUT = Path(r"d:\AI\MaMaZainab\_extract")
 OUT.mkdir(parents=True, exist_ok=True)
 (OUT / "pdf_pages").mkdir(exist_ok=True)
