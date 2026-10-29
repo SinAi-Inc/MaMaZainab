@@ -30,3 +30,9 @@ _source/
 
 # Extracted PDF page renders (regenerable)
 _extract/pdf_pages/*.png
+
+# Environment files - NEVER commit (contains secrets)
+.env.local
+.env.local.example
+11_AdminUI/.env.local
+11_AdminUI/.env*.local

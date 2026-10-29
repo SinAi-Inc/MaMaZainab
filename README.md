@@ -95,4 +95,4 @@ Next.js 16 app - admin dashboard and public brand pages.
 
 - All paths relative to workspace root.
 - Spelling: only **MaMa Zainab** (camelCase M and Z) - see [01_Brand/BRAND.md](01_Brand/BRAND.md).
-- Files in `_source/` are **read-only** mirrors - re-sync from `F:\H.Q\SinAI Inc\R&D Docs\Mama Zainab` master if needed.
+- Files in `_source/` are **read-only** mirrors of the master brand asset repository.
